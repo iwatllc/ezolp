@@ -1,0 +1,9 @@
+
+CI Version 3 RC1
+
+Added Software
+
+DX_Auth
+To be added
+Assetic
+CI_Assetic
