@@ -271,8 +271,8 @@ cookies.</p>
 <h2><a class="toc-backref" href="#id2">Available Functions</a><a class="headerlink" href="#available-functions" title="Permalink to this headline">¶</a></h2>
 <p>The following functions are available:</p>
 <dl class="function">
-<dt id="set_cookie">
-<tt class="descname">set_cookie</tt><big>(</big><em>$name[, $value = ''[, $expire = ''[, $domain = ''[, $path = '/'[, $prefix = ''[, $secure = FALSE[, $httponly = FALSE]]]]]]]]</em><big>)</big><a class="headerlink" href="#set_cookie" title="Permalink to this definition">¶</a></dt>
+<dt>
+<tt class="descname">set_cookie($name[, $value = ''[, $expire = ''[, $domain = ''[, $path = '/'[, $prefix = ''[, $secure = FALSE[, $httponly = FALSE]]]]]]]])</tt></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -294,15 +294,15 @@ cookies.</p>
 </tr>
 </tbody>
 </table>
-<p>This helper function gives you view file friendly syntax to set browser
-cookies. Refer to the <a class="reference internal" href="../libraries/input.html"><em>Input Library</em></a> for a
-description of its use, as this function is an alias for
+<p>This helper function gives you friendlier syntax to set browser
+cookies. Refer to the <a class="reference internal" href="../libraries/input.html"><em>Input Library</em></a> for
+a description of its use, as this function is an alias for
 <tt class="docutils literal"><span class="pre">CI_Input::set_cookie()</span></tt>.</p>
 </dd></dl>
 
 <dl class="function">
-<dt id="get_cookie">
-<tt class="descname">get_cookie</tt><big>(</big><em>$index[, $xss_clean = NULL]]</em><big>)</big><a class="headerlink" href="#get_cookie" title="Permalink to this definition">¶</a></dt>
+<dt>
+<tt class="descname">get_cookie($index[, $xss_clean = NULL]])</tt></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -321,14 +321,17 @@ description of its use, as this function is an alias for
 </tr>
 </tbody>
 </table>
-<p>This helper function gives you view file friendly syntax to get browser
-cookies. Refer to the <a class="reference internal" href="../libraries/input.html"><em>Input Library</em></a> for a
-description of its use, as this function is an alias for <tt class="docutils literal"><span class="pre">CI_Input::cookie()</span></tt>.</p>
+<p>This helper function gives you friendlier syntax to get browser
+cookies. Refer to the <a class="reference internal" href="../libraries/input.html"><em>Input Library</em></a> for
+detailed description of its use, as this function acts very
+similarly to <tt class="docutils literal"><span class="pre">CI_Input::cookie()</span></tt>, except it will also prepend
+the <tt class="docutils literal"><span class="pre">$config['cookie_prefix']</span></tt> that you might&#8217;ve set in your
+<em>application/config/config.php</em> file.</p>
 </dd></dl>
 
 <dl class="function">
-<dt id="delete_cookie">
-<tt class="descname">delete_cookie</tt><big>(</big><em>$name[, $domain = ''[, $path = '/'[, $prefix = '']]]]</em><big>)</big><a class="headerlink" href="#delete_cookie" title="Permalink to this definition">¶</a></dt>
+<dt>
+<tt class="descname">delete_cookie($name[, $domain = ''[, $path = '/'[, $prefix = '']]]])</tt></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -355,7 +358,7 @@ values, only the name of the cookie is needed.</p>
 does not have the value and expiration parameters. You can submit an
 array of values in the first parameter or you can set discrete
 parameters.</p>
-<div class="highlight-ci"><div class="highlight"><pre><span class="nx">delete_cookie</span><span class="p">(</span><span class="nv">$name</span><span class="p">,</span> <span class="nv">$domain</span><span class="p">,</span> <span class="nv">$path</span><span class="p">,</span> <span class="nv">$prefix</span><span class="p">)</span>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nx">delete_cookie</span><span class="p">(</span><span class="nv">$name</span><span class="p">,</span> <span class="nv">$domain</span><span class="p">,</span> <span class="nv">$path</span><span class="p">,</span> <span class="nv">$prefix</span><span class="p">);</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -382,7 +385,7 @@ parameters.</p>
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014 - 2015, British Columbia Institute of Technology.
-      Last updated on Jan 26, 2015.
+      Last updated on Mar 10, 2015.
     </p>
   </div>
 

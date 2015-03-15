@@ -7,7 +7,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Upgrading from 2.2.1 to 3.0.0 &mdash; CodeIgniter 3.0-dev documentation</title>
+  <title>Upgrading from 2.2.x to 3.0.0 &mdash; CodeIgniter 3.0-dev documentation</title>
   
 
   
@@ -243,7 +243,7 @@
       
           <li><a href="upgrading.html">Upgrading From a Previous Version</a> &raquo;</li>
       
-    <li>Upgrading from 2.2.1 to 3.0.0</li>
+    <li>Upgrading from 2.2.x to 3.0.0</li>
       <li class="wy-breadcrumbs-aside">
         
       </li>
@@ -252,8 +252,8 @@
 </div>
           <div role="main" class="document">
             
-  <div class="section" id="upgrading-from-2-2-1-to-3-0-0">
-<h1>Upgrading from 2.2.1 to 3.0.0<a class="headerlink" href="#upgrading-from-2-2-1-to-3-0-0" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="upgrading-from-2-2-x-to-3-0-0">
+<h1>Upgrading from 2.2.x to 3.0.0<a class="headerlink" href="#upgrading-from-2-2-x-to-3-0-0" title="Permalink to this headline">¶</a></h1>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">These upgrade notes are for a version that is yet to be released.</p>
@@ -396,6 +396,19 @@ This is no longer possible, and you should read the notes about
 <a class="reference external" href="../libraries/sessions.html#accessing-session-metadata">Session Metadata</a>
 if your application relies on those values.</p>
 </li>
+<li><p class="first">Check <tt class="docutils literal"><span class="pre">unset_userdata()</span></tt> usage</p>
+<p>Previously, this method used to accept an associative array of
+<tt class="docutils literal"><span class="pre">'key'</span> <span class="pre">=&gt;</span> <span class="pre">'dummy</span> <span class="pre">value'</span></tt> pairs for unsetting multiple keys. That
+however makes no sense and you now have to pass <em>only</em> the keys, as
+the elements of an array.</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="c1">// Old</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">session</span><span class="o">-&gt;</span><span class="na">unset_userdata</span><span class="p">(</span><span class="k">array</span><span class="p">(</span><span class="s1">&#39;item&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;item2&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;&#39;</span><span class="p">));</span>
+
+<span class="c1">// New</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">session</span><span class="o">-&gt;</span><span class="na">unset_userdata</span><span class="p">(</span><span class="k">array</span><span class="p">(</span><span class="s1">&#39;item&#39;</span><span class="p">,</span> <span class="s1">&#39;item2&#39;</span><span class="p">));</span>
+</pre></div>
+</div>
+</li>
 </ul>
 </div></blockquote>
 <p>Finally, if you have written a Session extension, you must now move it to
@@ -422,21 +435,52 @@ is suitable for the command line. This of course requires another level of separ
 <p>It is safe to move your old templates from _application/errors* to _application/views/errors/html*,
 but you&#8217;ll have to copy the new _application/views/errors/cli* directory from the CodeIgniter archive.</p>
 </div>
-<div class="section" id="step-9-update-your-config-routes-php-containing-any">
-<h2>Step 9: Update your config/routes.php containing (:any)<a class="headerlink" href="#step-9-update-your-config-routes-php-containing-any" title="Permalink to this headline">¶</a></h2>
-<p>Historically, CodeIgniter has always provided the <strong>:any</strong> wildcard in routing,
-with the intention of providing a way to match any character <strong>within</strong> an URI segment.</p>
-<p>However, the <strong>:any</strong> wildcard is actually just an alias for a regular expression
-and used to be executed in that manner as <strong>.+</strong>. This is considered a bug, as it
-also matches the / (forward slash) character, which is the URI segment delimiter
-and that was never the intention. In CodeIgniter 3, the <strong>:any</strong> wildcard will now
-represent <strong>[^/]+</strong>, so that it will not match a forward slash.</p>
-<p>There are certainly many developers that have utilized this bug as an actual feature.
-If you&#8217;re one of them and want to match a forward slash, please use the <strong>.+</strong>
-regular expression:</p>
+<div class="section" id="step-9-update-your-config-routes-php-file">
+<h2>Step 9: Update your config/routes.php file<a class="headerlink" href="#step-9-update-your-config-routes-php-file" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="routes-containing-any">
+<h3>Routes containing :any<a class="headerlink" href="#routes-containing-any" title="Permalink to this headline">¶</a></h3>
+<p>Historically, CodeIgniter has always provided the <strong>:any</strong> wildcard in
+routing, with the intention of providing a way to match any character
+<strong>within</strong> an URI segment.</p>
+<p>However, the <strong>:any</strong> wildcard is actually just an alias for a regular
+expression and used to be executed in that manner as <strong>.+</strong>. This is
+considered a bug, as it also matches the / (forward slash) character, which
+is the URI segment delimiter and that was never the intention.</p>
+<p>In CodeIgniter 3, the <strong>:any</strong> wildcard will now represent <strong>[^/]+</strong>, so
+that it will not match a forward slash.</p>
+<p>There are certainly many developers that have utilized this bug as an actual
+feature. If you&#8217;re one of them and want to match a forward slash, please use
+the <strong>.+</strong> regular expression:</p>
 <div class="highlight-ci"><div class="highlight"><pre><span class="p">(</span><span class="o">.+</span><span class="p">)</span>    <span class="c1">// matches ANYTHING</span>
 <span class="p">(</span><span class="o">:</span><span class="nx">any</span><span class="p">)</span>  <span class="c1">// matches any character, except for &#39;/&#39;</span>
 </pre></div>
+</div>
+</div>
+<div class="section" id="directories-and-default-controller-404-override">
+<h3>Directories and &#8216;default_controller&#8217;, &#8216;404_override&#8217;<a class="headerlink" href="#directories-and-default-controller-404-override" title="Permalink to this headline">¶</a></h3>
+<p>As you should know, the <tt class="docutils literal"><span class="pre">$route['default_controller']</span></tt> and
+<tt class="docutils literal"><span class="pre">$route['404_override']</span></tt> settings accept not only a controller name, but
+also <em>controller/method</em> pairs. However, a bug in the routing logic has
+made it possible for some users to use that as <em>directory/controller</em>
+instead.</p>
+<p>As already said, this behavior was incidental and was never intended, nor
+documented. If you&#8217;ve relied on it, your application will break with
+CodeIgniter 3.0.</p>
+<p>Another notable change in version 3 is that &#8216;default_controller&#8217; and
+&#8216;404_override&#8217; are now applied <em>per directory</em>. To explain what this means,
+let&#8217;s take the following example:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span class="nv">$route</span><span class="p">[</span><span class="s1">&#39;default_controller&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;main&#39;</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>Now, assuming that your website is located at <em>example.com</em>, you already
+know that if a user visits <tt class="docutils literal"><span class="pre">http://example.com/</span></tt>, the above setting will
+cause your &#8216;Main&#8217; controller to be loaded.</p>
+<p>However, what happens if you have an <em>application/controllers/admin/</em>
+directory and the user visits <tt class="docutils literal"><span class="pre">http://example.com/admin/</span></tt>?
+In CodeIgniter 3, the router will look for a &#8216;Main&#8217; controller under the
+admin/ directory as well. If not found, it will fallback to the parent
+(<em>application/controllers/</em>) directory, like in version 2.x.</p>
+<p>The same rule applies to the &#8216;404_override&#8217; setting.</p>
 </div>
 </div>
 <div class="section" id="step-10-many-functions-now-return-null-instead-of-false-on-missing-items">
@@ -503,7 +547,7 @@ to FALSE, then this change doesn&#8217;t concern you.</p>
 <li>input-&gt;input_stream()</li>
 </ul>
 </li>
-<li><a class="reference internal" href="../helpers/cookie_helper.html"><em>Cookie Helper</em></a> <a class="reference internal" href="../helpers/cookie_helper.html#get_cookie" title="get_cookie"><tt class="xref py py-func docutils literal"><span class="pre">get_cookie()</span></tt></a></li>
+<li><a class="reference internal" href="../helpers/cookie_helper.html"><em>Cookie Helper</em></a> <tt class="xref php php-func docutils literal"><span class="pre">get_cookie()</span></tt></li>
 </ul>
 </div></blockquote>
 <div class="admonition important">
@@ -702,6 +746,22 @@ PHP&#8217;s native <tt class="docutils literal"><span class="pre">hash()</span><
 rather than later.</p>
 </div>
 </div>
+<div class="section" id="the-config-global-xss-filtering-setting">
+<h3>The $config[&#8216;global_xss_filtering&#8217;] setting<a class="headerlink" href="#the-config-global-xss-filtering-setting" title="Permalink to this headline">¶</a></h3>
+<p>As already explained above, XSS filtering should not be done on input data,
+but on output instead. Therefore, the <tt class="docutils literal"><span class="pre">$config['global_xss_filtering']</span></tt>,
+which automatically filters <em>input</em> data, is considered a bad practice and
+is now deprecated.</p>
+<p>Instead, you should manually escape any user-provided data via the
+<a class="reference internal" href="../helpers/security_helper.html#xss_clean" title="xss_clean"><tt class="xref php php-func docutils literal"><span class="pre">xss_clean()</span></tt></a> function when you need to output it, or use a
+library like <a class="reference external" href="http://htmlpurifier.org/">HTML Purifier</a> that does that
+for you.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The setting is still available, but you&#8217;re strongly encouraged to
+remove its usage sooner rather than later.</p>
+</div>
+</div>
 <div class="section" id="file-helper-read-file">
 <h3>File helper read_file()<a class="headerlink" href="#file-helper-read-file" title="Permalink to this headline">¶</a></h3>
 <p><a class="reference internal" href="../helpers/file_helper.html"><em>File Helper</em></a> function <tt class="docutils literal"><span class="pre">read_file()</span></tt> is now just an alias for
@@ -715,7 +775,7 @@ rather than later.</p>
 </div>
 <div class="section" id="string-helper-repeater">
 <h3>String helper repeater()<a class="headerlink" href="#string-helper-repeater" title="Permalink to this headline">¶</a></h3>
-<p><a class="reference internal" href="../helpers/string_helper.html"><em>String Helper</em></a> function <a class="reference internal" href="../helpers/string_helper.html#repeater" title="repeater"><tt class="xref py py-func docutils literal"><span class="pre">repeater()</span></tt></a> is now just an alias for
+<p><a class="reference internal" href="../helpers/string_helper.html"><em>String Helper</em></a> function <a class="reference internal" href="../helpers/string_helper.html#repeater" title="repeater"><tt class="xref php php-func docutils literal"><span class="pre">repeater()</span></tt></a> is now just an alias for
 PHP&#8217;s native <tt class="docutils literal"><span class="pre">str_repeat()</span></tt> function. It is deprecated and scheduled for removal in CodeIgniter 3.1+.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
@@ -725,7 +785,7 @@ rather than later.</p>
 </div>
 <div class="section" id="string-helper-trim-slashes">
 <h3>String helper trim_slashes()<a class="headerlink" href="#string-helper-trim-slashes" title="Permalink to this headline">¶</a></h3>
-<p><a class="reference internal" href="../helpers/string_helper.html"><em>String Helper</em></a> function <a class="reference internal" href="../helpers/string_helper.html#trim_slashes" title="trim_slashes"><tt class="xref py py-func docutils literal"><span class="pre">trim_slashes()</span></tt></a> is now just an alias
+<p><a class="reference internal" href="../helpers/string_helper.html"><em>String Helper</em></a> function <a class="reference internal" href="../helpers/string_helper.html#trim_slashes" title="trim_slashes"><tt class="xref php php-func docutils literal"><span class="pre">trim_slashes()</span></tt></a> is now just an alias
 for PHP&#8217;s native <tt class="docutils literal"><span class="pre">trim()</span></tt> function (with a slash passed as its second argument). It is deprecated and
 scheduled for removal in CodeIgniter 3.1+.</p>
 <div class="admonition note">
@@ -736,10 +796,10 @@ rather than later.</p>
 </div>
 <div class="section" id="form-helper-form-prep">
 <h3>Form helper form_prep()<a class="headerlink" href="#form-helper-form-prep" title="Permalink to this headline">¶</a></h3>
-<p><a class="reference internal" href="../helpers/form_helper.html"><em>Form Helper</em></a> function <a class="reference internal" href="../helpers/form_helper.html#form_prep" title="form_prep"><tt class="xref py py-func docutils literal"><span class="pre">form_prep()</span></tt></a>
+<p><a class="reference internal" href="../helpers/form_helper.html"><em>Form Helper</em></a> function <a class="reference internal" href="../helpers/form_helper.html#form_prep" title="form_prep"><tt class="xref php php-func docutils literal"><span class="pre">form_prep()</span></tt></a>
 is now just an alias for <a class="reference internal" href="../general/common_functions.html"><em>common function</em></a>
-<a class="reference internal" href="../general/common_functions.html#html_escape" title="html_escape"><tt class="xref py py-func docutils literal"><span class="pre">html_escape()</span></tt></a>. It is deprecated and will be removed in the future.</p>
-<p>Please use <a class="reference internal" href="../general/common_functions.html#html_escape" title="html_escape"><tt class="xref py py-func docutils literal"><span class="pre">html_escape()</span></tt></a> instead.</p>
+<tt class="xref py py-func docutils literal"><span class="pre">html_escape()</span></tt>. It is deprecated and will be removed in the future.</p>
+<p>Please use <a class="reference internal" href="../general/common_functions.html#html_escape" title="html_escape"><tt class="xref php php-func docutils literal"><span class="pre">html_escape()</span></tt></a> instead.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">This function is still available, but you&#8217;re strongly encouraged
@@ -751,8 +811,8 @@ to remove its usage sooner rather than later.</p>
 <p><a class="reference internal" href="../helpers/email_helper.html"><em>Email Helper</em></a> only has two functions</p>
 <blockquote>
 <div><ul class="simple">
-<li><a class="reference internal" href="../helpers/email_helper.html#valid_email" title="valid_email"><tt class="xref py py-func docutils literal"><span class="pre">valid_email()</span></tt></a></li>
-<li><a class="reference internal" href="../helpers/email_helper.html#send_email" title="send_email"><tt class="xref py py-func docutils literal"><span class="pre">send_email()</span></tt></a></li>
+<li><a class="reference internal" href="../helpers/email_helper.html#valid_email" title="valid_email"><tt class="xref php php-func docutils literal"><span class="pre">valid_email()</span></tt></a></li>
+<li><a class="reference internal" href="../helpers/email_helper.html#send_email" title="send_email"><tt class="xref php php-func docutils literal"><span class="pre">send_email()</span></tt></a></li>
 </ul>
 </div></blockquote>
 <p>Both of them are now aliases for PHP&#8217;s native <tt class="docutils literal"><span class="pre">filter_var()</span></tt> and <tt class="docutils literal"><span class="pre">mail()</span></tt> functions, respectively.
@@ -817,7 +877,7 @@ rather than later.</p>
 </div>
 <div class="section" id="string-helper-random-string-types-unique-and-encrypt">
 <h3>String helper random_string() types &#8216;unique&#8217; and &#8216;encrypt&#8217;<a class="headerlink" href="#string-helper-random-string-types-unique-and-encrypt" title="Permalink to this headline">¶</a></h3>
-<p>When using the <a class="reference internal" href="../helpers/string_helper.html"><em>String Helper</em></a> function <a class="reference internal" href="../helpers/string_helper.html#random_string" title="random_string"><tt class="xref py py-func docutils literal"><span class="pre">random_string()</span></tt></a>,
+<p>When using the <a class="reference internal" href="../helpers/string_helper.html"><em>String Helper</em></a> function <a class="reference internal" href="../helpers/string_helper.html#random_string" title="random_string"><tt class="xref php php-func docutils literal"><span class="pre">random_string()</span></tt></a>,
 you should no longer pass the <strong>unique</strong> and <strong>encrypt</strong> randomization types. They are only
 aliases for <strong>md5</strong> and <strong>sha1</strong> respectively and are now deprecated and scheduled for removal
 in CodeIgniter 3.1+.</p>
@@ -829,7 +889,7 @@ sooner rather than later.</p>
 </div>
 <div class="section" id="url-helper-url-title-separators-dash-and-underscore">
 <h3>URL helper url_title() separators &#8216;dash&#8217; and &#8216;underscore&#8217;<a class="headerlink" href="#url-helper-url-title-separators-dash-and-underscore" title="Permalink to this headline">¶</a></h3>
-<p>When using the <a class="reference internal" href="../helpers/url_helper.html"><em>URL Helper</em></a> function <a class="reference internal" href="../helpers/url_helper.html#url_title" title="url_title"><tt class="xref py py-func docutils literal"><span class="pre">url_title()</span></tt></a>, you
+<p>When using the <a class="reference internal" href="../helpers/url_helper.html"><em>URL Helper</em></a> function <a class="reference internal" href="../helpers/url_helper.html#url_title" title="url_title"><tt class="xref php php-func docutils literal"><span class="pre">url_title()</span></tt></a>, you
 should no longer pass <strong>dash</strong> or <strong>underscore</strong> as the word separator. This function will
 now accept any character and you should just pass the chosen character directly, so you
 should write &#8216;-&#8216; instead of &#8216;dash&#8217; and &#8216;_&#8217; instead of &#8216;underscore&#8217;.</p>
@@ -912,7 +972,7 @@ sooner rather than later.</p>
 <h3>Input library method is_cli_request()<a class="headerlink" href="#input-library-method-is-cli-request" title="Permalink to this headline">¶</a></h3>
 <p>Calls to the <tt class="docutils literal"><span class="pre">CI_Input::is_cli_request()</span></tt> method are necessary at many places
 in the CodeIgniter internals and this is often before the <a class="reference internal" href="../libraries/input.html"><em>Input Library</em></a> is loaded. Because of that, it is being replaced by a common
-function named <a class="reference internal" href="../general/common_functions.html#is_cli" title="is_cli"><tt class="xref py py-func docutils literal"><span class="pre">is_cli()</span></tt></a> and this method is now just an alias.</p>
+function named <a class="reference internal" href="../general/common_functions.html#is_cli" title="is_cli"><tt class="xref php php-func docutils literal"><span class="pre">is_cli()</span></tt></a> and this method is now just an alias.</p>
 <p>The new function is both available at all times for you to use and shorter to type.</p>
 <div class="highlight-ci"><div class="highlight"><pre><span class="c1">// Old</span>
 <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">input</span><span class="o">-&gt;</span><span class="na">is_cli_request</span><span class="p">();</span>
@@ -954,10 +1014,10 @@ sooner rather than later.</p>
 </div>
 </div>
 </div>
-<div class="section" id="step-18-check-your-usage-of-text-helper-highlight-phrase">
-<h2>Step 18: Check your usage of Text helper highlight_phrase()<a class="headerlink" href="#step-18-check-your-usage-of-text-helper-highlight-phrase" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="step-20-check-your-usage-of-text-helper-highlight-phrase">
+<h2>Step 20: Check your usage of Text helper highlight_phrase()<a class="headerlink" href="#step-20-check-your-usage-of-text-helper-highlight-phrase" title="Permalink to this headline">¶</a></h2>
 <p>The default HTML tag used by <a class="reference internal" href="../helpers/text_helper.html"><em>Text Helper</em></a> function
-<a class="reference internal" href="../helpers/text_helper.html#highlight_phrase" title="highlight_phrase"><tt class="xref py py-func docutils literal"><span class="pre">highlight_phrase()</span></tt></a> has been changed from <tt class="docutils literal"><span class="pre">&lt;strong&gt;</span></tt> to the new HTML5
+<tt class="xref py py-func docutils literal"><span class="pre">highlight_phrase()</span></tt> has been changed from <tt class="docutils literal"><span class="pre">&lt;strong&gt;</span></tt> to the new HTML5
 tag <tt class="docutils literal"><span class="pre">&lt;mark&gt;</span></tt>.</p>
 <p>Unless you&#8217;ve used your own highlighting tags, this might cause trouble
 for your visitors who use older web browsers such as Internet Explorer 8.
@@ -991,7 +1051,7 @@ in order to avoid backwards compatibility with old browsers:</p>
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014 - 2015, British Columbia Institute of Technology.
-      Last updated on Jan 26, 2015.
+      Last updated on Mar 10, 2015.
     </p>
   </div>
 
