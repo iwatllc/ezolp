@@ -55,7 +55,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <!-- begin panel -->
                     <div class="panel panel-inverse" >
                         <div class="panel-heading">
-                            <h4 class="panel-title">PAYMENT INFORMATION</h4>
+                            <h4 class="panel-title">PAYMENT INFORMATION (* = Required Field)</h4>
                         </div>
                         <div class="panel-body">
                             <legend>Billing Informaiton</legend>
@@ -82,7 +82,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     </div>
                                 </div>
                                 <div class="form-group <?php echo(!empty(form_error('streetaddress')) ? 'has-error has-feedback' : ''); ?>">
-                                    <label class="col-md-3 control-label">STREET ADDRESS</label>
+                                    <label class="col-md-3 control-label">STREET ADDRESS *</label>
                                     <div class="col-md-9">
                                         <?php
                                         $data = array(
@@ -124,7 +124,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     </div>
                                 </div>
                                 <div class="form-group <?php echo(!empty(form_error('city')) ? 'has-error has-feedback' : ''); ?>">
-                                    <label class="col-md-3 control-label">CITY</label>
+                                    <label class="col-md-3 control-label">CITY *</label>
                                     <div class="col-md-9">
                                         <?php
                                         $data = array(
@@ -145,7 +145,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     </div>
                                 </div>
                                 <div class="form-group <?php echo(!empty(form_error('state')) ? 'has-error has-feedback' : ''); ?>">
-                                    <label class="col-md-3 control-label">STATE</label>
+                                    <label class="col-md-3 control-label">STATE *</label>
                                     <div class="col-md-9">
                                         <?php
                                             $extra = array(
@@ -216,7 +216,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     </div>
                                 </div>
                                 <div class="form-group <?php echo(!empty(form_error('zip')) ? 'has-error has-feedback' : ''); ?>">
-                                    <label class="col-md-3 control-label">ZIP</label>
+                                    <label class="col-md-3 control-label">ZIP *</label>
                                     <div class="col-md-9">
                                         <?php
                                         $data = array(
@@ -239,7 +239,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <legend>Credit Card Informaiton</legend>
                                 <div class="form-group <?php echo(!empty(form_error('creditcard')) ? 'has-error has-feedback' : ''); ?>">
                                     <label class="col-md-3 control-label">CREDIT CARD *</label>
-                                    <div class="col-md-8">
+                                    <div class="col-md-9">
                                         <?php
                                         $data = array(
                                             'name'          => 'creditcard',
@@ -261,17 +261,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 </div>
 
                                 <div class="form-group <?php echo(!empty(form_error('expirationmonth')) ? 'has-error has-feedback' : ''); ?>">
-                                    <label class="col-md-3 control-label">Expiration Month</label>
+                                    <label class="col-md-3 control-label">Expiration Month *</label>
                                     <div class="col-md-9">
                                         <?php
                                         $extra = array(
                                             'class' => 'form-control selectpicker',
+                                            'name' => 'expirationmonth',
                                             'data-live-search' => 'true',
                                             'data-style' => (!empty(form_error('expirationmonth')) ? 'btn-danger' : ''),
                                         );
 
                                         $options = array(
-                                            '0'  => 'Select State',
+                                            '0'  => 'Select Month',
                                             '01' => 'January (01)',
                                             '02' => 'February (02)',
                                             '03' => 'March (03)',
@@ -293,11 +294,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     </div>
                                 </div>
                                 <div class="form-group <?php echo(!empty(form_error('expirationyear')) ? 'has-error has-feedback' : ''); ?>">
-                                    <label class="col-md-3 control-label">Expiration Year</label>
+                                    <label class="col-md-3 control-label">Expiration Year *</label>
                                     <div class="col-md-9">
                                         <?php
                                         $extra = array(
                                             'class' => 'form-control selectpicker',
+                                            'name' => 'expirationyear',
                                             'data-live-search' => 'true',
                                             'data-style' => (!empty(form_error('expirationyear')) ? 'btn-danger' : ''),
                                         );
@@ -315,20 +317,51 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                         <?php echo form_error('expirationyear'); ?>
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <label class="col-md-3 control-label">CVV2</label>
+
+                                <div class="form-group <?php echo(!empty(form_error('cvv2')) ? 'has-error has-feedback' : ''); ?>">
+                                    <label class="col-md-3 control-label">CVV2 *</label>
                                     <div class="col-md-9">
-                                        <input type="text" class="form-control" placeholder="STREET ADDRESS(2)" />
-                                    </div>
-                                </div>
-                            <legend>Payment Amount</legend>
-                                <div class="form-group">
-                                    <label class="col-md-3 control-label">Amount *</label>
-                                    <div class="col-md-8">
-                                        <input type="text" class="form-control" id="maskedMoney-input-amount" placeholder="0.00" data-parsley-required="true" />
+                                        <?php
+                                        $data = array(
+                                            'name'          => 'cvv2',
+                                            'id'            => 'masked-input-cvv2',
+                                            'value'         => set_value('cvv2'),
+                                            'class'         => 'form-control',
+                                            'type'          => 'text',
+                                            'placeholder'   => '999',
+                                            'maxlength'     => '3',
+                                            'data-parsley-required' => 'true'
+                                        );
+
+                                        echo form_input($data);
+                                        ?>
+                                        <?php echo(!empty(form_error('cvv2')) ? '<span class="fa fa-times form-control-feedback"></span>' : ''); ?>
+                                        <?php echo form_error('cvv2'); ?>
                                     </div>
                                 </div>
 
+                            <legend>Payment Amount</legend>
+                                <div class="form-group <?php echo(!empty(form_error('paymentamount')) ? 'has-error has-feedback' : ''); ?>">
+                                    <label class="col-md-3 control-label">Amount *</label>
+                                    <div class="col-md-9">
+                                        <?php
+                                        $data = array(
+                                            'name'          => 'paymentamount',
+                                            'id'            => 'maskedMoney-input-paymentamount',
+                                            'value'         => set_value('paymentamount'),
+                                            'class'         => 'form-control',
+                                            'type'          => 'text',
+                                            'placeholder'   => '0.00',
+                                            'maxlength'     => '10',
+                                            'data-parsley-required' => 'true'
+                                        );
+
+                                        echo form_input($data);
+                                        ?>
+                                        <?php echo(!empty(form_error('paymentamount')) ? '<span class="fa fa-times form-control-feedback"></span>' : ''); ?>
+                                        <?php echo form_error('paymentamount'); ?>
+                                    </div>
+                                </div>
 
                             <div class="form-group">
                                 <label class="col-md-3 control-label">Submit</label>
@@ -362,6 +395,94 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <!-- end page container -->
 
 <?php $this->load->view('footer'); ?>
+
+<script type="text/javascript">
+    /* Credit Card Swipe Logic */
+    var readErrorReason = "Credit card read error. Please try again.";
+
+    var creditCardParser = function (rawData) {
+
+        var trackpattern = new RegExp("^(%[^%;\\?]+\\?)(;[0-9\\:<>\\=]+\\?)?(;[0-9\\:<>\\=]+\\?)?");
+
+        var trackmatches = trackpattern.exec(rawData);
+        if (!trackmatches) return null;
+
+        var fieldpattern = new RegExp("^(\\%)([a-zA-Z])(\\d{1,19})(\\^)(.{2,26})(\\^)(\\d{0,4}|\\^)(\\d{0,3}|\\^)(.*)(\\?)");
+
+        var fieldmatches = fieldpattern.exec(rawData);
+
+        if (!fieldmatches) return null;
+
+        // Extract the three lines
+        var cardData = {
+            track1: trackmatches[1],
+            track2: trackmatches[2],
+            track3: trackmatches[3],
+            FC: fieldmatches[2],
+            PAN: fieldmatches[3],
+            NM: fieldmatches[5],
+            ED: fieldmatches[7],
+            SC: fieldmatches[8],
+            DD: fieldmatches[9]
+        };
+
+        if (cardData.FC != "B")
+        {
+            readErrorReason = "Invalid Format Code. Only cards with Format Code 'B' may be processed.";
+        }
+        else if (cardData.PAN.length == 0)
+        {
+            readErrorReason = "Can not read Primary Account Number. Please try again.";
+        }
+        else if (cardData.ED.length == 0)
+        {
+            readErrorReason = "Can not read Expiration Date. Please try again.";
+        }
+
+        console.log(cardData);
+
+        return cardData;
+    };
+
+    var goodScan = function (data) {
+        $("#status").text("Success!");
+        $("#track1").text(data.track1);
+        $("#track2").text(data.track2);
+        $("#track3").text(data.track3);
+
+        console.log(data.PAN);
+        console.log(data.ED.substring(2, 4));
+        console.log(data.ED.substring(0, 2));
+
+        $("[name='creditcard']").val(data.PAN);
+        $("[name='expirationmonth']").val(data.ED.substring(2, 4));
+        $("[name='expirationyear']").val(data.ED.substring(0, 2));
+        $("[name='cvv2']").focus();
+    }
+
+    var badScan = function () {
+        $("#status").text("Failed!");
+        $(".line").text("");
+        alert(readErrorReason);
+    }
+
+    // Initialize the plugin with default parser and callbacks.
+    //
+    // Set debug to true to watch the characters get captured and the state machine transitions
+    // in the javascript console. This requires a browser that supports the console.log function.
+    //
+    // Set firstLineOnly to true to invoke the parser after scanning the first line. This will speed up the
+    // time from the start of the scan to invoking your success callback.
+    $.cardswipe({
+        firstLineOnly: false,
+        success: goodScan,
+        parser: creditCardParser,
+        error: badScan,
+        debug: true
+    });
+
+</script>
+
 
 </body>
 </html>

@@ -71,7 +71,7 @@ var handleFormMaskedInput = function() {
 
 var handleFormMaskedMoneyInput = function() {
     "use strict";
-    $('#maskedMoney-input-amount').maskMoney();
+    $('#maskedMoney-input-paymentamount').maskMoney();
 };
 
 

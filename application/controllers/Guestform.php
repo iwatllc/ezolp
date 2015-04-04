@@ -42,6 +42,10 @@ class Guestform extends CI_Controller {
         $this->form_validation->set_rules('zip', 'Zip Code', 'required|min_length[5]|max_length[5]');
         $this->form_validation->set_rules('creditcard', 'Credit Card', 'required|callback_check_creditcard');
         $this->form_validation->set_rules('expirationmonth', 'Expiration Month', 'required|callback_check_default');
+        $this->form_validation->set_rules('expirationyear', 'Expiration Year', 'required');
+        $this->form_validation->set_rules('cvv2', 'CVV2 Code', 'required|min_length[3]|max_length[3]');
+        $this->form_validation->set_rules('paymentamount', 'Payment Amount', 'required');
+
 
         if ($this->form_validation->run() == FALSE)
         {

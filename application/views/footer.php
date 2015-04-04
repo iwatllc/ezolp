@@ -31,6 +31,7 @@
     <script src="<?php echo base_url(); ?>/assets/js/form-plugins.demo.js"></script>
     <script src="<?php echo base_url(); ?>/assets/js/apps.min.js"></script>
     <script src="<?php echo base_url(); ?>/assets/plugins/maskMoney/jquery.maskMoney.min.js"></script>
+    <script src="<?php echo base_url(); ?>/assets/plugins/cardswipe/jquery.cardswipe.js"></script>
     <!-- ================== END PAGE LEVEL JS ================== -->
 
     <script>
