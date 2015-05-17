@@ -32,8 +32,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 </button>
             </div>
             <!-- end mobile sidebar expand / collapse button -->
-
-
         </div>
         <!-- end container-fluid -->
     </div>
@@ -43,7 +41,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <!-- begin #content -->
     <div id="content" class="content">
         <!-- begin page-header -->
-        <h1 class="page-header"><?php echo $heading;?></h1>
+        <h1 class="page-header"><?php echo $page_data['heading'];?></h1>
         <!-- end page-header -->
 
 
@@ -51,7 +49,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <!-- begin col-12 -->
             <div class="col-12">
                 <?php $attributes = array('class' => 'form-horizontal form-bordered'); ?>
-                <?php echo form_open('Guestform/submit', $attributes); ?>
+                <?php echo form_open('guestform/submit', $attributes); ?>
                     <!-- begin panel -->
                     <div class="panel panel-inverse" >
                         <div class="panel-heading">
@@ -59,7 +57,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         </div>
                         <div class="panel-body">
                             <legend>Billing Informaiton</legend>
-
                                 <div class="form-group <?php echo(!empty(form_error('fullname')) ? 'has-error has-feedback' : ''); ?>">
                                     <label class="col-md-3 control-label">FULL NAME*</label>
                                     <div class="col-md-9">
@@ -82,7 +79,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     </div>
                                 </div>
                                 <div class="form-group <?php echo(!empty(form_error('streetaddress')) ? 'has-error has-feedback' : ''); ?>">
-                                    <label class="col-md-3 control-label">STREET ADDRESS *</label>
+                                    <label class="col-md-3 control-label">STREET ADDRESS*</label>
                                     <div class="col-md-9">
                                         <?php
                                         $data = array(
@@ -112,7 +109,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                             'value'         => set_value('streetaddress2'),
                                             'class'         => 'form-control',
                                             'type'          => 'text',
-                                            'placeholder'   => 'Required',
+                                            'placeholder'   => '',
                                             'maxlength'     => '100',
                                             'data-parsley-required' => 'true'
                                         );
@@ -124,7 +121,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     </div>
                                 </div>
                                 <div class="form-group <?php echo(!empty(form_error('city')) ? 'has-error has-feedback' : ''); ?>">
-                                    <label class="col-md-3 control-label">CITY *</label>
+                                    <label class="col-md-3 control-label">CITY*</label>
                                     <div class="col-md-9">
                                         <?php
                                         $data = array(
@@ -145,7 +142,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     </div>
                                 </div>
                                 <div class="form-group <?php echo(!empty(form_error('state')) ? 'has-error has-feedback' : ''); ?>">
-                                    <label class="col-md-3 control-label">STATE *</label>
+                                    <label class="col-md-3 control-label">STATE*</label>
                                     <div class="col-md-9">
                                         <?php
                                             $extra = array(
@@ -216,7 +213,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     </div>
                                 </div>
                                 <div class="form-group <?php echo(!empty(form_error('zip')) ? 'has-error has-feedback' : ''); ?>">
-                                    <label class="col-md-3 control-label">ZIP *</label>
+                                    <label class="col-md-3 control-label">ZIP*</label>
                                     <div class="col-md-9">
                                         <?php
                                         $data = array(
@@ -236,6 +233,48 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                         <?php echo form_error('zip'); ?>
                                     </div>
                                 </div>
+                                <div class="form-group <?php echo(!empty(form_error('email')) ? 'has-error has-feedback' : ''); ?>">
+                                    <label class="col-md-3 control-label">EMAIL</label>
+                                    <div class="col-md-9">
+                                        <?php
+                                        $data = array(
+                                            'name'          => 'email',
+                                            'id'            => 'email',
+                                            'value'         => set_value('email'),
+                                            'class'         => 'form-control',
+                                            'type'          => 'email',
+                                            'placeholder'   => 'email address',
+                                            'maxlength'     => '100',
+                                            'data-parsley-required' => 'false'
+                                        );
+
+                                        echo form_input($data);
+                                        ?>
+                                        <?php echo(!empty(form_error('zip')) ? '<span class="fa fa-times form-control-feedback"></span>' : ''); ?>
+                                        <?php echo form_error('zip'); ?>
+                                    </div>
+                                </div>
+                                <div class="form-group <?php echo(!empty(form_error('notes')) ? 'has-error has-feedback' : ''); ?>">
+                                    <label class="col-md-3 control-label">NOTES</label>
+                                    <div class="col-md-9">
+                                        <?php
+                                        $data = array(
+                                            'name'          => 'notes',
+                                            'id'            => 'notes',
+                                            'value'         => set_value('notes'),
+                                            'class'         => 'form-control',
+                                            'type'          => 'text',
+                                            'placeholder'   => 'Notes',
+                                            'maxlength'     => '100',
+                                            'data-parsley-required' => 'true'
+                                        );
+
+                                        echo form_input($data);
+                                        ?>
+                                        <?php echo(!empty(form_error('notes')) ? '<span class="fa fa-times form-control-feedback"></span>' : ''); ?>
+                                        <?php echo form_error('notes'); ?>
+                                    </div>
+                                </div>
                             <legend>Credit Card Informaiton</legend>
                                 <div class="form-group <?php echo(!empty(form_error('creditcard')) ? 'has-error has-feedback' : ''); ?>">
                                     <label class="col-md-3 control-label">CREDIT CARD *</label>
@@ -248,7 +287,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                             'class'         => 'form-control',
                                             'type'          => 'text',
                                             'placeholder'   => '9999-9999-9999-9999',
-                                            'maxlength'     => '5',
+                                            'maxlength'     => '19',
                                             'data-parsley-required' => 'true'
                                         );
 
@@ -266,6 +305,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                         <?php
                                         $extra = array(
                                             'class' => 'form-control selectpicker',
+                                            'id' => 'expirationmonth',
                                             'name' => 'expirationmonth',
                                             'data-live-search' => 'true',
                                             'data-style' => (!empty(form_error('expirationmonth')) ? 'btn-danger' : ''),
@@ -299,6 +339,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                         <?php
                                         $extra = array(
                                             'class' => 'form-control selectpicker',
+                                            'id' => 'expirationyear',
                                             'name' => 'expirationyear',
                                             'data-live-search' => 'true',
                                             'data-style' => (!empty(form_error('expirationyear')) ? 'btn-danger' : ''),
@@ -386,7 +427,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <!-- end #content -->
 
 
-
     <!-- begin scroll to top btn -->
     <a href="javascript:;" class="btn btn-icon btn-circle btn-success btn-scroll-to-top fade" data-click="scroll-top"><i class="fa fa-angle-up"></i></a>
     <!-- end scroll to top btn -->
@@ -450,13 +490,32 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         $("#track2").text(data.track2);
         $("#track3").text(data.track3);
 
-        console.log(data.PAN);
-        console.log(data.ED.substring(2, 4));
-        console.log(data.ED.substring(0, 2));
+        // console.log(data.PAN);
+        // console.log(data.ED.substring(2, 4));
+        // console.log(data.ED.substring(0, 2));
 
+        // Swap around the name
+        var fullname  = data.NM.split("/");
+        var firstname = fullname[1].trim();
+        var lastname = fullname[0].trim();
+        var formattedname = firstname.concat(" ", lastname).trim();
+
+        $("[name='fullname']").val(formattedname);
         $("[name='creditcard']").val(data.PAN);
-        $("[name='expirationmonth']").val(data.ED.substring(2, 4));
-        $("[name='expirationyear']").val(data.ED.substring(0, 2));
+
+        // Set Value of Element then run the selectpicker refresh
+        $("#expirationmonth").val(data.ED.substring(2, 4));
+        $('.selectpicker').selectpicker('refresh');
+
+        // var expirationyear = data.ED.substring(0, 2);
+        // $("[name='expirationyear']").val(data.ED.substring(0, 2));
+        var year_prefix = "20";
+        var year_suffix = data.ED.substring(0, 2);
+        var cardyear = year_prefix.concat(year_suffix);
+        $("#expirationyear").val(cardyear);
+        $('.selectpicker').selectpicker('refresh');
+
+
         $("[name='cvv2']").focus();
     }
 

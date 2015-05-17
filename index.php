@@ -36,6 +36,11 @@
  * @filesource
  */
 
+
+// Set the time zone for the server.
+date_default_timezone_set('America/New_York');
+
+
 /*
  *---------------------------------------------------------------
  * APPLICATION ENVIRONMENT

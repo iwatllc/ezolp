@@ -2,13 +2,13 @@
 
 <head>
     <meta charset="utf-8" />
-    <title><?php echo $title; ?></title>
+    <title><?php echo $page_data['title']; ?></title>
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
-    <meta content=<?php echo $description; ?> name="description" />
-    <meta content=<?php echo $author; ?> name="author" />
+    <meta content=<?php echo $page_data['description']; ?> name="description" />
+    <meta content=<?php echo $page_data['author']; ?> name="author" />
 
     <!-- ================== BEGIN BASE CSS STYLE ================== -->
-    <link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
     <link href="<?php echo base_url(); ?>/assets/plugins/jquery-ui/themes/base/minified/jquery-ui.min.css" rel="stylesheet" />
     <link href="<?php echo base_url(); ?>/assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
     <link href="<?php echo base_url(); ?>/assets/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
@@ -16,6 +16,7 @@
     <link href="<?php echo base_url(); ?>/assets/css/style.css" rel="stylesheet" />
     <link href="<?php echo base_url(); ?>/assets/css/style-responsive.min.css" rel="stylesheet" />
     <link href="<?php echo base_url(); ?>/assets/css/theme/default.css" rel="stylesheet" id="theme" />
+    <link href="<?php echo base_url(); ?>/assets/css/ezolp_print.css" rel="stylesheet" id="stylesheettheme" media="print" />
     <!-- ================== END BASE CSS STYLE ================== -->
 
     <!-- ================== BEGIN PAGE LEVEL STYLE ================== -->

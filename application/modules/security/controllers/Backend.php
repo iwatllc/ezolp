@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Backend extends CI_Controller
+class Backend extends MX_Controller
 {
 	function __construct()
 	{
@@ -26,7 +26,7 @@ class Backend extends CI_Controller
 	
 	function users()
 	{
-		$this->load->model('dx_auth/users', 'users');			
+		$this->load->model('users', 'users');
 		
 		// Search checkbox in post array
 		foreach ($_POST as $key => $value)
@@ -104,7 +104,7 @@ class Backend extends CI_Controller
 	
 	function unactivated_users()
 	{
-		$this->load->model('dx_auth/user_temp', 'user_temp');
+		$this->load->model('user_temp', 'user_temp');
 		
 		/* Database related */
 		
@@ -155,7 +155,7 @@ class Backend extends CI_Controller
 	
 	function roles()
 	{		
-		$this->load->model('dx_auth/roles', 'roles');
+		$this->load->model('roles', 'roles');
 		
 		/* Database related */
 					
@@ -195,8 +195,8 @@ class Backend extends CI_Controller
 			$value = trim($value); 
 		}
 	
-		$this->load->model('dx_auth/roles', 'roles');
-		$this->load->model('dx_auth/permissions', 'permissions');
+		$this->load->model('roles', 'roles');
+		$this->load->model('permissions', 'permissions');
 		
 		if ($this->input->post('save'))
 		{
@@ -229,8 +229,8 @@ class Backend extends CI_Controller
 	function custom_permissions()
 	{
 		// Load models
-		$this->load->model('dx_auth/roles', 'roles');
-		$this->load->model('dx_auth/permissions', 'permissions');
+		$this->load->model('roles', 'roles');
+		$this->load->model('permissions', 'permissions');
 	
 		/* Get post input and apply it to database */
 		

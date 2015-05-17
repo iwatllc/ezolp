@@ -1,0 +1,28 @@
+@media print {
+
+    body,
+    .content,
+    .page-header-fixed {
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+
+    .sidebar,
+    .header,
+    .theme-panel {
+        display: none !important;
+    }
+
+    .receipt-print {
+        padding-bottom: 20px !important;
+    }
+
+    .dontprint {
+        display: none;
+    }
+
+    .doprint {
+        display: block;
+    }
+
+}
