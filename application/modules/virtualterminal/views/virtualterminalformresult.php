@@ -38,7 +38,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <!-- begin #content -->
         <div id="content" class="content">
             <!-- begin page-header -->
-            <h1 class="page-header"><?php echo $page_data['heading'];?></h1>
+            <div class="center-text">
+                <h1><?php echo $page_data['heading'];?></h1>
+                <p>
+                    <?php echo $client_data['clientaddress'];?><br/>
+                    <?php echo $client_data['clientcity'];?>, <?php echo $client_data['clientstate'];?><?php echo $client_data['clientzip'];?><br/>
+                    <?php echo $client_data['clientphone'];?><br/>
+                    <?php echo $client_data['clientwebsite'];?><br/>
+                </p>
+            </div>
             <!-- end page-header -->
             <div class="row">
                 <!-- begin col-12 -->
@@ -69,16 +77,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             </br></br>
                             <b>Date:</b> <?php echo $result_data['UpdateDate']; ?>
                             </br></br>
-                            <b>Amount:</b> <?php echo $submitted_data['amount']; ?>
+                            <b>Amount: $</b> <?php echo $submitted_data['amount']; ?>
                             </br></br>
                             <b>Card Ending: ************</b><?php echo $submitted_data['cclast4']; ?>
                             </br></br>
                             <b>Card Holder:</b> <?php echo $submitted_data['name']; ?>
                             </br></br>
+                            <div class="center-text">
                             I AGREE TO PAY ABOVE
                             TOTAL AMOUNT ACCORDING
                             TO THE CARD ISSUER
                             AGREEMENT
+                            </div>
                             <br/>
                             <b>Signature:</b>
                             </br></br></br></br>
@@ -116,7 +126,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         </div>
         <!-- end #content -->
 
-    <img src="<?php echo base_url(); ?>/assets/img/ezolp.png" class="doprint">
+    <img src="<?php echo base_url(); ?>/assets/img/ezolp.png" class="doprint receipt-logo">
     <br/><br/>
 
     <?php

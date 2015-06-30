@@ -231,7 +231,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <div class="form-group">
                                 <label class="col-md-3 control-label">Submit</label>
                                 <div class="col-md-9">
-                                    <button type="submit" class="btn btn-sm btn-success">Submit Button</button>
+                                    <button type="submit" value="Submit" class="btn btn-sm btn-success" id="submit">Submit Button</button>
                                 </div>
                             </div>
                         </div>
@@ -260,10 +260,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 <?php $this->load->view('footer'); ?>
 
-<script>
-    $('#vtpaymentform').submit(function(){
-        $('input[type=submit]', this).attr('disabled', 'disabled');
+<script type="text/javascript">
+    //$('#vtpaymentform').submit(function(){
+    //    $('input[type=submit]', this).attr('disabled', 'disabled');
+    //});
+    $(document).ready(function() {
+        $('#vtpaymentform').submit(function(){
+            $('#submit').attr({
+                disabled: 'disabled',
+                value: 'Processing, Please Wait...'
+            });
+        });
     });
+
 </script>
 
 

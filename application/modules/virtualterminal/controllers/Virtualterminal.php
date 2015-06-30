@@ -10,13 +10,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Virtualterminal extends MX_Controller {
 
-    public $data = array(
-        'title' => 'EZ Online Pay | Virtual Terminal Payment Form',
-        'heading' => 'Virtual Terminal Payment Form',
-        'description' => 'EZ Online Pay Virtual Terminal Payment Form',
-        'author' => 'EZ Online Pay 2015'
-    );
-
     public function __construct()
     {
         parent::__construct();
@@ -35,7 +28,35 @@ class Virtualterminal extends MX_Controller {
 
     public function index()
     {
-        $data['page_data'] = $this->data;
+        // Gather all the info for the view
+        $clientname = $this->configsys->get_config_value('clientname');
+        $clientaddress = $this->configsys->get_config_value('clientaddress');
+        $clientcity = $this->configsys->get_config_value('clientcity');
+        $clientstate = $this->configsys->get_config_value('clientstate');
+        $clientzip = $this->configsys->get_config_value('clientzip');
+        $clientphone = $this->configsys->get_config_value('clientphone');
+        $clientwebsite = $this->configsys->get_config_value('clientwebsite');
+
+        $client_data = array(
+            'clientname' => $clientname,
+            'clientaddress' => $clientaddress,
+            'clientcity' => $clientcity,
+            'clientstate' => $clientstate,
+            'clientzip' => $clientzip,
+            'clientphone' => $clientphone,
+            'clientwebsite' => $clientwebsite
+        );
+
+        $data['client_data'] = $client_data;
+
+        $view_vars = array(
+            'title' => $clientname . ' | Virtual Terminal Payment Form',
+            'heading' => $clientname,
+            'description' => $clientname. ' Virtual Terminal Payment Form',
+            'author' => 'EZ Online Pay ' . date("Y"),
+        );
+        $data['page_data'] = $view_vars;
+
         $this->load->view('virtualterminalform', $data);
     }
 
@@ -86,14 +107,34 @@ class Virtualterminal extends MX_Controller {
             $this->load->module('payment');
             $result_data = $this->payment->process_payment($submitted_data);
 
+            // Gather all the info for the view
+            $clientname = $this->configsys->get_config_value('clientname');
+            $clientaddress = $this->configsys->get_config_value('clientaddress');
+            $clientcity = $this->configsys->get_config_value('clientcity');
+            $clientstate = $this->configsys->get_config_value('clientstate');
+            $clientzip = $this->configsys->get_config_value('clientzip');
+            $clientphone = $this->configsys->get_config_value('clientphone');
+            $clientwebsite = $this->configsys->get_config_value('clientwebsite');
+
+            $client_data = array(
+                'clientname' => $clientname,
+                'clientaddress' => $clientaddress,
+                'clientcity' => $clientcity,
+                'clientstate' => $clientstate,
+                'clientzip' => $clientzip,
+                'clientphone' => $clientphone,
+                'clientwebsite' => $clientwebsite
+            );
+
+            $data['client_data'] = $client_data;
 
             // Gather all the info for the view
             $clientname = $this->configsys->get_config_value('clientname');
             $view_vars = array(
-                'title' => $clientname . ' | Guest Payment Form',
-                'heading' => 'Guest Payment Form',
-                'description' => $clientname. ' Guest Payment Form',
-                'author' => 'EZ Online Pay ' . date("Y")
+                'title' => $clientname . ' | Virtual Terminal Payment Form',
+                'heading' => $clientname,
+                'description' => $clientname. ' Virtual Terminal Payment Form',
+                'author' => 'EZ Online Pay ' . date("Y"),
             );
             $data['page_data'] = $view_vars;
             $data['result_data'] = $result_data;
@@ -112,6 +153,25 @@ class Virtualterminal extends MX_Controller {
 
         // Gather all the info for the view
         $clientname = $this->configsys->get_config_value('clientname');
+        $clientaddress = $this->configsys->get_config_value('clientaddress');
+        $clientcity = $this->configsys->get_config_value('clientcity');
+        $clientstate = $this->configsys->get_config_value('clientstate');
+        $clientzip = $this->configsys->get_config_value('clientzip');
+        $clientphone = $this->configsys->get_config_value('clientphone');
+        $clientwebsite = $this->configsys->get_config_value('clientwebsite');
+
+        $client_data = array(
+            'clientname' => $clientname,
+            'clientaddress' => $clientaddress,
+            'clientcity' => $clientcity,
+            'clientstate' => $clientstate,
+            'clientzip' => $clientzip,
+            'clientphone' => $clientphone,
+            'clientwebsite' => $clientwebsite
+        );
+
+        $data['client_data'] = $client_data;
+
         $view_vars = array(
             'title' => $clientname . ' | Virtual Terminal Payment Form',
             'heading' => $clientname,
