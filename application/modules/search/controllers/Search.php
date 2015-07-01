@@ -11,18 +11,44 @@ class Search extends MX_Controller {
     
     public function index()
     {
-        $this->load->model('Search_model', 'Search');
+        $this->load->helper('form');
+        $this->load->helper('url');
+        $this->load->load->library('session');
         
-        $data['transactions'] = $this->Search->return_ten();
+        $this->load->model('Search_model', 'Search');
         
         $view_vars = array(
             'title' => 'EZ Online Pay | Virtual Terminal Payment Form',
-            'heading' => 'Search for a Payment',
+            'heading' => 'Search for Transactions',
             'description' => 'Enter criteria to search for a payment.',
             'author' => 'EZ Online Pay 2015 ' . date("Y")
         );
         $data['page_data'] = $view_vars;
 
+        $this->load->view('search', $data);
+    }
+    
+    public function execute_search()
+    {
+        $search_array['PaymentTransactionId'] = $this->input->post('PaymentTransactionId');
+        $search_array['PaymentSource'] = $this->input->post('PaymentSource');
+        $search_array['AuthCode'] = $this->input->post('AuthCode');
+        $search_array['TransactionAmount'] = $this->input->post('TransactionAmount');
+        
+        $this->load->model('Search_model', 'Search');
+        
+        $data['results'] = $this->Search->get_search_results($search_array);
+        
+        $data['search_array'] = $search_array;
+        
+        $view_vars = array(
+            'title' => 'EZ Online Pay | Virtual Terminal Payment Form',
+            'heading' => 'Search Transactions',
+            'description' => 'Enter criteria to search for a payment.',
+            'author' => 'EZ Online Pay 2015 ' . date("Y")
+        );
+        $data['page_data'] = $view_vars;
+        
         $this->load->view('search', $data);
     }
 }

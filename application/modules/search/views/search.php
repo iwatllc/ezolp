@@ -30,29 +30,73 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     
     <h1><?php echo $page_data['heading']; ?></h1>
     
-    <table>
-        <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Notes</th>
-            <th>CC Last 4</th>
-            <th>Amount</th>
-            <th>Insert Date</th>
-        </tr>
+    <?php echo form_open('Search/execute_search'); ?>
+    
+    <p>
+        <label>Payment Transaction ID </label>
+        <?php echo form_input(array('name'=>'PaymentTransactionId', 'placeholder'=>'ID')); ?>
+    </p>
+    <p>
+        <label>Payment Source</label>
+        <?php echo form_input(array('name'=>'PaymentSource', 'placeholder'=>'Source')); ?>
+    </p>
+    <p>
+        <label>Auth Code</label>
+        <?php echo form_input(array('name'=>'AuthCode', 'placeholder'=>'Code')); ?>
+    </p>
+    <p>
+        <label>Transaction Amount</label>
+        <?php echo form_input(array('name'=>'TransactionAmount', 'placeholder'=>'Amount')); ?>
+    </p>
+    
     <?php
-        foreach ($transactions->result() as $trans)
-        {
-            ?><tr>
-                <td><?php echo $trans->id; ?></td>
-                <td><?php echo $trans->name; ?></td>
-                <td><?php echo $trans->notes; ?></td>
-                <td><?php echo $trans->cclast4; ?></td>
-                <td><?php echo $trans->amount; ?></td>
-                <td><?php echo $trans->InsertDate; ?></td>
-            </tr><?php
-        }
+        echo form_submit('search_submit', 'Search'); 
+        echo form_close();  
     ?>
-    </table>
+    
+    
+    <?php if (isset($results))
+    { ?>    
+            <?php
+                if ($results->num_rows() > 0)
+                { ?>
+                    <table>
+                        <caption>Search Results</caption>
+                        <tbody>
+                            <tr>
+                                <th>Payment Transaction ID</th>
+                                <th>Payment Source</th>
+                                <th>Auth Code</th>
+                                <th>Transaction Amount</th>
+                            </tr>
+                    <?php
+                    foreach ($results->result() as $result)
+                    {
+                        echo "<tr>";
+                            echo "<td>";
+                                echo $result->PaymentTransactionId;
+                            echo "</td>";
+                            echo "<td>";
+                                echo $result->PaymentSource;
+                            echo "</td>";
+                            echo "<td>";
+                                echo $result->AuthCode;
+                            echo "</td>";
+                            echo "<td>";
+                                echo $result->TransactionAmount;
+                            echo "</td>";
+                        echo "<tr>";
+                    } ?>
+                        </tbody>
+                    </table>
+                <?php
+                } else
+                {
+                    echo 'Search resulted with no records found';                    
+                }
+                ?>
+
+    <?php } ?>
     
 </body>
 
