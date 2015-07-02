@@ -1,7 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-// Include the client specific config file.
 require_once('client/clientconfig.php');
 
 // This is a real change and needs to be commited.
@@ -36,9 +35,6 @@ require_once('client/clientconfig.php');
 */
 
 // This should be set to an empty string when you setup the htaccess to remove it.
-
-// $config['index_page'] = 'index.php';
-
 $config['index_page'] = '';
 
 /*
