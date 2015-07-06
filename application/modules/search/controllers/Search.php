@@ -31,9 +31,15 @@ class Search extends MX_Controller {
     public function execute_search()
     {
         $search_array['PaymentTransactionId'] = $this->input->post('PaymentTransactionId');
+        $search_array['InsertDate'] = $this->input->post('InsertDate');
         $search_array['PaymentSource'] = $this->input->post('PaymentSource');
-        $search_array['AuthCode'] = $this->input->post('AuthCode');
         $search_array['TransactionAmount'] = $this->input->post('TransactionAmount');
+        $search_array['AuthCode'] = $this->input->post('AuthCode');
+        $search_array['OrderNumber'] = $this->input->post('OrderNumber');
+        $search_array['CVV2ResponseMessage'] = $this->input->post('CVV2ResponseMessage');
+        $search_array['UpdateDate'] = $this->input->post('UpdateDate');
+        $search_array['SerialNumber'] = $this->input->post('SerialNumber');
+
         
         $this->load->model('Search_model', 'Search');
         
