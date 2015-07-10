@@ -24,9 +24,17 @@ class Search_model extends CI_Model {
                   $this->db->where('PaymentTransactionId', $search_array['PaymentTransactionId']);
               }
               
-              if ($search_array['InsertDate'] != NULL)
+              if ($search_array['BegDate'] != NULL && $search_array['EndDate'] != NULL && $search_array['BegDate'] != "1969-12-31" && $search_array['EndDate'] != "1969-12-31")
               {
-                  $this->db->where('InsertDate', $search_array['InsertDate']);
+                    $this->db->where('DATE(InsertDate) >=', $search_array['BegDate'])->where('DATE(InsertDate) <=', $search_array['EndDate']);
+                    
+              } else if ($search_array['BegDate'] != NULL)
+              {
+                  $this->db->where('DATE(InsertDate) >=', $search_array['BegDate']);
+                  
+              } else if ($search_array['EndDate'] != NULL)
+              {
+                  $this->db->where('DATE(InsertDate) <=', $search_array['EndDate']);
               }
               
               if ($search_array['PaymentSource'] != NULL)
@@ -53,11 +61,6 @@ class Search_model extends CI_Model {
               {
                   $this->db->where('CVV2ResponseMessaaget', $search_array['CVV2ResponseMessage']);
               }
-              
-              if ($search_array['UpdateDate'] != NULL)
-              {
-                  $this->db->where('UpdateDate', $search_array['UpdateDate']);
-              }
              
               if ($search_array['SerialNumber'] != NULL)
               {
@@ -66,11 +69,33 @@ class Search_model extends CI_Model {
               
               return $this->db->get();
               
-          }else // search_array is empty
+          } else // search_array is empty
           {
               return NULL;
           }
           
       }
+
+    /**
+     * Returns the amount of rows for a given query.
+     */
+    public function get_num_results($results)
+    {
+        return $results->num_rows();
+    }
+    
+    /**
+     * Returns the summation of TransactionAmount column.
+     */
+    public function get_total_amount($amount)
+    {
+        $this->db->select('SUM(TransactionAmount) as amt');
+        $this->db->from('payment_response');
+        $this->db->where('TransactionAmount', $amount);
+        $q = $this->db->get();
+        $row = $q->row();
+        
+        return $row->amt;
+    }
       
 }
