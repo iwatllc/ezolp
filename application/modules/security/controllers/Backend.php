@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Backend extends MX_Controller
+class Backend extends CI_Controller
 {
 	function __construct()
 	{
@@ -26,7 +26,7 @@ class Backend extends MX_Controller
 	
 	function users()
 	{
-		$this->load->model('users', 'users');
+		$this->load->model('users', 'users');			
 		
 		// Search checkbox in post array
 		foreach ($_POST as $key => $value)

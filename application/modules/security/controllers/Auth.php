@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Auth extends MX_Controller
+class Auth extends CI_Controller
 {
 	// Used for registering and changing password form validation
 	var $min_username = 4;

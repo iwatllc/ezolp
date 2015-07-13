@@ -6,6 +6,12 @@ class Search extends MX_Controller {
         
     public function __construct()
     {
+        if (!$this->dx_auth->is_logged_in())
+        {
+            // redirect to login page
+            redirect('security/Auth', 'refresh');
+        }
+        
         parent::__construct();
     }
     

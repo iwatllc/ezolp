@@ -19,6 +19,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <!--<![endif]-->
 
 <?php $this->load->view('header'); ?>
+
+<!-- begin tablesorter -->
+<script type="text/javascript" src="/path/to/jquery-latest.js"></script> 
+<script type="text/javascript" src="/path/to/jquery.tablesorter.js"></script>
+<script>
+    $(document).ready(function() 
+        { 
+            $("#myTable").tablesorter(); 
+        } 
+    );
+</script>
+<!-- end tablesorter -->
+
+
 <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
 <script src="//code.jquery.com/jquery-1.10.2.js"></script>
 <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
@@ -28,7 +42,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         $( "#datepicker2" ).datepicker({defaultDate: null});
     });
 </script>
-    
+
 <head>
     <title><?php echo $title; ?></title>
 </head>
@@ -194,58 +208,60 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <h4 class="panel-title">SEARCH RESULTS</h4>
                     </div>
                         <div class="panel-body">
-                            <div class="table-responsive">
-                                <table class="table table-bordered">
-                                    <thead>
-                                        <?php 
-                                        if (isset($results))
-                                        {
-                                            if ($results->num_rows() > 0)
-                                            { ?>
-                                                <tr>
-                                                    <th>ID</th>
-                                                    <th>Transaction Date</th>
-                                                    <th>Payment Source</th>
-                                                    <th>Transaction Amount</th>
-                                                    <th>Approval Code</th>
-                                                    <th>Order Number</th>
-                                                    <th>CVV2 Result</th>
-                                                    <th>Batch Number</th>
-                                                </tr>
-                                    </thead>
-                                    <tbody>
-                                        <?php
-                                        foreach ($results->result() as $result)
-                                        {
-                                            echo "<tr>";
-                                                echo "<td>";
-                                                    echo $result->PaymentTransactionId;
-                                                echo "</td>";
-                                                echo "<td>";
-                                                    echo $result->InsertDate;
-                                                echo "</td>";
-                                                echo "<td>";
-                                                    echo $result->PaymentSource;
-                                                echo "</td>";
-                                                echo "<td>";
-                                                    echo $result->TransactionAmount;
-                                                echo "</td>";
-                                                echo "<td>";
-                                                    echo $result->AuthCode;
-                                                echo "</td>";
-                                                echo "<td>";
-                                                    echo $result->OrderNumber;
-                                                echo "</td>";
-                                                echo "<td>";
-                                                    echo $result->CVV2ResponseMessage;
-                                                echo "</td>";
-                                                echo "<td>";
-                                                    echo $result->SerialNumber;
-                                                echo "</td>";
-                                            echo "<tr>";
-                                        } ?>
-                                    </tbody>
-                                </table>
+                            
+                                    <div class="table-responsive">
+                                        <table id="myTable" class="table table-bordered tablesorter">
+                                            <thead>
+                                                <?php 
+                                                if (isset($results))
+                                                {
+                                                    if ($results->num_rows() > 0)
+                                                    { ?>
+                                                        <tr>
+                                                            <th>ID</th>
+                                                            <th>Transaction Date</th>
+                                                            <th>Payment Source</th>
+                                                            <th>Transaction Amount</th>
+                                                            <th>Approval Code</th>
+                                                            <th>Order Number</th>
+                                                            <th>CVV2 Result</th>
+                                                            <th>Batch Number</th>
+                                                        </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php
+                                                foreach ($results->result() as $result)
+                                                {
+                                                    echo "<tr>";
+                                                        echo "<td>";
+                                                            echo $result->PaymentTransactionId;
+                                                        echo "</td>";
+                                                        echo "<td>";
+                                                            echo $result->InsertDate;
+                                                        echo "</td>";
+                                                        echo "<td>";
+                                                            echo $result->PaymentSource;
+                                                        echo "</td>";
+                                                        echo "<td>";
+                                                            echo $result->TransactionAmount;
+                                                        echo "</td>";
+                                                        echo "<td>";
+                                                            echo $result->AuthCode;
+                                                        echo "</td>";
+                                                        echo "<td>";
+                                                            echo $result->OrderNumber;
+                                                        echo "</td>";
+                                                        echo "<td>";
+                                                            echo $result->CVV2ResponseMessage;
+                                                        echo "</td>";
+                                                        echo "<td>";
+                                                            echo $result->SerialNumber;
+                                                        echo "</td>";
+                                                    echo "<tr>";
+                                                } ?>
+                                            </tbody>
+                                        </table>
+                                </div>
                                             <?php
                                             } else
                                             {
@@ -256,13 +272,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                         {
                                             echo 'Please input info to search.';
                                         } ?>
-                            </div>
                         </div>
                     </div>
                 </div>
     
     </div>
     <!-- end #content -->
+
+    <!-- begin scroll to top btn -->
+    <a href="javascript:;" class="btn btn-icon btn-circle btn-success btn-scroll-to-top fade" data-click="scroll-top"><i class="fa fa-angle-up"></i></a>
+    <!-- end scroll to top btn -->
 
 </div>    
 <!-- end page container -->

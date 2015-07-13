@@ -28,6 +28,12 @@ class Testpage extends CI_Controller {
 
     public function __construct()
     {
+        if (!$this->ion_auth->logged_in())
+        {
+            //redirect to the login page
+            redirect('auth/login', 'refresh');
+        }
+        
         parent::__construct();
         // Your own constructor code
         //$this->dx_auth->check_uri_permissions();
