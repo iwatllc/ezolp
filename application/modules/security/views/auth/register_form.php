@@ -1,14 +1,39 @@
 <?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+
 $username = array(
 	'name'	=> 'username',
 	'id'	=> 'username',
+	'class' => 'form-control',
+	'placeholder' => 'Username',
 	'size'	=> 30,
 	'value' =>  set_value('username')
+);
+
+$email = array(
+    'name'  => 'email',
+    'id'    => 'email',
+    'class' => 'form-control',
+    'placeholder' => 'Email',
+    'maxlength' => 80,
+    'size'  => 30,
+    'value' => set_value('email')
+);
+
+$confirm_email = array(
+    'name'  => 'confirm_email',
+    'id'    => 'confirm_email',
+    'class' => 'form-control',
+    'placeholder' => 'Confirm Email',
+    'size'  => 30,
+    'value' => set_value('confirm_email')
 );
 
 $password = array(
 	'name'	=> 'password',
 	'id'	=> 'password',
+	'class' => 'form-control',
+    'placeholder' => 'Password',
 	'size'	=> 30,
 	'value' => set_value('password')
 );
@@ -16,81 +41,188 @@ $password = array(
 $confirm_password = array(
 	'name'	=> 'confirm_password',
 	'id'	=> 'confirm_password',
+    'class' => 'form-control',
+    'placeholder' => 'Confirm Password',
 	'size'	=> 30,
 	'value' => set_value('confirm_password')
 );
 
-$email = array(
-	'name'	=> 'email',
-	'id'	=> 'email',
-	'maxlength'	=> 80,
-	'size'	=> 30,
-	'value'	=> set_value('email')
+$register = array(
+    'name' => 'register',
+    'id' => 'register',
+    'value' => 'Sign Up',
+    'class' => 'btn btn-primary btn-block btn-lg'
 );
+
 ?>
 
-<html>
-<body>
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="en">
+<!--<![endif]-->
+<head>
+    <meta charset="utf-8" />
+    <title>Color Admin | Register Page</title>
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
+    <meta content="" name="description" />
+    <meta content="" name="author" />
+    
+    <!-- ================== BEGIN BASE CSS STYLE ================== -->
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
+    <link href="<?php echo base_url(); ?>assets/plugins/jquery-ui/themes/base/minified/jquery-ui.min.css" rel="stylesheet" />
+    <link href="<?php echo base_url(); ?>assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="<?php echo base_url(); ?>assets/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="<?php echo base_url(); ?>assets/css/animate.min.css" rel="stylesheet" />
+    <link href="<?php echo base_url(); ?>assets/css/style.min.css" rel="stylesheet" />
+    <link href="<?php echo base_url(); ?>assets/css/style-responsive.min.css" rel="stylesheet" />
+    <link href="<?php echo base_url(); ?>assets/css/theme/default.css" rel="stylesheet" id="theme" />
+    <!-- ================== END BASE CSS STYLE ================== -->
+    
+    <!-- ================== BEGIN BASE JS ================== -->
+    <script src="<?php echo base_url(); ?>assets/plugins/pace/pace.min.js"></script>
+    <!-- ================== END BASE JS ================== -->
+    
+    <?php echo form_open($this->uri->uri_string())?>
+</head>
 
-<fieldset><legend>Register</legend>
-<?php echo form_open($this->uri->uri_string())?>
+<body class="pace-top bg-white">
+    <!-- begin #page-loader -->
+    <div id="page-loader" class="fade in"><span class="spinner"></span></div>
+    <!-- end #page-loader -->
+    
+    <!-- begin #page-container -->
+    <div id="page-container" class="fade">
+        <!-- begin register -->
+        <div class="register register-with-news-feed">
+            <!-- begin news-feed -->
+            <div class="news-feed">
+                <div class="news-image">
+                    <img src="assets/img/login-bg/bg-8.jpg" alt="" />
+                </div>
+                <div class="news-caption">
+                    <h4 class="caption-title"><i class="fa fa-edit text-success"></i> Announcing the Color Admin app</h4>
+                    <p>
+                        As a Color Admin Apps administrator, you use the Color Admin console to manage your organization’s account, such as add new users, manage security settings, and turn on the services you want your team to access.
+                    </p>
+                </div>
+            </div>
+            <!-- end news-feed -->
+            <!-- begin right-content -->
+            <div class="right-content">
+                <!-- begin register-header -->
+                <h1 class="register-header">
+                    Sign Up
+                    <small>Create your Color Admin Account. It’s free and always will be.</small>
+                </h1>
+                <!-- end register-header -->
+                <!-- begin register-content -->
+                <div class="register-content">
+                    <form action="index.html" method="POST" class="margin-bottom-0">
+                        <label class="control-label">Username</label>
+                        <div class="row row-space-10">
+                            <div class="col-md-6 m-b-15">
+                                <?php echo form_input($username)?>
+                                <?php echo form_error($username['name']); ?>
+                            </div>
+                        </div>
+                        <label class="control-label">Email</label>
+                        <div class="row m-b-15">
+                            <div class="col-md-12">
+                                <?php echo form_input($email);?>
+                                <?php echo form_error($email['name']); ?>                            
+                            </div>
+                        </div>
+                        <label class="control-label">Re-enter Email</label>
+                        <div class="row m-b-15">
+                            <div class="col-md-12">
+                                <input type="text" class="form-control" placeholder="Re-enter email address" />
+                            </div>
+                        </div>
+                        <label class="control-label">Password</label>
+                        <div class="row m-b-15">
+                            <div class="col-md-12">
+                                <?php echo form_password($password)?>
+                                <?php echo form_error($password['name']); ?>
+                            </div>
+                        </div>
+                        <label class="control-label">Re-enter Password</label>
+                        <div class="row m-b-15">
+                            <div class="col-md-12">
+                                <?php echo form_password($confirm_password);?>
+                                <?php echo form_error($confirm_password['name']); ?>                            </div>
+                        </div>
+                        
+                        <?php if ($this->dx_auth->captcha_registration): ?>
+                            <?php 
+                                // Show recaptcha imgage
+                                echo $this->dx_auth->get_recaptcha_image(); 
+                                // Show reload captcha link
+                                echo $this->dx_auth->get_recaptcha_reload_link(); 
+                                // Show switch to image captcha or audio link
+                                echo $this->dx_auth->get_recaptcha_switch_image_audio_link(); 
+                            ?>
 
-<dl>
-	<dt><?php echo form_label('Username', $username['id']);?></dt>
-	<dd>
-		<?php echo form_input($username)?>
-    <?php echo form_error($username['name']); ?>
-	</dd>
+                            <?php echo $this->dx_auth->get_recaptcha_label(); ?>
+    
+                            <?php echo $this->dx_auth->get_recaptcha_input(); ?>
+                            <?php echo form_error('recaptcha_response_field'); ?>
+    
+                            <?php 
+                                // Get recaptcha javascript and non javasript html
+                                echo $this->dx_auth->get_recaptcha_html();
+                            ?>
+                        <?php endif; ?>
+                        
+                        <div class="checkbox m-b-30">
+                            <label>
+                                <input type="checkbox" /> By clicking Sign Up, you agree to our <a href="#">Terms</a> and that you have read our <a href="#">Data Policy</a>, including our <a href="#">Cookie Use</a>.
+                            </label>
+                        </div>
+                        <div class="register-buttons">
+                            <?php echo form_submit($register);?>
+                        </div>
+                        <div class="m-t-20 m-b-40 p-b-40">
+                            Already a member? Click <a href="login">here</a> to login.
+                        </div>
+                        <hr />
+                        <p class="text-center text-inverse">
+                            &copy; Color Admin All Right Reserved 2015
+                        </p>
+                    </form>
+                </div>
+                <!-- end register-content -->
+            </div>
+            <!-- end right-content -->
+        </div>
+        <!-- end register -->
+        
+        <?php echo form_close()?>
+        
+    </div>
+    <!-- end page container -->
+    
+    <!-- ================== BEGIN BASE JS ================== -->
+    <script src="<?php echo base_url(); ?>assets/plugins/jquery/jquery-1.9.1.min.js"></script>
+    <script src="<?php echo base_url(); ?>assets/plugins/jquery/jquery-migrate-1.1.0.min.js"></script>
+    <script src="<?php echo base_url(); ?>assets/plugins/jquery-ui/ui/minified/jquery-ui.min.js"></script>
+    <script src="<?php echo base_url(); ?>assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+    <!--[if lt IE 9]>
+        <script src="assets/crossbrowserjs/html5shiv.js"></script>
+        <script src="assets/crossbrowserjs/respond.min.js"></script>
+        <script src="assets/crossbrowserjs/excanvas.min.js"></script>
+    <![endif]-->
+    <script src="<?php echo base_url(); ?>assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+    <script src="<?php echo base_url(); ?>assets/plugins/jquery-cookie/jquery.cookie.js"></script>
+    <!-- ================== END BASE JS ================== -->
+    
+    <!-- ================== BEGIN PAGE LEVEL JS ================== -->
+    <script src="<?php echo base_url(); ?>assets/js/apps.min.js"></script>
+    <!-- ================== END PAGE LEVEL JS ================== -->
 
-	<dt><?php echo form_label('Password', $password['id']);?></dt>
-	<dd>
-		<?php echo form_password($password)?>
-    <?php echo form_error($password['name']); ?>
-	</dd>
-
-	<dt><?php echo form_label('Confirm Password', $confirm_password['id']);?></dt>
-	<dd>
-		<?php echo form_password($confirm_password);?>
-		<?php echo form_error($confirm_password['name']); ?>
-	</dd>
-
-	<dt><?php echo form_label('Email Address', $email['id']);?></dt>
-	<dd>
-		<?php echo form_input($email);?>
-		<?php echo form_error($email['name']); ?>
-	</dd>
-		
-<?php if ($this->dx_auth->captcha_registration): ?>
-
-	<dt></dt>
-	<dd>
-		<?php 
-			// Show recaptcha imgage
-			echo $this->dx_auth->get_recaptcha_image(); 
-			// Show reload captcha link
-			echo $this->dx_auth->get_recaptcha_reload_link(); 
-			// Show switch to image captcha or audio link
-			echo $this->dx_auth->get_recaptcha_switch_image_audio_link(); 
-		?>
-	</dd>
-
-	<dt><?php echo $this->dx_auth->get_recaptcha_label(); ?></dt>
-	<dd>
-		<?php echo $this->dx_auth->get_recaptcha_input(); ?>
-		<?php echo form_error('recaptcha_response_field'); ?>
-	</dd>
-	
-	<?php 
-		// Get recaptcha javascript and non javasript html
-		echo $this->dx_auth->get_recaptcha_html();
-	?>
-<?php endif; ?>
-
-	<dt></dt>
-	<dd><?php echo form_submit('register','Register');?></dd>
-</dl>
-
-<?php echo form_close()?>
-</fieldset>
+    <script>
+        $(document).ready(function() {
+            App.init();
+        });
+    </script>
 </body>
-</html>

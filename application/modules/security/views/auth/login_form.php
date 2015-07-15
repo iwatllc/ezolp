@@ -108,6 +108,9 @@ $submit = array(
                     <div class="login-buttons">
                         <?php echo form_submit($submit);?>
                     </div>
+                    <div class="m-t-20">
+                        Not a member yet? Click <a href="Auth/register">here</a> to register.
+                    </div>
                 </form>
             </div>
         </div>
