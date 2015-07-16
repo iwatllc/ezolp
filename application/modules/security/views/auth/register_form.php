@@ -63,7 +63,7 @@ $register = array(
 <!--<![endif]-->
 <head>
     <meta charset="utf-8" />
-    <title>Color Admin | Register Page</title>
+    <title>Color Admin | Register</title>
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
     <meta content="" name="description" />
     <meta content="" name="author" />
@@ -86,114 +86,102 @@ $register = array(
     <?php echo form_open($this->uri->uri_string())?>
 </head>
 
-<body class="pace-top bg-white">
+<body class="pace-top">
     <!-- begin #page-loader -->
     <div id="page-loader" class="fade in"><span class="spinner"></span></div>
     <!-- end #page-loader -->
     
     <!-- begin #page-container -->
     <div id="page-container" class="fade">
-        <!-- begin register -->
-        <div class="register register-with-news-feed">
-            <!-- begin news-feed -->
-            <div class="news-feed">
-                <div class="news-image">
-                    <img src="assets/img/login-bg/bg-8.jpg" alt="" />
+        <!-- begin brand -->
+        <div class="login bg-black animated fadeInDown">
+            <!-- begin news-feed -->            
+            <div class="login-header">
+                <div class="brand">
+                    <span class="logo"></span> EZOLP
+                    <small>Register for EZ Online Pay</small>
                 </div>
-                <div class="news-caption">
-                    <h4 class="caption-title"><i class="fa fa-edit text-success"></i> Announcing the Color Admin app</h4>
-                    <p>
-                        As a Color Admin Apps administrator, you use the Color Admin console to manage your organization’s account, such as add new users, manage security settings, and turn on the services you want your team to access.
-                    </p>
+                <div class="icon">
+                    <i class="fa fa-sign-in"></i>
                 </div>
             </div>
-            <!-- end news-feed -->
-            <!-- begin right-content -->
-            <div class="right-content">
-                <!-- begin register-header -->
-                <h1 class="register-header">
-                    Sign Up
-                    <small>Create your Color Admin Account. It’s free and always will be.</small>
-                </h1>
-                <!-- end register-header -->
+            <!-- end brand -->
                 <!-- begin register-content -->
-                <div class="register-content">
+                <div class="login-content">
                     <form action="index.html" method="POST" class="margin-bottom-0">
                         <label class="control-label">Username</label>
-                        <div class="row row-space-10">
-                            <div class="col-md-6 m-b-15">
+                        <div class="form-group m-b-20">
+                            <div class="col-md-12">
                                 <?php echo form_input($username)?>
                                 <?php echo form_error($username['name']); ?>
                             </div>
                         </div>
                         <label class="control-label">Email</label>
-                        <div class="row m-b-15">
+                        <div class="form-group m-b-20">
                             <div class="col-md-12">
                                 <?php echo form_input($email);?>
                                 <?php echo form_error($email['name']); ?>                            
                             </div>
                         </div>
                         <label class="control-label">Re-enter Email</label>
-                        <div class="row m-b-15">
+                        <div class="form-group m-b-20">
                             <div class="col-md-12">
-                                <input type="text" class="form-control" placeholder="Re-enter email address" />
+                                <?php echo form_password($confirm_email);?>
+                                <?php echo form_error($confirm_email['name']); ?>
                             </div>
                         </div>
                         <label class="control-label">Password</label>
-                        <div class="row m-b-15">
+                        <div class="form-group m-b-20">
                             <div class="col-md-12">
                                 <?php echo form_password($password)?>
                                 <?php echo form_error($password['name']); ?>
                             </div>
                         </div>
                         <label class="control-label">Re-enter Password</label>
-                        <div class="row m-b-15">
+                        <div class="form-group m-b-20">
                             <div class="col-md-12">
                                 <?php echo form_password($confirm_password);?>
-                                <?php echo form_error($confirm_password['name']); ?>                            </div>
+                                <?php echo form_error($confirm_password['name']); ?>                            
+                            </div>
                         </div>
                         
-                        <?php if ($this->dx_auth->captcha_registration): ?>
-                            <?php 
-                                // Show recaptcha imgage
-                                echo $this->dx_auth->get_recaptcha_image(); 
-                                // Show reload captcha link
-                                echo $this->dx_auth->get_recaptcha_reload_link(); 
-                                // Show switch to image captcha or audio link
-                                echo $this->dx_auth->get_recaptcha_switch_image_audio_link(); 
-                            ?>
-
-                            <?php echo $this->dx_auth->get_recaptcha_label(); ?>
+                        <div class="col-md-12">
+                            <?php if ($this->dx_auth->captcha_registration): ?>
+                                <?php 
+                                    // Show recaptcha imgage
+                                    echo $this->dx_auth->get_recaptcha_image(); 
+                                    // Show reload captcha link
+                                    echo $this->dx_auth->get_recaptcha_reload_link(); 
+                                    // Show switch to image captcha or audio link
+                                    echo $this->dx_auth->get_recaptcha_switch_image_audio_link(); 
+                                ?>
     
-                            <?php echo $this->dx_auth->get_recaptcha_input(); ?>
-                            <?php echo form_error('recaptcha_response_field'); ?>
-    
-                            <?php 
-                                // Get recaptcha javascript and non javasript html
-                                echo $this->dx_auth->get_recaptcha_html();
-                            ?>
-                        <?php endif; ?>
+                                <?php echo $this->dx_auth->get_recaptcha_label(); ?>
+        
+                                <?php echo $this->dx_auth->get_recaptcha_input(); ?>
+                                <?php echo form_error('recaptcha_response_field'); ?>
+        
+                                <?php 
+                                    // Get recaptcha javascript and non javasript html
+                                    echo $this->dx_auth->get_recaptcha_html();
+                                ?>
+                            <?php endif; ?>
+                        </div>
                         
-                        <div class="checkbox m-b-30">
+                        <div class="checkbox m-b-20">
                             <label>
                                 <input type="checkbox" /> By clicking Sign Up, you agree to our <a href="#">Terms</a> and that you have read our <a href="#">Data Policy</a>, including our <a href="#">Cookie Use</a>.
                             </label>
                         </div>
-                        <div class="register-buttons">
+                        <div class="login-buttons">
                             <?php echo form_submit($register);?>
                         </div>
                         <div class="m-t-20 m-b-40 p-b-40">
                             Already a member? Click <a href="login">here</a> to login.
                         </div>
-                        <hr />
-                        <p class="text-center text-inverse">
-                            &copy; Color Admin All Right Reserved 2015
-                        </p>
                     </form>
                 </div>
                 <!-- end register-content -->
-            </div>
-            <!-- end right-content -->
         </div>
         <!-- end register -->
         
@@ -226,3 +214,4 @@ $register = array(
         });
     </script>
 </body>
+</html>
