@@ -90,6 +90,10 @@
                                     $options[$role->id] = $role->name;
                                 }
                             
+                                // Table format options
+                                $tmpl = array ( 'table_open' => '<table border="1" cellpadding="2" cellspacing="1" style="width:100%; border-collapse: separate;"' );
+                                $this->table->set_template($tmpl);
+                                
                                 // Build table
                                 $this->table->set_heading('', 'ID', 'Name', 'Parent ID');
                                 

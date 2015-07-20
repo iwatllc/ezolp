@@ -14,8 +14,6 @@ $cancel = array(
 
 ?>
 
-
-
 <!DOCTYPE html>
 <!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
 <!--[if !IE]><!-->
@@ -30,7 +28,7 @@ $cancel = array(
 <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 
 <head>
-    <title><?php echo 'EZOLP | Forgot Password'; ?></title>
+    <title><?php echo 'EZOLP | Cancel Account'; ?></title>
 </head>
     
 <body class = "flat-back">
@@ -83,8 +81,10 @@ $cancel = array(
                             <?php echo form_input($password); ?> 
                             <?php echo form_error($password['name']); ?>
                         </div>
-
                     </div>
+                    
+                    <br />
+                    
                     <div class="form-group">
                         <div class="col-md-9">
                             <?php echo form_submit($cancel); ?>                                        

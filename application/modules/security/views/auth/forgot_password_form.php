@@ -87,8 +87,10 @@ $reset = array(
                             <?php echo form_input($login); ?> 
                             <?php echo form_error($login['name']); ?>
                         </div>
-
                     </div>
+                    
+                    <br/>
+                    
                     <div class="form-group">
                         <div class="col-md-9">
                             <?php echo form_submit($reset); ?>                                        

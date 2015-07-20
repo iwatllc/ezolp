@@ -6,7 +6,6 @@
 
 <?php $this->load->view('header'); ?>
 
-
 <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
 <script src="//code.jquery.com/jquery-1.10.2.js"></script>
 <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
@@ -128,16 +127,18 @@
                                 );
                                 
                                 echo form_submit($save);
-                                
+                              
+                            ?>  
+                        </div>
+                    </div>
+                            <?php
                                 echo '<br/>';
                                 
-                                echo 'Open '.anchor('auth/custom_permissions/').' to see the result, try to login using user that you have changed.<br/>';
+                                echo 'Open '.anchor('/security/backend/users/').' to see the result, try to login using user that you have changed.<br/>';
                                 echo 'If you change your own role, you need to relogin to see the result changes.';
                                 
                                 echo form_close();
                             ?>
-                        </div>
-                    </div>
                 </div>
             </div>   
         </div>

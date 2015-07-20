@@ -88,6 +88,10 @@
                             // Show error
                             echo validation_errors();
                             
+                            // Table options
+                            $tmpl = array ( 'table_open' => '<table border="1" cellpadding="2" cellspacing="1" style="width:100%; border-collapse: separate;"' );
+                            $this->table->set_template($tmpl);
+                            
                             $this->table->set_heading('', 'Username', 'Email', 'Role', 'Banned', 'Last IP', 'Last login', 'Created');
                             
                             foreach ($users as $user) 
