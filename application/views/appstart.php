@@ -69,7 +69,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <body>
 
 <div id="container">
-	<h1>Welcome to Scotland Podiatry's ezonlinepay site</h1>
+	<h1>Welcome to ez online pay</h1>
 </div>
 
 <br>
