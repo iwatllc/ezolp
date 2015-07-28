@@ -48,7 +48,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <div class="row">
             <!-- begin col-12 -->
             <div class="col-12">
-                <?php $attributes = array('class' => 'form-horizontal form-bordered', 'id' => 'vtpaymentform'); ?>
+                <?php $attributes = array('class' => 'form-horizontal', 'id' => 'vtpaymentform'); ?>
                 <?php echo form_open('virtualterminal/submit', $attributes); ?>
                     <!-- begin panel -->
                     <div class="panel panel-inverse" >
