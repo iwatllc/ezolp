@@ -23,20 +23,36 @@ class Npc extends MX_Controller
         if (empty($data['streetaddress']))
         {
             $streetaddress = 'None';
+        } else {
+            $streetaddress = $data['streetaddress'];
         }
+
         if (empty($data['streetaddress2']))
         {
             $streetaddress2 = '';
+        } else {
+            $streetaddress2 = $data['streetaddress'];
         }
+
         if (empty($data['city']))
         {
             $city = 'None';
-        }if (empty($data['state']))
+        } else {
+            $city = $data['city'];
+        }
+
+        if (empty($data['state']))
         {
             $state = 'NA';
-        }if (empty($data['zip']))
+        } else {
+            $state = $data['state'];
+        }
+
+        if (empty($data['zip']))
         {
             $zip = '55555';
+        } else {
+            $zip = $data['zip'];
         }
 
 
