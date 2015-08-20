@@ -60,7 +60,7 @@ $autoload['packages'] = array('Database');
 |	$autoload['libraries'] = array('user_agent' => 'ua');
 */
 
-$autoload['libraries'] = array('dx_auth', 'form_validation');
+$autoload['libraries'] = array('DX_Auth', 'form_validation');
 
 
 /*
