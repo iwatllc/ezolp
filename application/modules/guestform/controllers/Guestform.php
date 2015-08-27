@@ -76,6 +76,7 @@ class Guestform extends MX_Controller {
                 'city' => $this->input->post('city'),
                 'state' => $this->input->post('state'),
                 'zip' => $this->input->post('zip'),
+                'email' => $this->input->post('email'),
                 'notes' => $this->input->post('notes'),
                 'cclast4' => substr($this->input->post('creditcard'), -4),
                 'amount' => str_replace( ',', '', $this->input->post('paymentamount') ),

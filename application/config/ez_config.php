@@ -15,4 +15,4 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | This is the option to set for the system to use the gateway model.
 |
 */
-$config['GATEWAY'] = 'NPC';
+ $config['GATEWAY'] = 'NPC';

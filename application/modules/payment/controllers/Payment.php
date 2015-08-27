@@ -20,29 +20,42 @@ class Payment extends MX_Controller
         // Save the initial data before processing.
         // SAVE SUBMITTED FORM DATA
         $this->load->model('Payment_model', 'Payment');
+		$gateway = $this->config->item('Gateway');
         $payment_data = array(
             'PaymentTransactionid' => $data['transaction_id'],
             'PaymentSource' => $data['PaymentSource'],
             'TransactionAmount' => $data['amount'],
-            'InsertDate' => date('Y-n-j H:i:s')
+            'InsertDate' => date('Y-n-j H:i:s'),
+			'Gateway' => $gateway
         );
         $payment_id = $this->Payment->save($payment_data);
 
-        //  Might need to develop an interface for the data coming out
-        //  and make the gateway give it to us in the correct format.
-        //  What gateway should we use??  Not sure but will hard code for now.
-        //  Later we will pull this from database config.
-        // TODO put a case statement in for other gateways when we are ready to add them.
-        $gateway = $this->config->item('Gateway');
+		log_message('debug', "Gateway is set -> " . $gateway);
+		if(strcmp($gateway, 'NPC') == 0) {
+			//Gateway is NPC
+			$post_payment_data = $this->_NPC_post_payment($data);
+		}
 
+		else if(strcmp($gateway, 'NMI') == 0) {
+			//Gateway is NMI
+			$post_payment_data = $this->_NMI_post_payment($data);	
+		}
+		else {
+			show_error("Unrecognized gateway '". $gateway . "'");
+		}
+		
+        $this->Payment->update($post_payment_data, $payment_id);
 
-        // Hard coding the NPC gateway usage.
-        $this->load->module('npc');
+        return $post_payment_data;
+
+    }
+
+	private function _NPC_post_payment($data)
+	{
+		$this->load->module('npc');
         $result_data = $this->npc->post_payment($data);
 
-
-        // SAVE THE RESULT OF THE PAYMENT PROCESSING
-        $post_payment_data = array(
+        return array(
             'AuthCode' => $result_data['AUTHCODE'],
             'SerialNumber' => $result_data['szSerialNumber'],
             'AuthorizationDeclinedMessage' => $result_data['szAuthorizationDeclinedMessage'],
@@ -58,14 +71,25 @@ class Payment extends MX_Controller
             'CAVVResponseCode' => $result_data['szCAVVResponseCode'],
             'ResponseHTML' => $result_data['html'],
             'UpdateDate' => date('Y-n-j H:i:s')
+        );		
+	}
+	
+	private function _NMI_post_payment($data)
+	{
+		$this->load->module('nmi');
+		$result_data = $this->nmi->doSale($data);
+		
+		return array(
+            'AuthCode' => $result_data['authcode'],
+            'AVSResponseCode' => $result_data['avsresponse'],
+            'OrderNumber' => $result_data['orderid'],
+            'IsApproved' => $result_data['response'],
+            'CVV2ResponseCode' => $result_data['cvvresponse'],
+            'ReturnCode' => $result_data['response_code'],
+            'TransactionFileName' => $result_data['transactionid'],
+            'ResponseHTML' => $result_data['responsetext'],
+            'UpdateDate' => date('Y-n-j H:i:s')
         );
-
-        $this->Payment->update($post_payment_data, $payment_id);
-
-
-        return $post_payment_data;
-
-    }
-
-
+	}
+	
 }

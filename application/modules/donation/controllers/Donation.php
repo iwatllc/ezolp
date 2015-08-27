@@ -1,14 +1,14 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: robertfulcher
- * Date: 2/9/15
- * Time: 7:07 PM
+ * Created by Aptana.
+ * User: gregarnold
+ * Date: 8/27/15
+ * Time: 7:07 AM
  */
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Robvincent extends MX_Controller {
+class Donation extends MX_Controller {
 
 
 
@@ -27,19 +27,18 @@ class Robvincent extends MX_Controller {
 
     }
 
-
     public function index()
     {
 
         $clientname = $this->configsys->get_config_value('clientname');
         $view_vars = array(
-            'title' => 'Robert H. Vincent',
+            'title' => $clientname,
             'heading' => 'THANK YOU FOR YOUR SUPPORT',
-            'description' => 'Robert H. Vincent',
+            'description' => $clientname,
             'author' => 'EZ Online Pay ' . date("Y")
         );
         $data['page_data'] = $view_vars;
-        $this->load->view('robvincentform', $data);
+        $this->load->view('donationform', $data);
     }
 
 
@@ -61,13 +60,13 @@ class Robvincent extends MX_Controller {
         if ($this->form_validation->run() == FALSE)
         {
             $data['page_data'] = $this->data;
-            $this->load->view('robvincentform', $data);
+            $this->load->view('donationform', $data);
         }
         else
         {
 
             // SAVE SUBMITTED FORM DATA
-            $this->load->model('Robvincent_model', 'Robvincent');
+            $this->load->model('Donation_model', 'Donation');
 
             $submitted_data = array(
                 'name' => $this->input->post('fullname'),
@@ -84,7 +83,7 @@ class Robvincent extends MX_Controller {
 
 
             // Get insertd record id to use as transaction id.
-            $transaction_id = $this->Robvincent->save($submitted_data);
+            $transaction_id = $this->Donation->save($submitted_data);
 
             // Add transaction id to submitted data and pass to payment method.
             $submitted_data['transaction_id'] = $transaction_id;
@@ -92,7 +91,7 @@ class Robvincent extends MX_Controller {
             $submitted_data['expirationmonth'] = $this->input->post('expirationmonth');
             $submitted_data['expirationyear'] = $this->input->post('expirationyear');
             $submitted_data['cvv2'] = $this->input->post('cvv2');
-            $submitted_data['PaymentSource'] = 'RV';
+            $submitted_data['PaymentSource'] = 'DN';
 
 
             // PROCESS CREDIT CARD DATA
@@ -111,7 +110,7 @@ class Robvincent extends MX_Controller {
             $data['result_data'] = $result_data;
             $data['submitted_data'] = $submitted_data;
 
-            $this->load->view('robvincentformresult', $data);
+            $this->load->view('donationformresult', $data);
         }
 
 

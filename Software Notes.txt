@@ -7,3 +7,67 @@ DX_Auth
 To be added
 Assetic
 CI_Assetic
+
+
+
+********************NMI Information********************
+Security Card Services Demo Payment Gateway
+
+
+Thank you for using Security Card Services Demo. We welcome you as our newest member.
+
+
+Login Information  You can access your Control Panel by using the following information. If this is your first time logging in, you will be required to generate a password.
+
+Login URL: https://securitycardservices.transactiongateway.com/r/9xmsz
+Username: RFulcherLeveliii
+pCLx4T2j7kVNNHPE
+
+
+Required Fields  Please provide these details to the appropriate party such as your web programmer or web developer.
+
+The following fields will be required when processing credit card transactions.
+
+Credit Card Number, Expiration Date, Amount
+
+As always, customer service is our number one priority. Please let us know if we can be of assistance. If you have any questions or comments, please contact us directly at support@scservicesllc.com, or call us at 877-995-9198.
+
+
+--
+Security Card Services Demo
+support@scservicesllc.com
+877-995-9198/ Tel
+
+
+
+Transaction Works Payment Gateway
+
+www.test.com
+
+Thank you for using Transaction Works. We welcome you as our newest member.
+
+
+Login Information  You can access your Control Panel by using the following information. If this is your first time logging in, you will be required to generate a password.
+
+Company: Security Card Services LLC
+Login URL: https://secure.nmi.com/r/z7gtu
+Username: RFulcher
+YFTktRuSZr8Gaz4M
+
+
+Required Fields  Please provide these details to the appropriate party such as your web programmer or web developer.
+
+The following fields will be required when processing credit card transactions.
+
+Credit Card Number, Expiration Date, Amount
+
+As always, customer service is our number one priority. Please let us know if we can be of assistance. If you have any questions or comments, please contact us directly at support@example.com, or call us at 800-555-1212.
+
+
+--
+Gateway Test Account
+support@example.com
+800-555-1212/ Tel
+555-595-5641/ Fax
+www.test.com
+********************End NMI Information********************

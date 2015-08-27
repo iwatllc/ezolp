@@ -25,7 +25,6 @@ class Virtualterminal extends MX_Controller {
 
     }
 
-
     public function index()
     {
         // Gather all the info for the view
