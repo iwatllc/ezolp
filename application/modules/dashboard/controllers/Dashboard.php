@@ -21,11 +21,13 @@ class Dashboard extends MX_Controller {
         $this->load->helper('url');
         $this->load->load->library('session');
         
-        $this->load->model('Dashboard_model', 'Dashboard');
+        $data['username'] = $this->session->userdata('DX_username');
         
+        $this->load->model('Dashboard_model', 'Dashboard');
+
         $view_vars = array(
             'title' => 'EZ Online Pay | Virtual Terminal Payment Form',
-            'heading' => '',
+            'heading' => 'Welcome',
             'description' => '',
             'author' => 'EZ Online Pay 2015 ' . date("Y")
         );

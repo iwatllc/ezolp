@@ -126,7 +126,7 @@ $register = array(
                         <label class="control-label">Re-enter Email</label>
                         <div class="form-group m-b-20">
                             <div class="col-md-12">
-                                <?php echo form_password($confirm_email);?>
+                                <?php echo form_input($confirm_email);?>
                                 <?php echo form_error($confirm_email['name']); ?>
                             </div>
                         </div>
@@ -148,7 +148,7 @@ $register = array(
                         <div class="col-md-12">
                             <?php if ($this->dx_auth->captcha_registration): ?>
                                 <?php 
-                                    // Show recaptcha imgage
+                                    // Show recaptcha image
                                     echo $this->dx_auth->get_recaptcha_image(); 
                                     // Show reload captcha link
                                     echo $this->dx_auth->get_recaptcha_reload_link(); 
