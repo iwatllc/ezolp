@@ -110,7 +110,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         </div>
         <!-- end #content -->
     <?php
-        echo anchor('donate/Robvincent/', 'PROCESS ANOTHER DONATION', array('class' => 'btn btn-primary btn-lg m-r-5 dontprint'));
+        echo anchor('donate/Donation/', 'PROCESS ANOTHER DONATION', array('class' => 'btn btn-primary btn-lg m-r-5 dontprint'));
     ?>
 
     <a href="javascript:window.print()" class="btn btn-primary btn-lg m-r-5 dontprint">PRINT RECEIPT</a>
