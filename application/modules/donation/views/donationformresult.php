@@ -22,7 +22,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <div class="container-fluid">
                 <!-- begin mobile sidebar expand / collapse button -->
                 <div class="navbar-header">
-                    <a href="<?php echo current_url(); ?>"><img src="<?php echo base_url(); ?>/client/logo_pat.jpeg"> <font size="6">&nbsp;&nbsp;&nbsp;Robert H. Vincent For President</font> </a>
+                    <a href="<?php echo current_url(); ?>"><img style="width:100px;" src="<?php echo base_url(); ?>/client/client.jpg"> <font size="6">&nbsp;&nbsp;&nbsp;<?php echo $page_data['title'];?></font> </a>
                     <button type="button" class="navbar-toggle" data-click="sidebar-toggled">
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
@@ -110,7 +110,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         </div>
         <!-- end #content -->
     <?php
-        echo anchor('donate/Donation/', 'PROCESS ANOTHER DONATION', array('class' => 'btn btn-primary btn-lg m-r-5 dontprint'));
+        echo anchor('donation/Donation/', 'PROCESS ANOTHER DONATION', array('class' => 'btn btn-primary btn-lg m-r-5 dontprint'));
     ?>
 
     <a href="javascript:window.print()" class="btn btn-primary btn-lg m-r-5 dontprint">PRINT RECEIPT</a>

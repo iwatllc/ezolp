@@ -51,23 +51,29 @@ class Donation extends MX_Controller {
         $this->form_validation->set_rules('zip', 'Zip Code', 'required|min_length[5]|max_length[5]');
         $this->form_validation->set_rules('email', 'Email', 'valid_email');
         $this->form_validation->set_rules('creditcard', 'Credit Card', 'required|callback_check_creditcard');
-        $this->form_validation->set_rules('expirationmonth', 'Expiration Month', 'required|callback_check_default');
+        $this->form_validation->set_rules('expirationmonth', 'Expiration Month', 'required');
         $this->form_validation->set_rules('expirationyear', 'Expiration Year', 'required');
         $this->form_validation->set_rules('cvv2', 'CVV2 Code', 'required|min_length[3]|max_length[3]');
         $this->form_validation->set_rules('paymentamount', 'Payment Amount', 'required');
+		$this->form_validation->set_rules('otheramount', 'Other Amount', 'callback_check_otheramount');
 
 
-        if ($this->form_validation->run() == FALSE)
+        if ($this->form_validation->run($this) == FALSE)
         {
-            $data['page_data'] = $this->data;
-            $this->load->view('donationform', $data);
+        	$this->index();
         }
         else
         {
 
             // SAVE SUBMITTED FORM DATA
             $this->load->model('Donation_model', 'Donation');
-
+			
+			if(strcasecmp($this->input->post('paymentamount'), 'other') == 0) {
+				$pamount = str_replace( ',', '', $this->input->post('otheramount') );
+			}
+			else {
+				$pamount = str_replace( ',', '', $this->input->post('paymentamount') );
+			}
             $submitted_data = array(
                 'name' => $this->input->post('fullname'),
                 'streetaddress' => $this->input->post('streetaddress'),
@@ -77,7 +83,7 @@ class Donation extends MX_Controller {
                 'zip' => $this->input->post('zip'),
                 'notes' => $this->input->post('notes'),
                 'cclast4' => substr($this->input->post('creditcard'), -4),
-                'amount' => str_replace( ',', '', $this->input->post('paymentamount') ),
+                'amount' => $pamount,
                 'InsertDate' => date('Y-n-j H:i:s')
             );
 
@@ -100,12 +106,13 @@ class Donation extends MX_Controller {
 
 
             // Gather all the info for the view
-            $view_vars = array(
-                'title' => 'EZ Online Pay | Rob Vincent Donation Submission Results',
-                'heading' => 'Donation Submission Result',
-                'description' => 'EZ Online Pay Rob Vincent Donation Form',
-                'author' => 'EZ Online Pay 2015'
-            );
+            $clientname = $this->configsys->get_config_value('clientname');
+	        $view_vars = array(
+	            'title' => $clientname,
+	            'heading' => 'Donation Submission Result',
+	            'description' => $clientname,
+	            'author' => 'EZ Online Pay ' . date("Y")
+	        );
             $data['page_data'] = $view_vars;
             $data['result_data'] = $result_data;
             $data['submitted_data'] = $submitted_data;
@@ -116,7 +123,6 @@ class Donation extends MX_Controller {
 
 
     }
-
 
     function check_default($post_string)
     {
@@ -142,4 +148,29 @@ class Donation extends MX_Controller {
         return $result;
     }
 
+	function check_otheramount($post_string)
+    {
+    	$paymentamount = $this->input->post('paymentamount');
+		
+		log_message('debug', 'Payment amount = '.$paymentamount);
+		
+		if(strcasecmp($paymentamount, 'other') == 0) {
+			if(strlen($post_string) == 0) {
+				log_message('debug', 'check_otheramount FAILED length check = '.$post_string);
+				$this->form_validation->set_message('check_otheramount', 'Enter a donation amount');
+				return FALSE;
+			}
+			else if(is_numeric($post_string) == FALSE) {
+				log_message('debug', 'check_otheramount FAILED is_numeric check = '.$post_string);
+				$this->form_validation->set_message('check_otheramount', 'Amount must be numeric');
+				return FALSE;
+			}
+			else if($post_string <= 0) {
+				log_message('debug', 'check_otheramount FAILED > 0 check = '.$post_string);
+				$this->form_validation->set_message('check_otheramount', 'Amount must greater than 0');
+				return FALSE;
+			}
+		}
+        return TRUE;
+    }
 }

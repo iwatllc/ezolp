@@ -72,8 +72,7 @@ class Virtualterminal extends MX_Controller {
 
         if ($this->form_validation->run() == FALSE)
         {
-            $data['page_data'] = $this->data;
-            $this->load->view('virtualterminalform', $data);
+            $this->index();
         }
         else
         {

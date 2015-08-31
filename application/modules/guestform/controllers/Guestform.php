@@ -60,8 +60,7 @@ class Guestform extends MX_Controller {
 
         if ($this->form_validation->run() == FALSE)
         {
-            $data['page_data'] = $this->data;
-            $this->load->view('guestform', $data);
+            $this->index();
         }
         else
         {

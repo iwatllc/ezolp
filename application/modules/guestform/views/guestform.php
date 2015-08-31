@@ -56,7 +56,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <h4 class="panel-title">PAYMENT INFORMATION (* = Required Field)</h4>
                         </div>
                         <div class="panel-body">
-                            <legend>Billing Informaiton</legend>
+                            <legend>Billing Information</legend>
                                 <div class="form-group <?php echo(!empty(form_error('fullname')) ? 'has-error has-feedback' : ''); ?>">
                                     <label class="col-md-3 control-label">FULL NAME*</label>
                                     <div class="col-md-9">
@@ -275,7 +275,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                         <?php echo form_error('notes'); ?>
                                     </div>
                                 </div>
-                            <legend>Credit Card Informaiton</legend>
+                            <legend>Credit Card Information</legend>
                                 <div class="form-group <?php echo(!empty(form_error('creditcard')) ? 'has-error has-feedback' : ''); ?>">
                                     <label class="col-md-3 control-label">CREDIT CARD *</label>
                                     <div class="col-md-9">
