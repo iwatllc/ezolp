@@ -162,11 +162,11 @@ $config['DX_recaptcha_private_key'] = '6LcNO9ISAAAAAIMeF9o2YIlAovWwvi2T-qArp0DE'
 |
 */
 
-$config['DX_deny_uri'] = '/Auth/deny/';
-$config['DX_login_uri'] = '/Auth/login/';
-$config['DX_banned_uri'] = '/Auth/banned/';
-$config['DX_activate_uri'] = '/Auth/activate/';
-$config['DX_reset_password_uri'] = '/Auth/reset_password/';
+$config['DX_deny_uri'] = '/auth/deny/';
+$config['DX_login_uri'] = '/auth/login/';
+$config['DX_banned_uri'] = '/auth/banned/';
+$config['DX_activate_uri'] = '/auth/activate/';
+$config['DX_reset_password_uri'] = '/auth/reset_password/';
 
 
 /*
@@ -191,32 +191,32 @@ $config['DX_captcha_registration'] = TRUE;
 $config['DX_captcha_login'] = FALSE;
 
 // URI Locations
-$config['DX_logout_uri'] = '/Auth/logout/';
-$config['DX_register_uri'] = '/Auth/register/';
-$config['DX_forgot_password_uri'] = '/Auth/forgot_password/';
-$config['DX_change_password_uri'] = '/Auth/change_password/';
-$config['DX_cancel_account_uri'] = '/Auth/cancel_account/';
+$config['DX_logout_uri'] = '/auth/logout/';
+$config['DX_register_uri'] = '/auth/register/';
+$config['DX_forgot_password_uri'] = '/auth/forgot_password/';
+$config['DX_change_password_uri'] = '/auth/change_password/';
+$config['DX_cancel_account_uri'] = '/auth/cancel_account/';
 
 // Forms view
-$config['DX_login_view'] = 'Auth/login_form';
-$config['DX_register_view'] = 'Auth/register_form';
-$config['DX_forgot_password_view'] = 'Auth/forgot_password_form';
-$config['DX_change_password_view'] = 'Auth/change_password_form';
-$config['DX_cancel_account_view'] = 'Auth/cancel_account_form';
+$config['DX_login_view'] = 'auth/login_form';
+$config['DX_register_view'] = 'auth/register_form';
+$config['DX_forgot_password_view'] = 'auth/forgot_password_form';
+$config['DX_change_password_view'] = 'auth/change_password_form';
+$config['DX_cancel_account_view'] = 'auth/cancel_account_form';
 
 // Pages view
-$config['DX_deny_view'] = 'Auth/general_message';
-$config['DX_banned_view'] = 'Auth/general_message';
-$config['DX_logged_in_view'] = 'Auth/general_message';
-$config['DX_logout_view'] = 'Auth/general_message';
+$config['DX_deny_view'] = 'auth/general_message';
+$config['DX_banned_view'] = 'auth/general_message';
+$config['DX_logged_in_view'] = 'auth/general_message';
+$config['DX_logout_view'] = 'auth/general_message';
 
-$config['DX_register_success_view'] = 'Auth/general_message';
-$config['DX_activate_success_view'] = 'Auth/general_message';
-$config['DX_forgot_password_success_view'] = 'Auth/general_message';
-$config['DX_reset_password_success_view'] = 'Auth/general_message';
-$config['DX_change_password_success_view'] = 'Auth/general_message';
+$config['DX_register_success_view'] = 'auth/general_message';
+$config['DX_activate_success_view'] = 'auth/general_message';
+$config['DX_forgot_password_success_view'] = 'auth/general_message';
+$config['DX_reset_password_success_view'] = 'auth/general_message';
+$config['DX_change_password_success_view'] = 'auth/general_message';
 
-$config['DX_register_disabled_view'] = 'Auth/general_message';
-$config['DX_activate_failed_view'] = 'Auth/general_message';
-$config['DX_reset_password_failed_view'] = 'Auth/general_message';
+$config['DX_register_disabled_view'] = 'auth/general_message';
+$config['DX_activate_failed_view'] = 'auth/general_message';
+$config['DX_reset_password_failed_view'] = 'auth/general_message';
 
