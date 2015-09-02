@@ -83,7 +83,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <!-- begin col-12 -->
             <div class="col-12">
                 <?php $attributes = array('class' => 'form-horizontal form-bordered', 'id' => 'searchform'); ?>
-                <?php echo form_open('Search/execute_search'); ?>
+                <?php echo form_open('search/execute_search'); ?>
                 <!-- begin panel -->
                     <div class="panel panel-inverse" >
                         <div class="panel-heading">
