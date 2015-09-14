@@ -3,7 +3,11 @@
 	"name" : "codeigniter/framework",
 	"license": "MIT",
 	"require": {
-		"php": ">=5.2.4"
+		"php": ">=5.2.4",
+		"oyejorge/less.php": "~1.5",
+    	"codegyre/robo": "*",
+		"patchwork/jsqueeze": "~1.0",
+		"natxet/CssMin": "~3.0"  
 	},
 	"require-dev": {
 		"mikey179/vfsStream": "1.1.*"
