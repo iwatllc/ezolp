@@ -60,7 +60,7 @@ $autoload['packages'] = array('Database');
 |	$autoload['libraries'] = array('user_agent' => 'ua');
 */
 
-$autoload['libraries'] = array('DX_Auth', 'form_validation');
+$autoload['libraries'] = array('DX_Auth', 'form_validation', 'assets/AssetCss', 'utils');
 
 
 /*
@@ -104,7 +104,7 @@ $autoload['helper'] = array('url', 'form', 'date');
 |
 */
 
-$autoload['config'] = array('ez_config');
+$autoload['config'] = array('ez_config', 'config_assets');
 
 
 /*

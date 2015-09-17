@@ -32,67 +32,6 @@
         "homepage": "http://vfs.bovigo.org/"
     },
     {
-        "name": "oyejorge/less.php",
-        "version": "v1.7.0.5",
-        "version_normalized": "1.7.0.5",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/oyejorge/less.php.git",
-            "reference": "4385036b1dbfaf37f5380bd26a1e6006fc43149f"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/oyejorge/less.php/zipball/4385036b1dbfaf37f5380bd26a1e6006fc43149f",
-            "reference": "4385036b1dbfaf37f5380bd26a1e6006fc43149f",
-            "shasum": ""
-        },
-        "require": {
-            "php": ">=5.3"
-        },
-        "time": "2015-07-13 20:34:18",
-        "bin": [
-            "bin/lessc"
-        ],
-        "type": "library",
-        "installation-source": "dist",
-        "autoload": {
-            "psr-0": {
-                "Less": "lib/"
-            },
-            "classmap": [
-                "lessc.inc.php"
-            ]
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "Apache-2.0"
-        ],
-        "authors": [
-            {
-                "name": "Matt Agar",
-                "homepage": "https://github.com/agar"
-            },
-            {
-                "name": "Martin Jantošovič",
-                "homepage": "https://github.com/Mordred"
-            },
-            {
-                "name": "Josh Schmidt",
-                "homepage": "https://github.com/oyejorge"
-            }
-        ],
-        "description": "PHP port of the Javascript version of LESS http://lesscss.org",
-        "homepage": "http://lessphp.gpeasy.com",
-        "keywords": [
-            "css",
-            "less",
-            "less.js",
-            "lesscss",
-            "php",
-            "stylesheet"
-        ]
-    },
-    {
         "name": "symfony/event-dispatcher",
         "version": "v2.7.4",
         "version_normalized": "2.7.4.0",
@@ -623,6 +562,125 @@
         "keywords": [
             "css",
             "minify"
+        ]
+    },
+    {
+        "name": "oyejorge/less.php",
+        "version": "v1.7.0.6",
+        "version_normalized": "1.7.0.6",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/oyejorge/less.php.git",
+            "reference": "29140fadbcae80f920d86bf91104c78f83cc223b"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/oyejorge/less.php/zipball/29140fadbcae80f920d86bf91104c78f83cc223b",
+            "reference": "29140fadbcae80f920d86bf91104c78f83cc223b",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3"
+        },
+        "time": "2015-09-15 20:13:20",
+        "bin": [
+            "bin/lessc"
+        ],
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "Less": "lib/"
+            },
+            "classmap": [
+                "lessc.inc.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "Apache-2.0"
+        ],
+        "authors": [
+            {
+                "name": "Matt Agar",
+                "homepage": "https://github.com/agar"
+            },
+            {
+                "name": "Martin Jantošovič",
+                "homepage": "https://github.com/Mordred"
+            },
+            {
+                "name": "Josh Schmidt",
+                "homepage": "https://github.com/oyejorge"
+            }
+        ],
+        "description": "PHP port of the Javascript version of LESS http://lesscss.org",
+        "homepage": "http://lessphp.gpeasy.com",
+        "keywords": [
+            "css",
+            "less",
+            "less.js",
+            "lesscss",
+            "php",
+            "stylesheet"
+        ]
+    },
+    {
+        "name": "leafo/scssphp",
+        "version": "v0.3.1",
+        "version_normalized": "0.3.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/leafo/scssphp.git",
+            "reference": "2977aa444415787e931c048989b8c9195fd5b344"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/leafo/scssphp/zipball/2977aa444415787e931c048989b8c9195fd5b344",
+            "reference": "2977aa444415787e931c048989b8c9195fd5b344",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.0"
+        },
+        "require-dev": {
+            "kherge/box": "~2.5",
+            "phpunit/phpunit": "~3.7",
+            "squizlabs/php_codesniffer": "~2.3"
+        },
+        "time": "2015-09-12 01:42:27",
+        "bin": [
+            "bin/pscss"
+        ],
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "classmap": [
+                "classmap.php"
+            ],
+            "psr-4": {
+                "Leafo\\ScssPhp\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Leaf Corcoran",
+                "email": "leafot@gmail.com",
+                "homepage": "http://leafo.net"
+            }
+        ],
+        "description": "scssphp is a compiler for SCSS written in PHP.",
+        "homepage": "http://leafo.github.io/scssphp/",
+        "keywords": [
+            "css",
+            "less",
+            "sass",
+            "scss",
+            "stylesheet"
         ]
     }
 ]

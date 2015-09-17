@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "9f0543fda324899fd2c3d5738f70bd64",
+    "hash": "4f6b7d125ce3e94ee5b2678d2e31fdaf",
     "packages": [
         {
             "name": "codegyre/robo",
@@ -119,6 +119,62 @@
             "time": "2013-05-24 06:47:29"
         },
         {
+            "name": "leafo/scssphp",
+            "version": "v0.3.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/leafo/scssphp.git",
+                "reference": "2977aa444415787e931c048989b8c9195fd5b344"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/leafo/scssphp/zipball/2977aa444415787e931c048989b8c9195fd5b344",
+                "reference": "2977aa444415787e931c048989b8c9195fd5b344",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "kherge/box": "~2.5",
+                "phpunit/phpunit": "~3.7",
+                "squizlabs/php_codesniffer": "~2.3"
+            },
+            "bin": [
+                "bin/pscss"
+            ],
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "classmap.php"
+                ],
+                "psr-4": {
+                    "Leafo\\ScssPhp\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Leaf Corcoran",
+                    "email": "leafot@gmail.com",
+                    "homepage": "http://leafo.net"
+                }
+            ],
+            "description": "scssphp is a compiler for SCSS written in PHP.",
+            "homepage": "http://leafo.github.io/scssphp/",
+            "keywords": [
+                "css",
+                "less",
+                "sass",
+                "scss",
+                "stylesheet"
+            ],
+            "time": "2015-09-12 01:42:27"
+        },
+        {
             "name": "natxet/CssMin",
             "version": "3.0.3",
             "source": {
@@ -167,16 +223,16 @@
         },
         {
             "name": "oyejorge/less.php",
-            "version": "v1.7.0.5",
+            "version": "v1.7.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/oyejorge/less.php.git",
-                "reference": "4385036b1dbfaf37f5380bd26a1e6006fc43149f"
+                "reference": "29140fadbcae80f920d86bf91104c78f83cc223b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/oyejorge/less.php/zipball/4385036b1dbfaf37f5380bd26a1e6006fc43149f",
-                "reference": "4385036b1dbfaf37f5380bd26a1e6006fc43149f",
+                "url": "https://api.github.com/repos/oyejorge/less.php/zipball/29140fadbcae80f920d86bf91104c78f83cc223b",
+                "reference": "29140fadbcae80f920d86bf91104c78f83cc223b",
                 "shasum": ""
             },
             "require": {
@@ -222,7 +278,7 @@
                 "php",
                 "stylesheet"
             ],
-            "time": "2015-07-13 20:34:18"
+            "time": "2015-09-15 20:13:20"
         },
         {
             "name": "patchwork/jsqueeze",

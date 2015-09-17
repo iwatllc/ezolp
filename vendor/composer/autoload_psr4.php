@@ -13,4 +13,5 @@ return array(
     'Symfony\\Component\\Console\\' => array($vendorDir . '/symfony/console'),
     'Symfony\\Component\\Config\\' => array($vendorDir . '/symfony/config'),
     'Robo\\' => array($vendorDir . '/codegyre/robo/src'),
+    'Leafo\\ScssPhp\\' => array($vendorDir . '/leafo/scssphp/src'),
 );
