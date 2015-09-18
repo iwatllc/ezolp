@@ -149,11 +149,11 @@ $register = array(
                             <?php if ($this->dx_auth->captcha_registration): ?>
                                 <?php 
                                     // Show recaptcha image
-                                    echo $this->dx_auth->get_recaptcha_image(); 
+                                    echo $this->dx_auth->get_recaptcha_image();
                                     // Show reload captcha link
-                                    echo $this->dx_auth->get_recaptcha_reload_link(); 
+                                    echo $this->dx_auth->get_recaptcha_reload_link();
                                     // Show switch to image captcha or audio link
-                                    echo $this->dx_auth->get_recaptcha_switch_image_audio_link(); 
+                                    echo $this->dx_auth->get_recaptcha_switch_image_audio_link();
                                 ?>
     
                                 <?php echo $this->dx_auth->get_recaptcha_label(); ?>

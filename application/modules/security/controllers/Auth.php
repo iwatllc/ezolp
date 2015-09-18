@@ -108,7 +108,7 @@ class Auth extends MX_Controller
 					if ($this->dx_auth->is_max_login_attempts_exceeded())
 					{
 						// Create catpcha						
-						$this->dx_auth->captcha();
+//						$this->dx_auth->captcha();
 						
 						// Set view data to show captcha on view file
 						$data['show_captcha'] = TRUE;
