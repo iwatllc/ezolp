@@ -1,5 +1,23 @@
 // overrides.scss
 
-.brand {
-	border: 1px solid red; 
+.login .login-header .brand .logo {
+	display: none;
 }
+
+.login .login-header .brand {
+	background: $client-img;
+	background-size: contain;
+	height: 100px;
+}
+
+/*
+.login .login-header {
+	width: 600px;
+	left: 45%;
+	top: -150px;
+}
+
+
+
+
+*/
