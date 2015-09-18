@@ -34,6 +34,13 @@
     <link href="<?php echo base_url(); ?>/assets/plugins/parsley/src/parsley.css" rel="stylesheet" />
     <!-- ================== END PAGE LEVEL STYLE ================== -->
 
+	<!-- Overrides -->
+	<?php if (isset($asset) && ! empty($asset)) { ?>
+	
+	<link type="text/css" rel="stylesheet" href="<?php echo  Modules::run('assets/assetcreate/index', $asset); ?>" media="all" />
+	
+	<?php } ?>
+	
     <!-- ================== BEGIN BASE JS ================== -->
     <script src="<?php echo base_url(); ?>/assets/plugins/pace/pace.min.js"></script>
     <!-- ================== END BASE JS ================== -->

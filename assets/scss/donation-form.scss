@@ -1,0 +1,47 @@
+body.donation-form {
+	background: $body-color;
+}
+
+body.donation-form {
+	
+	.navbar-toggle {
+		display: none;
+	}
+	
+	.navbar-header {
+		margin: 0 auto;
+		text-align: center;
+		margin-top: 25px;
+		margin-bottom: 25px;
+		display: block;
+		float: none;
+	}
+	
+	.navbar-header a {
+		color: $heading-color;
+	}
+	
+	.navbar-header a:hover {
+		text-decoration: none;
+	}
+	
+	.content {
+		max-width: 900px;
+		margin: 0 auto;
+		margin-top: 100px;
+	}
+	
+	#header {
+		background: $header-bg-color;
+	}
+	
+	.donation-grp {
+		border: 1px solid red;
+		padding: 25px;
+	}
+	
+	legend {
+		border: none;
+	}
+	
+}

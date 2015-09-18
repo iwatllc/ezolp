@@ -60,7 +60,6 @@ $submit = array(
     <link href="<?php echo base_url(); ?>assets/css/theme/default.css" rel="stylesheet" id="theme" />
     <!-- ================== END BASE CSS STYLE ================== -->
     
-	<!-- Overrides -->
 	<?php
 		$css = new AssetCss('login');
 	    $css->add_asset($this->config->item('base_preprocess'));
