@@ -53,7 +53,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <div id="page-loader" class="fade in"><span class="spinner"></span></div>
 <!-- end #page-loader -->
 
-
     
     
     <!-- begin #content -->

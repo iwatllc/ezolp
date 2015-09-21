@@ -8,7 +8,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <html lang="en">
 <!--<![endif]-->
 
-<?php $this->load->view('header'); ?>
+<?php $this->load->view('navbar'); ?>
 
 <head>
     <title><?php echo $title; ?></title>
