@@ -58,6 +58,9 @@ $change = array(
     
     <!-- begin #content -->
     <div id="content" class="content">
+        <!-- begin page-header -->
+        <h1 class="page-header"><?php echo 'Change Password';?></h1>
+        <!-- end page-header -->
 
         <!-- begin col-12 -->
         <div class="col-12">
@@ -72,7 +75,7 @@ $change = array(
                             <div class="control-label"
                                 <?php echo form_label('Old Password', $old_password['id']);?>
                             </div>
-                            <?php echo form_input($old_password); ?> 
+                            <?php echo form_password($old_password); ?>
                             <?php echo form_error($old_password['name']); ?>
                         </div>
                     </div>
@@ -81,7 +84,7 @@ $change = array(
                             <div class="control-label"
                                 <?php echo form_label('New Password', $new_password['id']);?>
                             </div>
-                            <?php echo form_input($new_password); ?> 
+                            <?php echo form_password($new_password); ?>
                             <?php echo form_error($new_password['name']); ?>
                         </div>
                     </div>
@@ -90,7 +93,7 @@ $change = array(
                             <div class="control-label"
                                 <?php echo form_label('Confirm New Password', $confirm_new_password['id']);?>
                             </div>
-                            <?php echo form_input($confirm_new_password); ?> 
+                            <?php echo form_password($confirm_new_password); ?>
                             <?php echo form_error($confirm_new_password['name']); ?>
                         </div>
                     </div>

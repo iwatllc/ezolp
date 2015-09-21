@@ -131,14 +131,16 @@ class Auth extends MX_Controller
 		$this->dx_auth->logout();
 		
 		$data['auth_message'] = 'You have been logged out.';		
-		$this->load->view($this->dx_auth->logout_view, $data);
+//		$this->load->view($this->dx_auth->logout_view, $data);
+		redirect('security/Auth', $data);
+
 	}
 	
 	
 	function register()
 	{
 		if ( ! $this->dx_auth->is_logged_in() AND $this->dx_auth->allow_registration)
-		{	
+		{
 			$val = $this->form_validation;
 			
 			// Set form validation rules
@@ -157,8 +159,9 @@ class Auth extends MX_Controller
 			}
 
 			// Run form validation and register user if it's pass the validation
+			// TODO: SOMETHING GOING WRONG HERE --> not going in this if statement, something to do with $val->run()
 			if ($val->run() AND $this->dx_auth->register($val->set_value('username'), $val->set_value('password'), $val->set_value('email')))
-			{	
+			{
 				// Set success message accordingly
 				if ($this->dx_auth->email_activation)
 				{
@@ -174,6 +177,7 @@ class Auth extends MX_Controller
 			}
 			else
 			{
+//				echo "loading registration page";
 				// Load registration page
 				$this->load->view('Auth/register_form');
 			}
@@ -281,7 +285,7 @@ class Auth extends MX_Controller
 	{
 		// Check if user logged in or not
 		if ($this->dx_auth->is_logged_in())
-		{			
+		{
 			$val = $this->form_validation;
 			
 			// Set form validation rules

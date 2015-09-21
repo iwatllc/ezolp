@@ -48,6 +48,9 @@ $reset = array(
     
     <!-- begin #content -->
     <div id="content" class="content">
+        <!-- begin page-header -->
+        <h1 class="page-header"><?php echo 'Forgot Password';?></h1>
+        <!-- end page-header -->
 
         <!-- begin col-12 -->
         <div class="col-12">

@@ -126,6 +126,21 @@
                 </li>
 
                 <li class="has-sub">
+                    <a href="javascript:;">
+                        <b class="caret pull-right"></b>
+                        <i class="fa fa-male"></i>
+                        <span>Users</span>
+                    </a>
+                    <ul class="sub-menu">
+                        <li><a href="<?php echo base_url(); ?>security/backend/users">Manage Users</a></li>
+                        <li><a href="<?php echo base_url(); ?>security/backend/unactivated_users">Manage Unactivated Users</a></li>
+                        <li><a href="<?php echo base_url(); ?>security/backend/roles">Manage Roles</a></li>
+                        <li><a href="<?php echo base_url(); ?>security/backend/uri_permissions">URI Permissions</a></li>
+                        <li><a href="<?php echo base_url(); ?>security/backend/custom_permissions">Custom Permissions</a></li>
+                    </ul>
+                </li>
+
+                <li class="has-sub">
                     <a href="<?php echo base_url(); ?>security/auth/logout">
                         <i class="fa fa-power-off"></i>
                         <span>Log Out</span>

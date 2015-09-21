@@ -2,12 +2,12 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 $username = array(
-	'name'	=> 'username',
-	'id'	=> 'username',
-	'class' => 'form-control',
-	'placeholder' => 'Username',
-	'size'	=> 30,
-	'value' =>  set_value('username')
+    'name'	=> 'username',
+    'id'	=> 'username',
+    'class' => 'form-control',
+    'placeholder' => 'Username',
+    'size'	=> 30,
+    'value' =>  set_value('username')
 );
 
 $email = array(
@@ -20,31 +20,22 @@ $email = array(
     'value' => set_value('email')
 );
 
-$confirm_email = array(
-    'name'  => 'confirm_email',
-    'id'    => 'confirm_email',
-    'class' => 'form-control',
-    'placeholder' => 'Confirm Email',
-    'size'  => 30,
-    'value' => set_value('confirm_email')
-);
-
 $password = array(
-	'name'	=> 'password',
-	'id'	=> 'password',
-	'class' => 'form-control',
+    'name'	=> 'password',
+    'id'	=> 'password',
+    'class' => 'form-control',
     'placeholder' => 'Password',
-	'size'	=> 30,
-	'value' => set_value('password')
+    'size'	=> 30,
+    'value' => set_value('password')
 );
 
 $confirm_password = array(
-	'name'	=> 'confirm_password',
-	'id'	=> 'confirm_password',
+    'name'	=> 'confirm_password',
+    'id'	=> 'confirm_password',
     'class' => 'form-control',
     'placeholder' => 'Confirm Password',
-	'size'	=> 30,
-	'value' => set_value('confirm_password')
+    'size'	=> 30,
+    'value' => set_value('confirm_password')
 );
 
 $register = array(
@@ -67,7 +58,7 @@ $register = array(
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
     <meta content="" name="description" />
     <meta content="" name="author" />
-    
+
     <!-- ================== BEGIN BASE CSS STYLE ================== -->
     <link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
     <link href="<?php echo base_url(); ?>assets/plugins/jquery-ui/themes/base/minified/jquery-ui.min.css" rel="stylesheet" />
@@ -78,140 +69,133 @@ $register = array(
     <link href="<?php echo base_url(); ?>assets/css/style-responsive.min.css" rel="stylesheet" />
     <link href="<?php echo base_url(); ?>assets/css/theme/default.css" rel="stylesheet" id="theme" />
     <!-- ================== END BASE CSS STYLE ================== -->
-    
+
     <!-- ================== BEGIN BASE JS ================== -->
     <script src="<?php echo base_url(); ?>assets/plugins/pace/pace.min.js"></script>
     <!-- ================== END BASE JS ================== -->
-    
+
     <?php echo form_open($this->uri->uri_string())?>
 </head>
 
 <body class="pace-top">
-    <!-- begin #page-loader -->
-    <div id="page-loader" class="fade in"><span class="spinner"></span></div>
-    <!-- end #page-loader -->
-    
-    <!-- begin #page-container -->
-    <div id="page-container" class="fade">
-        <!-- begin brand -->
-        <div class="login bg-black animated fadeInDown">
-            <!-- begin news-feed -->            
-            <div class="login-header">
-                <div class="brand">
-                    <span class="logo"></span> EZOLP
-                    <small>Register for EZ Online Pay</small>
-                </div>
-                <div class="icon">
-                    <i class="fa fa-sign-in"></i>
-                </div>
-            </div>
-            <!-- end brand -->
-                <!-- begin register-content -->
-                <div class="login-content">
-                    <form action="index.html" method="POST" class="margin-bottom-0">
-                        <label class="control-label">Username</label>
-                        <div class="form-group m-b-20">
-                            <div class="col-md-12">
-                                <?php echo form_input($username)?>
-                                <?php echo form_error($username['name']); ?>
-                            </div>
-                        </div>
-                        <label class="control-label">Email</label>
-                        <div class="form-group m-b-20">
-                            <div class="col-md-12">
-                                <?php echo form_input($email);?>
-                                <?php echo form_error($email['name']); ?>                            
-                            </div>
-                        </div>
-                        <label class="control-label">Re-enter Email</label>
-                        <div class="form-group m-b-20">
-                            <div class="col-md-12">
-                                <?php echo form_input($confirm_email);?>
-                                <?php echo form_error($confirm_email['name']); ?>
-                            </div>
-                        </div>
-                        <label class="control-label">Password</label>
-                        <div class="form-group m-b-20">
-                            <div class="col-md-12">
-                                <?php echo form_password($password)?>
-                                <?php echo form_error($password['name']); ?>
-                            </div>
-                        </div>
-                        <label class="control-label">Re-enter Password</label>
-                        <div class="form-group m-b-20">
-                            <div class="col-md-12">
-                                <?php echo form_password($confirm_password);?>
-                                <?php echo form_error($confirm_password['name']); ?>                            
-                            </div>
-                        </div>
-                        
-                        <div class="col-md-12">
-                            <?php if ($this->dx_auth->captcha_registration): ?>
-                                <?php 
-                                    // Show recaptcha image
-                                    echo $this->dx_auth->get_recaptcha_image();
-                                    // Show reload captcha link
-                                    echo $this->dx_auth->get_recaptcha_reload_link();
-                                    // Show switch to image captcha or audio link
-                                    echo $this->dx_auth->get_recaptcha_switch_image_audio_link();
-                                ?>
-    
-                                <?php echo $this->dx_auth->get_recaptcha_label(); ?>
-        
-                                <?php echo $this->dx_auth->get_recaptcha_input(); ?>
-                                <?php echo form_error('recaptcha_response_field'); ?>
-        
-                                <?php 
-                                    // Get recaptcha javascript and non javasript html
-                                    echo $this->dx_auth->get_recaptcha_html();
-                                ?>
-                            <?php endif; ?>
-                        </div>
-                        
-                        <div class="checkbox m-b-20">
-                            <label>
-                                <input type="checkbox" /> By clicking Sign Up, you agree to our <a href="#">Terms</a> and that you have read our <a href="#">Data Policy</a>, including our <a href="#">Cookie Use</a>.
-                            </label>
-                        </div>
-                        <div class="login-buttons">
-                            <?php echo form_submit($register);?>
-                        </div>
-                        <div class="m-t-20 m-b-40 p-b-40">
-                            Already a member? Click <a href="login">here</a> to login.
-                        </div>
-                    </form>
-                </div>
-                <!-- end register-content -->
-        </div>
-        <!-- end register -->
-        
-        <?php echo form_close()?>
-        
-    </div>
-    <!-- end page container -->
-    
-    <!-- ================== BEGIN BASE JS ================== -->
-    <script src="<?php echo base_url(); ?>assets/plugins/jquery/jquery-1.9.1.min.js"></script>
-    <script src="<?php echo base_url(); ?>assets/plugins/jquery/jquery-migrate-1.1.0.min.js"></script>
-    <script src="<?php echo base_url(); ?>assets/plugins/jquery-ui/ui/minified/jquery-ui.min.js"></script>
-    <script src="<?php echo base_url(); ?>assets/plugins/bootstrap/js/bootstrap.min.js"></script>
-    <!--[if lt IE 9]>
-        <script src="assets/crossbrowserjs/html5shiv.js"></script>
-        <script src="assets/crossbrowserjs/respond.min.js"></script>
-        <script src="assets/crossbrowserjs/excanvas.min.js"></script>
-    <![endif]-->
-    <script src="<?php echo base_url(); ?>assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
-    <script src="<?php echo base_url(); ?>assets/plugins/jquery-cookie/jquery.cookie.js"></script>
-    <!-- ================== END BASE JS ================== -->
-    
-    <!-- ================== BEGIN PAGE LEVEL JS ================== -->
-    <script src="<?php echo base_url(); ?>assets/js/apps.min.js"></script>
-    <!-- ================== END PAGE LEVEL JS ================== -->
+<!-- begin #page-loader -->
+<div id="page-loader" class="fade in"><span class="spinner"></span></div>
+<!-- end #page-loader -->
 
-    <script>
-        $(document).ready(function() {
-            App.init();
-        });
-    </script>
+<!-- begin #page-container -->
+<div id="page-container" class="fade">
+    <!-- begin brand -->
+    <div class="login bg-black animated fadeInDown">
+        <!-- begin news-feed -->
+        <div class="login-header">
+            <div class="brand">
+                <span class="logo"></span> EZOLP
+                <small>Register for EZ Online Pay</small>
+            </div>
+            <div class="icon">
+                <i class="fa fa-sign-in"></i>
+            </div>
+        </div>
+        <!-- end brand -->
+        <!-- begin register-content -->
+        <div class="login-content">
+            <form action="index.html" method="POST" class="margin-bottom-0">
+                <label class="control-label">Username</label>
+                <div class="form-group m-b-20">
+                    <div class="col-md-12">
+                        <?php echo form_input($username)?>
+                        <?php echo form_error($username['name']); ?>
+                    </div>
+                </div>
+                <label class="control-label">Email</label>
+                <div class="form-group m-b-20">
+                    <div class="col-md-12">
+                        <?php echo form_input($email)?>
+                        <?php echo form_error($email['name']); ?>
+                    </div>
+                </div>
+                <label class="control-label">Password</label>
+                <div class="form-group m-b-20">
+                    <div class="col-md-12">
+                        <?php echo form_password($password)?>
+                        <?php echo form_error($password['name']); ?>
+                    </div>
+                </div>
+                <label class="control-label">Re-enter Password</label>
+                <div class="form-group m-b-20">
+                    <div class="col-md-12">
+                        <?php echo form_password($confirm_password);?>
+                        <?php echo form_error($confirm_password['name']); ?>
+                    </div>
+                </div>
+
+                <!--                        <div class="col-md-12">-->
+                <!--                            --><?php //if ($this->dx_auth->captcha_registration): ?>
+                <!--                                --><?php //
+                //                                    // Show recaptcha image
+                //                                    echo $this->dx_auth->get_recaptcha_image();
+                //                                    // Show reload captcha link
+                //                                    echo $this->dx_auth->get_recaptcha_reload_link();
+                //                                    // Show switch to image captcha or audio link
+                //                                    echo $this->dx_auth->get_recaptcha_switch_image_audio_link();
+                //                                ?>
+                <!--    -->
+                <!--                                --><?php //echo $this->dx_auth->get_recaptcha_label(); ?>
+                <!--        -->
+                <!--                                --><?php //echo $this->dx_auth->get_recaptcha_input(); ?>
+                <!--                                --><?php //echo form_error('recaptcha_response_field'); ?>
+                <!--        -->
+                <!--                                --><?php //
+                //                                    // Get recaptcha javascript and non javasript html
+                //                                    echo $this->dx_auth->get_recaptcha_html();
+                //                                ?>
+                <!--                            --><?php //endif; ?>
+                <!--                        </div>-->
+
+                <div class="checkbox m-b-20">
+                    <label>
+                        <input type="checkbox" /> By clicking Sign Up, you agree to our <a href="#">Terms</a> and that you have read our <a href="#">Data Policy</a>, including our <a href="#">Cookie Use</a>.
+                    </label>
+                </div>
+                <div class="login-buttons">
+                    <?php echo form_submit($register);?>
+                </div>
+                <div class="m-t-20 m-b-40 p-b-40">
+                    Already a member? Click <a href="login">here</a> to login.
+                </div>
+            </form>
+        </div>
+        <!-- end register-content -->
+    </div>
+    <!-- end register -->
+
+    <?php echo form_close()?>
+
+</div>
+<!-- end page container -->
+
+<!-- ================== BEGIN BASE JS ================== -->
+<script src="<?php echo base_url(); ?>assets/plugins/jquery/jquery-1.9.1.min.js"></script>
+<script src="<?php echo base_url(); ?>assets/plugins/jquery/jquery-migrate-1.1.0.min.js"></script>
+<script src="<?php echo base_url(); ?>assets/plugins/jquery-ui/ui/minified/jquery-ui.min.js"></script>
+<script src="<?php echo base_url(); ?>assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+<!--[if lt IE 9]>
+<script src="assets/crossbrowserjs/html5shiv.js"></script>
+<script src="assets/crossbrowserjs/respond.min.js"></script>
+<script src="assets/crossbrowserjs/excanvas.min.js"></script>
+<![endif]-->
+<script src="<?php echo base_url(); ?>assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+<script src="<?php echo base_url(); ?>assets/plugins/jquery-cookie/jquery.cookie.js"></script>
+<!-- ================== END BASE JS ================== -->
+
+<!-- ================== BEGIN PAGE LEVEL JS ================== -->
+<script src="<?php echo base_url(); ?>assets/js/apps.min.js"></script>
+<!-- ================== END PAGE LEVEL JS ================== -->
+
+<script>
+    $(document).ready(function() {
+        App.init();
+    });
+</script>
 </body>
 </html>
