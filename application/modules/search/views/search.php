@@ -21,8 +21,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <?php $this->load->view('header'); ?>
 
 <!-- begin tablesorter -->
-<script type="text/javascript" src="/path/to/jquery-latest.js"></script> 
-<script type="text/javascript" src="/path/to/jquery.tablesorter.js"></script>
+
 <script>
     $(document).ready(function() 
         { 
