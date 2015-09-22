@@ -129,28 +129,28 @@ $register = array(
                     </div>
                 </div>
 
-                <!--                        <div class="col-md-12">-->
-                <!--                            --><?php //if ($this->dx_auth->captcha_registration): ?>
-                <!--                                --><?php //
-                //                                    // Show recaptcha image
-                //                                    echo $this->dx_auth->get_recaptcha_image();
-                //                                    // Show reload captcha link
-                //                                    echo $this->dx_auth->get_recaptcha_reload_link();
-                //                                    // Show switch to image captcha or audio link
-                //                                    echo $this->dx_auth->get_recaptcha_switch_image_audio_link();
-                //                                ?>
-                <!--    -->
-                <!--                                --><?php //echo $this->dx_auth->get_recaptcha_label(); ?>
-                <!--        -->
-                <!--                                --><?php //echo $this->dx_auth->get_recaptcha_input(); ?>
-                <!--                                --><?php //echo form_error('recaptcha_response_field'); ?>
-                <!--        -->
-                <!--                                --><?php //
-                //                                    // Get recaptcha javascript and non javasript html
-                //                                    echo $this->dx_auth->get_recaptcha_html();
-                //                                ?>
-                <!--                            --><?php //endif; ?>
-                <!--                        </div>-->
+                                        <div class="col-md-12">
+                                            <?php if ($this->dx_auth->captcha_registration): ?>
+                                                <?php
+                                                    // Show recaptcha image
+                                                    echo $this->dx_auth->get_recaptcha_image();
+                                                    // Show reload captcha link
+                                                    echo $this->dx_auth->get_recaptcha_reload_link();
+                                                    // Show switch to image captcha or audio link
+                                                    echo $this->dx_auth->get_recaptcha_switch_image_audio_link();
+                                                ?>
+
+                                                <?php echo $this->dx_auth->get_recaptcha_label(); ?>
+
+                                                <?php echo $this->dx_auth->get_recaptcha_input(); ?>
+                                                <?php echo form_error('recaptcha_response_field'); ?>
+
+                                                <?php
+                                                    // Get recaptcha javascript and non javasript html
+                                                    echo $this->dx_auth->get_recaptcha_html();
+                                                ?>
+                                            <?php endif; ?>
+                                        </div>
 
                 <div class="checkbox m-b-20">
                     <label>

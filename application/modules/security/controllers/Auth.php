@@ -29,6 +29,7 @@ class Auth extends MX_Controller
 	
 	function username_check($username)
 	{
+		echo 'Performing username_check';
 		$result = $this->dx_auth->is_username_available($username);
 		if ( ! $result)
 		{
@@ -135,7 +136,17 @@ class Auth extends MX_Controller
 		redirect('security/Auth', $data);
 
 	}
-	
+
+	function username_exists($username)
+	{
+		$result = $this->dx_auth->is_username_available($username);
+		if ( ! $result)
+		{
+			$this->form_validation->set_message('check_username', 'Username already exist. Please choose another username.');
+		}
+
+		return $result;
+	}
 	
 	function register()
 	{
@@ -144,10 +155,14 @@ class Auth extends MX_Controller
 			$val = $this->form_validation;
 			
 			// Set form validation rules
-			$val->set_rules('username', 'Username', 'trim|required|min_length['.$this->min_username.']|max_length['.$this->max_username.']|callback_username_check|alpha_dash');
+			// Takes three parameters as input:
+			// 1. field name
+			// 2. human name - inserted into the error message
+			// 3. validation rules
+			$val->set_rules('username', 'Username', 'trim|required|min_length['.$this->min_username.']|max_length['.$this->max_username.']|alpha_dash|callback_username_exists');
 			$val->set_rules('password', 'Password', 'trim|required|min_length['.$this->min_password.']|max_length['.$this->max_password.']|matches[confirm_password]');
 			$val->set_rules('confirm_password', 'Confirm Password', 'trim|required');
-			$val->set_rules('email', 'Email', 'trim|required|valid_email|callback_email_check');
+			$val->set_rules('email', 'Email', 'trim|required|valid_email');
 			
 			// Is registration using captcha
 			if ($this->dx_auth->captcha_registration)
@@ -158,10 +173,12 @@ class Auth extends MX_Controller
 				$val->set_rules('recaptcha_response_field', 'Confirmation Code', 'trim|required|callback_recaptcha_check');
 			}
 
+
 			// Run form validation and register user if it's pass the validation
 			// TODO: SOMETHING GOING WRONG HERE --> not going in this if statement, something to do with $val->run()
 			if ($val->run() AND $this->dx_auth->register($val->set_value('username'), $val->set_value('password'), $val->set_value('email')))
 			{
+
 				// Set success message accordingly
 				if ($this->dx_auth->email_activation)
 				{
@@ -177,7 +194,6 @@ class Auth extends MX_Controller
 			}
 			else
 			{
-//				echo "loading registration page";
 				// Load registration page
 				$this->load->view('Auth/register_form');
 			}
