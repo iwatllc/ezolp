@@ -63,58 +63,94 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         		<div class="donation-grp">
 									<legend>My Donation</legend>
 									<div class="form-group <?php echo(!empty(form_error('paymentamount')) ? 'has-error has-feedback' : ''); ?>">
-										<label class="col-md-3 control-label">Amount <span class="required">*</span></label>
-										<div class="col-md-9">
+										<div class="row">
+											<label class="col-md-3 control-label">Amount <span class="required">*</span></label>
+											<div class="col-md-9">
+												<div class="btn-group pay-btns pay-btns-1" data-toggle="buttons">
+													<label class="btn btn-primary">
+														<input type="radio" class="amt-rad" name="paymentamount" id="paymentamount25" value="25" <?php echo set_radio('paymentamount', '25'); ?> /> <span>$25</span>
+													</label>
+												
+													<label class="btn btn-primary">
+														<input type="radio" class="amt-rad" name="paymentamount" id="paymentamount50" value="50" <?php echo set_radio('paymentamount', '50'); ?> /><span>$50</span>
+													</label>
 											
-											
-											<div class="btn-group" data-toggle="buttons">
-  <label class="btn btn-primary active">
-    <input type="radio" name="options" id="option1" autocomplete="off" checked> Radio 1 (preselected)
-  </label>
-  <label class="btn btn-primary">
-    <input type="radio" name="options" id="option2" autocomplete="off"> Radio 2
-  </label>
-  <label class="btn btn-primary">
-    <input type="radio" name="options" id="option3" autocomplete="off"> Radio 3
-  </label>
-</div>
-											
-											
-											
-											<input type="radio" name="paymentamount" id="paymentamount25" value="25" <?php echo set_radio('paymentamount', '25'); ?> />
-											<span>$25</span>
-											<input type="radio" name="paymentamount" id="paymentamount50" value="50" <?php echo set_radio('paymentamount', '50'); ?> />
-											<span>$50</span>
-											<input type="radio" name="paymentamount" id="paymentamount75" value="75" <?php echo set_radio('paymentamount', '75'); ?> />
-											<span>$75</span>
-											<input type="radio" name="paymentamount" id="paymentamount100" value="100" <?php echo set_radio('paymentamount', '100'); ?> />
-											<span>$100</span>
-											<input type="radio" name="paymentamount" id="paymentamount200" value="200" <?php echo set_radio('paymentamount', '200'); ?> />
-											<span>$200</span>
-											<input type="radio" name="paymentamount" id="paymentamountother" value="other" <?php echo set_radio('paymentamount', 'other'); ?> />
-											<span>Other</span>
-											<?php
+													<label class="btn btn-primary">
+														<input type="radio" class="amt-rad" name="paymentamount" id="paymentamount75" value="75" <?php echo set_radio('paymentamount', '75'); ?> /><span>$75</span>
+													</label>
+												
+													<label class="btn btn-primary">
+														<input type="radio" class="amt-rad" name="paymentamount" id="paymentamount100" value="100" <?php echo set_radio('paymentamount', '100'); ?> /><span>$100</span>
+													</label>
+												
+													<label class="btn btn-primary">
+														<input type="radio" class="amt-rad" name="paymentamount" id="paymentamount200" value="200" <?php echo set_radio('paymentamount', '200'); ?> /><span>$200</span>
+													</label>
+												</div><!-- ./ pay-btns -->
+											</div><!-- ./col-md-9 -->
+										</div><!-- ./row -->
+
+										<div class="row other-pay-row">
+											<label class="col-md-3 control-label"><span class="sr-only">Other Amount</span></label>
+											<div class="col-md-9">
+												<div class="btn-group pay-btns" data-toggle="buttons">
+													<label class="btn btn-primary">
+														<input type="radio" class="amt-rad" name="paymentamount" id="paymentamountother" value="other" <?php echo set_radio('paymentamount', 'other'); ?> /><span>Other</span>
+														$
+													</label>
+													<?php
 											$data = array(
 												'name'          => 'otheramount',
 												'id'            => 'maskedMoney-input-paymentamount',
 												'value'         => set_value('otheramount'),
-												'class'         => 'form-control',
+												'class'         => 'form-control input-other-pay',
 												'type'          => 'text',
 												'placeholder'   => '0.00',
 												'maxlength'     => '10',
 												'data-parsley-required' => 'true'
 											);
-
+											
 											echo form_input($data);
 											?>
-											<?php echo(!empty(form_error('paymentamount')) ? '<span class="fa fa-times form-control-feedback"></span>' : ''); ?>
-											<?php echo form_error('paymentamount'); ?>
-											<?php echo(!empty(form_error('otheramount')) ? '<span class="fa fa-times form-control-feedback"></span>' : ''); ?>
-											<?php echo form_error('otheramount'); ?>
+												</div><!-- ./ pay-btns -->
+											</div><!-- ./col-md-9 -->
+										</div><!-- ./row -->
+										
+										<div class="row other-pay-error">
+											<div class="col-md-9 col-md-offset-3">
+												<?php echo form_error('paymentamount'); ?>
+												<?php echo form_error('otheramount'); ?>
+											</div>
+										</div>
+									</div><!-- ./ form-grp -->	
+								</div><!-- ./donation-grp -->
+									
+											<!--
+											
+											<div class="btn-group pay-btns" data-toggle="buttons">
+												
+											<div class="other-pay-grp">	
+											
+												
+												<div id="other-amount">
+													<span class="fa fa-usd"></span>
+
+												
+											</div>
+											</div>
+											
+											<?php //echo(!empty(form_error('paymentamount')) ? '<span class="fa fa-times form-control-feedback"></span>' : ''); ?>
+											
+											<?php //echo(!empty(form_error('otheramount')) ? '<span class="fa fa-times form-control-feedback"></span>' : ''); ?>
+											
 										</div>
 									</div>
-							</div>
-                            
+								</div>
+							</div>	
+							</div>-->
+				
+				
+				
 							<div class="donation-grp">
                             <legend>My Information</legend>
                                 <div class="form-group <?php echo(!empty(form_error('fullname')) ? 'has-error has-feedback' : ''); ?>">
@@ -280,7 +316,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                             'name'          => 'zip',
                                             'id'            => 'masked-input-zip',
                                             'value'         => set_value('zip'),
-                                            'class'         => 'form-control max-75',
+                                            'class'         => 'form-control max-100',
                                             'type'          => 'text',
                                             'placeholder'   => '99999',
                                             'maxlength'     => '5',
@@ -477,6 +513,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <?php $this->load->view('footer'); ?>
 
 <script type="text/javascript">
+	
+	$( document ).ready(function() {
+		
+		var amount = $('input.amt-rad:checked');
+		if (amount.length > 0) {
+			$(amount).parent().addClass('active');
+		}
+		//console.log();
+	});
+	
+	
     /* Credit Card Swipe Logic */
     var readErrorReason = "Credit card read error. Please try again.";
 

@@ -82,9 +82,37 @@ body.donation-form {
 	}
 	
 	.required {
-		color: #990000;
+		color: #ff5b57;
 		font-weight: bold;
 		font-size: 1.25em;
+	}
+	
+	.pay-btns label {
+		font-size: 1.75em;
+	}
+	
+	input.input-other-pay {
+		height: 45px;
+		font-size: 1.5em;
+		font-weight: 400;
+	}
+	
+	.pay-btns-1 > .btn {
+		margin-top: 5px;
+	}
+	
+	.text-danger {
+		font-weight: bold;
+	}
+	
+	.other-pay-row,
+	.other-pay-error {
+		margin-top: 15px;
+	}
+	
+	.input-other-pay {
+		display: inline;
+		width: initial;
 	}
 	
 	.btn-donate {
@@ -92,8 +120,29 @@ body.donation-form {
 		font-size: 2.25em;
 		font-weight: 500;
 		text-transform: uppercase;
-		margin-top: 10px;
+		margin-top: 50px;
 		display: block;
+	}
+	
+	.btn-scroll-to-top.active,
+	.btn-scroll-to-top:focus,
+	.btn-scroll-to-top:hover {
+		background: $to-top-btn-hover-color;
+	}
+	
+	.btn-scroll-to-top {
+		background: $to-top-btn-color;
+	}
+	
+	#other-amount input {
+		display: inline-block;
+	}
+	
+	#other-amount {
+		display:inline-block;
+		background-color: #2a72b5;
+		padding: 3px 10px;
+		color: #fff;
 	}
 	
 }
