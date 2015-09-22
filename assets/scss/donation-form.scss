@@ -17,6 +17,10 @@ body.donation-form {
 		float: none;
 	}
 	
+	.navbar {
+		box-shadow: none;
+	}
+	
 	.navbar-header a {
 		color: $heading-color;
 	}
@@ -28,20 +32,68 @@ body.donation-form {
 	.content {
 		max-width: 900px;
 		margin: 0 auto;
-		margin-top: 100px;
+		margin-top: 0px;
 	}
 	
 	#header {
 		background: $header-bg-color;
 	}
 	
+	label {
+		font-size: 1.125em;
+	}
+	
+	.page-title {
+		font-size: $title-size;
+		color: $title-color;
+	}
+	
 	.donation-grp {
-		border: 1px solid red;
 		padding: 25px;
+		border-bottom: 1px solid #ccc;
+	}
+	
+	.panel-body {
+		padding: 0;
+	}
+	
+	.max-250 {
+		max-width: 250px;
+	}
+	
+	.max-350 {
+		max-width: 350px;
+	}
+	
+	.max-200 {
+		max-width: 200px;
+	}
+	
+	.max-75 {
+		max-width: 75px;
+	}
+	
+	.max-100 {
+		max-width: 100px;
 	}
 	
 	legend {
 		border: none;
+	}
+	
+	.required {
+		color: #990000;
+		font-weight: bold;
+		font-size: 1.25em;
+	}
+	
+	.btn-donate {
+		margin: 0 auto;
+		font-size: 2.25em;
+		font-weight: 500;
+		text-transform: uppercase;
+		margin-top: 10px;
+		display: block;
 	}
 	
 }

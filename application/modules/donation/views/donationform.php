@@ -19,24 +19,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 <body class="flat-black donation-form">
 
-<!-- begin #page-loader -->
-<div id="page-loader" class="fade in"><span class="spinner"></span></div>
-<!-- end #page-loader -->
-
 <!-- begin #page-container -->
-<div id="page-container" class="fade in page-without-sidebar page-header-fixed">
+<div id="page-container" class="fade in page-without-sidebar">
     <!-- begin #header -->
-    <div id="header" class="header navbar navbar-default navbar-fixed-top">
+    <div id="header" class="header navbar navbar-default">
         <!-- begin container-fluid -->
         <div class="container-fluid">
             <!-- begin mobile sidebar expand / collapse button -->
             <div class="navbar-header">
-                <a href="<?php echo current_url(); ?>"><img style="width:100px;" src="<?php echo base_url(); ?>/client/client.jpg"> <font size="6">&nbsp;&nbsp;&nbsp;<?php echo $page_data['title'];?></font> </a>
-                <button type="button" class="navbar-toggle" data-click="sidebar-toggled">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
+                <a href="<?php echo current_url(); ?>">
+					<div class="logo-img">
+						<img src="<?php echo base_url(); ?>/client/client.jpg"> 
+					</div>
+					<h1 class="page-title"><?php echo $page_data['title'];?></h1>
+				</a>
             </div>
             <!-- end mobile sidebar expand / collapse button -->
         </div>
@@ -61,14 +57,30 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <!-- begin panel -->
                     <div class="panel panel-inverse" >
                         <div class="panel-heading">
-                            <h4 class="panel-title">DONATION INFORMATION (* = Required Field)</h4>
+                            <h4 class="panel-title">DONATION INFORMATION ( <span class="required">*</span> = Required Field)</h4>
                         </div>
                         <div class="panel-body">
                         		<div class="donation-grp">
 									<legend>My Donation</legend>
 									<div class="form-group <?php echo(!empty(form_error('paymentamount')) ? 'has-error has-feedback' : ''); ?>">
-										<label class="col-md-3 control-label">Amount *</label>
+										<label class="col-md-3 control-label">Amount <span class="required">*</span></label>
 										<div class="col-md-9">
+											
+											
+											<div class="btn-group" data-toggle="buttons">
+  <label class="btn btn-primary active">
+    <input type="radio" name="options" id="option1" autocomplete="off" checked> Radio 1 (preselected)
+  </label>
+  <label class="btn btn-primary">
+    <input type="radio" name="options" id="option2" autocomplete="off"> Radio 2
+  </label>
+  <label class="btn btn-primary">
+    <input type="radio" name="options" id="option3" autocomplete="off"> Radio 3
+  </label>
+</div>
+											
+											
+											
 											<input type="radio" name="paymentamount" id="paymentamount25" value="25" <?php echo set_radio('paymentamount', '25'); ?> />
 											<span>$25</span>
 											<input type="radio" name="paymentamount" id="paymentamount50" value="50" <?php echo set_radio('paymentamount', '50'); ?> />
@@ -106,14 +118,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<div class="donation-grp">
                             <legend>My Information</legend>
                                 <div class="form-group <?php echo(!empty(form_error('fullname')) ? 'has-error has-feedback' : ''); ?>">
-                                    <label class="col-md-3 control-label">FULL NAME*</label>
+                                    <label class="col-md-3 control-label">Full Name <span class="required">*</span></label>
                                     <div class="col-md-9">
                                         <?php
                                             $data = array(
                                                 'name'          => 'fullname',
                                                 'id'            => 'fullname',
                                                 'value'         => set_value('fullname'),
-                                                'class'         => 'form-control',
+                                                'class'         => 'form-control max-250',
                                                 'type'          => 'text',
                                                 'placeholder'   => 'Required',
                                                 'maxlength'     => '100',
@@ -127,14 +139,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     </div>
                                 </div>
                                 <div class="form-group <?php echo(!empty(form_error('streetaddress')) ? 'has-error has-feedback' : ''); ?>">
-                                    <label class="col-md-3 control-label">STREET ADDRESS*</label>
+                                    <label class="col-md-3 control-label">Street Address <span class="required">*</span></label>
                                     <div class="col-md-9">
                                         <?php
                                         $data = array(
                                             'name'          => 'streetaddress',
                                             'id'            => 'streetaddress',
                                             'value'         => set_value('streetaddress'),
-                                            'class'         => 'form-control',
+                                            'class'         => 'form-control max-350',
                                             'type'          => 'text',
                                             'placeholder'   => 'Required',
                                             'maxlength'     => '100',
@@ -148,14 +160,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     </div>
                                 </div>
                                 <div class="form-group <?php echo(!empty(form_error('streetaddress2')) ? 'has-error has-feedback' : ''); ?>">
-                                    <label class="col-md-3 control-label">STREET ADDRESS(2)</label>
+                                    <label class="col-md-3 control-label">Street Address (2)</label>
                                     <div class="col-md-9">
                                         <?php
                                         $data = array(
                                             'name'          => 'streetaddress2',
                                             'id'            => 'streetaddress2',
                                             'value'         => set_value('streetaddress2'),
-                                            'class'         => 'form-control',
+                                            'class'         => 'form-control max-350',
                                             'type'          => 'text',
                                             'placeholder'   => '',
                                             'maxlength'     => '100',
@@ -169,14 +181,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     </div>
                                 </div>
                                 <div class="form-group <?php echo(!empty(form_error('city')) ? 'has-error has-feedback' : ''); ?>">
-                                    <label class="col-md-3 control-label">CITY*</label>
+                                    <label class="col-md-3 control-label">City <span class="required">*</span></label>
                                     <div class="col-md-9">
                                         <?php
                                         $data = array(
                                             'name'          => 'city',
                                             'id'            => 'city',
                                             'value'         => set_value('city'),
-                                            'class'         => 'form-control',
+                                            'class'         => 'form-control max-350',
                                             'type'          => 'text',
                                             'placeholder'   => 'Required',
                                             'maxlength'     => '100',
@@ -190,11 +202,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     </div>
                                 </div>
                                 <div class="form-group <?php echo(!empty(form_error('state')) ? 'has-error has-feedback' : ''); ?>">
-                                    <label class="col-md-3 control-label">STATE*</label>
+                                    <label class="col-md-3 control-label">State <span class="required">*</span></label>
                                     <div class="col-md-9">
                                         <?php
                                             $extra = array(
-                                                'class' => 'form-control selectpicker',
+                                                'class' => 'form-control selectpicker max-200',
                                                 'data-live-search' => 'true',
                                                 'data-style' => (!empty(form_error('state')) ? 'btn-danger' : ''),
                                             );
@@ -261,14 +273,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     </div>
                                 </div>
                                 <div class="form-group <?php echo(!empty(form_error('zip')) ? 'has-error has-feedback' : ''); ?>">
-                                    <label class="col-md-3 control-label">ZIP*</label>
+                                    <label class="col-md-3 control-label">Zip Code <span class="required">*</span></label>
                                     <div class="col-md-9">
                                         <?php
                                         $data = array(
                                             'name'          => 'zip',
                                             'id'            => 'masked-input-zip',
                                             'value'         => set_value('zip'),
-                                            'class'         => 'form-control',
+                                            'class'         => 'form-control max-75',
                                             'type'          => 'text',
                                             'placeholder'   => '99999',
                                             'maxlength'     => '5',
@@ -282,14 +294,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     </div>
                                 </div>
                                 <div class="form-group <?php echo(!empty(form_error('email')) ? 'has-error has-feedback' : ''); ?>">
-                                    <label class="col-md-3 control-label">EMAIL</label>
+                                    <label class="col-md-3 control-label">Email</label>
                                     <div class="col-md-9">
                                         <?php
                                         $data = array(
                                             'name'          => 'email',
                                             'id'            => 'email',
                                             'value'         => set_value('email'),
-                                            'class'         => 'form-control',
+                                            'class'         => 'form-control max-250',
                                             'type'          => 'email',
                                             'placeholder'   => 'email address',
                                             'maxlength'     => '100',
@@ -303,14 +315,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     </div>
                                 </div>
                                 <div class="form-group <?php echo(!empty(form_error('notes')) ? 'has-error has-feedback' : ''); ?>">
-                                    <label class="col-md-3 control-label">NOTES</label>
+                                    <label class="col-md-3 control-label">Notes</label>
                                     <div class="col-md-9">
                                         <?php
                                         $data = array(
                                             'name'          => 'notes',
                                             'id'            => 'notes',
                                             'value'         => set_value('notes'),
-                                            'class'         => 'form-control',
+                                            'class'         => 'form-control max-350',
                                             'type'          => 'text',
                                             'placeholder'   => 'Notes',
                                             'maxlength'     => '100',
@@ -326,16 +338,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							</div>	
 							
 							<div class="donation-grp">
-                            <legend>Payment Information</legend>
+                            <legend>My Payment Information</legend>
                                 <div class="form-group <?php echo(!empty(form_error('creditcard')) ? 'has-error has-feedback' : ''); ?>">
-                                    <label class="col-md-3 control-label">CREDIT CARD *</label>
+                                    <label class="col-md-3 control-label">Credit Card <span class="required">*</span></label>
                                     <div class="col-md-9">
                                         <?php
                                         $data = array(
                                             'name'          => 'creditcard',
                                             'id'            => 'masked-input-cc',
                                             'value'         => set_value('creditcard'),
-                                            'class'         => 'form-control',
+                                            'class'         => 'form-control max-200',
                                             'type'          => 'text',
                                             'placeholder'   => '9999-9999-9999-9999',
                                             'maxlength'     => '19',
@@ -351,11 +363,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 </div>
 
                                 <div class="form-group <?php echo(!empty(form_error('expirationmonth')) ? 'has-error has-feedback' : ''); ?>">
-                                    <label class="col-md-3 control-label">Expiration Month *</label>
+                                    <label class="col-md-3 control-label">Expiration Month <span class="required">*</span></label>
                                     <div class="col-md-9">
                                         <?php
                                         $extra = array(
-                                            'class' => 'form-control selectpicker',
+                                            'class' => 'form-control selectpicker max-200',
                                             'id' => 'expirationmonth',
                                             'name' => 'expirationmonth',
                                             'data-live-search' => 'true',
@@ -385,11 +397,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     </div>
                                 </div>
                                 <div class="form-group <?php echo(!empty(form_error('expirationyear')) ? 'has-error has-feedback' : ''); ?>">
-                                    <label class="col-md-3 control-label">Expiration Year *</label>
+                                    <label class="col-md-3 control-label">Expiration Year <span class="required">*</span></label>
                                     <div class="col-md-9">
                                         <?php
                                         $extra = array(
-                                            'class' => 'form-control selectpicker',
+                                            'class' => 'form-control selectpicker max-200',
                                             'id' => 'expirationyear',
                                             'name' => 'expirationyear',
                                             'data-live-search' => 'true',
@@ -411,14 +423,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 </div>
 
                                 <div class="form-group <?php echo(!empty(form_error('cvv2')) ? 'has-error has-feedback' : ''); ?>">
-                                    <label class="col-md-3 control-label">CVV2 *</label>
+                                    <label class="col-md-3 control-label">CVV2 <span class="required">*</span></label>
                                     <div class="col-md-9">
                                         <?php
                                         $data = array(
                                             'name'          => 'cvv2',
                                             'id'            => 'masked-input-cvv2',
                                             'value'         => set_value('cvv2'),
-                                            'class'         => 'form-control',
+                                            'class'         => 'form-control max-200',
                                             'type'          => 'text',
                                             'placeholder'   => '999',
                                             'maxlength'     => '3',
@@ -434,9 +446,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							</div>	
 
                             <div class="form-group">
-                                <label class="col-md-3 control-label">Submit</label>
-                                <div class="col-md-9">
-                                    <button type="submit" class="btn btn-sm btn-success">Submit Button</button>
+                                <div class="col-md-12 end-form-donate">
+                                    <button type="submit" class="btn btn-donate btn-primary">Donate Now</button>
                                 </div>
                             </div>
                         </div>
