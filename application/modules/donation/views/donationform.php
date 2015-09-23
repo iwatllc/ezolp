@@ -11,6 +11,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <?php 
 		$css = new AssetCss('donationform');
 	    $css->add_asset($this->config->item('base_preprocess'));
+		$css->add_asset($this->config->item('client'));
 		$css->add_asset('./assets/scss/donation.scss');
 	
 		$data['asset'] = $css;

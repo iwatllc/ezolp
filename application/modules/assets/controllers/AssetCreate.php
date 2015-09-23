@@ -71,7 +71,6 @@ class AssetCreate extends MX_Controller
 			}
 			else 
 			{
-				log_message('debug', 'POOP ' . $file_dir . $file_name);
 				if (filemtime($file_dir . $file_name) != FALSE)
 				{
 					$checksum .= date('YmdHis', filemtime($file_dir . $file_name)) . $file_name;

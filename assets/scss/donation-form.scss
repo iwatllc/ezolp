@@ -1,3 +1,9 @@
+
+@import './variables.scss'; 
+
+@import '../../client/client.scss'; 
+
+
 body.donation-form {
 	background: $body-color;
 }
@@ -19,10 +25,6 @@ body.donation-form {
 	
 	.navbar {
 		box-shadow: none;
-	}
-	
-	.navbar-header a {
-		color: $heading-color;
 	}
 	
 	.navbar-header a:hover {

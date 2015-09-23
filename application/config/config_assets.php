@@ -18,3 +18,4 @@ $config['default_style'] = 'base.css';
 $config['dir_public_css'] = './assets/css/';
 $config['dir_tmp_assets'] = './assets/temp/';
 $config['url_dir_public_css'] = 'assets/css/';
+$config['client'] = './client/client.scss';
