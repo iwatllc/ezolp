@@ -5,6 +5,7 @@
 <!--<![endif]-->
 
 <?php $this->load->view('header'); ?>
+<?php $this->load->view('navbar'); ?>
 
 
 <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
@@ -19,10 +20,6 @@
 
 <?php echo form_open($this->uri->uri_string()); ?>
 <?php echo $this->dx_auth->get_auth_error(); ?>
-
-<!-- begin #page-loader -->
-<div id="page-loader" class="fade in"><span class="spinner"></span></div>
-<!-- end #page-loader -->
     
     <!-- begin #content -->
     <div id="content" class="content">

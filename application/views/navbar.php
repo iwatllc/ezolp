@@ -1,4 +1,6 @@
 
+<?php $username = $this->session->userdata('DX_username'); ?>
+
 <meta charset="utf-8" />
 <title><?php echo $page_data['title']; ?></title>
 <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
@@ -43,12 +45,11 @@
 <script src="<?php echo base_url(); ?>/assets/plugins/pace/pace.min.js"></script>
 <!-- ================== END BASE JS ================== -->
 
-
-
-
-
 <!-- begin #page-container -->
 <div id="page-container" class="fade page-sidebar-fixed page-header-fixed">
+    <!-- begin #page-loader -->
+    <div id="page-loader" class="fade in"><span class="spinner"></span></div>
+    <!-- end #page-loader -->
     <!-- begin #header -->
     <div id="header" class="header navbar navbar-default navbar-fixed-top">
         <!-- begin container-fluid -->
@@ -64,6 +65,22 @@
             </div>
             <!-- end mobile sidebar expand / collapse button -->
 
+            <!-- begin header navigation right -->
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown navbar-user">
+                    <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
+                        <!-- Insert an image for the user here -->
+                        <span class="hidden-xs"><?php echo $username ?></span> <b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu animated fadeInLeft">
+                        <li class="arrow"></li>
+                        <li><a href="<?php echo base_url(); ?>security/auth/change_password">Change Password</a></li>
+                        <li class="divider"></li>
+                        <li><a href="<?php echo base_url(); ?>security/auth/logout">Log Out</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <!-- end header navigation right -->
         </div>
         <!-- end container-fluid -->
     </div>
@@ -94,7 +111,7 @@
                 </li>
 
                 <li class="has-sub">
-                    <a href="<?php echo base_url(); ?>donation">
+                    <a href="<?php echo base_url(); ?>donation" target="_blank">
                         <i class="fa fa-credit-card"></i>
                         <span>Donation</span>
                     </a>
@@ -117,19 +134,6 @@
                         <b class="caret pull-right"></b>
                         <i class="fa fa-key"></i>
                         <span>Security</span>
-                    </a>
-                    <ul class="sub-menu">
-                        <li><a href="<?php echo base_url(); ?>security/auth/cancel_account">Cancel Account</a></li>
-                        <li><a href="<?php echo base_url(); ?>security/auth/change_password">Change Password</a></li>
-                        <li><a href="<?php echo base_url(); ?>security/auth/forgot_password">Forgot Password</a></li>
-                    </ul>
-                </li>
-
-                <li class="has-sub">
-                    <a href="javascript:;">
-                        <b class="caret pull-right"></b>
-                        <i class="fa fa-male"></i>
-                        <span>Users</span>
                     </a>
                     <ul class="sub-menu">
                         <li><a href="<?php echo base_url(); ?>security/backend/users">Manage Users</a></li>

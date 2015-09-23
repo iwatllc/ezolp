@@ -19,6 +19,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <!--<![endif]-->
 
 <?php $this->load->view('header'); ?>
+<?php $this->load->view('navbar'); ?>
 
 <head>
     <title><?php echo $title; ?></title>
@@ -26,36 +27,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     
 <body class = "flat-back">
 
-<!-- begin #page-loader -->
-<div id="page-loader" class="fade in"><span class="spinner"></span></div>
-<!-- end #page-loader -->
-
-<!-- begin #page-container -->
-<div id="page-container" class="fade page-header-fixed page-sidebar-fixed">
-    <!-- begin #header -->
-    <div id="header" class="header navbar navbar-default navbar-fixed-top">
-        <!-- begin container-fluid -->
-        <div class="container-fluid">
-            <!-- begin mobile sidebar expand / collapse button -->
-            <div class="navbar-header">
-                <a href="search" class="navbar-brand"><span class="navbar-logo"></span> EZOLP</a>
-                <button type="button" class="navbar-toggle" data-click="sidebar-toggled">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-            </div>
-            <!-- end mobile sidebar expand / collapse button -->
-        </div>
-        <!-- end container-fluid -->
-    </div>
-    <!-- end #header -->
-
-
     <!-- begin #content -->
     <div id="content" class="content">
-    
-    
         <div class="row">
             <!-- begin col-12 -->
             <div class="col-12">
@@ -260,8 +233,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <a href="javascript:;" class="btn btn-icon btn-circle btn-success btn-scroll-to-top fade" data-click="scroll-top"><i class="fa fa-angle-up"></i></a>
     <!-- end scroll to top btn -->
 
-</div>    
-<!-- end page container -->
 
 </body>
 

@@ -69,7 +69,7 @@ $config['DX_salt'] = '';
 |
 */
  
-$config['DX_email_activation'] = TRUE;
+$config['DX_email_activation'] = FALSE;
 $config['DX_email_activation_expire'] = 60*60*24*2; 
 $config['DX_email_account_details'] = TRUE; 
 
@@ -214,7 +214,7 @@ $config['DX_register_success_view'] = 'auth/register_success_form';
 $config['DX_activate_success_view'] = 'auth/general_message';
 $config['DX_forgot_password_success_view'] = 'auth/general_message';
 $config['DX_reset_password_success_view'] = 'auth/general_message';
-$config['DX_change_password_success_view'] = 'auth/general_message';
+$config['DX_change_password_success_view'] = 'auth/change_password_result';
 
 $config['DX_register_disabled_view'] = 'auth/general_message';
 $config['DX_activate_failed_view'] = 'auth/general_message';

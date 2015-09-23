@@ -9,12 +9,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <!--<![endif]-->
 
 <?php $this->load->view('header'); ?>
+<?php $this->load->view('navbar'); ?>
 
 <body class="flat-black">
-
-<!-- begin #page-loader -->
-<div id="page-loader" class="fade in"><span class="spinner"></span></div>
-<!-- end #page-loader -->
 
 
     <!-- begin #content -->
