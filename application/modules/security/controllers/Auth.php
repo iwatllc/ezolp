@@ -159,7 +159,7 @@ class Auth extends MX_Controller
 			// 1. field name
 			// 2. human name - inserted into the error message
 			// 3. validation rules
-			$val->set_rules('username', 'Username', 'trim|required|min_length['.$this->min_username.']|max_length['.$this->max_username.']|alpha_dash|callback_username_exists');
+			$val->set_rules('username', 'Username', 'trim|required|min_length['.$this->min_username.']|max_length['.$this->max_username.']|alpha_dash');
 			$val->set_rules('password', 'Password', 'trim|required|min_length['.$this->min_password.']|max_length['.$this->max_password.']|matches[confirm_password]');
 			$val->set_rules('confirm_password', 'Confirm Password', 'trim|required');
 			$val->set_rules('email', 'Email', 'trim|required|valid_email');
