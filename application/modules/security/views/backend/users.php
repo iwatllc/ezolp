@@ -22,16 +22,20 @@
 <?php echo $this->dx_auth->get_auth_error(); ?>
 
 
-
     <!-- begin #content -->
     <div id="content" class="content">
 
         <!-- begin col-12 -->
         <div class="col-12">
             <!-- begin panel -->
-            <div class="panel panel-inverse" >
+            <div class="panel panel-inverse"  data-sortable-id="table-basic-4">
                 <div class="panel-heading">
-                    <h4 class="panel-title">MANAGE USERS</h4>
+                    <div class="panel-heading-btn">
+                        <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
+                        <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-success" data-click="panel-reload"><i class="fa fa-repeat"></i></a>
+                        <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
+                    </div>
+                    <h4 class="panel-title">Manage Users</h4>
                 </div>
                 <div class="panel-body">
                     <div class="col-md-9">
@@ -66,7 +70,10 @@
                             echo validation_errors();
                             
                             // Table options
-                            $tmpl = array ( 'table_open' => '<table border="1" cellpadding="2" cellspacing="1" style="width:100%; border-collapse: separate;"' );
+                            $tmpl = array (
+                                'table_open'  => '<table class="table table-stripped">',
+                                'table_close' => '</table>'
+                            );
                             $this->table->set_template($tmpl);
                             
                             $this->table->set_heading('', 'Username', 'Email', 'Role', 'Banned', 'Last IP', 'Last login', 'Created');

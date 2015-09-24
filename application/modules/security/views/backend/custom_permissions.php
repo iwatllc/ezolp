@@ -107,6 +107,7 @@
                             ?>  
                         </div>
                     </div>
+                    <div class="col-md-9">
                             <?php
                                 echo '<br/>';
                                 
@@ -115,6 +116,7 @@
                                 
                                 echo form_close();
                             ?>
+                    </div>
                 </div>
             </div>   
         </div>

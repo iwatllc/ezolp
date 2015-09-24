@@ -29,7 +29,7 @@
             <!-- begin panel -->
             <div class="panel panel-inverse" >
                 <div class="panel-heading">
-                    <h4 class="panel-title">MANAGE URI PERMISSIONS</h4>
+                    <h4 class="panel-title">Manage URI Permissions</h4>
                 </div>
                 <div class="panel-body">
                     <div class="col-md-9">
