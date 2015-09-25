@@ -210,7 +210,7 @@ $config['DX_banned_view'] = 'auth/general_message';
 $config['DX_logged_in_view'] = 'auth/general_message';
 $config['DX_logout_view'] = 'auth/general_message';
 
-$config['DX_register_success_view'] = 'auth/general_message';
+$config['DX_register_success_view'] = 'auth/register_success_view';
 $config['DX_activate_success_view'] = 'auth/general_message';
 $config['DX_forgot_password_success_view'] = 'auth/general_message';
 $config['DX_reset_password_success_view'] = 'auth/general_message';

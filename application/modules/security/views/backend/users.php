@@ -13,7 +13,7 @@
 <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 
 <head>
-    <title><?php echo 'EZOLP | Users'; ?></title>
+    <title>EZOLP | Users</title>
 </head>
     
 <body class = "flat-back">

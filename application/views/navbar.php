@@ -141,6 +141,7 @@
                         <li><a href="<?php echo base_url(); ?>security/backend/roles">Manage Roles</a></li>
                         <li><a href="<?php echo base_url(); ?>security/backend/uri_permissions">URI Permissions</a></li>
                         <li><a href="<?php echo base_url(); ?>security/backend/custom_permissions">Custom Permissions</a></li>
+                        <li><a href="<?php echo base_url(); ?>security/backend/add_user">Add User</a></li>
                     </ul>
                 </li>
 

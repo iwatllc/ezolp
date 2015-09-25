@@ -3,6 +3,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Backend extends CI_Controller
 {
+	// Used for adding users
+	var $min_username = 4;
+	var $max_username = 20;
+	var $min_password = 4;
+	var $max_password = 20;
+
 	function __construct()
 	{
 		parent::__construct();
@@ -26,6 +32,14 @@ class Backend extends CI_Controller
 	
 	function users()
 	{
+		$view_vars = array(
+			'title' => 'EZ Online Pay | Manage Users',
+			'heading' => 'Manage Users',
+			'description' => 'Manage users',
+			'author' => 'EZ Online Pay 2015 ' . date("Y")
+		);
+		$data['page_data'] = $view_vars;
+
 		$this->load->model('users', 'users');			
 		
 		// Search checkbox in post array
@@ -104,6 +118,14 @@ class Backend extends CI_Controller
 	
 	function unactivated_users()
 	{
+		$view_vars = array(
+			'title' => 'EZ Online Pay | Unactivated Users',
+			'heading' => 'Unactivated Users',
+			'description' => 'Manage unactivated users',
+			'author' => 'EZ Online Pay 2015 ' . date("Y")
+		);
+		$data['page_data'] = $view_vars;
+
 		$this->load->model('user_temp', 'user_temp');
 		
 		/* Database related */
@@ -154,7 +176,15 @@ class Backend extends CI_Controller
 	}
 	
 	function roles()
-	{		
+	{
+		$view_vars = array(
+			'title' => 'EZ Online Pay | Manage Roles',
+			'heading' => 'Manage Roles',
+			'description' => 'Manage roles',
+			'author' => 'EZ Online Pay 2015 ' . date("Y")
+		);
+		$data['page_data'] = $view_vars;
+
 		$this->load->model('roles', 'roles');
 		
 		/* Database related */
@@ -190,6 +220,14 @@ class Backend extends CI_Controller
 	
 	function uri_permissions()
 	{
+		$view_vars = array(
+			'title' => 'EZ Online Pay | URI Permissions',
+			'heading' => 'URI Permissions',
+			'description' => 'Manage URI Permissions',
+			'author' => 'EZ Online Pay 2015 ' . date("Y")
+		);
+		$data['page_data'] = $view_vars;
+
 		function trim_value(&$value) 
 		{ 
 			$value = trim($value); 
@@ -228,6 +266,14 @@ class Backend extends CI_Controller
 	
 	function custom_permissions()
 	{
+		$view_vars = array(
+			'title' => 'EZ Online Pay | Custom Permissions',
+			'heading' => 'Custom Permissions',
+			'description' => 'Custom permissions',
+			'author' => 'EZ Online Pay 2015 ' . date("Y")
+		);
+		$data['page_data'] = $view_vars;
+
 		// Load models
 		$this->load->model('roles', 'roles');
 		$this->load->model('permissions', 'permissions');
@@ -272,5 +318,74 @@ class Backend extends CI_Controller
 	
 		// Load view
 		$this->load->view('backend/custom_permissions', $data);
+	}
+
+	function add_user()
+	{
+		$view_vars = array(
+			'title' => 'EZ Online Pay | Add User',
+			'heading' => 'Add User',
+			'description' => 'Add a user.',
+			'author' => 'EZ Online Pay 2015 ' . date("Y")
+		);
+		$data['page_data'] = $view_vars;
+
+		if ( $this->dx_auth->is_logged_in() AND $this->dx_auth->allow_registration)
+		{
+			$val = $this->form_validation;
+
+			// Set form validation rules
+			// Takes three parameters as input:
+			// 1. field name
+			// 2. human name - inserted into the error message
+			// 3. validation rules
+			$val->set_rules('username', 'Username', 'trim|required|min_length['.$this->min_username.']|max_length['.$this->max_username.']|alpha_dash');
+			$val->set_rules('password', 'Password', 'trim|required|min_length['.$this->min_password.']|max_length['.$this->max_password.']|matches[confirm_password]');
+			$val->set_rules('confirm_password', 'Confirm Password', 'trim|required');
+			$val->set_rules('email', 'Email', 'trim|required|valid_email');
+
+			// Is registration using captcha
+			if ($this->dx_auth->captcha_registration)
+			{
+				// Set recaptcha rules.
+				// IMPORTANT: Do not change 'recaptcha_response_field' because it's used by reCAPTCHA API,
+				// This is because the limitation of reCAPTCHA, not DX Auth library
+				$val->set_rules('recaptcha_response_field', 'Confirmation Code', 'trim|required|callback_recaptcha_check');
+			}
+
+
+			// Run form validation and register user if it's pass the validation
+			if ($val->run() AND $this->dx_auth->register($val->set_value('username'), $val->set_value('password'), $val->set_value('email')))
+			{
+
+				// Set success message accordingly
+				if ($this->dx_auth->email_activation)
+				{
+					$data['auth_message'] = 'You have successfully registered. Check your email address to activate your account.';
+				}
+				else
+				{
+					$data['auth_message'] = 'You have successfully registered. '.anchor(site_url($this->dx_auth->login_uri), 'Login');
+				}
+
+				// Load registration success page
+				$this->load->view($this->dx_auth->register_success_view, $data);
+			}
+			else
+			{
+				// Load registration page
+				$this->load->view('security/backend/add_user', $data);
+			}
+		}
+		elseif ( ! $this->dx_auth->allow_registration)
+		{
+			$data['auth_message'] = 'Registration has been disabled.';
+			$this->load->view($this->dx_auth->register_disabled_view, $data);
+		}
+		else
+		{
+			$data['auth_message'] = 'You have to logout first, before registering.';
+			$this->load->view($this->dx_auth->logged_in_view, $data);
+		}
 	}
 }

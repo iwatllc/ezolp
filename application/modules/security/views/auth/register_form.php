@@ -151,17 +151,17 @@ $register = array(
                                                 ?>
                                             <?php endif; ?>
                                         </div>
-
-                <div class="checkbox m-b-20">
-                    <label>
-                        <input type="checkbox" /> By clicking Sign Up, you agree to our <a href="#">Terms</a> and that you have read our <a href="#">Data Policy</a>, including our <a href="#">Cookie Use</a>.
-                    </label>
-                </div>
+                <br/>
+<!--                <div class="checkbox m-b-20">-->
+<!--                    <label>-->
+<!--                        <input type="checkbox" /> By clicking Sign Up, you agree to our <a href="#">Terms</a> and that you have read our <a href="#">Data Policy</a>, including our <a href="#">Cookie Use</a>.-->
+<!--                    </label>-->
+<!--                </div>-->
                 <div class="login-buttons">
                     <?php echo form_submit($register);?>
                 </div>
                 <div class="m-t-20 m-b-40 p-b-40">
-                    Already a member? Click <a href="login">here</a> to login.
+                    Already a member? Click <a href="<?php echo base_url(); ?>">here</a> to login.
                 </div>
             </form>
         </div>

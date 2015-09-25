@@ -24,7 +24,7 @@ class Search extends MX_Controller {
         $this->load->model('Search_model', 'Search');
         
         $view_vars = array(
-            'title' => 'EZ Online Pay | Virtual Terminal Payment Form',
+            'title' => 'EZ Online Pay | Search Transactions',
             'heading' => 'Search for Transactions',
             'description' => 'Enter criteria to search for a payment.',
             'author' => 'EZ Online Pay 2015 ' . date("Y")

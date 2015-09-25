@@ -273,6 +273,14 @@ class Auth extends MX_Controller
 		if ($this->dx_auth->is_logged_in())
 		{			
 			$val = $this->form_validation;
+
+			$view_vars = array(
+				'title' => 'EZ Online Pay | Change Password',
+				'heading' => 'Change Password',
+				'description' => 'Change your password',
+				'author' => 'EZ Online Pay 2015 ' . date("Y")
+			);
+			$data['page_data'] = $view_vars;
 			
 			// Set form validation
 			$val->set_rules('old_password', 'Old Password', 'trim|required|min_length['.$this->min_password.']|max_length['.$this->max_password.']');
@@ -287,7 +295,7 @@ class Auth extends MX_Controller
 			}
 			else
 			{
-				$this->load->view($this->dx_auth->change_password_view);
+				$this->load->view($this->dx_auth->change_password_view, $data);
 			}
 		}
 		else

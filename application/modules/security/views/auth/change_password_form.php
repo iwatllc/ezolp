@@ -37,6 +37,7 @@ $change = array(
 <!--<![endif]-->
 
 <?php $this->load->view('header'); ?>
+<?php $this->load->view('navbar'); ?>
 
 
 <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
@@ -52,22 +53,16 @@ $change = array(
 <?php echo form_open($this->uri->uri_string()); ?>
 <?php echo $this->dx_auth->get_auth_error(); ?>
 
-<!-- begin #page-loader -->
-<div id="page-loader" class="fade in"><span class="spinner"></span></div>
-<!-- end #page-loader -->
     
     <!-- begin #content -->
     <div id="content" class="content">
-        <!-- begin page-header -->
-        <h1 class="page-header"><?php echo 'Change Password';?></h1>
-        <!-- end page-header -->
 
         <!-- begin col-12 -->
         <div class="col-12">
             <!-- begin panel -->
             <div class="panel panel-inverse" >
                 <div class="panel-heading">
-                    <h4 class="panel-title">CHANGE PASSWORD</h4>
+                    <h4 class="panel-title">Change Password</h4>
                 </div>
                 <div class="panel-body">
                     <div class="col-md-9">
@@ -77,7 +72,7 @@ $change = array(
                             </div>
                             <?php echo form_password($old_password); ?>
                             <?php echo form_error($old_password['name']); ?>
-                        </div>
+                        </div><br/>
                     </div>
                     <div class="col-md-9">
                         <div class="form-inline">
@@ -86,7 +81,7 @@ $change = array(
                             </div>
                             <?php echo form_password($new_password); ?>
                             <?php echo form_error($new_password['name']); ?>
-                        </div>
+                        </div><br/>
                     </div>
                     <div class="col-md-9">
                         <div class="form-inline">
@@ -95,7 +90,7 @@ $change = array(
                             </div>
                             <?php echo form_password($confirm_new_password); ?>
                             <?php echo form_error($confirm_new_password['name']); ?>
-                        </div>
+                        </div><br/>
                     </div>
                     <div class="form-group">
                         <div class="col-md-9">
