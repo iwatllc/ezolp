@@ -31,13 +31,20 @@ class Donation extends MX_Controller {
     {
 
         $clientname = $this->configsys->get_config_value('clientname');
+
+
         $view_vars = array(
-            'title' => $clientname,
-            'heading' => 'THANK YOU FOR YOUR SUPPORT',
-            'description' => $clientname,
-            'author' => 'EZ Online Pay ' . date("Y")
+            //'title' => $this->config->item('Client_Title'),
+            'title' => '',
+            'heading' => $this->config->item('Client_Heading'),
+            'description' => $this->config->item('Client_Description'),
+            'company' => $this->config->item('Client_Name'),
+            'logo' => $this->config->item('Client_Logo'),
+            'slogan' => '',
+            'author' => $this->config->item('Client_Author')
         );
         $data['page_data'] = $view_vars;
+
         $this->load->view('donationform', $data);
     }
 
@@ -106,13 +113,16 @@ class Donation extends MX_Controller {
 
 
             // Gather all the info for the view
-            $clientname = $this->configsys->get_config_value('clientname');
-	        $view_vars = array(
-	            'title' => $clientname,
-	            'heading' => 'Donation Submission Result',
-	            'description' => $clientname,
-	            'author' => 'EZ Online Pay ' . date("Y")
-	        );
+            $view_vars = array(
+                //'title' => $this->config->item('Client_Title'),
+                'title' => '',
+                'heading' => $this->config->item('Client_Heading'),
+                'description' => $this->config->item('Client_Description'),
+                'company' => $this->config->item('Client_Name'),
+                'logo' => $this->config->item('Client_Logo'),
+                'slogan' => '',
+                'author' => $this->config->item('Client_Author')
+            );
             $data['page_data'] = $view_vars;
             $data['result_data'] = $result_data;
             $data['submitted_data'] = $submitted_data;

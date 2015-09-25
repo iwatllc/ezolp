@@ -29,27 +29,22 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <!-- begin mobile sidebar expand / collapse button -->
             <div class="navbar-header">
                 <a href="<?php echo current_url(); ?>">
-					<div class="logo-img">
-						<img src="<?php echo base_url(); ?>/client/client.jpg"> 
-					</div>
-					<h1 class="page-title"><?php echo $page_data['title'];?></h1>
-				</a>
+                    <div class="logo-img">
+                        <img src="<?php echo base_url(); ?>/client/client.png">
+                    </div>
+                    <h1 class="page-title"><?php echo $page_data['title'];?></h1>
+                </a>
             </div>
             <!-- end mobile sidebar expand / collapse button -->
         </div>
         <!-- end container-fluid -->
     </div>
     <!-- end #header -->
-
-
     <!-- begin #content -->
     <div id="content" class="content">
         <!-- begin page-header -->
-
-        <h1 class="page-header"><?php echo $page_data['heading'];?></h1>
+        <h1 class="page-header"><?php echo $page_data['slogan'];?></h1>
         <!-- end page-header -->
-
-
         <div class="row">
             <!-- begin col-12 -->
             <div class="col-12">

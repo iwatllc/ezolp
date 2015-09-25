@@ -10,6 +10,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <html lang="en">
 <!--<![endif]-->
 
+<?php
+$css = new AssetCss('donationform');
+$css->add_asset($this->config->item('base_preprocess'));
+$css->add_asset($this->config->item('client'));
+$css->add_asset('./assets/scss/donation.scss');
+
+$data['asset'] = $css;
+$this->load->view('header', $data);
+?>
+
     <?php $this->load->view('header'); ?>
 
     <body class="flat-black receipt-print">
@@ -22,7 +32,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <div class="container-fluid">
                 <!-- begin mobile sidebar expand / collapse button -->
                 <div class="navbar-header">
-                    <a href="<?php echo current_url(); ?>"><img style="width:100px;" src="<?php echo base_url(); ?>/client/client.jpg"> <font size="6">&nbsp;&nbsp;&nbsp;<?php echo $page_data['title'];?></font> </a>
+                    <a href="<?php echo current_url(); ?>"><<img src="<?php echo base_url(); ?>/client/client.png"> <?php echo $page_data['title'];?></a>
                     <button type="button" class="navbar-toggle" data-click="sidebar-toggled">
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>

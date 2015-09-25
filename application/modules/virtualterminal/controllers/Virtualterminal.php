@@ -49,10 +49,12 @@ class Virtualterminal extends MX_Controller {
         $data['client_data'] = $client_data;
 
         $view_vars = array(
-            'title' => $clientname . ' | Virtual Terminal Payment Form',
-            'heading' => $clientname,
-            'description' => $clientname. ' Virtual Terminal Payment Form',
-            'author' => 'EZ Online Pay ' . date("Y"),
+            'title' => $this->config->item('Company_Title'),
+            'heading' => $this->config->item('Company_Title'),
+            'description' => $this->config->item('Company_Description'),
+            'company' => $this->config->item('Company_Name'),
+            'logo' => $this->config->item('Company_Logo'),
+            'author' => $this->config->item('Company_Author')
         );
         $data['page_data'] = $view_vars;
 
@@ -129,10 +131,12 @@ class Virtualterminal extends MX_Controller {
             // Gather all the info for the view
             $clientname = $this->configsys->get_config_value('clientname');
             $view_vars = array(
-                'title' => $clientname . ' | Virtual Terminal Payment Form',
-                'heading' => $clientname,
-                'description' => $clientname. ' Virtual Terminal Payment Form',
-                'author' => 'EZ Online Pay ' . date("Y"),
+                'title' => $this->config->item('Company_Title'),
+                'heading' => $this->config->item('Company_Title'),
+                'description' => $this->config->item('Company_Description'),
+                'company' => $this->config->item('Company_Name'),
+                'logo' => $this->config->item('Company_Logo'),
+                'author' => $this->config->item('Company_Author')
             );
             $data['page_data'] = $view_vars;
             $data['result_data'] = $result_data;
@@ -171,10 +175,12 @@ class Virtualterminal extends MX_Controller {
         $data['client_data'] = $client_data;
 
         $view_vars = array(
-            'title' => $clientname . ' | Virtual Terminal Payment Form',
-            'heading' => $clientname,
-            'description' => $clientname. ' Virtual Terminal Payment Form',
-            'author' => 'EZ Online Pay ' . date("Y"),
+            'title' => $this->config->item('Company_Title'),
+            'heading' => $this->config->item('Company_Title'),
+            'description' => $this->config->item('Company_Description'),
+            'company' => $this->config->item('Company_Name'),
+            'logo' => $this->config->item('Company_Logo'),
+            'author' => $this->config->item('Company_Author')
         );
         $data['page_data'] = $view_vars;
 

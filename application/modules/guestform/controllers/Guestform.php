@@ -33,10 +33,12 @@ class Guestform extends MX_Controller {
 
         $clientname = $this->configsys->get_config_value('clientname');
         $view_vars = array(
-            'title' => $clientname . ' | Guest Payment Form',
-            'heading' => 'Guest Payment Form',
-            'description' => $clientname. ' Guest Payment Form',
-            'author' => 'EZ Online Pay ' . date("Y")
+            'title' => $this->config->item('Company_Title'),
+            'heading' => $this->config->item('Company_Title'),
+            'description' => $this->config->item('Company_Description'),
+            'company' => $this->config->item('Company_Name'),
+            'logo' => $this->config->item('Company_Logo'),
+            'author' => $this->config->item('Company_Author')
         );
         $data['page_data'] = $view_vars;
         $this->load->view('guestform', $data);
@@ -102,10 +104,12 @@ class Guestform extends MX_Controller {
 
             // Gather all the info for the view
             $view_vars = array(
-                'title' => 'EZ Online Pay | Guest Payment Form Submission Results',
-                'heading' => 'Payment Form Result',
-                'description' => 'EZ Online Pay Guest Payment Form',
-                'author' => 'EZ Online Pay 2015'
+                'title' => $this->config->item('Company_Title'),
+                'heading' => $this->config->item('Company_Title'),
+                'description' => $this->config->item('Company_Description'),
+                'company' => $this->config->item('Company_Name'),
+                'logo' => $this->config->item('Company_Logo'),
+                'author' => $this->config->item('Company_Author')
             );
             $data['page_data'] = $view_vars;
             $data['result_data'] = $result_data;

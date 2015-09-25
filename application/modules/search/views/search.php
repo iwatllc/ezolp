@@ -179,6 +179,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                                         </tr>
                                             </thead>
                                             <tbody>
+                                                <tr>
+                                                    <td>
+                                                        <?php
+                                                            // foreach ($results->list_fields() as $field)
+                                                            // {
+                                                            //     echo $field.' = ';
+                                                           //  }
+                                                        ?>
+                                                    </td>
+                                                </tr>
                                                 <?php
                                                 foreach ($results->result() as $result)
                                                 {
