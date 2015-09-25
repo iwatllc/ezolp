@@ -26,10 +26,12 @@ class Dashboard extends MX_Controller {
         $this->load->model('Dashboard_model', 'Dashboard');
 
         $view_vars = array(
-            'title' => 'EZ Online Pay | Virtual Terminal Payment Form',
-            'heading' => 'Welcome',
-            'description' => '',
-            'author' => 'EZ Online Pay 2015 ' . date("Y")
+            'title' => $this->config->item('Company_Title'),
+            'heading' => $this->config->item('Company_Title'),
+            'description' => $this->config->item('Company_Description'),
+            'company' => $this->config->item('Company_Name'),
+            'logo' => $this->config->item('Company_Logo'),
+            'author' => $this->config->item('Company_Author')
         );
         $data['page_data'] = $view_vars;
 

@@ -2,8 +2,8 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 
-// $config['base_url'] = 'http://localhost:8888/ezolp/';
-$config['base_url'] = 'http://localhost/ezolp/';
+$config['base_url'] = 'http://localhost:8888/ezolp/';
+//$config['base_url'] = 'http://localhost/ezolp/';
 
 
 
@@ -29,6 +29,29 @@ $config['Gateway'] = 'NMI';
 //Sandbox
 $config['NMI_Username'] = 'demo';
 $config['NMI_Password'] = 'password';
-//$config['NMI_Username'] = 'RFulcherLeveliii';
-//$config['NMI_Password'] = 'pCLx4T2j7kVNNHPE';
+// $config['NMI_Username'] = 'RFulcherLeveliii';
+// $config['NMI_Password'] = 'pCLx4T2j7kVNNHPE';
 $config['NMI_URL'] = 'https://securitycardservices.transactiongateway.com/api/transact.php';
+/***End NMI Gateway Settings***/
+
+
+/***** COMPANY CONFIG ******/
+$config['Company_Title'] = 'Go Fund It Solutions ';
+$config['Company_Heading'] = 'Welcome';
+$config['Company_Description'] = '';
+$config['Company_Author'] = 'Go Fund It Solutions ' . date("Y");
+$config['Company_Name'] = 'Go Fund It Solutions';
+$config['Company_Logo'] = 'assets/img/logo.png';
+$config['Company_Slogan'] = 'Leader In Fundraising Solutions';
+/***End Company Config Settings***/
+
+/***** CLIENT CONFIG ******/
+$config['Client_Title'] = 'Client Title';
+$config['Client_Heading'] = 'Welcome';
+$config['Client_Description'] = '';
+$config['Client_Author'] = 'Client Company ' . date("Y");
+$config['Client_Name'] = 'Client Company Name';
+$config['Client_Logo'] = 'client/client.png';
+$config['Client_Slogan'] = 'Please help us support our cause';
+/***End Company Config Settings***/
+

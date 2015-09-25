@@ -56,7 +56,7 @@
         <div class="container-fluid">
             <!-- begin mobile sidebar expand / collapse button -->
             <div class="navbar-header">
-                <a href="<?php echo base_url(); ?>dashboard" class="navbar-brand"><span class="navbar-logo"></span> EZOLP</a>
+                <a href="<?php echo base_url(); ?>dashboard" class="navbar-brand"><img src="<?php echo base_url(); ?><?php echo $page_data['logo']; ?>"  height="40" alt="<?php echo $page_data['title']; ?>" ></a>
                 <button type="button" class="navbar-toggle" data-click="sidebar-toggled">
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
@@ -95,7 +95,6 @@
             <!-- begin sidebar nav -->
             <ul class="nav">
 
-                <li class="nav-header">Navigation</li>
                 <li class="active">
                     <a href="<?php echo base_url(); ?>dashboard">
                         <i class="fa fa-laptop"></i>

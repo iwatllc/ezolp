@@ -116,6 +116,16 @@ class Auth extends MX_Controller
 					}
 					
 					// Load login page view
+					$view_vars = array(
+						'title' => $this->config->item('Company_Title'),
+						'heading' => $this->config->item('Company_Title'),
+						'description' => $this->config->item('Company_Description'),
+						'company' => $this->config->item('Company_Name'),
+						'logo' => $this->config->item('Company_Logo'),
+						'slogan' => $this->config->item('Company_Slogan'),
+						'author' => $this->config->item('Company_Author')
+					);
+					$data['page_data'] = $view_vars;
 					$this->load->view($this->dx_auth->login_view, $data);
 				}
 			}
@@ -275,10 +285,12 @@ class Auth extends MX_Controller
 			$val = $this->form_validation;
 
 			$view_vars = array(
-				'title' => 'EZ Online Pay | Change Password',
-				'heading' => 'Change Password',
-				'description' => 'Change your password',
-				'author' => 'EZ Online Pay 2015 ' . date("Y")
+				'title' => $this->config->item('Company_Title'),
+				'heading' => $this->config->item('Company_Title'),
+				'description' => $this->config->item('Company_Description'),
+				'company' => $this->config->item('Company_Name'),
+				'logo' => $this->config->item('Company_Logo'),
+				'author' => $this->config->item('Company_Author')
 			);
 			$data['page_data'] = $view_vars;
 			

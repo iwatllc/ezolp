@@ -22,12 +22,14 @@ class Search extends MX_Controller {
         $this->load->load->library('session');
         
         $this->load->model('Search_model', 'Search');
-        
+
         $view_vars = array(
-            'title' => 'EZ Online Pay | Search Transactions',
-            'heading' => 'Search for Transactions',
-            'description' => 'Enter criteria to search for a payment.',
-            'author' => 'EZ Online Pay 2015 ' . date("Y")
+            'title' => $this->config->item('Company_Title'),
+            'heading' => $this->config->item('Company_Title'),
+            'description' => $this->config->item('Company_Description'),
+            'company' => $this->config->item('Company_Name'),
+            'logo' => $this->config->item('Company_Logo'),
+            'author' => $this->config->item('Company_Author')
         );
         $data['page_data'] = $view_vars;
 
@@ -55,12 +57,14 @@ class Search extends MX_Controller {
         $data['total_amount'] = floor($total_amount * 100) / 100; // round down nearest 2 decimal places
         
         $data['search_array'] = $search_array;
-        
+
         $view_vars = array(
-            'title' => 'EZ Online Pay | Search Payments',
-            'heading' => 'Search Transactions',
-            'description' => 'Enter criteria to search for a payment.',
-            'author' => 'EZ Online Pay 2015 ' . date("Y")
+            'title' => $this->config->item('Company_Title'),
+            'heading' => $this->config->item('Company_Title'),
+            'description' => $this->config->item('Company_Description'),
+            'company' => $this->config->item('Company_Name'),
+            'logo' => $this->config->item('Company_Logo'),
+            'author' => $this->config->item('Company_Author')
         );
         $data['page_data'] = $view_vars;
         

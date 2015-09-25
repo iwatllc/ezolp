@@ -90,12 +90,11 @@ $submit = array(
             <!-- begin brand -->
             <div class="login-header">
                 <div class="brand">
-                    <span class="logo"></span> EZOLP
-                    <small>EZ Online Pay Login</small>
+                    <img src="<?php echo base_url(); ?><?php echo $page_data['logo']; ?>"  height="50" alt="<?php echo $page_data['title']; ?>" ></a>
+                    <br>
+                    <small><?php echo $page_data['slogan']; ?></small>
                 </div>
-                <div class="icon">
-                    <i class="fa fa-sign-in"></i>
-                </div>
+
             </div>
             <!-- end brand -->
             <div class="login-content">
@@ -116,9 +115,6 @@ $submit = array(
                     </div>
                     <div class="login-buttons">
                         <?php echo form_submit($submit);?>
-                    </div>
-                    <div class="m-t-20">
-                        Not a member yet? Click <a href="Auth/register">here</a> to register.
                     </div>
                 </form>
             </div>

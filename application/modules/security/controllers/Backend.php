@@ -33,10 +33,12 @@ class Backend extends CI_Controller
 	function users()
 	{
 		$view_vars = array(
-			'title' => 'EZ Online Pay | Manage Users',
-			'heading' => 'Manage Users',
-			'description' => 'Manage users',
-			'author' => 'EZ Online Pay 2015 ' . date("Y")
+			'title' => $this->config->item('Company_Title'),
+			'heading' => $this->config->item('Company_Title'),
+			'description' => $this->config->item('Company_Description'),
+			'company' => $this->config->item('Company_Name'),
+			'logo' => $this->config->item('Company_Logo'),
+			'author' => $this->config->item('Company_Author')
 		);
 		$data['page_data'] = $view_vars;
 
@@ -119,10 +121,12 @@ class Backend extends CI_Controller
 	function unactivated_users()
 	{
 		$view_vars = array(
-			'title' => 'EZ Online Pay | Unactivated Users',
-			'heading' => 'Unactivated Users',
-			'description' => 'Manage unactivated users',
-			'author' => 'EZ Online Pay 2015 ' . date("Y")
+			'title' => $this->config->item('Company_Title'),
+			'heading' => $this->config->item('Company_Title'),
+			'description' => $this->config->item('Company_Description'),
+			'company' => $this->config->item('Company_Name'),
+			'logo' => $this->config->item('Company_Logo'),
+			'author' => $this->config->item('Company_Author')
 		);
 		$data['page_data'] = $view_vars;
 
@@ -178,10 +182,12 @@ class Backend extends CI_Controller
 	function roles()
 	{
 		$view_vars = array(
-			'title' => 'EZ Online Pay | Manage Roles',
-			'heading' => 'Manage Roles',
-			'description' => 'Manage roles',
-			'author' => 'EZ Online Pay 2015 ' . date("Y")
+			'title' => $this->config->item('Company_Title'),
+			'heading' => $this->config->item('Company_Title'),
+			'description' => $this->config->item('Company_Description'),
+			'company' => $this->config->item('Company_Name'),
+			'logo' => $this->config->item('Company_Logo'),
+			'author' => $this->config->item('Company_Author')
 		);
 		$data['page_data'] = $view_vars;
 
@@ -221,10 +227,12 @@ class Backend extends CI_Controller
 	function uri_permissions()
 	{
 		$view_vars = array(
-			'title' => 'EZ Online Pay | URI Permissions',
-			'heading' => 'URI Permissions',
-			'description' => 'Manage URI Permissions',
-			'author' => 'EZ Online Pay 2015 ' . date("Y")
+			'title' => $this->config->item('Company_Title'),
+			'heading' => $this->config->item('Company_Title'),
+			'description' => $this->config->item('Company_Description'),
+			'company' => $this->config->item('Company_Name'),
+			'logo' => $this->config->item('Company_Logo'),
+			'author' => $this->config->item('Company_Author')
 		);
 		$data['page_data'] = $view_vars;
 
@@ -267,10 +275,12 @@ class Backend extends CI_Controller
 	function custom_permissions()
 	{
 		$view_vars = array(
-			'title' => 'EZ Online Pay | Custom Permissions',
-			'heading' => 'Custom Permissions',
-			'description' => 'Custom permissions',
-			'author' => 'EZ Online Pay 2015 ' . date("Y")
+			'title' => $this->config->item('Company_Title'),
+			'heading' => $this->config->item('Company_Title'),
+			'description' => $this->config->item('Company_Description'),
+			'company' => $this->config->item('Company_Name'),
+			'logo' => $this->config->item('Company_Logo'),
+			'author' => $this->config->item('Company_Author')
 		);
 		$data['page_data'] = $view_vars;
 
@@ -323,10 +333,12 @@ class Backend extends CI_Controller
 	function add_user()
 	{
 		$view_vars = array(
-			'title' => 'EZ Online Pay | Add User',
-			'heading' => 'Add User',
-			'description' => 'Add a user.',
-			'author' => 'EZ Online Pay 2015 ' . date("Y")
+			'title' => $this->config->item('Company_Title'),
+			'heading' => $this->config->item('Company_Title'),
+			'description' => $this->config->item('Company_Description'),
+			'company' => $this->config->item('Company_Name'),
+			'logo' => $this->config->item('Company_Logo'),
+			'author' => $this->config->item('Company_Author')
 		);
 		$data['page_data'] = $view_vars;
 
