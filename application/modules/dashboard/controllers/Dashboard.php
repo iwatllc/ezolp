@@ -25,6 +25,9 @@ class Dashboard extends MX_Controller {
         
         $this->load->model('Dashboard_model', 'Dashboard');
 
+        $data['total_amount'] = $this->Dashboard->get_total_amount_vt();
+        $data['total_customers'] = $this->Dashboard->get_total_customers_vt();
+
         $view_vars = array(
             'title' => $this->config->item('Company_Title'),
             'heading' => $this->config->item('Company_Title'),

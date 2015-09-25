@@ -11,7 +11,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <?php $this->load->view('navbar'); ?>
 
 <head>
-    <title><?php echo $title; ?></title>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+
+    <script src="<?php echo base_url(); ?>/assets/highcharts/js/highcharts.js"></script>
+    <script src="<?php echo base_url(); ?>/assets/highcharts/js/modules/exporting.js"></script>
 </head>
     
 <body class = "flat-back">
@@ -31,7 +34,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <div class="stats-icon"><i class="fa fa-users"></i></div>
                 <div class="stats-info">
                     <h4>TOTAL CUSTOMERS</h4>
-                    <p>922</p>
+                    <p><?php echo $total_customers; ?></p>
                 </div>
                 <div class="stats-link">
                     <a href="javascript:;">View Detail <i class="fa fa-arrow-circle-o-right"></i></a>
@@ -45,7 +48,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <div class="stats-icon"><i class="fa fa-database"></i></div>
                 <div class="stats-info">
                     <h4>TOTAL VOLUME</h4>
-                    <p>20.44%</p>
+                    <p><?php echo '$' . $total_amount; ?></p>
                 </div>
                 <div class="stats-link">
                     <a href="javascript:;">View Detail <i class="fa fa-arrow-circle-o-right"></i></a>
@@ -77,31 +80,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <h4 class="panel-title">Gross Volume of Sales (by Day)</h4>
                 </div>
                 <div class="panel-body">
-                    <div id="interactive-chart" class="height-sm" style="padding: 0px; postion: relative;"></div>
-                    <canvas class="flot-base" width="416" height="300" style="direction: ltr; position: absolute; left: 0px; top: 0px; width: 416px; height: 300px;"></canvas>
-                    <div class="flot-text" style="position: absolute; top: 0px; left: 0px; bottom: 0px; right: 0px; font-size: smaller; color: rgb(84, 84, 84);">
-                        <div class="flot-x-axis flot-x1-axis xAxis x1Axis" style="position: absolute; top: 0px; left: 0px; bottom: 0px; right: 0px; display: block;">
-                            <div class="flot-tick-label tickLabel" style="position: absolute; max-width: 41px; top: 284px; left: 46px; text-align: center;">May&nbsp;15</div>
-                            <div class="flot-tick-label tickLabel" style="position: absolute; max-width: 41px; top: 284px; left: 104px; text-align: center;">May&nbsp;19</div>
-                            <div class="flot-tick-label tickLabel" style="position: absolute; max-width: 41px; top: 284px; left: 163px; text-align: center;">May&nbsp;22</div>
-                            <div class="flot-tick-label tickLabel" style="position: absolute; max-width: 41px; top: 284px; left: 222px; text-align: center;">May&nbsp;25</div>
-                            <div class="flot-tick-label tickLabel" style="position: absolute; max-width: 41px; top: 284px; left: 281px; text-align: center;">May&nbsp;28</div>
-                            <div class="flot-tick-label tickLabel" style="position: absolute; max-width: 41px; top: 284px; left: 339px; text-align: center;">May&nbsp;31</div>
-                        </div>
-                        <div class="flot-y-axis flot-y1-axis yAxis y1Axis" style="position: absolute; top: 0px; left: 0px; bottom: 0px; right: 0px; display: block;">
-                            <div class="flot-tick-label tickLabel" style="position: absolute; top: 272px; left: 14px; text-align: right;">0</div>
-                            <div class="flot-tick-label tickLabel" style="position: absolute; top: 244px; left: 7px; text-align: right;">20</div>
-                            <div class="flot-tick-label tickLabel" style="position: absolute; top: 217px; left: 7px; text-align: right;">40</div>
-                            <div class="flot-tick-label tickLabel" style="position: absolute; top: 190px; left: 7px; text-align: right;">60</div>
-                            <div class="flot-tick-label tickLabel" style="position: absolute; top: 163px; left: 7px; text-align: right;">80</div>
-                            <div class="flot-tick-label tickLabel" style="position: absolute; top: 136px; left: 1px; text-align: right;">100</div>
-                            <div class="flot-tick-label tickLabel" style="position: absolute; top: 109px; left: 1px; text-align: right;">120</div>
-                            <div class="flot-tick-label tickLabel" style="position: absolute; top: 82px; left: 1px; text-align: right;">140</div>
-                            <div class="flot-tick-label tickLabel" style="position: absolute; top: 55px; left: 1px; text-align: right;">160</div>
-                            <div class="flot-tick-label tickLabel" style="position: absolute; top: 28px; left: 1px; text-align: right;">180</div>
-                            <div class="flot-tick-label tickLabel" style="position: absolute; top: 1px; left: 1px; text-align: right;">200</div>
-                        </div>
-                    </div>
+
+                    <div id="container"></div>
+
                 </div>
             </div>
         </div>
@@ -126,6 +107,113 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 </body>
 
-<?php $this->load->view('footer'); ?>
+<!-- begin #footer -->
+<!-- ================== BEGIN BASE JS ================== -->
+<script src="<?php echo base_url(); ?>/assets/plugins/jquery/jquery-1.9.1.min.js"></script>
+<script src="<?php echo base_url(); ?>/assets/plugins/jquery/jquery-migrate-1.1.0.min.js"></script>
+<script src="<?php echo base_url(); ?>/assets/plugins/jquery-ui/ui/minified/jquery-ui.min.js"></script>
+<script src="<?php echo base_url(); ?>/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+<!--[if lt IE 9]>
+<script src="<?php echo base_url(); ?>/assets/crossbrowserjs/html5shiv.js"></script>
+<script src="<?php echo base_url(); ?>/assets/crossbrowserjs/respond.min.js"></script>
+<script src="<?php echo base_url(); ?>/assets/crossbrowserjs/excanvas.min.js"></script>
+<![endif]-->
+<script src="<?php echo base_url(); ?>/assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+<script src="<?php echo base_url(); ?>/assets/plugins/jquery-cookie/jquery.cookie.js"></script>
+<!-- ================== END BASE JS ================== -->
+
+<!-- ================== BEGIN PAGE LEVEL JS ================== -->
+<script src="<?php echo base_url(); ?>/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+<script src="<?php echo base_url(); ?>/assets/plugins/ionRangeSlider/js/ion-rangeSlider/ion.rangeSlider.min.js"></script>
+<script src="<?php echo base_url(); ?>/assets/plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js"></script>
+<script src="<?php echo base_url(); ?>/assets/plugins/masked-input/masked-input.min.js"></script>
+<script src="<?php echo base_url(); ?>/assets/plugins/bootstrap-timepicker/js/bootstrap-timepicker.min.js"></script>
+<script src="<?php echo base_url(); ?>/assets/plugins/password-indicator/js/password-indicator.js"></script>
+<script src="<?php echo base_url(); ?>/assets/plugins/bootstrap-combobox/js/bootstrap-combobox.js"></script>
+<script src="<?php echo base_url(); ?>/assets/plugins/bootstrap-select/bootstrap-select.min.js"></script>
+<script src="<?php echo base_url(); ?>/assets/plugins/bootstrap-tagsinput/bootstrap-tagsinput.min.js"></script>
+<script src="<?php echo base_url(); ?>/assets/plugins/bootstrap-tagsinput/bootstrap-tagsinput-typeahead.js"></script>
+<script src="<?php echo base_url(); ?>/assets/plugins/jquery-tag-it/js/tag-it.min.js"></script>
+<script src="<?php echo base_url(); ?>/assets/plugins/parsley/dist/parsley.js"></script>
+<!-- <script src="assets/js/form-plugins.demo.min.js"></script> -->
+<script src="<?php echo base_url(); ?>/assets/js/form-plugins.demo.js"></script>
+<script src="<?php echo base_url(); ?>/assets/js/apps.min.js"></script>
+<script src="<?php echo base_url(); ?>/assets/plugins/maskMoney/jquery.maskMoney.min.js"></script>
+<script src="<?php echo base_url(); ?>/assets/plugins/cardswipe/jquery.cardswipe.js"></script>
+<!-- ================== END PAGE LEVEL JS ================== -->
+
+<script type="text/javascript">
+
+    // whenever the document is ready to execute,
+    // execute these series of functions inside of this anonymous function()
+    $(document).ready(function() {
+        App.init();
+        FormPlugins.init();
+
+        var chart1 = new Highcharts.Chart({
+
+            credits: {
+                enabled: false
+            },
+
+            title: {
+                text: 'Gross Volume of Sales',
+                x: -20 //center
+            },
+
+            subtitle: {
+                text: 'By Day',
+                x: -20
+            },
+
+            chart: {
+                renderTo: 'container',
+                type: 'line'
+            },
+
+            xAxis: {
+                categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+                    'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+            },
+            yAxis: {
+                title: {
+                    text: 'Dollars ($)'
+                },
+                plotLines: [{
+                    value: 0,
+                    width: 1,
+                    color: '#808080'
+                }]
+            },
+
+            tooltip: {
+                valueSuffix: '$'
+            },
+
+            legend: {
+                layout: 'vertical',
+                align: 'right',
+                verticalAlign: 'middle',
+                borderWidth: 0
+            },
+
+            series: [{
+                name: 'Company 1',
+                data: [7.0, 6.9, 9.5, 14.5, 18.2, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6]
+            }, {
+                name: 'Company 2',
+                data: [-0.2, 0.8, 5.7, 11.3, 17.0, 22.0, 24.8, 24.1, 20.1, 14.1, 8.6, 2.5]
+            }, {
+                name: 'Company 3',
+                data: [-0.9, 0.6, 3.5, 8.4, 13.5, 17.0, 18.6, 17.9, 14.3, 9.0, 3.9, 1.0]
+            }, {
+                name: 'Company 4',
+                data: [3.9, 4.2, 5.7, 8.5, 11.9, 15.2, 17.0, 16.6, 14.2, 10.3, 6.6, 4.8]
+            }]
+        });
+    });
+
+</script>
+<!-- end #footer -->
 
 </html>
