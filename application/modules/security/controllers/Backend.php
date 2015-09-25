@@ -389,6 +389,7 @@ class Backend extends CI_Controller
 
 				// Load registration success page
 //				$this->load->view($this->dx_auth->register_success_view, $data);
+
 				$this->load->view('security/backend/add_user', $data);
 			}
 			else

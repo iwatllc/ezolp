@@ -63,7 +63,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 
 
-
     <!-- begin row -->
     <div class="row">
         <!-- begin col-8 -->

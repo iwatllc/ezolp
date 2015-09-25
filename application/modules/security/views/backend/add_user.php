@@ -121,6 +121,7 @@ $register = array(
                 <?php echo form_password($confirm_password); ?>
                 <?php echo form_error($confirm_password['name']); ?>
             </div><br/>
+
         </div>
     </div>
     <div class="form-group">
