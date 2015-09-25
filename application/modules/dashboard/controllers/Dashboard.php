@@ -26,7 +26,7 @@ class Dashboard extends MX_Controller {
         $this->load->model('Dashboard_model', 'Dashboard');
 
         $view_vars = array(
-            'title' => 'EZ Online Pay | Virtual Terminal Payment Form',
+            'title' => 'EZ Online Pay | Dashboard',
             'heading' => 'Welcome',
             'description' => '',
             'author' => 'EZ Online Pay 2015 ' . date("Y")

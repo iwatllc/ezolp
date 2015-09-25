@@ -366,10 +366,18 @@ class Backend extends CI_Controller
 				else
 				{
 					$data['auth_message'] = 'You have successfully registered. '.anchor(site_url($this->dx_auth->login_uri), 'Login');
+
+					$pass = str_repeat('*', strlen ($val->set_value('password')));
+
+					$data['add_user'] = 'You have successfully added the following user:<br/> '.
+						'<br/>Username: ' . $val->set_value('username').
+						'<br/>Email: ' . $val->set_value('email').
+						'<br/>Password: ' . $pass;
 				}
 
 				// Load registration success page
-				$this->load->view($this->dx_auth->register_success_view, $data);
+//				$this->load->view($this->dx_auth->register_success_view, $data);
+				$this->load->view('security/backend/add_user', $data);
 			}
 			else
 			{

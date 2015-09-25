@@ -71,7 +71,6 @@ $register = array(
 <?php echo form_open($this->uri->uri_string()); ?>
 <?php echo $this->dx_auth->get_auth_error(); ?>
 
-
 <!-- begin #content -->
 <div id="content" class="content">
 
@@ -82,6 +81,7 @@ $register = array(
             <div class="panel-heading">
                 <h4 class="panel-title">Add User</h4>
             </div>
+
             <div class="panel-body">
                 <div class="col-md-9">
                     <div class="form-inline">
@@ -90,44 +90,44 @@ $register = array(
                     </div>
                     <?php echo form_input($username) ?>
                     <?php echo form_error($username['name']); ?>
-                </div>
-                <br/>
+                </div><br/>
             </div>
+
+                <div class="col-md-9">
+                    <div class="form-inline">
+                        <div class="control-label"
+                        <?php echo form_label('Email', $email['id']); ?>
+                    </div>
+                    <?php echo form_input($email) ?>
+                    <?php echo form_error($email['name']); ?>
+                </div><br/>
+            </div>
+
             <div class="col-md-9">
                 <div class="form-inline">
                     <div class="control-label"
-                    <?php echo form_label('Email', $email['id']); ?>
+                    <?php echo form_label('Password', $password['id']); ?>
                 </div>
-                <?php echo form_input($email) ?>
-                <?php echo form_error($email['name']); ?>
-            </div>
-            <br/>
-        </div>
-        <div class="col-md-9">
-            <div class="form-inline">
-                <div class="control-label"
-                <?php echo form_label('Password', $password['id']); ?>
-            </div>
-            <?php echo form_password($password); ?>
-            <?php echo form_error($password['name']); ?>
-        </div>
-        <br/>
+                <?php echo form_password($password); ?>
+                <?php echo form_error($password['name']); ?>
+            </div><br/>
 
 
-        <div class="col-md-9">
-            <div class="form-inline">
-                <div class="control-label"
-                <?php echo form_label('Confirm Password', $confirm_password['id']); ?>
-            </div>
-            <?php echo form_password($confirm_password); ?>
-            <?php echo form_error($confirm_password['name']); ?>
+            <div class="col-md-9">
+                <div class="form-inline">
+                    <div class="control-label"
+                    <?php echo form_label('Confirm Password', $confirm_password['id']); ?>
+                </div>
+                <?php echo form_password($confirm_password); ?>
+                <?php echo form_error($confirm_password['name']); ?>
+            </div><br/>
         </div>
-        <br/>
     </div>
     <div class="form-group">
         <div class="col-md-9">
             <?php echo form_submit($register); ?>
-            <?php echo form_close(); ?>
+            <?php echo form_close(); ?><br/><br/>
+            <?php if (isset($add_user)) { echo $add_user; } ?>
         </div>
     </div>
 </div>
