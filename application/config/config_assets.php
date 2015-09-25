@@ -16,6 +16,6 @@ $config['prefix_base_filename'] = 'default';
 $config['base_preprocess'] = './assets/scss/base.scss';
 $config['default_style'] = 'base.css';
 $config['dir_public_css'] = './assets/css/';
-$config['dir_tmp_assets'] = './assets/temp/';
+$config['dir_tmp_assets'] = './assets/kmat/';
 $config['url_dir_public_css'] = 'assets/css/';
 $config['client'] = './client/client.scss';
