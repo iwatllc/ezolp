@@ -1,6 +1,9 @@
 
 <?php $username = $this->session->userdata('DX_username'); ?>
 
+
+<?php $pageName = $this->uri->segment(1); // search, dashboard, etc. ?>
+
 <meta charset="utf-8" />
 <title><?php echo $page_data['title']; ?></title>
 <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
@@ -95,14 +98,14 @@
             <!-- begin sidebar nav -->
             <ul class="nav">
 
-                <li class="active">
+                <li class="has-sub<?php echo $pageName == 'dashboard' ? ' active' : ''; ?>">
                     <a href="<?php echo base_url(); ?>dashboard">
                         <i class="fa fa-laptop"></i>
                         <span>Dashboard</span>
                     </a>
                 </li>
 
-                <li class="has-sub">
+                <li class="has-sub<?php echo $pageName == 'search' ? ' active' : ''; ?>">
                     <a href="<?php echo base_url(); ?>search">
                         <i class="fa fa-search"></i>
                         <span>Search</span>
@@ -116,31 +119,31 @@
                     </a>
                 </li>
 
-                <li class="has-sub">
+                <li class="has-sub<?php echo $pageName == 'virtualterminal' || $pageName == 'guestform' ? ' active' : ''; ?>">
                     <a href="javascript:;">
                         <b class="caret pull-right"></b>
                         <i class="fa fa-file-o"></i>
                         <span>Payment Forms</span>
                     </a>
                     <ul class="sub-menu">
-                        <li><a href="<?php echo base_url(); ?>virtualterminal">Virtual Terminal</a></li>
-                        <li><a href="<?php echo base_url(); ?>guestform">Guest Form</a></li>
+                        <li<?php echo $pageName == 'virtualterminal' ? ' class="active"' : ''; ?>><a href="<?php echo base_url(); ?>virtualterminal">Virtual Terminal</a></li>
+                        <li<?php echo $pageName == 'guestform' ? ' class="active"' : ''; ?>><a href="<?php echo base_url(); ?>guestform">Guest Form</a></li>
                     </ul>
                 </li>
 
-                <li class="has-sub">
+                <li class="has-sub<?php echo $pageName == 'security' ? ' active' : ''; ?>">
                     <a href="javascript:;">
                         <b class="caret pull-right"></b>
                         <i class="fa fa-key"></i>
                         <span>Security</span>
                     </a>
                     <ul class="sub-menu">
-                        <li><a href="<?php echo base_url(); ?>security/backend/users">Manage Users</a></li>
-                        <li><a href="<?php echo base_url(); ?>security/backend/unactivated_users">Manage Unactivated Users</a></li>
-                        <li><a href="<?php echo base_url(); ?>security/backend/roles">Manage Roles</a></li>
-                        <li><a href="<?php echo base_url(); ?>security/backend/uri_permissions">URI Permissions</a></li>
-                        <li><a href="<?php echo base_url(); ?>security/backend/custom_permissions">Custom Permissions</a></li>
-                        <li><a href="<?php echo base_url(); ?>security/backend/add_user">Add User</a></li>
+                        <li<?php echo $this->uri->segment(3) == 'users' ? ' class="active"' : ''; ?>><a href="<?php echo base_url(); ?>security/backend/users">Manage Users</a></li>
+                        <li<?php echo $this->uri->segment(3) == 'unactivated_users' ? ' class="active"' : ''; ?>><a href="<?php echo base_url(); ?>security/backend/unactivated_users">Manage Unactivated Users</a></li>
+                        <li<?php echo $this->uri->segment(3) == 'roles' ? ' class="active"' : ''; ?>><a href="<?php echo base_url(); ?>security/backend/roles">Manage Roles</a></li>
+                        <li<?php echo $this->uri->segment(3) == 'uri_permissions' ? ' class="active"' : ''; ?>><a href="<?php echo base_url(); ?>security/backend/uri_permissions">URI Permissions</a></li>
+                        <li<?php echo $this->uri->segment(3) == 'custom_permissions' ? ' class="active"' : ''; ?>><a href="<?php echo base_url(); ?>security/backend/custom_permissions">Custom Permissions</a></li>
+                        <li<?php echo $this->uri->segment(3) == 'add_user' ? ' class="active"' : ''; ?>><a href="<?php echo base_url(); ?>security/backend/add_user">Add User</a></li>
                     </ul>
                 </li>
 
