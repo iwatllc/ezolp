@@ -18,7 +18,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <html lang="en">
 <!--<![endif]-->
 
-<?php $this->load->view('header'); ?>
 <?php $this->load->view('navbar'); ?>
 
 <head>
@@ -27,8 +26,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     
 <body class = "flat-back">
 
-    <!-- begin #content -->
     <div id="content" class="content">
+    
+    
         <div class="row">
             <!-- begin col-12 -->
             <div class="col-12">
@@ -47,49 +47,54 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                             <tr>
                                                 <td>
                                                         <label>Transaction ID</label>
-                                                        <?php echo form_input(array('name'=>'PaymentTransactionId', 'placeholder'=>'ID', 'class'=>'form-control')); ?>
+                                                        <?php echo form_input(array('name'=>'PaymentTransactionId', 'value'=>set_value('PaymentTransactionId', $search_array['PaymentTransactionId']), 'placeholder'=>'ID', 'class'=>'form-control')); ?>
                                                 </td>
 
                                                 <td>
                                                         <label>Transaction Begin Date</label>
-                                                        <?php echo form_input(array('name'=>'BegDate', 'placeholder'=>'Begin Date', 'class'=>'form-control', 'id'=>'datepicker')); ?>
+                                                        <?php echo form_input(array('name'=>'BegDate', 'value'=>set_value('BegDate', $search_array['BegDate']), 'placeholder'=>'Begin Date', 'class'=>'form-control', 'id'=>'datepicker')); ?>
                                                 </td>
                                                 
                                                 <td>
                                                         <label>Transaction End Date</label>
-                                                        <?php echo form_input(array('name'=>'EndDate', 'placeholder'=>'End Date', 'class'=>'form-control', 'id'=>'datepicker2')); ?>
+                                                        <?php echo form_input(array('name'=>'EndDate', 'value'=>set_value('EndDate', $search_array['EndDate']), 'placeholder'=>'End Date', 'class'=>'form-control', 'id'=>'datepicker2')); ?>
                                                 </td>
 
                                                 <td>
                                                         <label>Payment Source</label>
-                                                        <?php echo form_input(array('name'=>'PaymentSource', 'placeholder'=>'Payment Source', 'class'=>'form-control')); ?>
+                                                        <?php echo form_dropdown('PaymentSource', $payment_sources, $search_array['PaymentSource'], array('class'=>'form-control')); ?>
                                                 </td>
 
                                                 <td>
                                                         <label>Transaction Amount</label>
-                                                        <?php echo form_input(array('name'=>'TransactionAmount', 'placeholder'=>'Transaction Amount', 'class'=>'form-control')); ?>
+                                                        <?php echo form_input(array('name'=>'TransactionAmount', 'value'=>set_value('TransactionAmount', $search_array['TransactionAmount']), 'placeholder'=>'Transaction Amount', 'class'=>'form-control')); ?>
                                                 </td>
                                             </tr>
 
                                             <tr>
                                                 <td>
                                                         <label>Approval Code</label>
-                                                        <?php echo form_input(array('name'=>'AuthCode', 'placeholder'=>'Approval Code', 'class'=>'form-control')); ?>
+                                                        <?php echo form_input(array('name'=>'AuthCode', 'value'=>set_value('AuthCode', $search_array['AuthCode']), 'placeholder'=>'Approval Code', 'class'=>'form-control')); ?>
                                                 </td>
 
                                                 <td>
                                                         <label>Order Number</label>
-                                                        <?php echo form_input(array('name'=>'OrderNumber', 'placeholder'=>'Order Number', 'class'=>'form-control')); ?>
+                                                        <?php echo form_input(array('name'=>'OrderNumber', 'value'=>set_value('OrderNumber', $search_array['OrderNumber']), 'placeholder'=>'Order Number', 'class'=>'form-control')); ?>
                                                 </td>
                                                 
                                                 <td>
                                                         <label>CVV2 Result</label>
-                                                        <?php echo form_input(array('name'=>'CVV2ResponseMessage', 'placeholder'=>'CVV2 Result', 'class'=>'form-control')); ?>
+                                                        <?php echo form_input(array('name'=>'CVV2ResponseMessage', 'value'=>set_value('CVV2ResponseMessage', $search_array['CVV2ResponseMessage']), 'placeholder'=>'CVV2 Result', 'class'=>'form-control')); ?>
                                                 </td>
 
                                                 <td>
                                                         <label>Batch Number</label>
-                                                        <?php echo form_input(array('name'=>'SerialNumber', 'placeholder'=>'Batch Number', 'class'=>'form-control')); ?>
+                                                        <?php echo form_input(array('name'=>'SerialNumber', 'value'=>set_value('SerialNumber', $search_array['SerialNumber']), 'placeholder'=>'Batch Number', 'class'=>'form-control')); ?>
+                                                </td>
+                                                
+                                                <td>
+                                                        <label>Transaction Status</label>
+                                                        <?php echo form_dropdown('TransactionStatusId', $transaction_statuses, $search_array['TransactionStatusId'], array('class'=>'form-control')); ?>
                                                 </td>
                                             </tr>
                                             
@@ -173,22 +178,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                                             <th>Payment Source</th>
                                                             <th>Transaction Amount</th>
                                                             <th>Approval Code</th>
-                                                            <th>Order Number</th>
+                                                            <th>Transaction Status</th>
                                                             <th>CVV2 Result</th>
                                                             <th>Batch Number</th>
+                                                            <th>Actions</th>
                                                         </tr>
                                             </thead>
                                             <tbody>
-                                                <tr>
-                                                    <td>
-                                                        <?php
-                                                            // foreach ($results->list_fields() as $field)
-                                                            // {
-                                                            //     echo $field.' = ';
-                                                           //  }
-                                                        ?>
-                                                    </td>
-                                                </tr>
                                                 <?php
                                                 foreach ($results->result() as $result)
                                                 {
@@ -206,17 +202,26 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                                             echo $result->TransactionAmount;
                                                         echo "</td>";
                                                         echo "<td>";
-                                                            echo $result->AuthCode;
+                                                            echo $result->IsApproved;
                                                         echo "</td>";
-                                                        echo "<td>";
-                                                            echo $result->OrderNumber;
+														echo "<td>";
+                                                            echo $result->status;
                                                         echo "</td>";
                                                         echo "<td>";
                                                             echo $result->CVV2ResponseMessage;
                                                         echo "</td>";
                                                         echo "<td>";
-                                                            echo $result->SerialNumber;
+                                                            echo strlen($result->SerialNumber) == 0 ? $result->TransactionFileName : $result->SerialNumber;
                                                         echo "</td>";
+														if(strcmp($result->status, 'Void') != 0 && strcmp($result->status, 'Refund') != 0) {
+															echo "<td>
+																		<button data-paymentResponseId='". $result->PaymentResponseId ."' class='btn btn-link btn-refund'>Refund</button><br/>
+																		<button data-transactionDate='". $result->InsertDate ."' data-paymentResponseId='". $result->PaymentResponseId ."' data-transactionAmount='". $result->TransactionAmount . "' class='btn btn-link btn-void'>Void</button><br/>
+	                                                        	 </td>";
+														}
+														else {
+															echo "<td>&nbsp;</td>";
+														}
                                                     echo "<tr>";
                                                 } ?>
                                             </tbody>
@@ -238,33 +243,51 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     
     </div>
     <!-- end #content -->
-
+    <input id="transactionid" type="hidden"/>
+	<div id="dialog-confirm-void" title="Void Transaction?"></div>
     <!-- begin scroll to top btn -->
     <a href="javascript:;" class="btn btn-icon btn-circle btn-success btn-scroll-to-top fade" data-click="scroll-top"><i class="fa fa-angle-up"></i></a>
     <!-- end scroll to top btn -->
 
+</div>    
+<!-- end page container -->
 
 </body>
 
-<!-- begin datepicker/tablesorter -->
-<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-<script src="//code.jquery.com/jquery-1.10.2.js"></script>
-<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-<script>
-    $( document ).ready(function()
-    {
+<?php $this->load->view('footer'); ?>
+<script type="text/javascript">
+    $( document ).ready(function() {
+		//$("#myTable").tablesorter();    	
+    	
         $( "#datepicker" ).datepicker({defaultDate: null});
         $( "#datepicker2" ).datepicker({defaultDate: null});
+        
+        $( "#content" ).on("click", ".btn-refund", function() {
+			window.location = "<?php echo base_url(); ?>refund/Refund/index/"+$(this).attr("data-paymentResponseId");
+        });
+        
+        $( "#content" ).on("click", ".btn-void", function() {
+        	$("#transactionid").val($(this).attr("data-paymentResponseId"));
+        	$("#dialog-confirm-void").html("<strong>Transaction Id:</strong> " + $(this).attr("data-paymentResponseId") + "</br>"
+        								+  "<strong>Transaction Date:</strong> " + $(this).attr("data-transactionDate") + "</br>"
+        								+  "<strong>Transaction Amount:</strong> $" + $(this).attr("data-transactionAmount"));
+        	$("#dialog-confirm-void").dialog("option", "position", {at: "center top", of: this}).dialog("open");
+        });
+        
+        $( "#dialog-confirm-void").dialog({
+        	modal: true,
+        	autoOpen: false,
+        	buttons: {
+        		"Void Transaction": function() {
+        			window.location = "<?php echo base_url(); ?>void/Void/index/"+$("#transactionid").val();
+        		},
+        		Cancel: function() {
+        			$(this).dialog("close");
+        		}
+        	}
+        });
     });
-
-    $(document).ready(function()
-        {
-            $("#myTable").tablesorter();
-        }
-    );
 </script>
-<!-- end datepicker/tablesorter -->
 
-<?php $this->load->view('footer'); ?>
 
 </html>

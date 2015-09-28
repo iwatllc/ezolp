@@ -64,23 +64,23 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 											<div class="col-md-9">
 												<div class="btn-group pay-btns pay-btns-1" data-toggle="buttons">
 													<label class="btn btn-primary">
-														<input type="radio" class="amt-rad" name="paymentamount" id="paymentamount25" value="25" <?php echo set_radio('paymentamount', '25'); ?> /> <span>$25</span>
+														<input type="radio" class="amt-rad" name="paymentamount" id="paymentamount25" value="25.00" <?php echo set_radio('paymentamount', '25.00'); ?> /> <span>$25</span>
 													</label>
 												
 													<label class="btn btn-primary">
-														<input type="radio" class="amt-rad" name="paymentamount" id="paymentamount50" value="50" <?php echo set_radio('paymentamount', '50'); ?> /><span>$50</span>
+														<input type="radio" class="amt-rad" name="paymentamount" id="paymentamount50" value="50.00" <?php echo set_radio('paymentamount', '50.00'); ?> /><span>$50</span>
 													</label>
 											
 													<label class="btn btn-primary">
-														<input type="radio" class="amt-rad" name="paymentamount" id="paymentamount75" value="75" <?php echo set_radio('paymentamount', '75'); ?> /><span>$75</span>
+														<input type="radio" class="amt-rad" name="paymentamount" id="paymentamount75" value="75.00" <?php echo set_radio('paymentamount', '75.00'); ?> /><span>$75</span>
 													</label>
 												
 													<label class="btn btn-primary">
-														<input type="radio" class="amt-rad" name="paymentamount" id="paymentamount100" value="100" <?php echo set_radio('paymentamount', '100'); ?> /><span>$100</span>
+														<input type="radio" class="amt-rad" name="paymentamount" id="paymentamount100" value="100.00" <?php echo set_radio('paymentamount', '100.00'); ?> /><span>$100</span>
 													</label>
 												
 													<label class="btn btn-primary">
-														<input type="radio" class="amt-rad" name="paymentamount" id="paymentamount200" value="200" <?php echo set_radio('paymentamount', '200'); ?> /><span>$200</span>
+														<input type="radio" class="amt-rad" name="paymentamount" id="paymentamount200" value="200.00" <?php echo set_radio('paymentamount', '200.00'); ?> /><span>$200</span>
 													</label>
 												</div><!-- ./ pay-btns -->
 											</div><!-- ./col-md-9 -->
@@ -342,8 +342,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
                                         echo form_input($data);
                                         ?>
-                                        <?php echo(!empty(form_error('zip')) ? '<span class="fa fa-times form-control-feedback"></span>' : ''); ?>
-                                        <?php echo form_error('zip'); ?>
+                                        <?php echo(!empty(form_error('email')) ? '<span class="fa fa-times form-control-feedback"></span>' : ''); ?>
+                                        <?php echo form_error('email'); ?>
                                     </div>
                                 </div>
                                 <div class="form-group <?php echo(!empty(form_error('notes')) ? 'has-error has-feedback' : ''); ?>">

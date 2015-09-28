@@ -99,8 +99,8 @@ class Nmi extends MX_Controller
 
 	    $query  = "";
 	    // Login Information
-	    $query .= "username=" . urlencode($this->login['username']) . "&";
-	    $query .= "password=" . urlencode($this->login['password']) . "&";
+	    $query .= "username=" . urlencode($this->config->item('NMI_Username')) . "&";
+	    $query .= "password=" . urlencode($this->config->item('NMI_Password')) . "&";
 	    // Transaction Information
 	    $query .= "transactionid=" . urlencode($transactionid) . "&";
 	    $query .= "type=void";
@@ -111,8 +111,8 @@ class Nmi extends MX_Controller
 
 	    $query  = "";
 	    // Login Information
-	    $query .= "username=" . urlencode($this->login['username']) . "&";
-	    $query .= "password=" . urlencode($this->login['password']) . "&";
+	    $query .= "username=" . urlencode($this->config->item('NMI_Username')) . "&";
+	    $query .= "password=" . urlencode($this->config->item('NMI_Password')) . "&";
 	    // Transaction Information
 	    $query .= "transactionid=" . urlencode($transactionid) . "&";
 	    if ($amount>0) {
@@ -141,14 +141,12 @@ class Nmi extends MX_Controller
 	    curl_close($ch);
 	    unset($ch);
 	    
-	    log_message("debug", "Returning NMI Response Data -> " . $data);
 	    $data = explode("&",$data);
 		$responses;
 	    for($i=0;$i<count($data);$i++) {
 	        $rdata = explode("=",$data[$i]);
 	        $responses[$rdata[0]] = $rdata[1];
 	    }
-		log_message("debug", "NMI Response - > " . print_r($responses));
 	    return $responses;
 	}
 }

@@ -27,5 +27,15 @@ class Payment_model extends CI_Model {
         $this->db->update('payment_response', $data);
     }
 
-
+	public function get($data) {
+		$this->db->from('payment_response');
+		$this->db->where($data);
+		
+		$query = $this->db->get();
+		foreach ($query->result() as $row)
+		{
+		    log_message("DEBUG", "getByTransactionIdReturns -> ".$row->TransactionAmount);
+			return $row;
+		}
+	}
 }
