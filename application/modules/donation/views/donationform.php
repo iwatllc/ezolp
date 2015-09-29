@@ -17,8 +17,37 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		$data['asset'] = $css;
 		$this->load->view('header', $data); 
 ?>
+<style>
+    #loading-div-background{
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        background: #fff;
+        width: 100%;
+        height: 100%;
+    }
 
-<body class="flat-black donation-form">
+    #loading-div{
+        width: 300px;
+        height: 150px;
+        background-color: #fff;
+        border: 5px solid #f59c1a;
+        text-align: center;
+        color: #202020;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        margin-left: -150px;
+        margin-top: -100px;
+        -webkit-border-radius: 5px;
+        -moz-border-radius: 5px;
+        border-radius: 5px;
+        behavior: url("/css/pie/PIE.htc"); /* HANDLES IE */
+    }
+</style>
+
+<body class="flat-black donation-fom"r>
 
 <!-- begin #page-container -->
 <div id="page-container" class="fade in page-without-sidebar">
@@ -48,7 +77,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <div class="row">
             <!-- begin col-12 -->
             <div class="col-12">
-                <?php $attributes = array('class' => 'form-horizontal'); ?>
+                <?php $attributes = array('class' => 'form-horizontal', 'id' => 'donationform'); ?>
                 <?php echo form_open('donation/Donation/submit', $attributes); ?>
                     <!-- begin panel -->
                     <div class="panel panel-inverse" >
@@ -498,6 +527,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     </div>
     <!-- end #content -->
 
+    <!-- #modal-message -->
+    <div id="loading-div-background">
+        <div id="loading-div" class="ui-corner-all">
+            <img style="height:64px;width:62px;margin:30px;" src="<?php echo base_url(); ?>assets/img/spinner.gif" alt="Loading.."/><br>PROCESSING. PLEASE WAIT...
+        </div>
+    </div>
 
     <!-- begin scroll to top btn -->
     <a href="javascript:;" class="btn btn-icon btn-circle btn-success btn-scroll-to-top fade" data-click="scroll-top"><i class="fa fa-angle-up"></i></a>
@@ -507,6 +542,26 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <!-- end page container -->
 
 <?php $this->load->view('footer'); ?>
+
+
+
+<script type="text/javascript">
+    //$('#vtpaymentform').submit(function(){
+    //    $('input[type=submit]', this).attr('disabled', 'disabled');
+    //});
+    $(document).ready(function() {
+        $("#loading-div-background").css({ opacity: 1.0 });
+
+        $('#donationform').submit(function(){
+            $('#submit').attr({
+                disabled: 'disabled',
+                value: 'Processing, Please Wait...'
+            });
+            $("#loading-div-background").show();
+        });
+    });
+
+</script>
 
 <script type="text/javascript">
 	
@@ -624,6 +679,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     });
 
 </script>
+
+
 
 
 </body>

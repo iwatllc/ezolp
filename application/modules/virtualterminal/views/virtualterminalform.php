@@ -11,6 +11,37 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <?php $this->load->view('header'); ?>
 <?php $this->load->view('navbar'); ?>
 
+
+<style>
+    #loading-div-background{
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        background: #fff;
+        width: 100%;
+        height: 100%;
+    }
+
+    #loading-div{
+        width: 300px;
+        height: 150px;
+        background-color: #fff;
+        border: 5px solid #f59c1a;
+        text-align: center;
+        color: #202020;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        margin-left: -150px;
+        margin-top: -100px;
+        -webkit-border-radius: 5px;
+        -moz-border-radius: 5px;
+        border-radius: 5px;
+        behavior: url("/css/pie/PIE.htc"); /* HANDLES IE */
+    }
+</style>
+
 <body class="flat-black">
 
 
@@ -227,6 +258,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     </div>
     <!-- end #content -->
 
+    <!-- #modal-message -->
+    <div id="loading-div-background">
+        <div id="loading-div" class="ui-corner-all">
+            <img style="height:64px;width:62px;margin:30px;" src="<?php echo base_url(); ?>assets/img/spinner.gif" alt="Loading.."/><br>PROCESSING. PLEASE WAIT...
+        </div>
+    </div>
+
 
     <!-- begin scroll to top btn -->
     <a href="javascript:;" class="btn btn-icon btn-circle btn-success btn-scroll-to-top fade" data-click="scroll-top"><i class="fa fa-angle-up"></i></a>
@@ -242,11 +280,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     //    $('input[type=submit]', this).attr('disabled', 'disabled');
     //});
     $(document).ready(function() {
+        $("#loading-div-background").css({ opacity: 1.0 });
+
         $('#vtpaymentform').submit(function(){
             $('#submit').attr({
                 disabled: 'disabled',
                 value: 'Processing, Please Wait...'
             });
+            $("#loading-div-background").show();
         });
     });
 
