@@ -435,7 +435,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <!-- #modal-message -->
     <div id="loading-div-background">
         <div id="loading-div" class="ui-corner-all">
-            <img style="height:64px;width:62px;margin:30px;" src="<?php echo base_url(); ?>assets/img/spinner.gif" alt="Loading.."/><br>PROCESSING. PLEASE WAIT...
+            <img style="height:64px;width:62px;margin:30px;" src="<?php echo base_url(); ?>assets/img/wait_spinner.gif" alt="Loading.."/><br>PROCESSING. PLEASE WAIT...
         </div>
     </div>
 
