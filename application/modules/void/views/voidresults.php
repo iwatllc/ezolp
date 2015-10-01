@@ -35,7 +35,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         </div>
         <!-- end #header -->
 
-		<!-- begin #content -->
+        <!-- begin #content -->
         <div id="content" class="content">
             <!-- begin page-header -->
             <h1 class="page-header"><?php echo $page_data['heading'];?></h1>
@@ -59,25 +59,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         {
                             ?>
                             <div class='success'>
-                            Payment Successfully Processed!
+                            Void Successfully Processed!
                             </div>
                             <br>
-                            Payment Reciept
+                            Void Reciept
                             </br>
                             </br>
                             <b>Reciept #:</b> <?php echo $result_data['OrderNumber']; ?>
                             </br></br>
                             <b>Date:</b> <?php echo $result_data['UpdateDate']; ?>
                             </br></br>
-                            <b>Amount:</b> <?php echo $submitted_data['amount']; ?>
-                            </br></br>
-                            <b>Card Ending: ************</b><?php echo $submitted_data['cclast4']; ?>
-                            </br></br>
-                            <b>Card Holder:</b> <?php echo $submitted_data['name']; ?>
-                            </br></br>
-                            <b>Address:</b></br>
-                            <?php echo $submitted_data['streetaddress']; ?></br>
-                            <?php echo $submitted_data['city']; ?>&nbsp;<?php echo $submitted_data['state']; ?>&nbsp;<?php echo $submitted_data['zip']; ?>
+                            <b>Amount:</b> <?php echo $payment->TransactionAmount; ?>
 
 
                             <?php
@@ -110,9 +102,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         </div>
         <!-- end #content -->
     <?php
-        echo anchor('donation/Donation/', 'PROCESS ANOTHER DONATION', array('class' => 'btn btn-primary btn-lg m-r-5 dontprint'));
+        echo anchor('search/', 'RETURN TO SEARCH', array('class' => 'btn btn-primary btn-lg m-r-5 dontprint'));
     ?>
-
 
     <a href="javascript:window.print()" class="btn btn-primary btn-lg m-r-5 dontprint">PRINT RECEIPT</a>
 

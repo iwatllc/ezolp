@@ -114,8 +114,7 @@ class Donation extends MX_Controller {
 
             // Gather all the info for the view
             $view_vars = array(
-                //'title' => $this->config->item('Client_Title'),
-                'title' => '',
+                'title' => $this->config->item('Client_Title'),
                 'heading' => $this->config->item('Client_Heading'),
                 'description' => $this->config->item('Client_Description'),
                 'company' => $this->config->item('Client_Name'),

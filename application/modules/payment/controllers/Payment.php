@@ -22,11 +22,11 @@ class Payment extends MX_Controller
         $this->load->model('Payment_model', 'Payment');
 		$gateway = $this->config->item('Gateway');
         $payment_data = array(
-            'PaymentTransactionid' => $data['transaction_id'],
+        	'PaymentTransactionId' => $data['transaction_id'],
             'PaymentSource' => $data['PaymentSource'],
             'TransactionAmount' => $data['amount'],
             'InsertDate' => date('Y-n-j H:i:s'),
-			'Gateway' => $gateway
+			'Gateway' => $gateway,			
         );
         $payment_id = $this->Payment->save($payment_data);
 
@@ -88,8 +88,106 @@ class Payment extends MX_Controller
             'ReturnCode' => $result_data['response_code'],
             'TransactionFileName' => $result_data['transactionid'],
             'ResponseHTML' => $result_data['responsetext'],
-            'UpdateDate' => date('Y-n-j H:i:s')
+            'UpdateDate' => date('Y-n-j H:i:s'),
+            'TransactionStatusId' => 1 //Hardcode Approved Transaction Status
         );
 	}
 	
+	public function process_refund($data)
+    {
+        $this->load->model('Payment_model', 'Payment');
+		$gateway = $this->config->item('Gateway'); //maybe this should be based on payment gateway, but we'd have to change config from static solution
+		
+		$payment_refund_data = array(
+            'PaymentTransactionId' => $data['transactionid'],
+            'PaymentSource' => $data['paymentsource'],
+            'TransactionAmount' => $data['amount'],
+            'InsertDate' => date('Y-n-j H:i:s'),
+			'Gateway' => $gateway
+        );
+        $refund_id = $this->Payment->save($payment_refund_data);
+		
+		log_message('debug', "Gateway is set -> " . $gateway);
+		if(strcmp($gateway, 'NPC') == 0) {
+			//Gateway is NPC
+			//TODO: Add NPC Gateway Refund Code
+		}
+
+		else if(strcmp($gateway, 'NMI') == 0) {
+			//Gateway is NMI
+			$this->load->module('nmi');
+			$refund_result_data = $this->_NMI_process_refund($data['transactionfilename'], $data['amount']);
+		}
+		else {
+			show_error("Unrecognized gateway '". $gateway . "'");
+		}
+		
+        $this->Payment->update($refund_result_data, $refund_id);
+
+        return $refund_result_data;
+
+    }
+	
+	private function _NMI_process_refund($transactionId, $transactionAmount)
+	{
+		$this->load->module('nmi');
+		$result_data = $this->nmi->doRefund($transactionId, $transactionAmount);
+		
+		return array(
+            'AuthCode' => $result_data['authcode'],
+            'AVSResponseCode' => $result_data['avsresponse'],
+            'OrderNumber' => $result_data['orderid'],
+            'IsApproved' => $result_data['response'],
+            'CVV2ResponseCode' => $result_data['cvvresponse'],
+            'ReturnCode' => $result_data['response_code'],
+            'TransactionFileName' => $result_data['transactionid'],
+            'ResponseHTML' => $result_data['responsetext'],
+            'UpdateDate' => date('Y-n-j H:i:s'),
+            'TransactionStatusId' => 3	//HardCode Refunded Transaction Status
+        );
+	}
+	
+	public function process_void($payment)
+    {
+        $this->load->model('Payment_model', 'Payment');
+		$gateway = $this->config->item('Gateway'); //maybe this should be based on payment gateway, but we'd have to change config from static solution
+
+		if(strcmp($gateway, 'NPC') == 0) {
+			//Gateway is NPC
+			//TODO: Add NPC Gateway Void Code
+		}
+
+		else if(strcmp($gateway, 'NMI') == 0) {
+			//Gateway is NMI
+			$this->load->module('nmi');
+			$result_data = $this->_NMI_process_void($payment->TransactionFileName);
+			if($result_data['IsApproved'] == 1) {
+				$success_void_data = array('VoidResponseHTML' => implode("|", $result_data),
+					  					   'TransactionStatusId' => 2);
+				$this->Payment->update($success_void_data, $payment->PaymentResponseId);					  
+		    }
+		}
+		else {
+			show_error("Unrecognized gateway '". $gateway . "'");
+		}
+		return $result_data;
+    }
+
+	private function _NMI_process_void($transactionId)
+	{
+		$this->load->module('nmi');
+		$result_data = $this->nmi->doVoid($transactionId);
+		
+		return array(
+            'AuthCode' => $result_data['authcode'],
+            'AVSResponseCode' => $result_data['avsresponse'],
+            'OrderNumber' => $result_data['orderid'],
+            'IsApproved' => $result_data['response'],
+            'CVV2ResponseCode' => $result_data['cvvresponse'],
+            'ReturnCode' => $result_data['response_code'],
+            'TransactionFileName' => $result_data['transactionid'],
+            'ResponseHTML' => $result_data['responsetext'],
+            'UpdateDate' => date('Y-n-j H:i:s')
+        );
+	}
 }

@@ -65,13 +65,19 @@ class Search_model extends CI_Model {
               if ($search_array['SerialNumber'] != NULL)
               {
                   $this->db->where('payment_response.SerialNumber', $search_array['SerialNumber']);
+				  $this->db->or_where('payment_response.TransactionFileName', $search_array['SerialNumber']);
               }
 
+			  if ($search_array['TransactionStatusId'] != NULL)
+              {
+                  $this->db->where('payment_response.TransactionStatusId', $search_array['TransactionStatusId']);
+              }
               $form_list = $this->_get_forms();
 
               foreach ($form_list->result() as $form) {
                   $this->db->join($form->tablename, 'payment_response.PaymentTransactionId = '.$form->tablename.'.id and payment_response.PaymentSource = "'.$form->mnemonic.'" ', 'left');
               }
+			  $this->db->join('transaction_status', 'payment_response.TransactionStatusId = transaction_status.id', 'inner');
 
               // Sample of what the join should look like.
               //$this->db->join('virtualterminal_submissions', 'payment_response.PaymentTransactionId = virtualterminal_submissions.id and payment_response.PaymentSource = "VT" ');
@@ -98,20 +104,53 @@ class Search_model extends CI_Model {
     /**
      * Returns the summation of TransactionAmount column.
      */
-    public function get_total_amount($amount)
+    public function get_total_amount($results)
     {
-        $this->db->select('SUM(TransactionAmount) as amt');
-        $this->db->from('payment_response');
-        $this->db->where('TransactionAmount', $amount);
-        $q = $this->db->get();
-        $row = $q->row();
-        
-        return $row->amt;
+    	$amt = 0;
+        foreach ($results->result() as $result) {
+        	if($result->TransactionStatusId == 1) { //"Approved" add to Total
+        		$amt = $amt + $result->TransactionAmount;
+        	}
+			else if($result->TransactionStatusId == 2) { //"Void" == 0
+				$amt = $amt;
+			}
+			else if($result->TransactionStatusId == 3) { //"Refund" subtract from Total
+				$amt = $amt - $result->TransactionAmount;
+			}
+        		
+		}
+        return $amt;
     }
 
     private function _get_forms()
     {
         return $this->db->query('SELECT * FROM form_list');
     }
+
+	public function get_transaction_statuses()
+	{
+		$query = $this->db->query('SELECT id, status FROM transaction_status WHERE active=1 ORDER BY id');
+		$data = array();
+
+        $data[''] = "-All-";
+        foreach ($query->result() as $row) {
+            $data[$row -> id] = $row -> status;
+        }
+
+        return $data;
+	}
+
+	public function get_form_lists()
+	{
+		$query = $this->db->query('SELECT mnemonic, name FROM form_list WHERE active=1 ORDER BY name');
+		$data = array();
+
+        $data[''] = "-All-";
+        foreach ($query->result() as $row) {
+            $data[$row -> mnemonic] = $row -> name;
+        }
+
+        return $data;
+	}
       
 }
