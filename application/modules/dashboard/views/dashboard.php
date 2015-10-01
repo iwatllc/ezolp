@@ -23,7 +23,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <div id="content" class="content">
 
     <!-- begin page-header -->
-    <h1 class="page-header">Dashboard <small>Welcome to EZ Online Pay</small></h1>
+    <h1 class="page-header"><?php echo $page_data['heading']; ?> <small> <?php echo $current_date; ?></small></h1>
     <!-- end page-header -->
 
     <!-- begin row -->
@@ -48,7 +48,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <div class="stats-icon"><i class="fa fa-database"></i></div>
                 <div class="stats-info">
                     <h4>TOTAL VOLUME</h4>
-                    <p><?php echo '$' . $total_amount; ?></p>
+                    <p><?php echo '$' . $total_volume; ?></p>
                 </div>
                 <div class="stats-link">
                     <a href="javascript:;">View Detail <i class="fa fa-arrow-circle-o-right"></i></a>
@@ -83,21 +83,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
                     <div id="container"></div>
 
+
                 </div>
             </div>
         </div>
         <!-- end col-8 -->
     </div>
     <!-- end row -->
-
-
-
-
-
-
-
-
-
 
 
 
@@ -144,6 +136,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 <script type="text/javascript">
 
+    var val = "<?php echo $page_data['company']; ?>";
+
     // whenever the document is ready to execute,
     // execute these series of functions inside of this anonymous function()
     $(document).ready(function() {
@@ -182,7 +176,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 plotLines: [{
                     value: 0,
                     width: 1,
-                    color: '#808080'
+                    color: 'blue'
                 }]
             },
 
@@ -198,17 +192,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             },
 
             series: [{
-                name: 'Company 1',
-                data: [7.0, 6.9, 9.5, 14.5, 18.2, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6]
-            }, {
-                name: 'Company 2',
-                data: [-0.2, 0.8, 5.7, 11.3, 17.0, 22.0, 24.8, 24.1, 20.1, 14.1, 8.6, 2.5]
-            }, {
-                name: 'Company 3',
-                data: [-0.9, 0.6, 3.5, 8.4, 13.5, 17.0, 18.6, 17.9, 14.3, 9.0, 3.9, 1.0]
-            }, {
-                name: 'Company 4',
-                data: [3.9, 4.2, 5.7, 8.5, 11.9, 15.2, 17.0, 16.6, 14.2, 10.3, 6.6, 4.8]
+                name: val,
+                data: [7.0, 6.9, 9.5, 14.5, 18.2, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6],
+                color:'blue'
             }]
         });
     });

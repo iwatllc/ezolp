@@ -22,11 +22,13 @@ class Dashboard extends MX_Controller {
         $this->load->load->library('session');
         
         $data['username'] = $this->session->userdata('DX_username');
+
+        $data['current_date'] = date('l, F j, Y');;
         
         $this->load->model('Dashboard_model', 'Dashboard');
 
-        $data['total_amount'] = $this->Dashboard->get_total_amount_vt();
-        $data['total_customers'] = $this->Dashboard->get_total_customers_vt();
+        $data['total_volume'] = round($this->Dashboard->get_total_volume(), 2); // round to nearest tenth cent
+        $data['total_customers'] = $this->Dashboard->get_total_customers();
 
         $view_vars = array(
             'title' => $this->config->item('Company_Title'),
