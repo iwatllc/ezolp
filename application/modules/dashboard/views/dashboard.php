@@ -23,8 +23,78 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <div id="content" class="content">
 
     <!-- begin page-header -->
-    <h1 class="page-header"><?php echo $page_data['heading']; ?> <small> <?php echo $current_date; ?></small></h1>
+    <h1 class="page-header"><?php echo $page_data['heading']; ?>
+        <small>
+            <?php echo $current_date; ?>
+
+        </small>
+    </h1>
     <!-- end page-header -->
+
+
+    <div class="panel panel-inverse" data-sortable-id="">
+        <div class="panel-heading">
+            <div class="panel-heading-btn">
+                <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
+                <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-success" data-click="panel-reload"><i class="fa fa-repeat"></i></a>
+                <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
+            </div>
+            <h4 class="panel-title">Sort Dashboard by Date</h4>
+        </div>
+        <div class="panel-body">
+
+            <?php echo form_open('dashboard/filter_date'); ?>
+
+            <div class="form-inline m-r-10">
+                <div class="input-group input-daterange">
+                    <?php
+                        $BegDate = array(
+                            'name'          =>  'BegDate',
+                            'value'         =>  set_value('BegDate', $begin_date),
+                            'placeholder'   =>  'Date Start',
+                            'class'         =>  'form-control',
+                            'id'            =>  'datepicker',
+                        );
+
+                        echo form_input($BegDate)
+                    ?>
+
+                    <span class="input-group-addon">to</span>
+
+                    <?php
+                        $EndDate = array(
+                            'name'          =>  'EndDate',
+                            'value'         =>  set_value('EndDate', $end_date),
+                            'placeholder'   =>  'Date End',
+                            'class'         =>  'form-control',
+                            'id'            =>  'datepicker2',
+                        );
+
+                        echo form_input($EndDate);
+                    ?>
+                </div>
+
+                <?php
+                    $submit = array(
+                        'name' => 'search_submit',
+                        'class' => "btn btn-sm btn-success",
+                        'id'    => 'submit',
+                        'value' => 'Apply',
+                    );
+
+                    echo form_submit($submit);
+                    echo form_close();
+                ?>
+            </div>
+
+        </div>
+    </div>
+
+
+
+
+
+
 
     <!-- begin row -->
     <div class="row">
@@ -58,10 +128,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <!-- end col-3 -->
     </div>
     <!-- end row -->
-
-
-
-
 
 
 
@@ -193,10 +259,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
             series: [{
                 name: val,
-                data: [7.0, 6.9, 9.5, 14.5, 18.2, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6],
+                data: [7.0, 6.9, 9.5, 14.5, 18.2, 21.5, 25.2, 26.5, 28.3, 30.3, 29.9, 32.6],
                 color:'blue'
             }]
         });
+    });
+
+</script>
+
+<script type="text/javascript">
+
+    $( document ).ready(function() {
+        //$("#myTable").tablesorter();
+
+        $( "#datepicker" ).datepicker({defaultDate: null});
+        $( "#datepicker2" ).datepicker({defaultDate: null});
     });
 
 </script>
