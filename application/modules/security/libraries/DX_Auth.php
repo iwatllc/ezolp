@@ -1,5 +1,7 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
+require("PasswordHash.php");
+
 /**
  * DX Auth Class
  *
@@ -20,6 +22,7 @@ class DX_Auth
 	var $_ban_reason;
 	var $_auth_error;	// Contain user error when login
 	var $_captcha_image;
+    var $hasher;
 	
 	function DX_Auth()
 	{
@@ -39,6 +42,8 @@ class DX_Auth
 		
 		// Load DX Auth event
 		//$this->ci->load->library('DX_Auth_Event');
+
+        $this->hasher = new PasswordHash(8, false);
 		
 		// Initialize
 		$this->_init();
@@ -116,35 +121,40 @@ class DX_Auth
 	*/
 	function _encode($password)
 	{
-		$majorsalt = $this->ci->config->item('DX_salt');
+		// $majorsalt = $this->ci->config->item('DX_salt');
 		
 		// if PHP5
-		if (function_exists('str_split'))
-		{
-			$_pass = str_split($password);
-		}
+		// if (function_exists('str_split'))
+        // {
+		//  	$_pass = str_split($password);
+		// }
 		// if PHP4
-		else
-		{
-			$_pass = array();
-			if (is_string($password))
-			{
-				for ($i = 0; $i < strlen($password); $i++)
-				{
-					array_push($_pass, $password[$i]);
-				}
-			}
-		}
+//		else
+//		{
+//			$_pass = array();
+//			if (is_string($password))
+//			{
+//				for ($i = 0; $i < strlen($password); $i++)
+//				{
+//					array_push($_pass, $password[$i]);
+//				}
+//			}
+//		}
+//
+//		// encrypts every single letter of the password
+//		foreach ($_pass as $_hashpass)
+//		{
+//			$majorsalt .= md5($_hashpass);
+//		}
+//
+//		// encrypts the string combinations of every single encrypted letter
+//		// and finally returns the encrypted password
+//		return md5($majorsalt);
 
-		// encrypts every single letter of the password
-		foreach ($_pass as $_hashpass)
-		{
-			$majorsalt .= md5($_hashpass);
-		}
+        $hased_passwword = $this->hasher->HashPassword($password);
 
-		// encrypts the string combinations of every single encrypted letter
-		// and finally returns the encrypted password
-		return md5($majorsalt);
+        return $hased_passwword;
+
 	}
 	
 	function _array_in_array($needle, $haystack) 
@@ -346,7 +356,7 @@ class DX_Auth
 		
 		// User wants to be remembered
 		$user = array(
-			'key_id' => substr(md5(uniqid(rand().$this->ci->input->cookie($this->ci->config->item('sess_cookie_name')))), 0, 16),
+            'key_id' => substr($this->hasher->HashPassword(uniqid(rand().$this->ci->input->cookie($this->ci->config->item('sess_cookie_name')))), 0, 16),
 			'user_id' => $user_id
 		);
 		
@@ -856,11 +866,12 @@ class DX_Auth
 				// If it's not a banned user then try to login
 				else
 				{					
-					$password = $this->_encode($password);
-					$stored_hash = $row->password;
+
+                    $stored_hash = $row->password;
+                    $check = $this->hasher->CheckPassword($password,$stored_hash);
 
 					// Is password matched with hash in database ?
-					if (crypt($password, $stored_hash) === $stored_hash)
+					if ($check)
 					{
 						// Log in user 
 						$this->_set_session($row); 												
@@ -943,16 +954,16 @@ class DX_Auth
 		// New user array
 		$new_user = array(			
 			'username'				=> $username,			
-			'password'				=> crypt($this->_encode($password)),
-			'email'						=> $email,
-			'last_ip'					=> $this->ci->input->ip_address()
+			'password'				=> $this->_encode($password),
+			'email'					=> $email,
+			'last_ip'				=> $this->ci->input->ip_address()
 		);
 
 		// Do we need to send email to activate user
 		if ($this->ci->config->item('DX_email_activation'))
 		{
 			// Add activation key to user array
-			$new_user['activation_key'] = md5(rand().microtime());
+			$new_user['activation_key'] = $this->hasher->HashPassword(rand().microtime());
 			
 			// Create temporary user in database which means the user still unactivated.
 			$insert = $this->ci->user_temp->create_temp($new_user);
@@ -1036,7 +1047,7 @@ class DX_Auth
 					$data['password'] = $this->_gen_pass();
 					
 					// Encode & Crypt password
-					$encode = crypt($this->_encode($data['password'])); 
+                    $encode = $this->_encode($data['password']);
 
 					// Create key
 					$data['key'] = md5(rand().microtime());
@@ -1160,13 +1171,15 @@ class DX_Auth
 			// Get current logged in user
 			$row = $query->row();
 
-			$pass = $this->_encode($old_pass);
+            $password = $old_pass;
+            $stored_hash = $row->password;
+            $check = $this->hasher->CheckPassword($password,$stored_hash);
 
 			// Check if old password correct
-			if (crypt($pass, $row->password) === $row->password)
+			if ($check)
 			{
 				// Crypt and encode new password
-				$new_pass = crypt($this->_encode($new_pass));
+                $new_pass = $this->_encode($new_pass);
 				
 				// Replace old password with new password
 				$this->ci->users->change_password($this->ci->session->userdata('DX_user_id'), $new_pass);
@@ -1199,10 +1212,11 @@ class DX_Auth
 			// Get current logged in user
 			$row = $query->row();
 
-			$pass = $this->_encode($password);
+            $stored_hash = $row->password;
+            $check = $this->hasher->CheckPassword($password,$stored_hash);
 
 			// Check if password correct
-			if (crypt($pass, $row->password) === $row->password)
+			if ($check)
 			{
 				// Trigger event
 				$this->user_canceling_account($this->ci->session->userdata('DX_user_id'));

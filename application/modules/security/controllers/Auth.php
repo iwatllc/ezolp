@@ -223,8 +223,8 @@ class Auth extends MX_Controller
 	function activate()
 	{
 		// Get username and key
-		$username = $this->uri->segment(3);
-		$key = $this->uri->segment(4);
+		$username = $this->uri->segment(4);
+		$key = $this->uri->segment(5);
 
 		// Activate user
 		if ($this->dx_auth->activate($username, $key)) 
@@ -261,8 +261,8 @@ class Auth extends MX_Controller
 	function reset_password()
 	{
 		// Get username and key
-		$username = $this->uri->segment(3);
-		$key = $this->uri->segment(4);
+		$username = $this->uri->segment(4);
+		$key = $this->uri->segment(5);
 
 		// Reset password
 		if ($this->dx_auth->reset_password($username, $key))

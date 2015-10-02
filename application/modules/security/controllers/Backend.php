@@ -62,6 +62,12 @@ class Backend extends CI_Controller
 					// Unban user
 					$this->users->unban_user($value);
 				}
+                // If delete button pressed
+                else if (isset($_POST['delete_user']))
+                {
+                    // Unban user
+                    $this->users->delete_user($value);
+                }
 				else if (isset($_POST['reset_pass']))
 				{
 					// Set default message
@@ -77,15 +83,15 @@ class Backend extends CI_Controller
 						if ($this->dx_auth->forgot_password($user->username))
 						{
 							// Query once again, because the database is updated after calling forgot_password.
-							$query = $this->users->get_user_by_id($value);
+							// $query = $this->users->get_user_by_id($value);
 							// Get user record
-							$user = $query->row();
+							// $user = $query->row();
 														
 							// Reset the password
-							if ($this->dx_auth->reset_password($user->username, $user->newpass_key))
-							{							
-								$data['reset_message'] = 'Reset password success';
-							}
+							// if ($this->dx_auth->reset_password($user->username, $user->newpass_key))
+							// {
+							// 	$data['reset_message'] = 'Reset password success';
+							// }
 						}
 					}
 				}

@@ -61,6 +61,13 @@
                                     'value' => 'Reset password',
                                     'class' => 'btn btn-sm btn-success'  
                                 );
+
+                                $delete_user = array(
+                                    'name' => 'delete_user',
+                                    'id' => 'delete_user',
+                                    'value' => 'Delete User',
+                                    'class' => 'btn btn-sm btn-success'
+                                );
                                 
                             // Show reset password message if exist
                             if (isset($reset_message))
@@ -98,6 +105,7 @@
                             echo form_submit($ban);
                             echo form_submit($unban);
                             echo form_submit($reset_pass);
+                            echo form_submit($delete_user);
                             
                             echo '<hr/>';
                             
