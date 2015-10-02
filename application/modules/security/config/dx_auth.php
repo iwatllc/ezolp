@@ -184,7 +184,7 @@ $config['DX_reset_password_uri'] = 'security/Auth/reset_password/';
 */
 
 // Registration
-$config['DX_allow_registration'] = TRUE; 
+$config['DX_allow_registration'] = FALSE;
 $config['DX_captcha_registration'] = FALSE;
 
 // Login

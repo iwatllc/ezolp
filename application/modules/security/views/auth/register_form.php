@@ -129,34 +129,32 @@ $register = array(
                     </div>
                 </div>
 
-                                        <div class="col-md-12">
-                                            <?php if ($this->dx_auth->captcha_registration): ?>
-                                                <?php
-                                                    // Show recaptcha image
-                                                    echo $this->dx_auth->get_recaptcha_image();
-                                                    // Show reload captcha link
-                                                    echo $this->dx_auth->get_recaptcha_reload_link();
-                                                    // Show switch to image captcha or audio link
-                                                    echo $this->dx_auth->get_recaptcha_switch_image_audio_link();
-                                                ?>
+                <?php if ($this->dx_auth->captcha_registration): ?>
+                <label class="control-label">Please enter the Captcha</label>
+                <div class="form-group m-b-20">
+                    <?php if ($this->dx_auth->captcha_registration): ?>
+                        <?php
+                            // Show recaptcha image
+                            echo $this->dx_auth->get_recaptcha_image();
+                            // Show reload captcha link
+                            echo $this->dx_auth->get_recaptcha_reload_link();
+                            // Show switch to image captcha or audio link
+                            echo $this->dx_auth->get_recaptcha_switch_image_audio_link();
+                        ?>
 
-                                                <?php echo $this->dx_auth->get_recaptcha_label(); ?>
+                        <?php echo $this->dx_auth->get_recaptcha_label(); ?>
 
-                                                <?php echo $this->dx_auth->get_recaptcha_input(); ?>
-                                                <?php echo form_error('recaptcha_response_field'); ?>
+                        <?php echo $this->dx_auth->get_recaptcha_input(); ?>
+                        <?php echo form_error('recaptcha_response_field'); ?>
 
-                                                <?php
-                                                    // Get recaptcha javascript and non javasript html
-                                                    echo $this->dx_auth->get_recaptcha_html();
-                                                ?>
-                                            <?php endif; ?>
-                                        </div>
+                        <?php
+                            // Get recaptcha javascript and non javasript html
+                            echo $this->dx_auth->get_recaptcha_html();
+                        ?>
+                    <?php endif; ?>
+                </div>
+                <?php endif; ?>
                 <br/>
-<!--                <div class="checkbox m-b-20">-->
-<!--                    <label>-->
-<!--                        <input type="checkbox" /> By clicking Sign Up, you agree to our <a href="#">Terms</a> and that you have read our <a href="#">Data Policy</a>, including our <a href="#">Cookie Use</a>.-->
-<!--                    </label>-->
-<!--                </div>-->
                 <div class="login-buttons">
                     <?php echo form_submit($register);?>
                 </div>
