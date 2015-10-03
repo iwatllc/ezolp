@@ -47,7 +47,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     }
 </style>
 
-<body class="flat-black donation-fom"r>
+<body class="flat-black donation-form">
 
 <!-- begin #page-container -->
 <div id="page-container" class="fade in page-without-sidebar">
