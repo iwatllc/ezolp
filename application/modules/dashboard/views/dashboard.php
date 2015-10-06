@@ -160,12 +160,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <div id="container"></div>
 
                     <?php
-                    // echo the totals for the past seven days
-                        for ($x = 0; $x < sizeof($total); $x++)
-                        {
-                            echo $total[$x];
-                            echo '<br>';
-                        }
+                    // echo the totals between the two dates specified
+//                        for ($x = 0; $x < sizeof($total); $x++)
+//                        {
+//                            echo $days_array[$x] . ' - ';
+//                            echo $total[$x];
+//                            echo '<br>';
+//                        }
+
+
                     ?>
 
                 </div>
@@ -174,8 +177,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <!-- end col-8 -->
     </div>
     <!-- end row -->
-
-
 
 </div>
 <!-- end #content -->
@@ -221,25 +222,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <script type="text/javascript">
 
     var company = "<?php echo $page_data['company']; ?>";
-    var current_month = "<?php echo 'Past 7 days in ' . date('F') ?>";
+    var current_month = "<?php echo $begin_formatted . ' - ' . $end_formatted; ?>";
 
-    var today = "<?php echo $days_array[0]; ?>";
-    var day1 = "<?php echo $days_array[1]; ?>";
-    var day2 = "<?php echo $days_array[2]; ?>";
-    var day3 = "<?php echo $days_array[3]; ?>";
-    var day4 = "<?php echo $days_array[4]; ?>";
-    var day5 = "<?php echo $days_array[5]; ?>";
-    var day6 = "<?php echo $days_array[6]; ?>";
+    // convert php array to js array
+    var js_days_array = <?php echo json_encode($days_array);?>;
+    var js_total_array = <?php echo json_encode($total);?>;
 
-    var total_today = <?php echo $total[0]; ?>;
-    var total1 = <?php echo $total[1]; ?>;
-    var total2 = <?php echo $total[2]; ?>;
-    var total3 = <?php echo $total[3]; ?>;
-    var total4 = <?php echo $total[4]; ?>;
-    var total5 = <?php echo $total[5]; ?>;
-    var total6 = <?php echo $total[6]; ?>;
-
-    var test = 6.25;
+    // convert array of strings to array of ints
+    var js_total_array_numbers = js_total_array.map(Number);
 
     // whenever the document is ready to execute,
     // execute these series of functions inside of this anonymous function()
@@ -269,7 +259,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             },
 
             xAxis: {
-                categories: [day6, day5, day4, day3, day2, day1, today]
+                categories: js_days_array
             },
             yAxis: {
                 min: 0,
@@ -284,7 +274,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             },
 
             tooltip: {
-                valueSuffix: '$'
+                valuePrefix: '$'
             },
 
             legend: {
@@ -296,7 +286,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
             series: [{
                 name: company,
-                data: [total6, total5, total4, total3, total2, total1, total_today],
+                data: js_total_array_numbers,
                 color:'blue'
             }]
         });

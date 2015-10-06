@@ -55,6 +55,48 @@ class Dashboard_model extends CI_Model {
     }
 
 
+    public function get_days_array()
+    {
+        $days_array = array();
+
+        $time = time();
+
+        // Get the past 7 days of the week and store it in $days_array
+        for ($x = 0; $x < 7; $x++)
+        {
+            $days_array[$x] = date("M d", mktime(0,0,0,date("n", $time),date("j",$time) - $x ,date("Y", $time)));
+        }
+
+        return $days_array;
+    }
+
+    /**
+     * Returns an array of dates to be used in the dashboard graph.
+     *
+     * @param $begin_date
+     * @param $end_date
+     * @return array
+     */
+    public function get_days_array_by_date($begin_date, $end_date)
+    {
+        $days_array = array();
+
+        $time = time();
+
+        $begin_date = new DateTime($begin_date);
+        $end_date = new DateTime($end_date);
+
+        $diff = $end_date->diff($begin_date)->format("%a"); // finds the difference between two dates as a number
+
+        // Get the difference of days and store it in $days_array
+        for ($x = 0; $x <= $diff; $x++)
+        {
+            $days_array[$x] = date("M d", mktime(0,0,0,date("n", date_format($begin_date, 'U')),date("j", date_format($begin_date, 'U')) + $x ,date("Y", date_format($begin_date, 'U')))); // 2015-10-04
+        }
+
+        return $days_array;
+    }
+
     /**
      * Returns the total amount within a given date (day)
      *
@@ -225,70 +267,31 @@ class Dashboard_model extends CI_Model {
     /**
      * Return the amount from the specified begin date and end date.
      */
-    public function get_past_seven_days_total()
+    public function get_total_amount_for_graph_by_date($begin_date, $end_date)
     {
         $days_array = array();
 
-        $time = time();
+        $result_array = array();
 
-        $today = date('Y-m-d'); // 2015-10-05
-        $day1 = date("Y-m-d", mktime(0,0,0,date("n", $time),date("j",$time) - 1 ,date("Y", $time))); // 2015-10-04
-        $day2 = date("Y-m-d", mktime(0,0,0,date("n", $time),date("j",$time) - 2 ,date("Y", $time))); // 2015-10-03
-        $day3 = date("Y-m-d", mktime(0,0,0,date("n", $time),date("j",$time) - 3 ,date("Y", $time))); // 2015-10-02
-        $day4 = date("Y-m-d", mktime(0,0,0,date("n", $time),date("j",$time) - 4 ,date("Y", $time))); // 2015-10-01
-        $day5 = date("Y-m-d", mktime(0,0,0,date("n", $time),date("j",$time) - 5 ,date("Y", $time))); // 2015-09-30
-        $day6 = date("Y-m-d", mktime(0,0,0,date("n", $time),date("j",$time) - 6 ,date("Y", $time))); // 2015-09-29
+        // Find the difference between begin and end date
+//        $begin_date = new DateTime("2010-09-05");
+//        $end_date = new DateTime("2010-10-05");
+        $begin_date = new DateTime($begin_date);
+        $end_date = new DateTime($end_date);
 
-        $this->db->select_sum('TransactionAmount');
-        $this->db->from('payment_response');
-        $this->db->where('DATE(payment_response.InsertDate) >=', $today . ' 00:00:00')->where('DATE(payment_response.InsertDate) <=', $today . ' 23:59:59');
-        $query = $this->db->get();
-        $result0 = $query->row()->TransactionAmount;
+        $diff = $end_date->diff($begin_date)->format("%a"); // finds the difference between two dates as a number
 
-        $this->db->select_sum('TransactionAmount');
-        $this->db->from('payment_response');
-        $this->db->where('DATE(payment_response.InsertDate) >=', $day1 . ' 00:00:00')->where('DATE(payment_response.InsertDate) <=', $day1 . ' 23:59:59');
-        $query = $this->db->get();
-        $result1 = $query->row()->TransactionAmount;
+        for ($i = 0; $i <= $diff; $i++)
+        {
+            $days_array[$i] = date("Y-m-d", mktime(0,0,0,date("n", date_format($begin_date, 'U')),date("j", date_format($begin_date, 'U')) + $i ,date("Y", date_format($begin_date, 'U')))); // 2015-10-04
 
-        $this->db->select_sum('TransactionAmount');
-        $this->db->from('payment_response');
-        $this->db->where('DATE(payment_response.InsertDate) >=', $day2 . ' 00:00:00')->where('DATE(payment_response.InsertDate) <=', $day2 . ' 23:59:59');
-        $query = $this->db->get();
-        $result2 = $query->row()->TransactionAmount;
+            $this->db->select_sum('TransactionAmount');
+            $this->db->from('payment_response');
+            $this->db->where('DATE(payment_response.InsertDate) >=', $days_array[$i] . ' 00:00:00')->where('DATE(payment_response.InsertDate) <=', $days_array[$i] . ' 23:59:59');
+            $query = $this->db->get();
+            $result_array[$i] = $query->row()->TransactionAmount;
+        }
 
-        $this->db->select_sum('TransactionAmount');
-        $this->db->from('payment_response');
-        $this->db->where('DATE(payment_response.InsertDate) >=', $day3 . ' 00:00:00')->where('DATE(payment_response.InsertDate) <=', $day3 . ' 23:59:59');
-        $query = $this->db->get();
-        $result3 = $query->row()->TransactionAmount;
-
-        $this->db->select_sum('TransactionAmount');
-        $this->db->from('payment_response');
-        $this->db->where('DATE(payment_response.InsertDate) >=', $day4 . ' 00:00:00')->where('DATE(payment_response.InsertDate) <=', $day4 . ' 23:59:59');
-        $query = $this->db->get();
-        $result4 = $query->row()->TransactionAmount;
-
-        $this->db->select_sum('TransactionAmount');
-        $this->db->from('payment_response');
-        $this->db->where('DATE(payment_response.InsertDate) >=', $day5 . ' 00:00:00')->where('DATE(payment_response.InsertDate) <=', $day5 . ' 23:59:59');
-        $query = $this->db->get();
-        $result5 = $query->row()->TransactionAmount;
-
-        $this->db->select_sum('TransactionAmount');
-        $this->db->from('payment_response');
-        $this->db->where('DATE(payment_response.InsertDate) >=', $day6 . ' 00:00:00')->where('DATE(payment_response.InsertDate) <=', $day6 . ' 23:59:59');
-        $query = $this->db->get();
-        $result6 = $query->row()->TransactionAmount;
-
-        $days_array[0] = $result0;
-        $days_array[1] = $result1;
-        $days_array[2] = $result2;
-        $days_array[3] = $result3;
-        $days_array[4] = $result4;
-        $days_array[5] = $result5;
-        $days_array[6] = $result6;
-
-        return $days_array;
+        return $result_array;
     }
 }

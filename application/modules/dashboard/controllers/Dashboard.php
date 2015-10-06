@@ -14,7 +14,10 @@ class Dashboard extends MX_Controller {
         
         parent::__construct();
     }
-    
+
+    /**
+     * Loads the dashboard and displays total number of customers, total volume, and gross volume of sales for the past 7 days
+     */
     public function index()
     {
         $this->load->helper('form');
@@ -35,45 +38,56 @@ class Dashboard extends MX_Controller {
         );
         $data['page_data'] = $view_vars;
 
+        $begin_date = date("Y-m-d", strtotime('-7 days')); // begin_date = today's date - 7
+        $end_date = date("Y-m-d"); // end_date = today
+
         $data['begin_date'] = '';
         $data['end_date'] = '';
 
+        $data['begin_formatted'] = date("F j, Y", strtotime('-7 days'));
+        $data['end_formatted'] = date("F j, Y");
+
         $this->load->model('Dashboard_model', 'Dashboard');
 
-        $data['total_volume'] = round($this->Dashboard->get_total_volume(), 2); // round to nearest tenth cent
-        $data['total_customers'] = $this->Dashboard->get_total_customers();
+        $data['total_volume'] = round($this->Dashboard->get_total_amount_by_date($begin_date, $end_date), 2);
+        $data['total_customers'] = $this->Dashboard->get_total_customers_by_date($begin_date, $end_date);
 
-        $data['total'] = $this->Dashboard->get_past_seven_days_total();
+        // Use these if you want the entire total customers/volume (all time)
+//        $data['total_volume'] = round($this->Dashboard->get_total_volume(), 2); // round to nearest tenth cent
+//        $data['total_customers'] = $this->Dashboard->get_total_customers();
 
-        $days_array = array();
+        $data['total'] = $this->Dashboard->get_total_amount_for_graph_by_date($begin_date, $end_date);
 
-        $time = time();
+        $data['days_array'] = $this->Dashboard->get_days_array_by_date($begin_date, $end_date);
 
-        // Get the past 7 days of the week and store it in $days_array
-        for ($x = 0; $x < 7; $x++)
-        {
-            $days_array[$x] = date("M d", mktime(0,0,0,date("n", $time),date("j",$time) - $x ,date("Y", $time)));
-        }
-
-        $data['days_array'] = $days_array;
+//        $data['total'] = $this->Dashboard->get_past_seven_days_total();
+//        $data['days_array'] = $this->Dashboard->get_days_array();
 
         $this->load->view('dashboard', $data);
     }
 
+    /**
+     * Filters the entire dashboard between two dates of time.
+     */
     public function filter_date()
     {
         $data['begin_date'] = date( "Y-m-d", strtotime( $this->input->post('BegDate') ) );
         $data['end_date'] = date( "Y-m-d", strtotime( $this->input->post('EndDate') ) );
 
-        $this->load->model('Dashboard_model', 'Dashboard');
-
         $data['todays_date'] = date('l, F j, Y');
 
-//        $data['total_volume'] = round($this->Dashboard->get_total_volume(), 2); // round to nearest tenth cent
+        $data['begin_formatted'] = date('F j, Y', strtotime($data['begin_date']));
+        $data['end_formatted'] = date('F j, Y', strtotime($data['end_date']));
+
+        $this->load->model('Dashboard_model', 'Dashboard');
+
+        $data['days_array'] = $this->Dashboard->get_days_array_by_date($data['begin_date'], $data['end_date']);
+
         $data['total_customers'] = $this->Dashboard->get_total_customers();
 
         $data['total_volume'] = round($this->Dashboard->get_total_amount_by_date($data['begin_date'], $data['end_date']), 2);
         $data['total_customers'] = $this->Dashboard->get_total_customers_by_date($data['begin_date'], $data['end_date']);
+        $data['total'] = $this->Dashboard->get_total_amount_for_graph_by_date($data['begin_date'], $data['end_date']);
 
         $view_vars = array(
             'title' => $this->config->item('Company_Title'),
