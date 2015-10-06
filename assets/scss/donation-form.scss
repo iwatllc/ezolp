@@ -1,14 +1,23 @@
 
-@import './variables.scss'; 
+@import './assets/scss/variables.scss'; 
 
-@import '../../client/client.scss'; 
-
+@import './client/client.scss'; 
 
 body.donation-form {
 	background: $body-color;
 }
 
 body.donation-form {
+	
+	#page-container {
+		background: $bg-img;
+		background-size: contain;
+		height: 100%;
+	}
+	
+	#content {
+		margin-top: $adjust-img-margin;
+	}
 	
 	.navbar-toggle {
 		display: none;
@@ -21,6 +30,7 @@ body.donation-form {
 		margin-bottom: 25px;
 		display: block;
 		float: none;
+		border-bottom: none;
 	}
 	
 	.navbar {
@@ -148,3 +158,52 @@ body.donation-form {
 	}
 	
 }
+
+@media (min-width: 520px) {
+	body.donation-form {
+		#page-container {
+			background-position: center $adjust-img-top-520;
+		}
+	
+		#content {
+			//margin-top: $adjust-img-margin-520;
+		}
+	}
+}
+
+@media (min-width: 750px) {
+	body.donation-form {
+		#content {
+			margin-top: $adjust-content-750;
+		}
+	}
+}
+
+@media (min-width: 950px) {
+	body.donation-form {
+		#page-container {
+			background-position: center $adjust-img-top-950;
+		}
+	
+		#content {
+			margin-top: $adjust-content-950;
+		}
+	}
+}
+
+@media (min-width: 1200px) {
+	body.donation-form {
+		#page-container {
+			background-position: center $adjust-img-top-1200;
+		}
+	}
+}
+
+@media (min-width: 1400px) {
+	body.donation-form {
+		#page-container {
+			background-position: center $adjust-img-top-1400;
+		}
+	}
+}
+

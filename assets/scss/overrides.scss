@@ -1,6 +1,6 @@
 // overrides.scss
 
-@import '../../client/client.scss';
+@import './client/client.scss';
 
 .login .login-header .brand .logo {
 	display: none;
@@ -11,4 +11,3 @@
 	background-size: contain;
 	height: 75px;
 }
-
