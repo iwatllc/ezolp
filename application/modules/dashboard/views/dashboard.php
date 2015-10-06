@@ -11,6 +11,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <?php $this->load->view('navbar'); ?>
 
 <head>
+    <?php
+        for ($i = 0; $i < sizeof($total); $i++)
+        {
+            if ($total[$i] == NULL)
+            {
+                $total[$i] = 0;
+            }
+        }
+    ?>
+
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
 
     <script src="<?php echo base_url(); ?>/assets/highcharts/js/highcharts.js"></script>
@@ -25,7 +35,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <!-- begin page-header -->
     <h1 class="page-header"><?php echo $page_data['heading']; ?>
         <small>
-            <?php echo $current_date; ?>
+            <?php echo $todays_date; ?>
 
         </small>
     </h1>
@@ -84,6 +94,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
                     echo form_submit($submit);
                     echo form_close();
+
                 ?>
             </div>
 
@@ -124,8 +135,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <a href="javascript:;">View Detail <i class="fa fa-arrow-circle-o-right"></i></a>
                 </div>
             </div>
-        </div>
-        <!-- end col-3 -->
+        </div>        <!-- end col-3 -->
     </div>
     <!-- end row -->
 
@@ -149,6 +159,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
                     <div id="container"></div>
 
+                    <?php
+                    // echo the totals for the past seven days
+                        for ($x = 0; $x < sizeof($total); $x++)
+                        {
+                            echo $total[$x];
+                            echo '<br>';
+                        }
+                    ?>
 
                 </div>
             </div>
@@ -202,7 +220,26 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 <script type="text/javascript">
 
-    var val = "<?php echo $page_data['company']; ?>";
+    var company = "<?php echo $page_data['company']; ?>";
+    var current_month = "<?php echo 'Past 7 days in ' . date('F') ?>";
+
+    var today = "<?php echo $days_array[0]; ?>";
+    var day1 = "<?php echo $days_array[1]; ?>";
+    var day2 = "<?php echo $days_array[2]; ?>";
+    var day3 = "<?php echo $days_array[3]; ?>";
+    var day4 = "<?php echo $days_array[4]; ?>";
+    var day5 = "<?php echo $days_array[5]; ?>";
+    var day6 = "<?php echo $days_array[6]; ?>";
+
+    var total_today = <?php echo $total[0]; ?>;
+    var total1 = <?php echo $total[1]; ?>;
+    var total2 = <?php echo $total[2]; ?>;
+    var total3 = <?php echo $total[3]; ?>;
+    var total4 = <?php echo $total[4]; ?>;
+    var total5 = <?php echo $total[5]; ?>;
+    var total6 = <?php echo $total[6]; ?>;
+
+    var test = 6.25;
 
     // whenever the document is ready to execute,
     // execute these series of functions inside of this anonymous function()
@@ -222,7 +259,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             },
 
             subtitle: {
-                text: 'By Day',
+                text: current_month,
                 x: -20
             },
 
@@ -232,10 +269,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             },
 
             xAxis: {
-                categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-                    'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+                categories: [day6, day5, day4, day3, day2, day1, today]
             },
             yAxis: {
+                min: 0,
                 title: {
                     text: 'Dollars ($)'
                 },
@@ -258,8 +295,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             },
 
             series: [{
-                name: val,
-                data: [7.0, 6.9, 9.5, 14.5, 18.2, 21.5, 25.2, 26.5, 28.3, 30.3, 29.9, 32.6],
+                name: company,
+                data: [total6, total5, total4, total3, total2, total1, total_today],
                 color:'blue'
             }]
         });

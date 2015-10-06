@@ -148,4 +148,147 @@ class Dashboard_model extends CI_Model {
 
         return $query->num_rows();
     }
+
+
+
+    /**
+     * Return the amount from the past seven days given the current day.
+     */
+    public function get_past_seven_days_total()
+    {
+        $days_array = array();
+
+        $time = time();
+
+        $today = date('Y-m-d'); // 2015-10-05
+        $day1 = date("Y-m-d", mktime(0,0,0,date("n", $time),date("j",$time) - 1 ,date("Y", $time))); // 2015-10-04
+        $day2 = date("Y-m-d", mktime(0,0,0,date("n", $time),date("j",$time) - 2 ,date("Y", $time))); // 2015-10-03
+        $day3 = date("Y-m-d", mktime(0,0,0,date("n", $time),date("j",$time) - 3 ,date("Y", $time))); // 2015-10-02
+        $day4 = date("Y-m-d", mktime(0,0,0,date("n", $time),date("j",$time) - 4 ,date("Y", $time))); // 2015-10-01
+        $day5 = date("Y-m-d", mktime(0,0,0,date("n", $time),date("j",$time) - 5 ,date("Y", $time))); // 2015-09-30
+        $day6 = date("Y-m-d", mktime(0,0,0,date("n", $time),date("j",$time) - 6 ,date("Y", $time))); // 2015-09-29
+
+        $this->db->select_sum('TransactionAmount');
+        $this->db->from('payment_response');
+        $this->db->where('DATE(payment_response.InsertDate) >=', $today . ' 00:00:00')->where('DATE(payment_response.InsertDate) <=', $today . ' 23:59:59');
+        $query = $this->db->get();
+        $result0 = $query->row()->TransactionAmount;
+
+        $this->db->select_sum('TransactionAmount');
+        $this->db->from('payment_response');
+        $this->db->where('DATE(payment_response.InsertDate) >=', $day1 . ' 00:00:00')->where('DATE(payment_response.InsertDate) <=', $day1 . ' 23:59:59');
+        $query = $this->db->get();
+        $result1 = $query->row()->TransactionAmount;
+
+        $this->db->select_sum('TransactionAmount');
+        $this->db->from('payment_response');
+        $this->db->where('DATE(payment_response.InsertDate) >=', $day2 . ' 00:00:00')->where('DATE(payment_response.InsertDate) <=', $day2 . ' 23:59:59');
+        $query = $this->db->get();
+        $result2 = $query->row()->TransactionAmount;
+
+        $this->db->select_sum('TransactionAmount');
+        $this->db->from('payment_response');
+        $this->db->where('DATE(payment_response.InsertDate) >=', $day3 . ' 00:00:00')->where('DATE(payment_response.InsertDate) <=', $day3 . ' 23:59:59');
+        $query = $this->db->get();
+        $result3 = $query->row()->TransactionAmount;
+
+        $this->db->select_sum('TransactionAmount');
+        $this->db->from('payment_response');
+        $this->db->where('DATE(payment_response.InsertDate) >=', $day4 . ' 00:00:00')->where('DATE(payment_response.InsertDate) <=', $day4 . ' 23:59:59');
+        $query = $this->db->get();
+        $result4 = $query->row()->TransactionAmount;
+
+        $this->db->select_sum('TransactionAmount');
+        $this->db->from('payment_response');
+        $this->db->where('DATE(payment_response.InsertDate) >=', $day5 . ' 00:00:00')->where('DATE(payment_response.InsertDate) <=', $day5 . ' 23:59:59');
+        $query = $this->db->get();
+        $result5 = $query->row()->TransactionAmount;
+
+        $this->db->select_sum('TransactionAmount');
+        $this->db->from('payment_response');
+        $this->db->where('DATE(payment_response.InsertDate) >=', $day6 . ' 00:00:00')->where('DATE(payment_response.InsertDate) <=', $day6 . ' 23:59:59');
+        $query = $this->db->get();
+        $result6 = $query->row()->TransactionAmount;
+
+        $days_array[0] = $result0;
+        $days_array[1] = $result1;
+        $days_array[2] = $result2;
+        $days_array[3] = $result3;
+        $days_array[4] = $result4;
+        $days_array[5] = $result5;
+        $days_array[6] = $result6;
+
+        return $days_array;
+    }
+
+
+    /**
+     * Return the amount from the specified begin date and end date.
+     */
+    public function get_past_seven_days_total()
+    {
+        $days_array = array();
+
+        $time = time();
+
+        $today = date('Y-m-d'); // 2015-10-05
+        $day1 = date("Y-m-d", mktime(0,0,0,date("n", $time),date("j",$time) - 1 ,date("Y", $time))); // 2015-10-04
+        $day2 = date("Y-m-d", mktime(0,0,0,date("n", $time),date("j",$time) - 2 ,date("Y", $time))); // 2015-10-03
+        $day3 = date("Y-m-d", mktime(0,0,0,date("n", $time),date("j",$time) - 3 ,date("Y", $time))); // 2015-10-02
+        $day4 = date("Y-m-d", mktime(0,0,0,date("n", $time),date("j",$time) - 4 ,date("Y", $time))); // 2015-10-01
+        $day5 = date("Y-m-d", mktime(0,0,0,date("n", $time),date("j",$time) - 5 ,date("Y", $time))); // 2015-09-30
+        $day6 = date("Y-m-d", mktime(0,0,0,date("n", $time),date("j",$time) - 6 ,date("Y", $time))); // 2015-09-29
+
+        $this->db->select_sum('TransactionAmount');
+        $this->db->from('payment_response');
+        $this->db->where('DATE(payment_response.InsertDate) >=', $today . ' 00:00:00')->where('DATE(payment_response.InsertDate) <=', $today . ' 23:59:59');
+        $query = $this->db->get();
+        $result0 = $query->row()->TransactionAmount;
+
+        $this->db->select_sum('TransactionAmount');
+        $this->db->from('payment_response');
+        $this->db->where('DATE(payment_response.InsertDate) >=', $day1 . ' 00:00:00')->where('DATE(payment_response.InsertDate) <=', $day1 . ' 23:59:59');
+        $query = $this->db->get();
+        $result1 = $query->row()->TransactionAmount;
+
+        $this->db->select_sum('TransactionAmount');
+        $this->db->from('payment_response');
+        $this->db->where('DATE(payment_response.InsertDate) >=', $day2 . ' 00:00:00')->where('DATE(payment_response.InsertDate) <=', $day2 . ' 23:59:59');
+        $query = $this->db->get();
+        $result2 = $query->row()->TransactionAmount;
+
+        $this->db->select_sum('TransactionAmount');
+        $this->db->from('payment_response');
+        $this->db->where('DATE(payment_response.InsertDate) >=', $day3 . ' 00:00:00')->where('DATE(payment_response.InsertDate) <=', $day3 . ' 23:59:59');
+        $query = $this->db->get();
+        $result3 = $query->row()->TransactionAmount;
+
+        $this->db->select_sum('TransactionAmount');
+        $this->db->from('payment_response');
+        $this->db->where('DATE(payment_response.InsertDate) >=', $day4 . ' 00:00:00')->where('DATE(payment_response.InsertDate) <=', $day4 . ' 23:59:59');
+        $query = $this->db->get();
+        $result4 = $query->row()->TransactionAmount;
+
+        $this->db->select_sum('TransactionAmount');
+        $this->db->from('payment_response');
+        $this->db->where('DATE(payment_response.InsertDate) >=', $day5 . ' 00:00:00')->where('DATE(payment_response.InsertDate) <=', $day5 . ' 23:59:59');
+        $query = $this->db->get();
+        $result5 = $query->row()->TransactionAmount;
+
+        $this->db->select_sum('TransactionAmount');
+        $this->db->from('payment_response');
+        $this->db->where('DATE(payment_response.InsertDate) >=', $day6 . ' 00:00:00')->where('DATE(payment_response.InsertDate) <=', $day6 . ' 23:59:59');
+        $query = $this->db->get();
+        $result6 = $query->row()->TransactionAmount;
+
+        $days_array[0] = $result0;
+        $days_array[1] = $result1;
+        $days_array[2] = $result2;
+        $days_array[3] = $result3;
+        $days_array[4] = $result4;
+        $days_array[5] = $result5;
+        $days_array[6] = $result6;
+
+        return $days_array;
+    }
 }

@@ -242,6 +242,17 @@ class Auth extends MX_Controller
 	function forgot_password()
 	{
 		$val = $this->form_validation;
+
+		$view_vars = array(
+			'title' => $this->config->item('Company_Title'),
+			'heading' => $this->config->item('Company_Title'),
+			'description' => $this->config->item('Company_Description'),
+			'company' => $this->config->item('Company_Name'),
+			'logo' => $this->config->item('Company_Logo'),
+			'author' => $this->config->item('Company_Author'),
+			'slogan' => $this->config->item('Company_Slogan')
+		);
+		$data['page_data'] = $view_vars;
 		
 		// Set form validation rules
 		$val->set_rules('login', 'Username or Email address', 'trim|required');
@@ -254,7 +265,7 @@ class Auth extends MX_Controller
 		}
 		else
 		{
-			$this->load->view($this->dx_auth->forgot_password_view);
+			$this->load->view($this->dx_auth->forgot_password_view, $data);
 		}
 	}
 	

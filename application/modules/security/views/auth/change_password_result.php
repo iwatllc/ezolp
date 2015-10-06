@@ -10,7 +10,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <!--<![endif]-->
 
 <?php $this->load->view('header'); ?>
-
+<?php $this->load->view('navbar'); ?>
 
 <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
 <script src="//code.jquery.com/jquery-1.10.2.js"></script>
@@ -25,14 +25,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <?php echo form_open($this->uri->uri_string()); ?>
 <?php echo $this->dx_auth->get_auth_error(); ?>
 
-<!-- begin #page-loader -->
-<div id="page-loader" class="fade in"><span class="spinner"></span></div>
-<!-- end #page-loader -->
-
 <!-- begin #content -->
 <div id="content" class="content">
     <!-- begin page-header -->
-    <h1 class="page-header"><?php echo 'Change Password';?></h1>
+<!--    <h1 class="page-header">--><?php //echo 'Change Password';?><!--</h1>-->
     <!-- end page-header -->
 
     <!-- begin col-12 -->
@@ -40,11 +36,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <!-- begin panel -->
         <div class="panel panel-inverse" >
             <div class="panel-heading">
-                <h4 class="panel-title">CHANGE PASSWORD</h4>
+                <h4 class="panel-title">Change Password</h4>
+            </div>
+            <div class="alert alert-success fade in">
+                <span class="close" data-dismiss="alert">×</span>
+                <i class="fa fa-check fa-2x pull-left"></i>
+                <p>Your password has been changed successfully.</p>
             </div>
             <div class="panel-body">
-                <div class="col-md-9">
-                    <p>Your password has successfully been changed.</p>
+                <p>Use this password the next time you login.</p>
             </div>
         </div>
     </div>

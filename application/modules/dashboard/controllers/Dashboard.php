@@ -23,7 +23,7 @@ class Dashboard extends MX_Controller {
         
         $data['username'] = $this->session->userdata('DX_username');
 
-        $data['current_date'] = date('l, F j, Y');
+        $data['todays_date'] = date('l, F j, Y');
 
         $view_vars = array(
             'title' => $this->config->item('Company_Title'),
@@ -38,12 +38,24 @@ class Dashboard extends MX_Controller {
         $data['begin_date'] = '';
         $data['end_date'] = '';
 
-//        $data['search_array'] = $search_array;
-
         $this->load->model('Dashboard_model', 'Dashboard');
 
         $data['total_volume'] = round($this->Dashboard->get_total_volume(), 2); // round to nearest tenth cent
         $data['total_customers'] = $this->Dashboard->get_total_customers();
+
+        $data['total'] = $this->Dashboard->get_past_seven_days_total();
+
+        $days_array = array();
+
+        $time = time();
+
+        // Get the past 7 days of the week and store it in $days_array
+        for ($x = 0; $x < 7; $x++)
+        {
+            $days_array[$x] = date("M d", mktime(0,0,0,date("n", $time),date("j",$time) - $x ,date("Y", $time)));
+        }
+
+        $data['days_array'] = $days_array;
 
         $this->load->view('dashboard', $data);
     }
@@ -55,15 +67,13 @@ class Dashboard extends MX_Controller {
 
         $this->load->model('Dashboard_model', 'Dashboard');
 
-        $data['current_date'] = date('l, F j, Y');
+        $data['todays_date'] = date('l, F j, Y');
 
 //        $data['total_volume'] = round($this->Dashboard->get_total_volume(), 2); // round to nearest tenth cent
         $data['total_customers'] = $this->Dashboard->get_total_customers();
 
         $data['total_volume'] = round($this->Dashboard->get_total_amount_by_date($data['begin_date'], $data['end_date']), 2);
         $data['total_customers'] = $this->Dashboard->get_total_customers_by_date($data['begin_date'], $data['end_date']);
-
-//        $data['search_array'] = $search_array;
 
         $view_vars = array(
             'title' => $this->config->item('Company_Title'),

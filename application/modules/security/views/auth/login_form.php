@@ -107,12 +107,44 @@ $submit = array(
                         <?php echo form_password($password)?>
                         <?php echo form_error($password['name']); ?>
                     </div>
+                    <div class="form-group m-b-20">
+                        <a href="<?php echo site_url('security/auth/forgot_password') ?>">Forgot your password?</a>
+                    </div>
                     <div class="checkbox m-b-20">
                         <label>
                             <?php echo form_checkbox($remember);?>
-                            <?php echo form_label('Remember me', $remember['id']);?> 
+                            <?php echo form_label('Remember me', $remember['id']);?>
                         </label>
                     </div>
+
+                    <!-- begin captcha registration -->
+                    <?php if ($this->dx_auth->captcha_registration && $this->dx_auth->is_max_login_attempts_exceeded()): ?>
+                        <label class="control-label">Please enter the Captcha</label>
+                        <div class="form-group m-b-20">
+                            <?php if ($this->dx_auth->captcha_registration): ?>
+                                <?php
+                                    // Show recaptcha image
+                                    echo $this->dx_auth->get_recaptcha_image();
+                                    // Show reload captcha link
+                                    echo $this->dx_auth->get_recaptcha_reload_link();
+                                    // Show switch to image captcha or audio link
+                                    echo $this->dx_auth->get_recaptcha_switch_image_audio_link();
+                                ?>
+
+                                <?php echo $this->dx_auth->get_recaptcha_label(); ?>
+
+                                <?php echo $this->dx_auth->get_recaptcha_input(); ?>
+                                <?php echo form_error('recaptcha_response_field'); ?>
+
+                                <?php
+                                    // Get recaptcha javascript and non javasript html
+                                    echo $this->dx_auth->get_recaptcha_html();
+                                ?>
+                            <?php endif; ?>
+                        </div>
+                    <?php endif; ?>
+                    <!-- end captcha registration -->
+
                     <div class="login-buttons">
                         <?php echo form_submit($submit);?>
                     </div>
