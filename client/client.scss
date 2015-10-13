@@ -9,9 +9,7 @@ $client-img: url("../../client/client.png") no-repeat right center;
 //$bg_img_size: cover;
 $adjust-img-margin: 50px;
 $adjust-img-top-520: 0px;
-$adjust-content-750: 150px;
 $adjust-img-top-950: -75px;
-$adjust-content-950: 150px;
 $adjust-img-top-1200: -175px;
 $adjust-img-top-1400: -275px;
 $img-top-position: 75px;
@@ -22,3 +20,11 @@ $title-size: 1.75em;
 $title-color: $primary-color;
 $to-top-btn-color: $primary-color;
 $to-top-btn-hover-color: $primary-color;
+
+// Adjustments for the logo on donation form and content below it
+$donation-form-logo-position: 75px;
+$adjust-content-520: 150px;
+$adjust-content-750: 150px;
+$adjust-content-950: 50px;
+$adjust-content-1200: 75px;
+$adjust-content-1400: 25px;

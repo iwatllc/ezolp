@@ -157,6 +157,16 @@ body.donation-form {
 		color: #fff;
 	}
 	
+	.logo-img {
+		margin-top: $donation-form-logo-position;
+	}
+	
+	#content {
+	//.	margin-top: $adjust-form-for-logo-change;
+	}
+	
+	
+	
 }
 
 @media (min-width: 520px) {
@@ -166,7 +176,7 @@ body.donation-form {
 		}
 	
 		#content {
-			//margin-top: $adjust-img-margin-520;
+			margin-top: $adjust-content-520;
 		}
 	}
 }
@@ -196,6 +206,10 @@ body.donation-form {
 		#page-container {
 			background-position: center $adjust-img-top-1200;
 		}
+		
+		#content {
+			margin-top: $adjust-content-1200;
+		}
 	}
 }
 
@@ -203,6 +217,10 @@ body.donation-form {
 	body.donation-form {
 		#page-container {
 			background-position: center $adjust-img-top-1400;
+		}
+		
+		#content {
+			margin-top: $adjust-content-1400;
 		}
 	}
 }
