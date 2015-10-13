@@ -12,6 +12,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
     <?php $this->load->view('header'); ?>
 
+    //  Facebook social media  //
+    <div id="fb-root"></div>
+    <script>(function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.4";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
+    //*** end of Facebook socail media ***//
+
     <body class="flat-black receipt-print">
 
 
@@ -113,8 +124,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         echo anchor('donation/Donation/', 'PROCESS ANOTHER DONATION', array('class' => 'btn btn-primary btn-lg m-r-5 dontprint'));
     ?>
 
-
     <a href="javascript:window.print()" class="btn btn-primary btn-lg m-r-5 dontprint">PRINT RECEIPT</a>
+
+    //  Facebook social media  //
+    <div class="fb-share-button" data-href="https://developers.facebook.com/docs/plugins/" data-layout="button"></div>
+    //*** end of Facebook socail media ***//
 
     </div>
     <!-- end page container -->

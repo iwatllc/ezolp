@@ -65,7 +65,7 @@ $submit = array(
 	    $css->add_asset($this->config->item('base_preprocess'));
 	?>
 
-	<link type="text/css" rel="stylesheet" href="<?php echo Modules::run('assets/assetcreate/index', $css); ?>" media="all" />
+	<link type="text/css" rel="stylesheet" href="<?php echo Modules::run('assets/AssetCreate/index', $css); ?>" media="all" />
 	
 	
     <!-- ================== BEGIN BASE JS ================== -->

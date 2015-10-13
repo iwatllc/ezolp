@@ -84,44 +84,40 @@ $register = array(
 
             <div class="panel-body">
                 <div class="col-md-9">
+
                     <div class="form-inline">
                         <div class="control-label"
                         <?php echo form_label('Username', $username['id']); ?>
                     </div>
                     <?php echo form_input($username) ?>
                     <?php echo form_error($username['name']); ?>
-                </div><br/>
-            </div>
+                    <br/><br/>
 
-                <div class="col-md-9">
                     <div class="form-inline">
                         <div class="control-label"
                         <?php echo form_label('Email', $email['id']); ?>
                     </div>
                     <?php echo form_input($email) ?>
                     <?php echo form_error($email['name']); ?>
+                    <br/><br/>
+
+                    <div class="form-inline">
+                        <div class="control-label"
+                        <?php echo form_label('Password', $password['id']); ?>
+                    </div>
+                    <?php echo form_password($password); ?>
+                    <?php echo form_error($password['name']); ?>
+                    <br/><br/>
+
+                    <div class="form-inline">
+                        <div class="control-label"
+                        <?php echo form_label('Confirm Password', $confirm_password['id']); ?>
+                    </div>
+                    <?php echo form_password($confirm_password); ?>
+                    <?php echo form_error($confirm_password['name']); ?>
+
                 </div><br/>
             </div>
-
-            <div class="col-md-9">
-                <div class="form-inline">
-                    <div class="control-label"
-                    <?php echo form_label('Password', $password['id']); ?>
-                </div>
-                <?php echo form_password($password); ?>
-                <?php echo form_error($password['name']); ?>
-            </div><br/>
-
-
-            <div class="col-md-9">
-                <div class="form-inline">
-                    <div class="control-label"
-                    <?php echo form_label('Confirm Password', $confirm_password['id']); ?>
-                </div>
-                <?php echo form_password($confirm_password); ?>
-                <?php echo form_error($confirm_password['name']); ?>
-            </div><br/>
-
         </div>
     </div>
     <div class="form-group">

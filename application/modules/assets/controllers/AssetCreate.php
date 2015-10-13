@@ -23,7 +23,7 @@ class AssetCreate extends MX_Controller
         parent::__construct();
 		
 		$this->load->helper('file');
-		$this->load->library('robofile');
+		$this->load->library('RoboFile');
     }
 
 	public function index($asset = NULL) 

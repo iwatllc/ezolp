@@ -74,7 +74,7 @@ Copy the assets folder into the modules folder located in application/modules
 		$css->add_asset('./application/modules/ezauth/assets/scss/ezauth.scss');
 	?>
 
-	<link type="text/css" rel="stylesheet" href="<?php echo Modules::run('assets/assetcreate/index', $css); ?>" media="all" />
+	<link type="text/css" rel="stylesheet" href="<?php echo Modules::run('assets/AssetCreate/index', $css); ?>" media="all" />
 	
 	
 	

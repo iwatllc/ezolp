@@ -128,7 +128,6 @@ $register = array(
                         <?php echo form_error($confirm_password['name']); ?>
                     </div>
                 </div>
-
                 <?php if ($this->dx_auth->captcha_registration): ?>
                 <label class="control-label">Please enter the Captcha</label>
                 <div class="form-group m-b-20">
