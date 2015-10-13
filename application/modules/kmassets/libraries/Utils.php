@@ -2,10 +2,9 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 /** 
-	* Author: Dan McCleary
+	* Author: DMcCleary
 	* Name: Utils Class
 	* Date: 09/14/2015
-	* Time: 9:32pm
 	* Version: 1.0
 	* Notes: Application utility functions and methods.
 */

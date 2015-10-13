@@ -9,7 +9,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <!--<![endif]-->
 
 <?php 
-		$css = new AssetCss('donationform');
+		$css = new Asset_css('donationform');
 	    $css->add_asset($this->config->item('base_preprocess'));
 		$css->add_asset($this->config->item('client'));
 		$css->add_asset('./assets/scss/donation.scss');

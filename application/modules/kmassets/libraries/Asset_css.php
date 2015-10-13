@@ -1,16 +1,14 @@
-<?php //if (defined('BASEPATH')) exit('No direct script access allowed'); ?>
-<?php
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 /** 
-	* Author: Dan McCleary
+	* Author: DMcCleary
 	* Name: Asset Css Library Class
 	* Date: 09/14/2015
-	* Time: 8:37pm
 	* Version: 1.0
 	* Notes: Css Asset Library Class for collecting custom and vendor scss or css files.
 */
 
-class AssetCss
+class Asset_css
 {
 	public $assets = array();
 	public $file_name;

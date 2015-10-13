@@ -2,15 +2,14 @@
 <?php
 
 /** 
-	* Author: Dan McCleary
+	* Author: DMcCleary
 	* Name: Robo methods
 	* Date: 09/14/2015
-	* Time: 9:31pm
 	* Version: 1.0
 	* Notes: Robo file that contains application task methods that are called using vendor Robo
 */
 
-class RoboFile extends Robo\Tasks
+class Parse_task extends Robo\Tasks
 {
 	function __construct()
 	{
@@ -86,6 +85,7 @@ class RoboFile extends Robo\Tasks
 		{
 			$res = $this->taskMinify($file)
 						->to($to)
+						->keepImportantComments(FALSE)
 						->run();
 			
 			if ($res->wasSuccessful() === TRUE)

@@ -35,7 +35,7 @@
 	<!-- Overrides -->
 	<?php if (isset($asset) && ! empty($asset)) { ?>
 	
-	<link type="text/css" rel="stylesheet" href="<?php echo  Modules::run('assets/AssetCreate/index', $asset); ?>" media="all" />
+	<link type="text/css" rel="stylesheet" href="<?php echo  Modules::run('kmassets/asset_create/index', $asset); ?>" media="all" />
 	
 	<?php } ?>
 	

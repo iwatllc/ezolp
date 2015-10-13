@@ -60,7 +60,7 @@ $autoload['packages'] = array('Database');
 |	$autoload['libraries'] = array('user_agent' => 'ua');
 */
 
-$autoload['libraries'] = array('DX_Auth', 'form_validation', 'assets/AssetCss', 'utils', 'database');
+$autoload['libraries'] = array('DX_Auth', 'form_validation', 'kmassets/utils', 'kmassets/asset_js', 'kmassets/asset_css', 'database');
 
 
 /*
@@ -104,7 +104,7 @@ $autoload['helper'] = array('url', 'form', 'date', 'security');
 |
 */
 
-$autoload['config'] = array('ez_config', 'config_assets');
+$autoload['config'] = array('ez_config', 'kmassets/config_assets');
 
 
 /*

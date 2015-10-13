@@ -61,11 +61,11 @@ $submit = array(
     <!-- ================== END BASE CSS STYLE ================== -->
     
 	<?php
-		$css = new AssetCss('login');
+		$css = new Asset_css('login');
 	    $css->add_asset($this->config->item('base_preprocess'));
 	?>
 
-	<link type="text/css" rel="stylesheet" href="<?php echo Modules::run('assets/AssetCreate/index', $css); ?>" media="all" />
+	<link type="text/css" rel="stylesheet" href="<?php echo Modules::run('kmassets/asset_create/index', $css); ?>" media="all" />
 	
 	
     <!-- ================== BEGIN BASE JS ================== -->
