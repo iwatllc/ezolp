@@ -33,9 +33,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <div id="content" class="content">
 
     <!-- begin page-header -->
-    <h1 class="page-header"><?php echo $page_data['heading']; ?>
+    <h1 class="page-header"><?php // echo $todays_date; ?>
         <small>
-            <?php echo $todays_date; ?>
 
         </small>
     </h1>
@@ -61,7 +60,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         $BegDate = array(
                             'name'          =>  'BegDate',
                             'value'         =>  set_value('BegDate', $begin_date),
-                            'placeholder'   =>  'Date Start',
+                            'placeholder'   =>  date('m/d/Y'),
                             'class'         =>  'form-control',
                             'id'            =>  'datepicker',
                         );
@@ -75,7 +74,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         $EndDate = array(
                             'name'          =>  'EndDate',
                             'value'         =>  set_value('EndDate', $end_date),
-                            'placeholder'   =>  'Date End',
+                            'placeholder'   =>  date('m/d/Y'),
                             'class'         =>  'form-control',
                             'id'            =>  'datepicker2',
                         );
@@ -118,7 +117,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <p><?php echo $total_customers; ?></p>
                 </div>
                 <div class="stats-link">
-                    <a href="javascript:;">View Detail <i class="fa fa-arrow-circle-o-right"></i></a>
+                    <a></a>
                 </div>
             </div>
         </div>
@@ -132,7 +131,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <p><?php echo '$' . $total_volume; ?></p>
                 </div>
                 <div class="stats-link">
-                    <a href="javascript:;">View Detail <i class="fa fa-arrow-circle-o-right"></i></a>
+                    <a></a>
                 </div>
             </div>
         </div>        <!-- end col-3 -->
