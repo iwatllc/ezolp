@@ -39,6 +39,7 @@
 	
 	<?php } ?>
 	
+
     <!-- ================== BEGIN BASE JS ================== -->
-    <script src="<?php echo base_url(); ?>/assets/plugins/pace/pace.min.js"></script>
+    <!--<script src="<?php //echo base_url(); ?>/assets/plugins/pace/pace.min.js"></script>-->
     <!-- ================== END BASE JS ================== -->
