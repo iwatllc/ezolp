@@ -70,10 +70,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         {
                             ?>
                             <div class='success'>
-                            Payment Successfully Processed!
+                            Donation Successfully Processed!
                             </div>
                             <br>
-                            Payment Reciept
+                            Donation Reciept
                             </br>
                             </br>
                             <b>Reciept #:</b> <?php echo $result_data['OrderNumber']; ?>
@@ -126,9 +126,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
     <a href="javascript:window.print()" class="btn btn-primary btn-lg m-r-5 dontprint">PRINT RECEIPT</a>
 
-    //  Facebook social media  //
+    <br><br>
+
     <div class="fb-share-button" data-href="https://developers.facebook.com/docs/plugins/" data-layout="button"></div>
-    //*** end of Facebook socail media ***//
+
 
     </div>
     <!-- end page container -->

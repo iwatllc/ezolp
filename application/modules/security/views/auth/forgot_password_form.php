@@ -28,7 +28,7 @@ $reset = array(
 
 <head>
     <meta charset="utf-8" />
-    <title>EZOLP | Forgot Password</title>
+    <title><?php echo $page_data['title']; ?> | <?php echo $page_data['page_title']; ?></title>
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
     <meta content="" name="description" />
     <meta content="" name="author" />

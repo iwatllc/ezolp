@@ -43,7 +43,7 @@ $submit = array(
 
 <head>
     <meta charset="utf-8" />
-    <title>EZOLP | Login Page</title>
+    <title><?php echo $page_data['title']; ?> | <?php echo $page_data['page_title']; ?></title>
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
     <meta content="" name="description" />
     <meta content="" name="author" />
@@ -90,7 +90,7 @@ $submit = array(
             <!-- begin brand -->
             <div class="login-header">
                 <div class="brand">
-                    <img src="<?php echo base_url(); ?><?php echo $page_data['logo']; ?>"  height="50" alt="<?php echo $page_data['title']; ?>" ></a>
+                    <img src="<?php echo base_url(); ?><?php echo $page_data['logo']; ?>"  height="50" alt="<?php echo $page_data['title']; ?>" >
                     <br>
                     <small><?php echo $page_data['slogan']; ?></small>
                 </div>

@@ -123,7 +123,8 @@ class Auth extends MX_Controller
 						'company' => $this->config->item('Company_Name'),
 						'logo' => $this->config->item('Company_Logo'),
 						'slogan' => $this->config->item('Company_Slogan'),
-						'author' => $this->config->item('Company_Author')
+						'author' => $this->config->item('Company_Author'),
+						'page_title' => 'Login'
 					);
 					$data['page_data'] = $view_vars;
 					$this->load->view($this->dx_auth->login_view, $data);
@@ -163,6 +164,18 @@ class Auth extends MX_Controller
 		if ( ! $this->dx_auth->is_logged_in() AND $this->dx_auth->allow_registration)
 		{
 			$val = $this->form_validation;
+
+			$view_vars = array(
+				'title' => $this->config->item('Company_Title'),
+				'heading' => $this->config->item('Company_Title'),
+				'description' => $this->config->item('Company_Description'),
+				'company' => $this->config->item('Company_Name'),
+				'logo' => $this->config->item('Company_Logo'),
+				'author' => $this->config->item('Company_Author'),
+				'slogan' => $this->config->item('Company_Slogan'),
+				'page_title' => 'Register'
+			);
+			$data['page_data'] = $view_vars;
 			
 			// Set form validation rules
 			// Takes three parameters as input:
@@ -205,7 +218,7 @@ class Auth extends MX_Controller
 			else
 			{
 				// Load registration page
-				$this->load->view('Auth/register_form');
+				$this->load->view('Auth/register_form', $data);
 			}
 		}
 		elseif ( ! $this->dx_auth->allow_registration)
@@ -250,7 +263,8 @@ class Auth extends MX_Controller
 			'company' => $this->config->item('Company_Name'),
 			'logo' => $this->config->item('Company_Logo'),
 			'author' => $this->config->item('Company_Author'),
-			'slogan' => $this->config->item('Company_Slogan')
+			'slogan' => $this->config->item('Company_Slogan'),
+			'page_title' => 'Forgot Password'
 		);
 		$data['page_data'] = $view_vars;
 		

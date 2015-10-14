@@ -54,7 +54,7 @@ $register = array(
 <!--<![endif]-->
 <head>
     <meta charset="utf-8" />
-    <title>EZOLP | Register</title>
+    <title><?php echo $page_data['title']; ?> | <?php echo $page_data['page_title']; ?></title>
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
     <meta content="" name="description" />
     <meta content="" name="author" />
@@ -89,8 +89,8 @@ $register = array(
         <!-- begin news-feed -->
         <div class="login-header">
             <div class="brand">
-                <span class="logo"></span> EZOLP
-                <small>Register for EZ Online Pay</small>
+                <img src="<?php echo base_url(); ?><?php echo $page_data['logo']; ?>"  height="50" alt="<?php echo $page_data['title']; ?>" >
+                <small>Register for <?php echo $page_data['title']; ?></small>
             </div>
             <div class="icon">
                 <i class="fa fa-sign-in"></i>

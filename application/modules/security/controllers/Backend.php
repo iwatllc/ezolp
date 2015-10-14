@@ -38,7 +38,8 @@ class Backend extends CI_Controller
 			'description' => $this->config->item('Company_Description'),
 			'company' => $this->config->item('Company_Name'),
 			'logo' => $this->config->item('Company_Logo'),
-			'author' => $this->config->item('Company_Author')
+			'author' => $this->config->item('Company_Author'),
+			'page_title' => 'Manage Users'
 		);
 		$data['page_data'] = $view_vars;
 

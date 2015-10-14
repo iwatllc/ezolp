@@ -511,6 +511,44 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <button type="submit" class="btn btn-donate btn-primary">Donate Now</button>
                                 </div>
                             </div>
+
+                            <div class="donation-grp">
+                                <div class="form-group">
+                                    <div class="col-md-12 end-form-donate">
+                                        By clicking Donate, I affirm that the following statements are true and accurate:
+                                        <br><br>
+                                        <ul>
+                                            <li>
+                                                I am a United States citizen or lawfully admitted permanent resident.
+                                            </li>
+                                            <li>
+                                                I am making this contribution using my own personal funds, and not those of another.
+                                            </li>
+                                            <li>
+                                                I am making this contribution using my personal credit or debit card, and not with the card of a corporation, business entity, or another person.
+                                            </li>
+                                            <li>
+                                                I do not personally hold a federal government contract.
+                                            </li>
+                                            <li>
+                                                I am at least 16 years old.
+                                            </li>
+                                        </ul>
+                                        <br>
+                                        Contributions to Jeb 2016, Inc. are not tax deductible for federal income tax purposes. Contributions to Jeb 2016, Inc. will be used in connection with federal elections and are subject to the limitations and prohibitions of federal law. The maximum an individual may contribute is $2,700 per election. Couples may contribute up to $5,400 per election; joint contributions require the signature of both spouses. Federal multicandidate PACs may contribute up to $5,000 per election. Contributions from corporations, foreign nationals, and federal government contractors are prohibited. Contributions must be made from personal funds and may not be reimbursed by any other person. Federal law requires us to use our best efforts to obtain and report the name, mailing address, occupation, and name of employer for each individual whose contributions aggregate in excess of $200 in an election cycle.
+                                        <br><br>
+                                        To contribute by mail, please send a personal check made payable to “Jeb 2016, Inc.” to:
+                                        <br><br>
+                                        Jeb 2016, Inc.
+                                        PO Box 440644
+                                        Miami, FL 33144
+                                        <br><br>
+                                        Please include your full name, address, phone number, email address, occupation, and name of employer in the envelope
+
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                     <!-- end panel -->

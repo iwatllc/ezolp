@@ -46,8 +46,8 @@ $config['Company_Slogan'] = 'Leader In Fundraising Solutions';
 /***End Company Config Settings***/
 
 /***** CLIENT CONFIG ******/
-$config['Client_Title'] = 'Client Title';
-$config['Client_Heading'] = 'Welcome';
+$config['Client_Title'] = 'Jeb 2016';
+$config['Client_Heading'] = 'Thanks for helping us make a difference';
 $config['Client_Description'] = '';
 $config['Client_Author'] = 'Client Company ' . date("Y");
 $config['Client_Name'] = 'Client Company Name';
