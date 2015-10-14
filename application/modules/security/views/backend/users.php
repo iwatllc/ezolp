@@ -78,7 +78,7 @@
                             
                             // Table options
                             $tmpl = array (
-                                'table_open'  => '<table class="table  table-stripped" width="100%">',
+                                'table_open'  => '<table class="table  table-stripped">',
                                 'table_close' => '</table>'
                             );
                             $this->table->set_template($tmpl);
