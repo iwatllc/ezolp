@@ -38,7 +38,7 @@
                     <h4 class="panel-title">Manage Users</h4>
                 </div>
                 <div class="panel-body">
-                    <div class="col-md-9">
+                    <div class="col-md-12">
                         <div class="form-inline">
                             <?php
                                 $ban = array(
@@ -78,7 +78,7 @@
                             
                             // Table options
                             $tmpl = array (
-                                'table_open'  => '<table class="table table-stripped">',
+                                'table_open'  => '<table class="table  table-stripped" width="100%">',
                                 'table_close' => '</table>'
                             );
                             $this->table->set_template($tmpl);

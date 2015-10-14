@@ -32,7 +32,7 @@
                     <h4 class="panel-title">MANAGE CUSTOM PERMISSIONS</h4>
                 </div>
                 <div class="panel-body">
-                    <div class="col-md-9">
+                    <div class="col-md-12">
                         <div class="form-inline">
                             <?php
                                 echo '<b>Here is an example how to use custom permissions</b><br/><br/>';
@@ -93,7 +93,7 @@
 
                     </div>
                     <div class="form-group">
-                        <div class="col-md-9">
+                        <div class="col-md-12">
                             <?php
                                 $save = array(
                                     'name' => 'save',
@@ -107,7 +107,7 @@
                             ?>  
                         </div>
                     </div>
-                    <div class="col-md-9">
+                    <div class="col-md-12">
                             <?php
                                 echo '<br/>';
                                 

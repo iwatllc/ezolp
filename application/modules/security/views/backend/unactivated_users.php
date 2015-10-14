@@ -36,7 +36,7 @@
                     <h4 class="panel-title">Manage Unactivated Users</h4>
                 </div>
                 <div class="panel-body">
-                    <div class="col-md-9">
+                    <div class="col-md-12">
                         <div class="form-inline">
                             <?php               
                                 // Show error
@@ -67,7 +67,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <div class="col-md-9">
+                        <div class="col-md-12">
                             <?php
                                 $activate = array(
                                     'name' => 'activate',

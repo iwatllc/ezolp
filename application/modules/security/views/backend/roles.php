@@ -37,7 +37,7 @@
                     <h4 class="panel-title">Manage Roles</h4>
                 </div>
                 <div class="panel-body">
-                    <div class="col-md-9">
+                    <div class="col-md-12">
                         <div class="form-inline">
                             <?php
                                 $role_name = array(
