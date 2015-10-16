@@ -118,7 +118,7 @@
                         <span>Donation</span>
                     </a>
                 </li>
-
+<!--
                 <li class="has-sub<?php echo $pageName == 'virtualterminal' || $pageName == 'guestform' ? ' active' : ''; ?>">
                     <a href="javascript:;">
                         <b class="caret pull-right"></b>
@@ -130,7 +130,7 @@
                         <li<?php echo $pageName == 'guestform' ? ' class="active"' : ''; ?>><a href="<?php echo base_url(); ?>guestform">Guest Form</a></li>
                     </ul>
                 </li>
-
+-->
                 <li class="has-sub<?php echo $pageName == 'security' ? ' active' : ''; ?>">
                     <a href="javascript:;">
                         <b class="caret pull-right"></b>

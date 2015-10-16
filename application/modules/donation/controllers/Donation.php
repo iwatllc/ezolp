@@ -38,7 +38,7 @@ class Donation extends MX_Controller {
             'title' => '',
             'heading' => $this->config->item('Client_Heading'),
             'description' => $this->config->item('Client_Description'),
-            'company' => $this->config->item('Client_Name'),
+            'company' => $clientname,
             'logo' => $this->config->item('Client_Logo'),
             'slogan' => '',
             'author' => $this->config->item('Client_Author')
@@ -104,20 +104,21 @@ class Donation extends MX_Controller {
             $submitted_data['expirationmonth'] = $this->input->post('expirationmonth');
             $submitted_data['expirationyear'] = $this->input->post('expirationyear');
             $submitted_data['cvv2'] = $this->input->post('cvv2');
-            $submitted_data['PaymentSource'] = 'DN';
+            $submitted_data['PaymentSource'] = 'DF';
 
 
             // PROCESS CREDIT CARD DATA
             $this->load->module('payment');
             $result_data = $this->payment->process_payment($submitted_data);
 
+            $clientname = $this->configsys->get_config_value('clientname');
 
             // Gather all the info for the view
             $view_vars = array(
                 'title' => $this->config->item('Client_Title'),
                 'heading' => $this->config->item('Client_Heading'),
                 'description' => $this->config->item('Client_Description'),
-                'company' => $this->config->item('Client_Name'),
+                'company' => $clientname,
                 'logo' => $this->config->item('Client_Logo'),
                 'slogan' => '',
                 'author' => $this->config->item('Client_Author')

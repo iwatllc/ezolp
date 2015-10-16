@@ -19,57 +19,44 @@ class Search_model extends CI_Model {
               $this->db->select('*');
               $this->db->from('payment_response');
               
-              if ($search_array['PaymentTransactionId'] != NULL)
-              {
+              if ($search_array['PaymentTransactionId'] != NULL) {
                   $this->db->where('payment_response.PaymentTransactionId', $search_array['PaymentTransactionId']);
               }
               
-              if ($search_array['BegDate'] != NULL && $search_array['EndDate'] != NULL && $search_array['BegDate'] != "1969-12-31" && $search_array['EndDate'] != "1969-12-31")
-              {
-                    $this->db->where('DATE(payment_response.InsertDate) >=', $search_array['BegDate'])->where('DATE(payment_response.InsertDate) <=', $search_array['EndDate']);
-                    
-              } else if ($search_array['BegDate'] != NULL)
-              {
+              if ($search_array['BegDate'] != NULL && $search_array['EndDate'] != NULL && $search_array['BegDate'] != "1969-12-31" && $search_array['EndDate'] != "1969-12-31") {
+                  $this->db->where('DATE(payment_response.InsertDate) >=', $search_array['BegDate'])->where('DATE(payment_response.InsertDate) <=', $search_array['EndDate']);
+              } else if ($search_array['BegDate'] != NULL) {
                   $this->db->where('DATE(payment_response.InsertDate) >=', $search_array['BegDate']);
-                  
-              } else if ($search_array['EndDate'] != NULL)
-              {
+              } else if ($search_array['EndDate'] != NULL) {
                   $this->db->where('DATE(payment_response.InsertDate) <=', $search_array['EndDate']);
               }
               
-              if ($search_array['PaymentSource'] != NULL)
-              {
+              if ($search_array['PaymentSource'] != NULL) {
                   $this->db->where('payment_response.PaymentSource', $search_array['PaymentSource']);
               }
               
-              if ($search_array['TransactionAmount'] != NULL)
-              {
+              if ($search_array['TransactionAmount'] != NULL) {
                   $this->db->where('payment_response.TransactionAmount', $search_array['TransactionAmount']);
               }              
               
-              if ($search_array['AuthCode'] != NULL)
-              {
+              if ($search_array['AuthCode'] != NULL) {
                   $this->db->where('payment_response.AuthCode', $search_array['AuthCode']);
               }
               
-              if ($search_array['OrderNumber'] != NULL)
-              {
+              if ($search_array['OrderNumber'] != NULL) {
                   $this->db->where('payment_response.OrderNumber', $search_array['OrderNumber']);
               }
               
-              if ($search_array['CVV2ResponseMessage'] != NULL)
-              {
+              if ($search_array['CVV2ResponseMessage'] != NULL) {
                   $this->db->where('payment_response.CVV2ResponseMessaaget', $search_array['CVV2ResponseMessage']);
               }
              
-              if ($search_array['SerialNumber'] != NULL)
-              {
+              if ($search_array['SerialNumber'] != NULL) {
                   $this->db->where('payment_response.SerialNumber', $search_array['SerialNumber']);
 				  $this->db->or_where('payment_response.TransactionFileName', $search_array['SerialNumber']);
               }
 
-			  if ($search_array['TransactionStatusId'] != NULL)
-              {
+			  if ($search_array['TransactionStatusId'] != NULL) {
                   $this->db->where('payment_response.TransactionStatusId', $search_array['TransactionStatusId']);
               }
               $form_list = $this->_get_forms();
@@ -85,9 +72,9 @@ class Search_model extends CI_Model {
               // $sql = $this->db->get_compiled_select();
 
               return $this->db->get();
-              
-          } else // search_array is empty
-          {
+
+          } else {
+              // search_array is empty
               return NULL;
           }
           

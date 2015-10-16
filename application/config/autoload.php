@@ -104,7 +104,7 @@ $autoload['helper'] = array('url', 'form', 'date', 'security');
 |
 */
 
-$autoload['config'] = array('ez_config', 'kmassets/config_assets');
+$autoload['config'] = array('kmassets/config_assets');
 
 
 /*

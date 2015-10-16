@@ -117,26 +117,23 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 														$
 													</label>
 													<?php
-											$data = array(
-												'name'          => 'otheramount',
-												'id'            => 'maskedMoney-input-paymentamount',
-												'value'         => set_value('otheramount'),
-												'class'         => 'form-control input-other-pay',
-												'type'          => 'text',
-												'placeholder'   => '0.00',
-												'maxlength'     => '10',
-												'data-parsley-required' => 'true'
-											);
-											
-											echo form_input($data);
-											?>
-											
-													
+                                                        $data = array(
+                                                            'name'          => 'otheramount',
+                                                            'id'            => 'maskedMoney-input-paymentamount',
+                                                            'value'         => set_value('otheramount'),
+                                                            'class'         => 'form-control input-other-pay',
+                                                            'type'          => 'text',
+                                                            'placeholder'   => '0.00',
+                                                            'maxlength'     => '10',
+                                                            'data-parsley-required' => 'true'
+                                                        );
+
+                                                        echo form_input($data);
+                                                    ?>
 												</div><!-- ./ pay-btns -->
 											</div><!-- ./col-md-9 -->
 										</div><!-- ./row -->
 
-										
 										<div class="row other-pay-error">
 											<div class="col-md-9 col-md-offset-3">
 												<?php echo form_error('paymentamount'); ?>

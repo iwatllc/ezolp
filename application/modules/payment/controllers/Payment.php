@@ -190,4 +190,33 @@ class Payment extends MX_Controller
             'UpdateDate' => date('Y-n-j H:i:s')
         );
 	}
+
+
+    public function checkstatus($transactionid){
+
+        $this->load->model('Payment_model', 'Payment');
+        $gateway = $this->config->item('Gateway'); //maybe this should be based on payment gateway, but we'd have to change config from static solution
+
+        if(strcmp($gateway, 'NPC') == 0) {
+            //Gateway is NPC
+            //TODO: Add NPC Gateway Void Code
+        }
+
+        else if(strcmp($gateway, 'NMI') == 0) {
+            //Gateway is NMI
+            $this->load->module('nmi');
+            $result_data = $this->nmi->doQuery($transactionid);
+
+            $status = (string) $result_data->transaction->condition;
+
+        }
+        else {
+            show_error("Unrecognized gateway '". $gateway . "'");
+        }
+
+        return $status;
+
+
+
+    }
 }

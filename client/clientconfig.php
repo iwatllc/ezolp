@@ -25,13 +25,19 @@ $config['Gateway'] = 'NMI';
 // $config['NPC_ProdRequestUrl'] = 'https://www.skipjackic.com/scripts/evolvcc.dll?Authorize';
 /***End NPC Gateway Settings***/
 
+
 /***NMI Gateway Settings***/
 //Sandbox
-$config['NMI_Username'] = 'demo';
-$config['NMI_Password'] = 'password';
-// $config['NMI_Username'] = 'RFulcherLeveliii';
-// $config['NMI_Password'] = 'pCLx4T2j7kVNNHPE';
+// $config['NMI_Username'] = 'demo';
+// $config['NMI_Password'] = 'password';
+// $config['NMI_URL'] = 'https://securitycardservices.transactiongateway.com/api/transact.php';
+
+//Live
+$config['NMI_Username'] = 'IWATLLC';
+$config['NMI_Password'] = '3Y62XYb2FpGR7eT6';
 $config['NMI_URL'] = 'https://securitycardservices.transactiongateway.com/api/transact.php';
+$config['NMI_URL_QUERY'] = 'https://securitycardservices.transactiongateway.com/api/query.php?';
+
 /***End NMI Gateway Settings***/
 
 
@@ -46,7 +52,8 @@ $config['Company_Slogan'] = 'Leader In Fundraising Solutions';
 /***End Company Config Settings***/
 
 /***** CLIENT CONFIG ******/
-$config['Client_Title'] = 'Jeb 2016';
+// DO NOT ADD ANY MORE CONFIG VARIABLES TO THIS FILE.  WE NEED TO MOVE THEM
+// DO THE DATABASE
 $config['Client_Heading'] = 'Thanks for helping us make a difference';
 $config['Client_Description'] = '';
 $config['Client_Author'] = 'Client Company ' . date("Y");

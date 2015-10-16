@@ -92,7 +92,7 @@ class Nmi extends MX_Controller
 		$query .= "type=sale";
 		
 		log_message('debug', "NMI Query -> " . print_r($query,TRUE));
-	    return $this->_doPost($query);
+	    return $this->_doPost($query, $this->config->item('NMI_URL'));
   	}
 
 	function doVoid($transactionid) {
@@ -104,7 +104,7 @@ class Nmi extends MX_Controller
 	    // Transaction Information
 	    $query .= "transactionid=" . urlencode($transactionid) . "&";
 	    $query .= "type=void";
-	    return $this->_doPost($query);
+	    return $this->_doPost($query, $this->config->item('NMI_URL'));
     }
 
     function doRefund($transactionid, $amount = 0) {
@@ -119,13 +119,14 @@ class Nmi extends MX_Controller
 	        $query .= "amount=" . urlencode(number_format($amount,2,".","")) . "&";
 	    }
 	    $query .= "type=refund";
-	    return $this->_doPost($query);
+	    return $this->_doPost($query, $this->config->item('NMI_URL'));
     }
 
 
-	private function _doPost($query) {
+	private function _doPost($query, $url) {
+
 	    $ch = curl_init();
-	    curl_setopt($ch, CURLOPT_URL, $this->config->item('NMI_URL'));
+	    curl_setopt($ch, CURLOPT_URL, $url);
 	    curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 15);
 	    curl_setopt($ch, CURLOPT_TIMEOUT, 15);
 	    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -142,11 +143,51 @@ class Nmi extends MX_Controller
 	    unset($ch);
 	    
 	    $data = explode("&",$data);
-		$responses;
+
 	    for($i=0;$i<count($data);$i++) {
 	        $rdata = explode("=",$data[$i]);
 	        $responses[$rdata[0]] = $rdata[1];
 	    }
 	    return $responses;
 	}
+
+	function doQuery($transactionid)
+	{
+		$query  = "";
+
+		// Login Information
+		$query .= "username=" . urlencode($this->config->item('NMI_Username')) . "&";
+		$query .= "password=" . urlencode($this->config->item('NMI_Password')) . "&";
+
+		// Transaction Information
+        $query .= "transaction_id=$transactionid" ;
+
+        // THIS METHOD WILL DO IT'S OWN CURL CALL SINCE THE RETURN OBJECT
+        // IS DIFFERENT THAN THE ON FROM THE OTHER doPOST functions
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $this->config->item('NMI_URL_QUERY'));
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 15);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 15);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $query);
+        curl_setopt($ch, CURLOPT_POST, 1);
+
+        if (!($data = curl_exec($ch))) {
+            return ERROR;
+        }
+        curl_close($ch);
+        unset($ch);
+
+        $transactionXML = new SimpleXMLElement($data);
+
+		return $transactionXML;
+	}
+
+
+
+
+
 }

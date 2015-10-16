@@ -146,6 +146,8 @@ class Dashboard_model extends CI_Model {
      */
     public function get_total_customers_by_date($begin_date, $end_date)
     {
+        // TODO -- Rewrite this routine to pick up the forms from the form_list table and loop through them.
+
         $this->db->distinct();
         $this->db->select('name');
         $this->db->from('virtualterminal_submissions');
@@ -187,6 +189,28 @@ class Dashboard_model extends CI_Model {
         $query2 = $this->db->last_query();
 
         $query = $this->db->query($query1 . " UNION " . $query2);
+
+        $this->db->distinct();
+        $this->db->select('name');
+        $this->db->from('donationform_submissions');
+
+        if ($begin_date != NULL && $end_date != NULL && $begin_date != "1969-12-31" && $end_date != "1969-12-31")
+        {
+            $this->db->where('DATE(donationform_submissions.InsertDate) >=', $begin_date)->where('DATE(donationform_submissions.InsertDate) <=', $end_date);
+
+        } else if ($begin_date != "1969-12-31")
+        {
+            $this->db->where('DATE(donationform_submissions.InsertDate) >=', $begin_date);
+
+        } else if ($end_date != "1969-12-31")
+        {
+            $this->db->where('DATE(donationform_submissions.InsertDate) <=', $end_date);
+        }
+
+        $this->db->get();
+        $query3 = $this->db->last_query();
+
+        $query = $this->db->query($query1 . " UNION " . $query2 . " UNION " . $query3);
 
         return $query->num_rows();
     }

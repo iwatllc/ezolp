@@ -41,11 +41,13 @@ class Void extends MX_Controller {
 		$result_data = $this->payment->process_void($payment);
 		
         $view_vars = array(
-                'title' => 'EZ Online Pay | Void Submission Results',
-                'heading' => 'Void Result',
-                'description' => 'EZ Online Pay Void',
-                'author' => 'EZ Online Pay 2015'
-            );
+            'title' => $this->config->item('Company_Title'). ' | Void Submission Results',
+            'heading' => $this->config->item('Company_Title'),
+            'description' => $this->config->item('Company_Title').' Void Transaction ',
+            'logo' => $this->config->item('Company_Logo'),
+            'author' => $this->config->item('Company_Author'),
+        );
+
         $data['page_data'] = $view_vars;
         $data['result_data'] = $result_data;
 		$data['payment'] = $payment;

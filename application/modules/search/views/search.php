@@ -28,7 +28,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
     <div id="content" class="content">
     
-    
         <div class="row">
             <!-- begin col-12 -->
             <div class="col-12">
@@ -61,14 +60,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                                 </td>
 
                                                 <td>
-                                                        <label>Payment Source</label>
-                                                        <?php echo form_dropdown('PaymentSource', $payment_sources, $search_array['PaymentSource'], array('class'=>'form-control')); ?>
-                                                </td>
-
-                                                <td>
                                                         <label>Transaction Amount</label>
                                                         <?php echo form_input(array('name'=>'TransactionAmount', 'value'=>set_value('TransactionAmount', $search_array['TransactionAmount']), 'placeholder'=>'Transaction Amount', 'class'=>'form-control')); ?>
                                                 </td>
+                                                <td>
+                                                    <label>Status</label>
+                                                    <?php echo form_dropdown('TransactionStatusId', $transaction_statuses, $search_array['TransactionStatusId'], array('class'=>'form-control')); ?>
+                                                </td>
+
                                             </tr>
 
                                             <tr>
@@ -91,11 +90,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                                         <label>Batch Number</label>
                                                         <?php echo form_input(array('name'=>'SerialNumber', 'value'=>set_value('SerialNumber', $search_array['SerialNumber']), 'placeholder'=>'Batch Number', 'class'=>'form-control')); ?>
                                                 </td>
-                                                
+                                                <?php // these two td's go together. ?>
+                                                <td>&nbsp;</td>
+                                                <!-- Comment this out for go fund it.
                                                 <td>
-                                                        <label>Transaction Status</label>
-                                                        <?php echo form_dropdown('TransactionStatusId', $transaction_statuses, $search_array['TransactionStatusId'], array('class'=>'form-control')); ?>
+                                                        <label>Payment Source</label>
+                                                        <?php echo form_dropdown('PaymentSource', $payment_sources, $search_array['PaymentSource'], array('class'=>'form-control')); ?>
                                                 </td>
+                                                -->
+
                                             </tr>
                                             
                                         </table>
@@ -130,7 +133,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                         { ?>
                                             <thead align="center">
                                                 <tr>
-                                                    <th>Status</th>
+                                                    <th>&nbsp;</th>
                                                     <th>Number</th>
                                                     <th>Amount</th>
                                                 </tr>
@@ -144,7 +147,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                                         echo $num_results;
                                                     echo "</td>";
                                                     echo "<td>";
-                                                        echo "$(" . $total_amount . ")";
+                                                        echo "$ " . $total_amount . " ";
                                                     echo "</td>";
                                                 echo "<tr>";
                                                 ?>
@@ -173,14 +176,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                                     if ($results->num_rows() > 0)
                                                     { ?>
                                                         <tr>
-                                                            <th>ID</th>
+                                                            <th>Batch Number</th>
                                                             <th>Transaction Date</th>
-                                                            <th>Payment Source</th>
+                                                            <th>Payer</th>
                                                             <th>Transaction Amount</th>
-                                                            <th>Approval Code</th>
+                                                            <th>Auth Code</th>
                                                             <th>Transaction Status</th>
                                                             <th>CVV2 Result</th>
-                                                            <th>Batch Number</th>
+                                                            <th>CC Last 4</th>
                                                             <th>Actions</th>
                                                         </tr>
                                             </thead>
@@ -190,33 +193,34 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                                 {
                                                     echo "<tr>";
                                                         echo "<td>";
-                                                            echo $result->PaymentTransactionId;
+                                                            echo strlen($result->SerialNumber) == 0 ? $result->TransactionFileName : $result->SerialNumber;
                                                         echo "</td>";
                                                         echo "<td>";
                                                             echo $result->InsertDate;
                                                         echo "</td>";
                                                         echo "<td>";
-                                                            echo $result->PaymentSource;
+                                                            echo $result->name;
                                                         echo "</td>";
                                                         echo "<td>";
                                                             echo $result->TransactionAmount;
                                                         echo "</td>";
                                                         echo "<td>";
-                                                            echo $result->IsApproved;
+                                                            echo $result->AuthCode;
                                                         echo "</td>";
 														echo "<td>";
                                                             echo $result->status;
                                                         echo "</td>";
                                                         echo "<td>";
-                                                            echo $result->CVV2ResponseMessage;
+                                                            echo $result->CVV2ResponseCode . ' ' . $result->CVV2ResponseMessage;
                                                         echo "</td>";
                                                         echo "<td>";
-                                                            echo strlen($result->SerialNumber) == 0 ? $result->TransactionFileName : $result->SerialNumber;
+                                                            echo $result->cclast4;
                                                         echo "</td>";
 														if(strcmp($result->status, 'Void') != 0 && strcmp($result->status, 'Refund') != 0) {
 															echo "<td>
-																		<button data-paymentResponseId='". $result->PaymentResponseId ."' class='btn btn-link btn-refund'>Refund</button><br/>
-																		<button data-transactionDate='". $result->InsertDate ."' data-paymentResponseId='". $result->PaymentResponseId ."' data-transactionAmount='". $result->TransactionAmount . "' class='btn btn-link btn-void'>Void</button><br/>
+                                                                    <button data-paymentTransactionFileName='". $result->TransactionFileName ."' data-paymentResponseId='". $result->PaymentTransactionId ."' class='btn btn-link btn-changestatus'>Check Status</button><br>
+																	<!--<button data-paymentResponseId='". $result->PaymentResponseId ."' class='btn btn-link btn-refund'>Refund</button><br> -->
+																	<!--<button data-transactionDate='". $result->InsertDate ."' data-paymentResponseId='". $result->PaymentResponseId ."' data-transactionAmount='". $result->TransactionAmount . "' class='btn btn-link btn-void'>Void</button> -->
 	                                                        	 </td>";
 														}
 														else {
@@ -261,6 +265,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     	
         $( "#datepicker" ).datepicker({defaultDate: null});
         $( "#datepicker2" ).datepicker({defaultDate: null});
+
+        $( "#content" ).on("click", ".btn-changestatus", function() {
+            window.location = "<?php echo base_url(); ?>changestatus/Changestatus/index/"+$(this).attr("data-paymentTransactionFileName")+"/"+$(this).attr("data-paymentResponseId");
+        });
         
         $( "#content" ).on("click", ".btn-refund", function() {
 			window.location = "<?php echo base_url(); ?>refund/Refund/index/"+$(this).attr("data-paymentResponseId");

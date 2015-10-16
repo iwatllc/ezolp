@@ -31,17 +31,17 @@ class Refund extends MX_Controller {
     public function index()
     {
 
-        $clientname = $this->configsys->get_config_value('clientname');
 		$paymentResponseId = $this->uri->segment(4);
         $this->load->model('payment/Payment_model', 'Payment');
 		$data = array('PaymentResponseId' => $paymentResponseId);
 		$payment = $this->Payment->get($data);
 		
         $view_vars = array(
-            'title' => $clientname . ' | Refund Form',
-            'heading' => 'Refund Form',
-            'description' => $clientname. ' Refund Form',
-            'author' => 'EZ Online Pay ' . date("Y"),
+            'title' => $this->config->item('Company_Title') . ' | Refund Form',
+            'heading' => $this->config->item('Company_Title'),
+            'description' => $this->config->item('Company_Title'). ' Refund Form',
+            'author' => $this->config->item('Company_Author'),
+            'logo' => $this->config->item('Company_Logo'),
             'payment' => $payment
         );
         $data['page_data'] = $view_vars;
@@ -63,14 +63,15 @@ class Refund extends MX_Controller {
 	        $this->load->model('payment/Payment_model', 'Payment');
 			$data = array('PaymentResponseId' => $paymentResponseId);
 			$payment = $this->Payment->get($data);
-			
-	        $view_vars = array(
-	            'title' => $clientname . ' | Refund Form',
-	            'heading' => 'Refund Form',
-	            'description' => $clientname. ' Refund Form',
-	            'author' => 'EZ Online Pay ' . date("Y"),
-	            'payment' => $payment
-	        );
+
+            $view_vars = array(
+                'title' => $this->config->item('Company_Title') . ' | Refund Form',
+                'heading' => $this->config->item('Company_Title'),
+                'description' => $this->config->item('Company_Title'). ' Refund Form',
+                'author' => $this->config->item('Company_Author'),
+                'logo' => $this->config->item('Company_Logo'),
+                'payment' => $payment
+            );
 	        $data['page_data'] = $view_vars;
 			
 	        $this->load->view('refundform', $data);
@@ -90,10 +91,11 @@ class Refund extends MX_Controller {
 
             // Gather all the info for the view
             $view_vars = array(
-                'title' => 'EZ Online Pay | Refund Form Submission Results',
-                'heading' => 'Refund Form Result',
-                'description' => 'EZ Online Pay Refund Form',
-                'author' => 'EZ Online Pay 2015'
+                'title' => $this->config->item('Company_Title') . ' | Refund Form',
+                'heading' => $this->config->item('Company_Title'),
+                'description' => $this->config->item('Company_Title'). ' Refund Form',
+                'author' => $this->config->item('Company_Author'),
+                'logo' => $this->config->item('Company_Logo'),
             );
             $data['page_data'] = $view_vars;
             $data['result_data'] = $result_data;
