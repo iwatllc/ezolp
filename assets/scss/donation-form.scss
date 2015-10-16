@@ -107,6 +107,7 @@ body.donation-form {
 		height: 45px;
 		font-size: 1.5em;
 		font-weight: 400;
+		width: 100%;
 	}
 	
 	.pay-btns-1 > .btn {
@@ -165,8 +166,23 @@ body.donation-form {
 	//.	margin-top: $adjust-form-for-logo-change;
 	}
 	
+	.other-special {
+		clear:both;
+		float: none; 
+		display: block;
+		margin-top: 120px !important;
+	}
 	
 	
+}
+
+@media (min-width: 400px) {
+	body.donation-form {
+		.other-special {
+			margin-top: 65px !important;
+		}
+	}
+
 }
 
 @media (min-width: 520px) {

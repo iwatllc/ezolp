@@ -111,15 +111,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 													<label class="btn btn-primary">
 														<input type="radio" class="amt-rad" name="paymentamount" id="paymentamount200" value="200.00" <?php echo set_radio('paymentamount', '200.00'); ?> /><span>$200</span>
 													</label>
-												</div><!-- ./ pay-btns -->
-											</div><!-- ./col-md-9 -->
-										</div><!-- ./row -->
-
-										<div class="row other-pay-row">
-											<label class="col-md-3 control-label"><span class="sr-only">Other Amount</span></label>
-											<div class="col-md-9">
-												<div class="btn-group pay-btns" data-toggle="buttons">
-													<label class="btn btn-primary">
+													
+													<label class="btn btn-primary other-special">
 														<input type="radio" class="amt-rad" name="paymentamount" id="paymentamountother" value="other" <?php echo set_radio('paymentamount', 'other'); ?> /><span>Other</span>
 														$
 													</label>
@@ -137,9 +130,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 											
 											echo form_input($data);
 											?>
+											
+													
 												</div><!-- ./ pay-btns -->
 											</div><!-- ./col-md-9 -->
 										</div><!-- ./row -->
+
 										
 										<div class="row other-pay-error">
 											<div class="col-md-9 col-md-offset-3">
