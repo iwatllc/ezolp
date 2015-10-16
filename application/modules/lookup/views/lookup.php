@@ -9,6 +9,8 @@
 
 <?php echo form_open('lookup/execute_lookup'); ?>
 
+Input Unique ID in URL
+
 <!--<label>Unique ID</label>-->
 <?php
     // echo form_input(array('name'=>'unique_id', 'value'=>set_value(''), 'placeholder'=>'ID', 'class'=>'form-control'));
@@ -19,15 +21,16 @@
 
 <table border="1px solid black" cellpadding="15px">
     <?php
-    foreach($results->result() as $row){
+    foreach($results->result() as $row)
+    {
     ?>
     <tr>
-        <td><?php echo $row->id?></td>
-        <td><?php echo $row->name?></td>
-        <td><?php echo $row->notes?></td>
-        <td><?php echo $row->cclast4?></td>
-        <td><?php echo $row->amount?></td>
-        <td><?php echo $row->InsertDate?></td>
+        <td><?php echo $row->id ?></td>
+        <td><?php echo $row->name ?></td>
+        <td><?php echo $row->notes ?></td>
+        <td><?php echo $row->cclast4 ?></td>
+        <td><?php echo $row->amount ?></td>
+        <td><?php echo $row->InsertDate ?></td>
     </tr>
     <?php
     }

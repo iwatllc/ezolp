@@ -36,6 +36,10 @@ class Lookup extends MX_Controller
         $this->load->view('lookup', $data);
     }
 
+    /**
+     * Perform look up using the unique id specified in the URL
+     * We will add a button to the page later, but for now it is how we will search for information
+     */
     public function execute_lookup()
     {
         $unique_id = $this->input->post('unique_id');
@@ -43,7 +47,6 @@ class Lookup extends MX_Controller
         $this->load->model('Lookup_model', 'Lookup');
 
         // third segment in the url is going to be the unique identifier
-        // we will add a button to the page later, but for now that is how we will search for information
         $id = $this->uri->segment(3);
 
         $data['results'] = $this->Lookup->search($id);
