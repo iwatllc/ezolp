@@ -486,7 +486,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                             'value'         => set_value('cvv2'),
                                             'class'         => 'form-control max-200',
                                             'type'          => 'text',
-                                            'placeholder'   => '999',
+                                            'placeholder'   => '000',
                                             'maxlength'     => '3',
                                             'data-parsley-required' => 'true'
                                         );
