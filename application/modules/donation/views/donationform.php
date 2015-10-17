@@ -477,7 +477,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 </div>
 
                                 <div class="form-group <?php echo(!empty(form_error('cvv2')) ? 'has-error has-feedback' : ''); ?>">
-                                    <label class="col-md-3 control-label">CVV2 <span class="required">*</span></label>
+                                    <label class="col-md-3 control-label">CVV <span class="required">*</span> <span style="display: inline;" class="glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="bottom" title="3 digit security code on back of credit card"></span></label>
                                     <div class="col-md-9">
                                         <?php
                                         $data = array(
