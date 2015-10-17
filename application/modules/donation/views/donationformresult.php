@@ -3,17 +3,164 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 
 <!DOCTYPE html>
-<!--[if IE 8]>
-<html lang="en" class="ie8">
-<![endif]-->
+<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
 <!--[if !IE]><!-->
 <html lang="en">
 <!--<![endif]-->
 
-    <?php $this->load->view('header'); ?>
+<?php 
+		$css = new Asset_css('donationform-result');
+	    $css->add_asset($this->config->item('base_preprocess'));
+		$css->add_asset($this->config->item('client'));
+		$css->add_asset('./assets/scss/donation.scss');
+	
+		$data['asset'] = $css;
+		$this->load->view('header', $data); 
+?>
 
-    //  Facebook social media  //
-    <div id="fb-root"></div>
+<body class="flat-black donation-form receipt-print">
+
+<!-- begin #page-container -->
+<div id="page-container" class="fade in page-without-sidebar">
+    <!-- begin #header -->
+    <div id="header" class="header navbar navbar-default">
+        <!-- begin container-fluid -->
+        <div class="container-fluid">
+            <!-- begin mobile sidebar expand / collapse button -->
+            <div class="navbar-header">
+                <a href="<?php echo current_url(); ?>">
+                    <div class="logo-img">
+                        <img src="<?php echo base_url(); ?>/client/client.png">
+                    </div>
+                    <h1 class="page-title"><?php echo $page_data['title'];?></h1>
+                </a>
+            </div>
+            <!-- end mobile sidebar expand / collapse button -->
+        </div>
+        <!-- end container-fluid -->
+    </div>
+    <!-- end #header -->
+    <!-- begin #content -->
+    <div id="content" class="content">
+        <!-- begin page-header -->
+        <h1 class="page-header"><?php echo $page_data['slogan'];?></h1>
+        <!-- end page-header -->
+        <div class="row">
+            <!-- begin col-12 -->
+            <div class="col-12">
+                    <!-- begin panel -->
+                    <div class="panel panel-inverse" >
+                        <div class="panel-heading">
+                            <h4 class="panel-title"><?php echo $page_data['heading'];?></h4>
+                        </div>
+                        <div class="panel-body">
+							<div class="donation-grp">
+								<div class="row">
+									<div class="col-md-9">
+												<?php
+											$approved = $result_data['IsApproved'];
+											$responseHTML = $result_data['ResponseHTML'];
+											$responseCODE = $result_data['ReturnCode'];
+
+											if ($approved == 1)
+											{
+												$approved = TRUE;
+											} else {
+												$approved = FALSE;
+											}
+
+											if (isset($approved) && $approved === TRUE)
+											{
+												?>
+												<div class='alert alert-success'>
+													Donation Successfully Processed!
+												</div>
+
+												<h3>Donation Reciept</h3>
+
+												<div><strong>Reciept #:</strong> <?php echo $result_data['OrderNumber']; ?></div>
+
+												<div><strong>Date:</strong> <?php echo $result_data['UpdateDate']; ?></div>
+
+												<div><strong>Amount:</strong> <?php echo $submitted_data['amount']; ?></div>
+
+												<div><strong>Card Ending: ************</strong><?php echo $submitted_data['cclast4']; ?></div>
+
+												<div><strong>Card Holder:</strong> <?php echo $submitted_data['name']; ?></div>
+
+												<div>
+													<strong>Address:</strong></br>	
+													<?php echo $submitted_data['streetaddress']; ?></br>
+													<?php echo $submitted_data['city']; ?>&nbsp;<?php echo $submitted_data['state']; ?>&nbsp;<?php echo $submitted_data['zip']; ?>
+												</div>
+
+													<?php
+												}
+												else
+												{
+													?>
+												<div style='color: #FF0000; font-weight: bold;'>
+													There was an error processing this transaction.
+												</div>
+                            
+													<div style='font-weight: bold;'>
+														Here is the SkipJack response for further details as to possibly why there was a failure:
+													</div>
+
+													<div><?php echo $responseHTML; ?></div>
+
+												<?php
+												}
+
+												echo "<div style='font-weight: bold;'>";
+												if (isset($response)){
+													// echo $respones;
+												};
+												echo "</div>";
+												?>
+								
+								
+								<div style="margin-top:50px;">
+					<?php
+        echo anchor('donation/Donation/', 'PROCESS ANOTHER DONATION', array('class' => 'btn btn-primary btn-lg m-r-5 dontprint'));
+    ?>
+
+    <a href="javascript:window.print()" class="btn btn-primary btn-lg m-r-5 dontprint">PRINT RECEIPT</a>
+    <div class="fb-share-button" data-href="https://developers.facebook.com/docs/plugins/" data-layout="button"></div>
+						</div>
+								
+								
+								
+									</div>
+							</div>
+            </div>
+        </div>
+        <!-- end #content -->
+    
+												
+											</div><!-- ./col-md-9 -->
+										</div><!-- ./row -->
+								</div>	
+	
+						
+                        </div>
+                    </div>
+                    <!-- end panel -->
+
+            </div>
+            <!-- end col-12 -->
+        </div>
+        <!-- end row -->
+    </div>
+    <!-- end #content -->
+
+</div>
+<!-- end page container -->
+
+<?php $this->load->view('footer'); ?>
+
+
+<div id="fb-root"></div>
     <script>(function(d, s, id) {
         var js, fjs = d.getElementsByTagName(s)[0];
         if (d.getElementById(id)) return;
@@ -21,118 +168,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.4";
         fjs.parentNode.insertBefore(js, fjs);
     }(document, 'script', 'facebook-jssdk'));</script>
-    //*** end of Facebook socail media ***//
-
-    <body class="flat-black receipt-print">
 
 
-    <div id="page-container" class="fade in page-without-sidebar page-header-fixed">
-        <!-- begin #header -->
-        <div id="header" class="header navbar navbar-default navbar-fixed-top">
-            <!-- begin container-fluid -->
-            <div class="container-fluid">
-                <!-- begin mobile sidebar expand / collapse button -->
-                <div class="navbar-header">
-                    <a href="<?php echo current_url(); ?>"><img style="width:100px;" src="<?php echo base_url(); ?>/client/client.png"> <font size="6">&nbsp;&nbsp;&nbsp;<?php echo $page_data['title'];?></font> </a>
-                    <button type="button" class="navbar-toggle" data-click="sidebar-toggled">
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                </div>
-                <!-- end mobile sidebar expand / collapse button -->
-            </div>
-            <!-- end container-fluid -->
-        </div>
-        <!-- end #header -->
 
-		<!-- begin #content -->
-        <div id="content" class="content">
-            <!-- begin page-header -->
-            <h1 class="page-header"><?php echo $page_data['heading'];?></h1>
-            <!-- end page-header -->
-            <div class="row">
-                <!-- begin col-12 -->
-                <div class="col-12">
-                    <?php
-                        $approved = $result_data['IsApproved'];
-                        $responseHTML = $result_data['ResponseHTML'];
-                        $responseCODE = $result_data['ReturnCode'];
-
-                        if ($approved == 1)
-                        {
-                            $approved = TRUE;
-                        } else {
-                            $approved = FALSE;
-                        }
-
-                        if (isset($approved) && $approved === TRUE)
-                        {
-                            ?>
-                            <div class='success'>
-                            Donation Successfully Processed!
-                            </div>
-                            <br>
-                            Donation Reciept
-                            </br>
-                            </br>
-                            <b>Reciept #:</b> <?php echo $result_data['OrderNumber']; ?>
-                            </br></br>
-                            <b>Date:</b> <?php echo $result_data['UpdateDate']; ?>
-                            </br></br>
-                            <b>Amount:</b> <?php echo $submitted_data['amount']; ?>
-                            </br></br>
-                            <b>Card Ending: ************</b><?php echo $submitted_data['cclast4']; ?>
-                            </br></br>
-                            <b>Card Holder:</b> <?php echo $submitted_data['name']; ?>
-                            </br></br>
-                            <b>Address:</b></br>
-                            <?php echo $submitted_data['streetaddress']; ?></br>
-                            <?php echo $submitted_data['city']; ?>&nbsp;<?php echo $submitted_data['state']; ?>&nbsp;<?php echo $submitted_data['zip']; ?>
-
-
-                            <?php
-                        }
-                        else
-                        {
-                            ?>
-                            <div style='color: #FF0000; font-weight: bold;' />
-                            There was an error processing this transaction.
-                            </div>
-                            <br/>
-                            <div style='font-weight: bold;'>
-                            Here is the SkipJack response for further details as to possibly why there was a failure:
-                            </div>
-                            <br/>
-                            <br/>
-                            <?php echo $responseHTML; ?>
-                            <br/>
-                            <?php
-                        }
-
-                        echo "<div style='font-weight: bold;'>";
-                        if (isset($response)){
-                            // echo $respones;
-                        };
-                        echo "</div>";
-                    ?>
-                </div>
-            </div>
-        </div>
-        <!-- end #content -->
-    <?php
-        echo anchor('donation/Donation/', 'PROCESS ANOTHER DONATION', array('class' => 'btn btn-primary btn-lg m-r-5 dontprint'));
-    ?>
-
-    <a href="javascript:window.print()" class="btn btn-primary btn-lg m-r-5 dontprint">PRINT RECEIPT</a>
-
-    <br><br>
-
-    <div class="fb-share-button" data-href="https://developers.facebook.com/docs/plugins/" data-layout="button"></div>
-
-
-    </div>
-    <!-- end page container -->
-
-    </body>
+</body>
 </html>
