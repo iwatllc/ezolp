@@ -221,6 +221,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                                                     <button data-paymentTransactionFileName='". $result->TransactionFileName ."' data-paymentResponseId='". $result->PaymentTransactionId ."' class='btn btn-link btn-changestatus'>Check Status</button><br>
 																	<!--<button data-paymentResponseId='". $result->PaymentResponseId ."' class='btn btn-link btn-refund'>Refund</button><br> -->
 																	<!--<button data-transactionDate='". $result->InsertDate ."' data-paymentResponseId='". $result->PaymentResponseId ."' data-transactionAmount='". $result->TransactionAmount . "' class='btn btn-link btn-void'>Void</button> -->
+																	<button data-paymentTransactionFileName='". $result->TransactionFileName ."' data-paymentResponseId='". $result->PaymentTransactionId ."' class='btn btn-link btn-checkdonationamount'>Check Donation Amount</button><br>
 	                                                        	 </td>";
 														}
 														else {
@@ -268,6 +269,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
         $( "#content" ).on("click", ".btn-changestatus", function() {
             window.location = "<?php echo base_url(); ?>changestatus/Changestatus/index/"+$(this).attr("data-paymentTransactionFileName")+"/"+$(this).attr("data-paymentResponseId");
+        });
+
+        $( "#content" ).on("click", ".btn-checkdonationamount", function() {
+            window.location = "<?php echo base_url(); ?>checkdonationamount/index/"+$(this).attr("data-paymentResponseId");
         });
         
         $( "#content" ).on("click", ".btn-refund", function() {
