@@ -50,11 +50,11 @@ class Dashboard extends MX_Controller {
         $this->load->model('Dashboard_model', 'Dashboard');
 
         $data['total_volume'] = round($this->Dashboard->get_total_amount_by_date($begin_date, $end_date), 2);
-        $data['total_customers'] = $this->Dashboard->get_total_customers_by_date($begin_date, $end_date);
+        $data['total_customers'] = $this->Dashboard->get_total_transactions_by_date($begin_date, $end_date);
 
-        // Use these if you want the entire total customers/volume (all time)
+        // Use these if you want the entire total transactions/volume (all time)
 //        $data['total_volume'] = round($this->Dashboard->get_total_volume(), 2); // round to nearest tenth cent
-//        $data['total_customers'] = $this->Dashboard->get_total_customers();
+//        $data['total_customers'] = $this->Dashboard->get_total_transactions();
 
         $data['total'] = $this->Dashboard->get_total_amount_for_graph_by_date($begin_date, $end_date);
 
@@ -83,10 +83,10 @@ class Dashboard extends MX_Controller {
 
         $data['days_array'] = $this->Dashboard->get_days_array_by_date($data['begin_date'], $data['end_date']);
 
-        $data['total_customers'] = $this->Dashboard->get_total_customers();
+        $data['total_customers'] = $this->Dashboard->get_total_transactions();
 
         $data['total_volume'] = round($this->Dashboard->get_total_amount_by_date($data['begin_date'], $data['end_date']), 2);
-        $data['total_customers'] = $this->Dashboard->get_total_customers_by_date($data['begin_date'], $data['end_date']);
+        $data['total_customers'] = $this->Dashboard->get_total_transactions_by_date($data['begin_date'], $data['end_date']);
         $data['total'] = $this->Dashboard->get_total_amount_for_graph_by_date($data['begin_date'], $data['end_date']);
 
         $view_vars = array(

@@ -21,30 +21,20 @@
             <!-- begin panel -->
             <div class="panel panel-inverse" >
                 <div class="panel-heading">
-                    <h4 class="panel-title">YOUR DONATIONS</h4>
+                    <h4 class="panel-title"><?php echo $page_data['heading']?> Donations</h4>
                 </div>
                 <div class="panel-body">
-                    <div class="col-md-9">
+                    <div class="col-md-12">
                         <div class="form-inline">
 
 
-                            <h3><?php echo $page_data['heading']?> Donations</h3><br>
+                            <?php if ($company_donations->num_rows() > 0){ ?>
                             <div class="table-responsive">
                                 <table id="myTable" class="table table-bordered tablesorter">
-                                    <?php if ($company_donations->num_rows() > 0){ ?>
                                         <thead>
                                             <tr>
-                                                <th>Donation ID</th>
-                                                <th>Name</th>
-                                                <th>Street Address</th>
-                                                <th>Street Address 2</th>
-                                                <th>City</th>
-                                                <th>State</th>
-                                                <th>Zip</th>
-                                                <th>Notes</th>
-                                                <th>CC Last 4</th>
+                                                <th>Date</th>
                                                 <th>Amount</th>
-                                                <th>Insert Date</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -52,58 +42,82 @@
                                             {
                                                 echo "<tr>";
                                                 echo "<td>";
-                                                echo $result->id;
+                                                echo date_conversion_nowording($result->InsertDate);
                                                 echo "</td>";
-                                                echo "<td>";
-                                                echo $result->name;
-                                                echo "</td>";
-                                                echo "<td>";
-                                                echo $result->streetaddress;
-                                                echo "</td>";
-                                                echo "<td>";
-                                                echo $result->streetaddress2;
-                                                echo "</td>";
-                                                echo "<td>";
-                                                echo $result->city;
-                                                echo "</td>";
-                                                echo "<td>";
-                                                echo $result->state;
-                                                echo "</td>";
-                                                echo "<td>";
-                                                echo $result->zip;
-                                                echo "</td>";
-                                                echo "<td>";
-                                                echo $result->notes;
-                                                echo "</td>";
-                                                echo "<td>";
-                                                echo $result->cclast4;
-                                                echo "</td>";
-                                                echo "<td>";
-                                                echo $result->amount;
-                                                echo "</td>";
-                                                echo "<td>";
-                                                echo $result->InsertDate;
+                                                echo "<td align='right'>";
+                                                echo sprintf('$%01.2f', $result->amount);
                                                 echo "</td>";
                                                 echo "</tr>";
                                             } ?>
                                         </tbody>
-                                    </table>
-                                </div>
+                                </table>
+                            </div>
                             <?php } else { ?>
                                 <strong>There are no donations to display.</strong>
-                            <?php } ?><br><br>
+                            <?php } ?><br>
 
 
-                            <h3>Overall Donations</h3><br>
+                        </div>
+                    </div>
+
+
+
+                    <div class="col-md-6">
+                        <div class="form-inline">
+
                             <div class="table-responsive">
                                 <table id="myTable" class="table table-bordered tablesorter">
-                                    <?php if ($all_donations->num_rows() > 0){ ?>
                                     <thead>
                                     <tr>
-                                        <th>Name</th>
-                                        <th>City</th>
-                                        <th>State</th>
-                                        <th>Zip Code</th>
+                                        <th>Number of Donations</th>
+                                        <th>Amount Donated</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td>
+                                            <?php echo $num_company_donations; ?>
+                                        </td>
+                                        <td>
+                                            <?php echo sprintf('$%01.2f', $amount_company_donations); ?>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <!-- end panel -->
+        </div>
+        <!-- end col-12 -->
+    </div>
+    <!-- end row -->
+
+
+
+    <div class="row">
+        <!-- begin col-12 -->
+        <div class="col-12">
+            <!-- begin panel -->
+            <div class="panel panel-inverse" >
+                <div class="panel-heading">
+                    <h4 class="panel-title">Federal Election Commission Individual Contributions</h4>
+                </div>
+                <div class="panel-body">
+                    <div class="col-md-12">
+                        <div class="form-inline">
+
+
+                            <?php if ($all_donations->num_rows() > 0){ ?>
+                            <div class="table-responsive">
+                                <table id="myTable" class="table table-bordered tablesorter">
+                                    <thead>
+                                    <tr>
+                                        <th>Date</th>
                                         <th>Amount</th>
                                     </tr>
                                     </thead>
@@ -112,39 +126,114 @@
                                     {
                                         echo "<tr>";
                                         echo "<td>";
-                                        echo $result->name;
+                                        echo date_conversion_nowording($result->transaction_date);
                                         echo "</td>";
-                                        echo "<td>";
-                                        echo $result->city;
-                                        echo "</td>";
-                                        echo "<td>";
-                                        echo $result->state;
-                                        echo "</td>";
-                                        echo "<td>";
-                                        echo $result->zip_code;
-                                        echo "</td>";
-                                        echo "<td>";
-                                        echo $result->transaction_amt;
+                                        echo "<td align='right'>";
+                                        echo sprintf('$%01.2f', $result->transaction_amt);
                                         echo "</td>";
                                         echo "</tr>";
                                     } ?>
                                     </tbody>
                                 </table>
                             </div>
-                        <?php } else { ?>
-                            <strong>There are no donations to display.</strong>
-                        <?php } ?>
+                            <?php } else { ?>
+                                <strong>There are no donations to display.</strong>
+                            <?php } ?><br>
 
 
-                            <strong>Total Donations:</strong><br>
-                            <strong>Total Amount Donated:</strong><br>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-6">
+                        <div class="form-inline">
+
+                            <div class="table-responsive">
+                                <table id="myTable" class="table table-bordered tablesorter">
+                                    <thead>
+                                    <tr>
+                                        <th>Number of Donations</th>
+                                        <th>Amount Donated</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td>
+                                            <?php echo $num_all_donations; ?>
+                                        </td>
+                                        <td align="right">
+                                            <?php echo sprintf('$%01.2f', $amount_all_donations); ?>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+            <!-- end panel -->
+        </div>
+        <!-- end col-12 -->
+    </div>
+    <!-- end row -->
+
+
+
+
+    <div class="row">
+        <!-- begin col-12 -->
+        <div class="col-12">
+
+            <!-- begin panel -->
+            <div class="panel panel-inverse" >
+                <div class="panel-heading">
+                    <h4 class="panel-title">Total Donations</h4>
+                </div>
+                <div class="panel-body">
+                    <div class="col-md-12">
+                        <div class="form-inline">
+
+
+                                <div class="table-responsive">
+                                    <table id="myTable" class="table table-bordered tablesorter">
+                                        <thead>
+                                        <tr>
+                                            <th>Total Number of Donations</th>
+                                            <th>Total Amount Donated</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <?php echo $num_total_donations; ?>
+                                                </td>
+                                                <td>
+                                                    <?php // echo $amount_total_donations; ?>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+
                         </div>
                     </div>
                 </div>
             </div>
+            <!-- end panel -->
         </div>
+        <!-- end col-12 -->
     </div>
+    <!-- end row -->
+
+
+
 </div>
+<!-- end content -->
 
 <!-- end page container -->
 

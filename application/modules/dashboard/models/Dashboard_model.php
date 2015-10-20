@@ -24,7 +24,7 @@ class Dashboard_model extends CI_Model {
 
 
     /**
-     * Returns the number of unique names from tables.
+     * Returns the number of transactions from tables.
      *
      * guestform_submissions, virtualterminal_submissions
      * SQL:
@@ -35,15 +35,13 @@ class Dashboard_model extends CI_Model {
      * Note: Codeigniter does not support UNION, so I had to write my own query
      *
      */
-    public function get_total_customers()
+    public function get_total_transactions()
     {
-        $this->db->distinct();
         $this->db->select('name');
         $this->db->from('virtualterminal_submissions');
         $this->db->get();
         $query1 = $this->db->last_query();
 
-        $this->db->distinct();
         $this->db->select('name');
         $this->db->from('guestform_submissions');
         $this->db->get();
@@ -144,7 +142,7 @@ class Dashboard_model extends CI_Model {
      * Note: Codeigniter does not support UNION, so I had to concatenate the two queries
      *
      */
-    public function get_total_customers_by_date($begin_date, $end_date)
+    public function get_total_transactions_by_date($begin_date, $end_date)
     {
         // TODO -- Rewrite this routine to pick up the forms from the form_list table and loop through them.
 

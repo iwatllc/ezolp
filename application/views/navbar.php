@@ -118,6 +118,13 @@
                         <span>Donation</span>
                     </a>
                 </li>
+
+                <li class="has-sub">
+                    <a href="https://mytransactiondata.com/" target="_blank">
+                        <i class="fa fa-area-chart"></i>
+                        <span>Donor Intelligence</span>
+                    </a>
+                </li>
 <!--
                 <li class="has-sub<?php echo $pageName == 'virtualterminal' || $pageName == 'guestform' ? ' active' : ''; ?>">
                     <a href="javascript:;">
@@ -132,7 +139,7 @@
                 </li>
 -->
                 <li class="has-sub<?php echo $pageName == 'security' ? ' active' : ''; ?>">
-                    <a href="javascript:;">
+                    <a>
                         <b class="caret pull-right"></b>
                         <i class="fa fa-key"></i>
                         <span>Security</span>

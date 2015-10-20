@@ -41,71 +41,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <!-- end page-header -->
 
 
-    <div class="panel panel-inverse" data-sortable-id="">
-        <div class="panel-heading">
-            <div class="panel-heading-btn">
-                <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
-                <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-success" data-click="panel-reload"><i class="fa fa-repeat"></i></a>
-                <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
-            </div>
-            <h4 class="panel-title">Sort Dashboard by Date</h4>
-        </div>
-        <div class="panel-body">
-
-            <?php echo form_open('dashboard/filter_date'); ?>
-
-            <div class="form-inline m-r-10">
-                <div class="input-group input-daterange">
-                    <?php
-                        $BegDate = array(
-                            'name'          =>  'BegDate',
-                            'value'         =>  set_value('BegDate', $begin_date),
-                            'placeholder'   =>  date('m/d/Y'),
-                            'class'         =>  'form-control',
-                            'id'            =>  'datepicker',
-                        );
-
-                        echo form_input($BegDate)
-                    ?>
-
-                    <span class="input-group-addon">to</span>
-
-                    <?php
-                        $EndDate = array(
-                            'name'          =>  'EndDate',
-                            'value'         =>  set_value('EndDate', $end_date),
-                            'placeholder'   =>  date('m/d/Y'),
-                            'class'         =>  'form-control',
-                            'id'            =>  'datepicker2',
-                        );
-
-                        echo form_input($EndDate);
-                    ?>
-                </div>
-
-                <?php
-                    $submit = array(
-                        'name' => 'search_submit',
-                        'class' => "btn btn-sm btn-success",
-                        'id'    => 'submit',
-                        'value' => 'Apply',
-                    );
-
-                    echo form_submit($submit);
-                    echo form_close();
-
-                ?>
-            </div>
-
-        </div>
-    </div>
-
-
-
-
-
-
-
     <!-- begin row -->
     <div class="row">
         <!-- begin col-3 -->
@@ -113,7 +48,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <div class="widget widget-stats bg-green">
                 <div class="stats-icon"><i class="fa fa-users"></i></div>
                 <div class="stats-info">
-                    <h4>TOTAL CUSTOMERS</h4>
+                    <h4>TOTAL TRANSACTIONS</h4>
                     <p><?php echo $total_customers; ?></p>
                 </div>
                 <div class="stats-link">
@@ -139,6 +74,64 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <!-- end row -->
 
 
+    <div class="panel panel-inverse" data-sortable-id="">
+        <div class="panel-heading">
+            <div class="panel-heading-btn">
+                <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
+                <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-success" data-click="panel-reload"><i class="fa fa-repeat"></i></a>
+                <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
+            </div>
+            <h4 class="panel-title">Sort Dashboard by Date</h4>
+        </div>
+        <div class="panel-body">
+
+            <?php echo form_open('dashboard/filter_date'); ?>
+
+            <div class="form-inline m-r-10">
+                <div class="input-group input-daterange">
+                    <?php
+                    $BegDate = array(
+                        'name'          =>  'BegDate',
+                        'value'         =>  set_value('BegDate', $begin_date),
+                        'placeholder'   =>  date('m/d/Y'),
+                        'class'         =>  'form-control',
+                        'id'            =>  'datepicker',
+                    );
+
+                    echo form_input($BegDate)
+                    ?>
+
+                    <span class="input-group-addon">to</span>
+
+                    <?php
+                    $EndDate = array(
+                        'name'          =>  'EndDate',
+                        'value'         =>  set_value('EndDate', $end_date),
+                        'placeholder'   =>  date('m/d/Y'),
+                        'class'         =>  'form-control',
+                        'id'            =>  'datepicker2',
+                    );
+
+                    echo form_input($EndDate);
+                    ?>
+                </div>
+
+                <?php
+                $submit = array(
+                    'name' => 'search_submit',
+                    'class' => "btn btn-sm btn-success",
+                    'id'    => 'submit',
+                    'value' => 'Apply',
+                );
+
+                echo form_submit($submit);
+                echo form_close();
+
+                ?>
+            </div>
+
+        </div>
+    </div>
 
 
     <!-- begin row -->
