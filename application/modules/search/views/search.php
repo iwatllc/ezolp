@@ -203,7 +203,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                                             echo date_conversion_nowording($result->InsertDate);
                                                         echo "</td>";
                                                         echo "<td>";
-                                                            echo $result->name;
+                                                            echo $result->firstname. ' ' . $result->middleinitial . ' ' . $result->lastname;
                                                         echo "</td>";
                                                         echo "<td align='right'>";
                                                             echo sprintf('$%01.2f', $result->TransactionAmount);

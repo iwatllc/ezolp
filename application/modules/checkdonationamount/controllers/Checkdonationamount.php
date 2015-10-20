@@ -27,7 +27,6 @@ class Checkdonationamount extends MX_Controller
         $data['all_donations'] = $this->Checkdonationamount->get_all_donations($data['donations']);
 
         $data['num_total_donations'] = $this->Checkdonationamount->get_num_total_donations($data['donations']);
-        // $data['amount_total_donations'] = $this->Checkdonationamount->get_amount_total_donations($data['donations']);
 
         $view_vars = array(
             'title' => $this->config->item('Company_Title') . ' | Check Donation Amount ',

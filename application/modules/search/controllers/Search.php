@@ -39,6 +39,7 @@ class Search extends MX_Controller {
         $search_array['TransactionAmount'] = '';
         $search_array['AuthCode'] = '';
         $search_array['OrderNumber'] = '';
+        $search_array['CVV2ResponseCode'] = '';
         $search_array['CVV2ResponseMessage'] = '';
         $search_array['SerialNumber'] = '';
 		$search_array['TransactionStatusId'] = '';

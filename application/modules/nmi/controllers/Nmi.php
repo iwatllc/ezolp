@@ -54,21 +54,9 @@ class Nmi extends MX_Controller
 		$query .= "orderid=" . urlencode($data['transaction_id']) . "&";
 	    
 		//Optional - Guest Form Information
-		$name = explode(" ", $data['name']);
-		$namesize = count($name);
-		$firstname = "";
-		$lastname = "";
-		if($namesize > 2) {
-			$firstname = $name[0];
-			$lastname = $name[$namesize-1];
-		}
-		else if($namesize > 1){
-			$firstname = $name[0];
-			$lastname = $name[1];
-		}
-		else {
-			$lastname = $data['name'];
-		}
+		$firstname = $data['firstname'];
+		$lastname = $data['lastname'];
+
 		$query .= "firstname=" . urlencode($firstname) . "&";
 	    $query .= "lastname=" . urlencode($lastname) . "&";
 	    if(array_key_exists('streetaddress', $data)) {

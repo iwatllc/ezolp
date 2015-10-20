@@ -171,14 +171,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				
 							<div class="donation-grp">
                             <legend>My Information</legend>
-                                <div class="form-group <?php echo(!empty(form_error('fullname')) ? 'has-error has-feedback' : ''); ?>">
-                                    <label class="col-md-3 control-label">Full Name <span class="required">*</span></label>
+
+                                <div class="form-group <?php echo(!empty(form_error('firstname')) ? 'has-error has-feedback' : ''); ?>">
+                                    <label class="col-md-3 control-label">First Name <span class="required">*</span></label>
                                     <div class="col-md-9">
                                         <?php
                                             $data = array(
-                                                'name'          => 'fullname',
-                                                'id'            => 'fullname',
-                                                'value'         => set_value('fullname'),
+                                                'name'          => 'firstname',
+                                                'id'            => 'firstname',
+                                                'value'         => set_value('firstname'),
                                                 'class'         => 'form-control max-250',
                                                 'type'          => 'text',
                                                 'placeholder'   => 'Required',
@@ -188,10 +189,55 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
                                             echo form_input($data);
                                         ?>
-                                        <?php echo(!empty(form_error('fullname')) ? '<span class="fa fa-times form-control-feedback"></span>' : ''); ?>
-                                        <?php echo form_error('fullname'); ?>
+                                        <?php echo(!empty(form_error('firstname')) ? '<span class="fa fa-times form-control-feedback"></span>' : ''); ?>
+                                        <?php echo form_error('firstname'); ?>
                                     </div>
                                 </div>
+                                <div class="form-group <?php echo(!empty(form_error('middleinitial')) ? 'has-error has-feedback' : ''); ?>">
+                                    <label class="col-md-3 control-label">Middle Initial </label>
+                                    <div class="col-md-9">
+                                        <?php
+                                        $data = array(
+                                            'name'          => 'middleinitial',
+                                            'id'            => 'middleinitial',
+                                            'value'         => set_value('middleinitial'),
+                                            'class'         => 'form-control max-100',
+                                            'type'          => 'text',
+                                            'placeholder'   => ' ',
+                                            'maxlength'     => '100',
+                                            'data-parsley-required' => 'false'
+                                        );
+
+                                        echo form_input($data);
+                                        ?>
+                                        <?php echo(!empty(form_error('middleinitial')) ? '<span class="fa fa-times form-control-feedback"></span>' : ''); ?>
+                                        <?php echo form_error('middleinitial'); ?>
+                                    </div>
+                                </div>
+                                <div class="form-group <?php echo(!empty(form_error('lastname')) ? 'has-error has-feedback' : ''); ?>">
+                                    <label class="col-md-3 control-label">Last Name <span class="required">*</span></label>
+                                    <div class="col-md-9">
+                                        <?php
+                                        $data = array(
+                                            'name'          => 'lastname',
+                                            'id'            => 'lastname',
+                                            'value'         => set_value('lastname'),
+                                            'class'         => 'form-control max-250',
+                                            'type'          => 'text',
+                                            'placeholder'   => 'Required',
+                                            'maxlength'     => '100',
+                                            'data-parsley-required' => 'true'
+                                        );
+
+                                        echo form_input($data);
+                                        ?>
+                                        <?php echo(!empty(form_error('lastname')) ? '<span class="fa fa-times form-control-feedback"></span>' : ''); ?>
+                                        <?php echo form_error('lastname'); ?>
+                                    </div>
+                                </div>
+
+
+
                                 <div class="form-group <?php echo(!empty(form_error('streetaddress')) ? 'has-error has-feedback' : ''); ?>">
                                     <label class="col-md-3 control-label">Street Address <span class="required">*</span></label>
                                     <div class="col-md-9">
@@ -387,6 +433,50 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                         ?>
                                         <?php echo(!empty(form_error('notes')) ? '<span class="fa fa-times form-control-feedback"></span>' : ''); ?>
                                         <?php echo form_error('notes'); ?>
+                                    </div>
+                                </div>
+                                <div class="form-group <?php echo(!empty(form_error('employer')) ? 'has-error has-feedback' : ''); ?>">
+                                    <label class="col-md-3 control-label">Employer <span class="required">*</span></label>
+                                    <div class="col-md-9">
+                                        Federal law requires us to collect the following information:<br>
+                                        if retired please put “Retired” in each field
+                                        <?php
+                                        $data = array(
+                                            'name'          => 'employer',
+                                            'id'            => 'employer',
+                                            'value'         => set_value('employer'),
+                                            'class'         => 'form-control max-350',
+                                            'type'          => 'text',
+                                            'placeholder'   => 'Required',
+                                            'maxlength'     => '100',
+                                            'data-parsley-required' => 'true'
+                                        );
+
+                                        echo form_input($data);
+                                        ?>
+                                        <?php echo(!empty(form_error('employer')) ? '<span class="fa fa-times form-control-feedback"></span>' : ''); ?>
+                                        <?php echo form_error('employer'); ?>
+                                    </div>
+                                </div>
+                                <div class="form-group <?php echo(!empty(form_error('occupation')) ? 'has-error has-feedback' : ''); ?>">
+                                    <label class="col-md-3 control-label">Occupation <span class="required">*</span></label>
+                                    <div class="col-md-9">
+                                        <?php
+                                        $data = array(
+                                            'name'          => 'occupation',
+                                            'id'            => 'occupation',
+                                            'value'         => set_value('occupation'),
+                                            'class'         => 'form-control max-350',
+                                            'type'          => 'text',
+                                            'placeholder'   => 'Required',
+                                            'maxlength'     => '100',
+                                            'data-parsley-required' => 'true'
+                                        );
+
+                                        echo form_input($data);
+                                        ?>
+                                        <?php echo(!empty(form_error('occupation')) ? '<span class="fa fa-times form-control-feedback"></span>' : ''); ?>
+                                        <?php echo form_error('occupation'); ?>
                                     </div>
                                 </div>
 							</div>	
@@ -593,126 +683,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     });
 
 </script>
-
-<script type="text/javascript">
-	
-	$( document ).ready(function() {
-		
-		var amount = $('input.amt-rad:checked');
-		if (amount.length > 0) {
-			$(amount).parent().addClass('active');
-		}
-		//console.log();
-	});
-	
-	
-    /* Credit Card Swipe Logic */
-    var readErrorReason = "Credit card read error. Please try again.";
-
-    var creditCardParser = function (rawData) {
-
-        var trackpattern = new RegExp("^(%[^%;\\?]+\\?)(;[0-9\\:<>\\=]+\\?)?(;[0-9\\:<>\\=]+\\?)?");
-
-        var trackmatches = trackpattern.exec(rawData);
-        if (!trackmatches) return null;
-
-        var fieldpattern = new RegExp("^(\\%)([a-zA-Z])(\\d{1,19})(\\^)(.{2,26})(\\^)(\\d{0,4}|\\^)(\\d{0,3}|\\^)(.*)(\\?)");
-
-        var fieldmatches = fieldpattern.exec(rawData);
-
-        if (!fieldmatches) return null;
-
-        // Extract the three lines
-        var cardData = {
-            track1: trackmatches[1],
-            track2: trackmatches[2],
-            track3: trackmatches[3],
-            FC: fieldmatches[2],
-            PAN: fieldmatches[3],
-            NM: fieldmatches[5],
-            ED: fieldmatches[7],
-            SC: fieldmatches[8],
-            DD: fieldmatches[9]
-        };
-
-        if (cardData.FC != "B")
-        {
-            readErrorReason = "Invalid Format Code. Only cards with Format Code 'B' may be processed.";
-        }
-        else if (cardData.PAN.length == 0)
-        {
-            readErrorReason = "Can not read Primary Account Number. Please try again.";
-        }
-        else if (cardData.ED.length == 0)
-        {
-            readErrorReason = "Can not read Expiration Date. Please try again.";
-        }
-
-        console.log(cardData);
-
-        return cardData;
-    };
-
-    var goodScan = function (data) {
-        $("#status").text("Success!");
-        $("#track1").text(data.track1);
-        $("#track2").text(data.track2);
-        $("#track3").text(data.track3);
-
-        // console.log(data.PAN);
-        // console.log(data.ED.substring(2, 4));
-        // console.log(data.ED.substring(0, 2));
-
-        // Swap around the name
-        var fullname  = data.NM.split("/");
-        var firstname = fullname[1].trim();
-        var lastname = fullname[0].trim();
-        var formattedname = firstname.concat(" ", lastname).trim();
-
-        $("[name='fullname']").val(formattedname);
-        $("[name='creditcard']").val(data.PAN);
-
-        // Set Value of Element then run the selectpicker refresh
-        $("#expirationmonth").val(data.ED.substring(2, 4));
-        $('.selectpicker').selectpicker('refresh');
-
-        // var expirationyear = data.ED.substring(0, 2);
-        // $("[name='expirationyear']").val(data.ED.substring(0, 2));
-        var year_prefix = "20";
-        var year_suffix = data.ED.substring(0, 2);
-        var cardyear = year_prefix.concat(year_suffix);
-        $("#expirationyear").val(cardyear);
-        $('.selectpicker').selectpicker('refresh');
-
-
-        $("[name='cvv2']").focus();
-    }
-
-    var badScan = function () {
-        $("#status").text("Failed!");
-        $(".line").text("");
-        alert(readErrorReason);
-    }
-
-    // Initialize the plugin with default parser and callbacks.
-    //
-    // Set debug to true to watch the characters get captured and the state machine transitions
-    // in the javascript console. This requires a browser that supports the console.log function.
-    //
-    // Set firstLineOnly to true to invoke the parser after scanning the first line. This will speed up the
-    // time from the start of the scan to invoking your success callback.
-    $.cardswipe({
-        firstLineOnly: false,
-        success: goodScan,
-        parser: creditCardParser,
-        error: badScan,
-        debug: true
-    });
-
-</script>
-
-
-
 
 </body>
 </html>

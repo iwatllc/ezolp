@@ -86,7 +86,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 												<div><strong>Card Ending: ************</strong><?php echo $submitted_data['cclast4']; ?></div>
 
-												<div><strong>Card Holder:</strong> <?php echo $submitted_data['name']; ?></div>
+												<div><strong>Card Holder:</strong> <?php echo $submitted_data['firstname'] . ' ' . $submitted_data['middleinitial'] . ' ' . $submitted_data['lastname']; ?></div>
 
 												<div>
 													<strong>Address:</strong></br>	

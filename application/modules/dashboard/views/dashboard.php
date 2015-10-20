@@ -93,7 +93,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     $BegDate = array(
                         'name'          =>  'BegDate',
                         'value'         =>  set_value('BegDate', $begin_date),
-                        'placeholder'   =>  date('m/d/Y'),
+                        'placeholder'   =>  date("m/d/Y", strtotime('-7 days')),
                         'class'         =>  'form-control',
                         'id'            =>  'datepicker',
                     );

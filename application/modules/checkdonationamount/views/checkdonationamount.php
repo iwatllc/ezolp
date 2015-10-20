@@ -32,22 +32,48 @@
                             <div class="table-responsive">
                                 <table id="myTable" class="table table-bordered tablesorter">
                                         <thead>
-                                            <tr>
+                                            <tr align="center">
+                                                <th></th>
+                                                <th>Name</th>
+                                                <th>Address</th>
+                                                <th>City</th>
+                                                <th>State</th>
+                                                <th>Zip</th>
                                                 <th>Date</th>
                                                 <th>Amount</th>
                                             </tr>
                                         </thead>
                                         <tbody>
+                                        <?php $counter = 1; ?>
                                         <?php foreach ($company_donations->result() as $result)
                                             {
                                                 echo "<tr>";
-                                                echo "<td>";
+                                                echo "<td align='center'>";
+                                                echo $counter . '.';
+                                                echo "</td>";
+                                                echo "<td align='center'>";
+                                                echo $result->firstname . ' ' . $result->middleinitial . ' ' . $result->lastname;
+                                                echo "</td>";
+                                                echo "<td align='center'>";
+                                                echo $result->streetaddress;
+                                                echo "</td>";
+                                                echo "<td align='center'>";
+                                                echo $result->city;
+                                                echo "</td>";
+                                                echo "<td align='center'>";
+                                                echo $result->state;
+                                                echo "</td>";
+                                                echo "<td align='center'>";
+                                                echo $result->zip;
+                                                echo "</td>";
+                                                echo "<td align='center'>";
                                                 echo date_conversion_nowording($result->InsertDate);
                                                 echo "</td>";
                                                 echo "<td align='right'>";
                                                 echo sprintf('$%01.2f', $result->amount);
                                                 echo "</td>";
                                                 echo "</tr>";
+                                                $counter++;
                                             } ?>
                                         </tbody>
                                 </table>
@@ -117,27 +143,49 @@
                                 <table id="myTable" class="table table-bordered tablesorter">
                                     <thead>
                                     <tr>
+                                        <th></th>
+                                        <th>Name</th>
+                                        <th>City</th>
+                                        <th>State</th>
+                                        <th>Zip</th>
                                         <th>Date</th>
                                         <th>Amount</th>
                                     </tr>
                                     </thead>
                                     <tbody>
+                                    <?php $count = 1; ?>
                                     <?php foreach ($all_donations->result() as $result)
                                     {
                                         echo "<tr>";
-                                        echo "<td>";
+                                        echo "<td align='center'>";
+                                        echo $count . '.';
+                                        echo "</td>";
+                                        echo "<td align='center'>";
+                                        echo $result->name;
+                                        echo "</td>";
+                                        echo "<td align='center'>";
+                                        echo $result->city;
+                                        echo "</td>";
+                                        echo "<td align='center'>";
+                                        echo $result->state;
+                                        echo "</td>";
+                                        echo "<td align='center'>";
+                                        echo $result->zip_code;
+                                        echo "</td>";
+                                        echo "<td align='center'>";
                                         echo date_conversion_nowording($result->transaction_date);
                                         echo "</td>";
                                         echo "<td align='right'>";
                                         echo sprintf('$%01.2f', $result->transaction_amt);
                                         echo "</td>";
                                         echo "</tr>";
+                                        $count++;
                                     } ?>
                                     </tbody>
                                 </table>
                             </div>
                             <?php } else { ?>
-                                <strong>There are no donations to display.</strong>
+                                <strong>There are no donations to display.</strong><br>
                             <?php } ?><br>
 
 
@@ -209,10 +257,10 @@
                                         <tbody>
                                             <tr>
                                                 <td>
-                                                    <?php echo $num_total_donations; ?>
+                                                    <?php echo $num_all_donations + $num_company_donations; ?>
                                                 </td>
-                                                <td>
-                                                    <?php // echo $amount_total_donations; ?>
+                                                <td align='right'>
+                                                    <?php echo sprintf('$%01.2f', $amount_company_donations + $amount_all_donations); ?>
                                                 </td>
                                             </tr>
                                         </tbody>

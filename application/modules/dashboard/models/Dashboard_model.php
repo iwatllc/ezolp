@@ -37,12 +37,12 @@ class Dashboard_model extends CI_Model {
      */
     public function get_total_transactions()
     {
-        $this->db->select('name');
+        $this->db->select('id');
         $this->db->from('virtualterminal_submissions');
         $this->db->get();
         $query1 = $this->db->last_query();
 
-        $this->db->select('name');
+        $this->db->select('id');
         $this->db->from('guestform_submissions');
         $this->db->get();
         $query2 = $this->db->last_query();
@@ -147,7 +147,7 @@ class Dashboard_model extends CI_Model {
         // TODO -- Rewrite this routine to pick up the forms from the form_list table and loop through them.
 
         $this->db->distinct();
-        $this->db->select('name');
+        $this->db->select('id');
         $this->db->from('virtualterminal_submissions');
 
         if ($begin_date != NULL && $end_date != NULL && $begin_date != "1969-12-31" && $end_date != "1969-12-31")
@@ -167,7 +167,7 @@ class Dashboard_model extends CI_Model {
         $query1 = $this->db->last_query();
 
         $this->db->distinct();
-        $this->db->select('name');
+        $this->db->select('id');
         $this->db->from('guestform_submissions');
 
         if ($begin_date != NULL && $end_date != NULL && $begin_date != "1969-12-31" && $end_date != "1969-12-31")
@@ -189,7 +189,7 @@ class Dashboard_model extends CI_Model {
         $query = $this->db->query($query1 . " UNION " . $query2);
 
         $this->db->distinct();
-        $this->db->select('name');
+        $this->db->select('id');
         $this->db->from('donationform_submissions');
 
         if ($begin_date != NULL && $end_date != NULL && $begin_date != "1969-12-31" && $end_date != "1969-12-31")

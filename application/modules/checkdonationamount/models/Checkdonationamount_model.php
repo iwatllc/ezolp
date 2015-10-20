@@ -31,7 +31,9 @@ class Checkdonationamount_model extends CI_Model
 
         foreach ($donationrow->result() as $result)
         {
-            $donation_array['name'] = $result->name;
+            $donation_array['firstname'] = $result->firstname;
+            $donation_array['lastname'] = $result->lastname;
+            $donation_array['middleinitial'] = $result->middleinitial;
             $donation_array['city'] = $result->city;
             $donation_array['state'] = $result->state;
             $donation_array['zip'] = $result->zip;
@@ -39,7 +41,9 @@ class Checkdonationamount_model extends CI_Model
 
         $this->db->select('*');
         $this->db->from('donationform_submissions');
-        $this->db->where('name', $donation_array['name']);
+        $this->db->where('firstname', $donation_array['firstname']);
+        $this->db->where('lastname', $donation_array['lastname']);
+        $this->db->where('middleinitial', $donation_array['middleinitial']);
         $this->db->where('city', $donation_array['city']);
         $this->db->where('state', $donation_array['state']);
         $this->db->where('zip', $donation_array['zip']);
@@ -59,7 +63,9 @@ class Checkdonationamount_model extends CI_Model
 
         foreach ($donationrow->result() as $result)
         {
-            $donation_array['name'] = $result->name;
+            $donation_array['firstname'] = $result->firstname;
+            $donation_array['lastname'] = $result->lastname;
+            $donation_array['middleinitial'] = $result->middleinitial;
             $donation_array['city'] = $result->city;
             $donation_array['state'] = $result->state;
             $donation_array['zip'] = $result->zip;
@@ -67,7 +73,9 @@ class Checkdonationamount_model extends CI_Model
 
         $this->db->select('*');
         $this->db->from('donationform_submissions');
-        $this->db->where('name', $donation_array['name']);
+        $this->db->where('firstname', $donation_array['firstname']);
+        $this->db->where('lastname', $donation_array['lastname']);
+        $this->db->where('middleinitial', $donation_array['middleinitial']);
         $this->db->where('city', $donation_array['city']);
         $this->db->where('state', $donation_array['state']);
         $this->db->where('zip', $donation_array['zip']);
@@ -88,7 +96,9 @@ class Checkdonationamount_model extends CI_Model
         foreach ($donationrow->result() as $result)
         {
             $donation_array['id'] = $result->id;
-            $donation_array['name'] = $result->name;
+            $donation_array['firstname'] = $result->firstname;
+            $donation_array['lastname'] = $result->lastname;
+            $donation_array['middleinitial'] = $result->middleinitial;
             $donation_array['streetaddress'] = $result->streetaddress;
             $donation_array['streetadress2'] = $result->streetaddress2;
             $donation_array['city'] = $result->city;
@@ -102,7 +112,9 @@ class Checkdonationamount_model extends CI_Model
 
         $this->db->select('SUM(amount) AS total_amt');
         $this->db->from('donationform_submissions');
-        $this->db->where('name', $donation_array['name']);
+        $this->db->where('firstname', $donation_array['firstname']);
+        $this->db->where('lastname', $donation_array['lastname']);
+        $this->db->where('middleinitial', $donation_array['middleinitial']);
         $this->db->where('city', $donation_array['city']);
         $this->db->where('state', $donation_array['state']);
         $this->db->where('zip', $donation_array['zip']);
@@ -123,8 +135,10 @@ class Checkdonationamount_model extends CI_Model
 
         foreach ($donationrow->result() as $result)
         {
+            $fullname = $result->lastname . ', ' . $result->firstname;
+
             $donation_array['id'] = $result->id;
-            $donation_array['name'] = $result->name;
+            $donation_array['name'] = $fullname;
             $donation_array['streetaddress'] = $result->streetaddress;
             $donation_array['streetadress2'] = $result->streetaddress2;
             $donation_array['city'] = $result->city;
@@ -141,7 +155,7 @@ class Checkdonationamount_model extends CI_Model
         $this->db->where('name', $donation_array['name']);
         $this->db->where('city', $donation_array['city']);
         $this->db->where('state', $donation_array['state']);
-        $this->db->where('zip_code', $donation_array['zip']);
+//        $this->db->where('zip_code', $donation_array['zip']);
 
 
         $query = $this->db->get();
@@ -159,8 +173,10 @@ class Checkdonationamount_model extends CI_Model
 
         foreach ($donationrow->result() as $result)
         {
+            $fullname = $result->lastname . ', ' . $result->firstname;
+
             $donation_array['id'] = $result->id;
-            $donation_array['name'] = $result->name;
+            $donation_array['name'] = $fullname;
             $donation_array['streetaddress'] = $result->streetaddress;
             $donation_array['streetadress2'] = $result->streetaddress2;
             $donation_array['city'] = $result->city;
@@ -177,7 +193,7 @@ class Checkdonationamount_model extends CI_Model
         $this->db->where('name', $donation_array['name']);
         $this->db->where('city', $donation_array['city']);
         $this->db->where('state', $donation_array['state']);
-        $this->db->where('zip_code', $donation_array['zip']);
+//        $this->db->where('zip_code', $donation_array['zip']);
 
 
         $query = $this->db->get();
@@ -197,8 +213,10 @@ class Checkdonationamount_model extends CI_Model
 
         foreach ($donationrow->result() as $result)
         {
+            $fullname = $result->lastname . ', ' . $result->firstname;
+
             $donation_array['id'] = $result->id;
-            $donation_array['name'] = $result->name;
+            $donation_array['name'] = $fullname;
             $donation_array['streetaddress'] = $result->streetaddress;
             $donation_array['streetadress2'] = $result->streetaddress2;
             $donation_array['city'] = $result->city;
@@ -215,7 +233,7 @@ class Checkdonationamount_model extends CI_Model
         $this->db->where('name', $donation_array['name']);
         $this->db->where('city', $donation_array['city']);
         $this->db->where('state', $donation_array['state']);
-        $this->db->where('zip_code', $donation_array['zip']);
+//        $this->db->where('zip_code', $donation_array['zip']);
 
 
         $query = $this->db->get();
@@ -232,7 +250,12 @@ class Checkdonationamount_model extends CI_Model
 
         foreach ($donationrow->result() as $result)
         {
-            $donation_array['name'] = $result->name;
+            $fullname = $result->lastname . ', ' . $result->firstname;
+
+            $donation_array['fullname'] = $fullname;
+            $donation_array['firstname'] = $result->firstname;
+            $donation_array['lastname'] = $result->lastname;
+            $donation_array['middleinitial'] = $result->middleinitial;
             $donation_array['city'] = $result->city;
             $donation_array['state'] = $result->state;
             $donation_array['zip'] = $result->zip;
@@ -240,7 +263,9 @@ class Checkdonationamount_model extends CI_Model
 
         $this->db->select("InsertDate, amount");
         $this->db->from("donationform_submissions");
-        $this->db->where('name', $donation_array['name']);
+        $this->db->where('firstname', $donation_array['firstname']);
+        $this->db->where('lastname', $donation_array['lastname']);
+        $this->db->where('middleinitial', $donation_array['middleinitial']);
         $this->db->where('city', $donation_array['city']);
         $this->db->where('state', $donation_array['state']);
         $this->db->where('zip', $donation_array['zip']);
@@ -249,7 +274,7 @@ class Checkdonationamount_model extends CI_Model
 
         $this->db->select("transaction_date, transaction_amt");
         $this->db->from("contributors");
-        $this->db->where('name', $donation_array['name']);
+        $this->db->where('name', $donation_array['fullname']);
         $this->db->where('city', $donation_array['city']);
         $this->db->where('state', $donation_array['state']);
         $this->db->where('zip_code', $donation_array['zip']);
@@ -259,40 +284,6 @@ class Checkdonationamount_model extends CI_Model
         $query = $this->db->query($query1." UNION ".$query2);
 
         return $query->num_rows();
-    }
-
-    /**
-     * Return the amount of donations from all other systems.
-     */
-    public function get_amount_total_donations($donationrow)
-    {
-        $donation_array = array();
-
-        foreach ($donationrow->result() as $result)
-        {
-            $donation_array['id'] = $result->id;
-            $donation_array['name'] = $result->name;
-            $donation_array['streetaddress'] = $result->streetaddress;
-            $donation_array['streetadress2'] = $result->streetaddress2;
-            $donation_array['city'] = $result->city;
-            $donation_array['state'] = $result->state;
-            $donation_array['zip'] = $result->zip;
-            $donation_array['notes'] = $result->notes;
-            $donation_array['cclast4'] = $result->cclast4;
-            $donation_array['amount'] = $result->amount;
-            $donation_array['InsertDate'] = $result->InsertDate;
-        }
-
-        $sql = 'SELECT SUM(total_amt) as total FROM (
-SELECT amount AS total_amt FROM donationform_submissions WHERE name = ' . $donation_array['name'] . ' AND city = ' . $donation_array['city'] . ' AND state = ' . $donation_array['state'] . ' AND zip = ' . $donation_array['zip'] .
-            ' UNION ' .
-' SELECT transaction_amt AS total_amt FROM contributors WHERE name = ' . $donation_array['name'] . ' AND city = ' . $donation_array['city'] . ' AND state = ' . $donation_array['state'] . ' AND zip_code = ' . $donation_array['zip'] .
-' ) x';
-
-        $query = $this -> db -> query($sql);
-
-        return $query->row()->total;
-
     }
 
 }

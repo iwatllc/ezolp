@@ -51,12 +51,16 @@ class Donation extends MX_Controller {
 
     public function submit()
     {
-        $this->form_validation->set_rules('fullname', 'Full Name', 'required|max_length[100]');
+        $this->form_validation->set_rules('firstname', 'First Name', 'required|max_length[100]');
+        $this->form_validation->set_rules('middleinitial', 'Middle Initial', 'max_length[100]');
+        $this->form_validation->set_rules('lastname', 'Last Name', 'required|max_length[100]');
         $this->form_validation->set_rules('streetaddress', 'Street Address', 'required|max_length[100]');
         $this->form_validation->set_rules('city', 'City', 'required|max_length[100]');
         $this->form_validation->set_rules('state', 'State', 'required|callback_check_default');
         $this->form_validation->set_rules('zip', 'Zip Code', 'required|min_length[5]|max_length[5]');
         $this->form_validation->set_rules('email', 'Email', 'valid_email');
+        $this->form_validation->set_rules('employer', 'Employer', 'required|max_length[100]');
+        $this->form_validation->set_rules('occupation', 'Occupation', 'required|max_length[100]');
         $this->form_validation->set_rules('creditcard', 'Credit Card', 'required|callback_check_creditcard');
         $this->form_validation->set_rules('expirationmonth', 'Expiration Month', 'required');
         $this->form_validation->set_rules('expirationyear', 'Expiration Year', 'required');
@@ -82,13 +86,17 @@ class Donation extends MX_Controller {
 				$pamount = str_replace( ',', '', $this->input->post('paymentamount') );
 			}
             $submitted_data = array(
-                'name' => $this->input->post('fullname'),
+                'firstname' => $this->input->post('firstname'),
+                'middleinitial' => $this->input->post('middleinitial'),
+                'lastname' => $this->input->post('lastname'),
                 'streetaddress' => $this->input->post('streetaddress'),
                 'streetaddress2' => $this->input->post('streetaddress2'),
                 'city' => $this->input->post('city'),
                 'state' => $this->input->post('state'),
                 'zip' => $this->input->post('zip'),
                 'notes' => $this->input->post('notes'),
+                'employer' => $this->input->post('employer'),
+                'occupation' => $this->input->post('occupation'),
                 'cclast4' => substr($this->input->post('creditcard'), -4),
                 'amount' => $pamount,
                 'InsertDate' => date('Y-n-j H:i:s')
