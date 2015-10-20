@@ -61,7 +61,7 @@ class Search extends MX_Controller {
         $search_array['TransactionAmount'] = $this->input->post('TransactionAmount');
         $search_array['AuthCode'] = $this->input->post('AuthCode');
         $search_array['OrderNumber'] = $this->input->post('OrderNumber');
-        $search_array['CVV2ResponseMessage'] = $this->input->post('CVV2ResponseMessage');
+        $search_array['CVV2ResponseCode'] = $this->input->post('CVV2ResponseCode');
         $search_array['SerialNumber'] = $this->input->post('SerialNumber');
 		$search_array['TransactionStatusId'] = $this->input->post('TransactionStatusId');
         

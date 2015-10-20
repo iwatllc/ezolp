@@ -83,7 +83,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                                 
                                                 <td>
                                                         <label>CVV2 Result</label>
-                                                        <?php echo form_input(array('name'=>'CVV2ResponseMessage', 'value'=>set_value('CVV2ResponseMessage', $search_array['CVV2ResponseMessage']), 'placeholder'=>'CVV2 Result', 'class'=>'form-control')); ?>
+                                                        <?php echo form_input(array('name'=>'CVV2ResponseCode', 'value'=>set_value('CVV2ResponseCode', $search_array['CVV2ResponseCode']), 'placeholder'=>'CVV2 Result', 'class'=>'form-control')); ?>
                                                 </td>
 
                                                 <td>
@@ -107,10 +107,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             </div>
                             <div class="form-group">
                                 <div class="col-md-9">
+
                                     <?php
+                                        echo form_reset('reset', 'Reset', "class='btn btn-sm btn-default'", "id='reset'");
+
                                         echo form_submit('search_submit', 'Submit', "class='btn btn-sm btn-success'", "id='submit'");
                                         echo form_close();
-                                    ?> 
+                                    ?>
+
                                 </div>
                             </div>
                         </div>
@@ -134,7 +138,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                             <thead align="center">
                                                 <tr>
                                                     <th>&nbsp;</th>
-                                                    <th>Number</th>
+                                                    <th>Number of Transactions</th>
                                                     <th>Amount</th>
                                                 </tr>
                                             </thead>
@@ -147,7 +151,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                                         echo $num_results;
                                                     echo "</td>";
                                                     echo "<td>";
-                                                        echo "$ " . $total_amount . " ";
+                                                        echo sprintf('$%01.2f', $total_amount);
                                                     echo "</td>";
                                                 echo "<tr>";
                                                 ?>
@@ -196,13 +200,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                                             echo strlen($result->SerialNumber) == 0 ? $result->TransactionFileName : $result->SerialNumber;
                                                         echo "</td>";
                                                         echo "<td>";
-                                                            echo $result->InsertDate;
+                                                            echo date_conversion_nowording($result->InsertDate);
                                                         echo "</td>";
                                                         echo "<td>";
                                                             echo $result->name;
                                                         echo "</td>";
-                                                        echo "<td>";
-                                                            echo $result->TransactionAmount;
+                                                        echo "<td align='right'>";
+                                                            echo sprintf('$%01.2f', $result->TransactionAmount);
                                                         echo "</td>";
                                                         echo "<td>";
                                                             echo $result->AuthCode;
@@ -240,7 +244,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                         <?php 
                                         } else
                                         {
-                                            echo 'Please input info to search.';
+                                            // echo 'Please input info to search.';
                                         } ?>
                         </div>
                     </div>
@@ -262,8 +266,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <?php $this->load->view('footer'); ?>
 <script type="text/javascript">
     $( document ).ready(function() {
-		//$("#myTable").tablesorter();    	
-    	
+		//$("#myTable").tablesorter();
+
         $( "#datepicker" ).datepicker({defaultDate: null});
         $( "#datepicker2" ).datepicker({defaultDate: null});
 
@@ -300,6 +304,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         	}
         });
     });
+
 </script>
 
 

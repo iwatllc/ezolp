@@ -78,7 +78,7 @@
                                         <td>
                                             <?php echo $num_company_donations; ?>
                                         </td>
-                                        <td>
+                                        <td align="right">
                                             <?php echo sprintf('$%01.2f', $amount_company_donations); ?>
                                         </td>
                                     </tr>

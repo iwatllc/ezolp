@@ -47,8 +47,8 @@ class Search_model extends CI_Model {
                   $this->db->where('payment_response.OrderNumber', $search_array['OrderNumber']);
               }
               
-              if ($search_array['CVV2ResponseMessage'] != NULL) {
-                  $this->db->where('payment_response.CVV2ResponseMessaaget', $search_array['CVV2ResponseMessage']);
+              if ($search_array['CVV2ResponseCode'] != NULL) {
+                  $this->db->where('payment_response.CVV2ResponseCode', $search_array['CVV2ResponseCode']);
               }
              
               if ($search_array['SerialNumber'] != NULL) {
