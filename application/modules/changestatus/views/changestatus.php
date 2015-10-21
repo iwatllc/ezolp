@@ -37,7 +37,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                         <?php } elseif ($status == 'pendingsettlement') { ?>
                                             <strong>This transaction is awaiting settlement.</strong>
                                             <br><br>
-                                            <a href="<?php echo base_url(); ?>void/Void/index/<?php echo $paymentresponseid ?>" >
+                                            <a href="<?php echo base_url(); ?>void/Void/index/<?php echo $transactionfileid ?>" >
                                                 <span>Click Here to void the transaction</span>
                                             </a>
                                         <?php } elseif ($status == 'failed') { ?>
@@ -47,11 +47,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                         <?php } elseif ($status == 'complete') { ?>
                                             <strong>This transaction has settled.</strong>
                                             <br><br>
-                                            <a href="<?php echo base_url(); ?>refund/Refund/index/<?php echo $paymentresponseid ?>" >
+                                            <a href="<?php echo base_url(); ?>refund/Refund/index/<?php echo $transactionfileid ?>" >
                                                 <span>Click Here to process a refund for the transaction</span>
                                             </a>
                                         <?php } elseif ($status == 'unknown') { ?>
                                             <strong>An unknown error was encountered while processing this transaction.</strong>
+                                        <?php } elseif ($status == '') { ?>
+                                            <strong>An unknown error was encountered while processing this transaction.</strong><br>
+                                            <strong>The status of this transaction is unkown.</strong>
                                         <?php } ?>
 
                                     </div>

@@ -51,8 +51,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                         <br>
                                         Void Reciept
                                         </br>
-                                        </br>
-                                        <b>Reciept #:</b> <?php echo $result_data['OrderNumber']; ?>
                                         </br></br>
                                         <b>Date:</b> <?php echo $result_data['UpdateDate']; ?>
                                         </br></br>

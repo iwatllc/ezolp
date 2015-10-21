@@ -140,32 +140,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 												<?php echo form_error('otheramount'); ?>
 											</div>
 										</div>
+                                        <div class="row other-pay-error">
+                                            <div class="col-md-9 col-md-offset-3">
+                                                Please make this a recurring contribution.<br>
+                                                By clicking donate, you acknowledge that you are making a <br>
+                                                recurring contribution and that the amount selected will <br>
+                                                be charged to your credit card immediately and on this <br>
+                                                date every month during the campaign.<br>
+                                            </div>
+                                        </div>
 									</div><!-- ./ form-grp -->	
 								</div><!-- ./donation-grp -->
 									
-											<!--
-											
-											<div class="btn-group pay-btns" data-toggle="buttons">
-												
-											<div class="other-pay-grp">	
-											
-												
-												<div id="other-amount">
-													<span class="fa fa-usd"></span>
 
-												
-											</div>
-											</div>
-											
-											<?php //echo(!empty(form_error('paymentamount')) ? '<span class="fa fa-times form-control-feedback"></span>' : ''); ?>
-											
-											<?php //echo(!empty(form_error('otheramount')) ? '<span class="fa fa-times form-control-feedback"></span>' : ''); ?>
-											
-										</div>
-									</div>
-								</div>
-							</div>	
-							</div>-->
 				
 				
 				
