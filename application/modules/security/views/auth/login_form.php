@@ -73,7 +73,7 @@ $submit = array(
     <!-- ================== END BASE JS ================== -->
     
     <?php echo form_open($this->uri->uri_string())?>
-    <?php echo $this->dx_auth->get_auth_error(); ?>
+    <?php // echo $this->dx_auth->get_auth_error(); ?>
 
 </head>
 
@@ -97,7 +97,13 @@ $submit = array(
 
             </div>
             <!-- end brand -->
+
             <div class="login-content">
+
+                <div class="form-group m-b-20">
+                    <p class="text-danger"><?php echo $this->dx_auth->get_auth_error(); ?></p>
+                </div>
+
                 <form action="index.html" method="POST" class="margin-bottom-0">
                     <div class="form-group m-b-20">
                         <?php echo form_input($username)?>
