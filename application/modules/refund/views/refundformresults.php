@@ -51,8 +51,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                             Refund Successfully Processed!
                                             </div>
                                             </br>
-                                            <b>Reciept #:</b> <?php echo $result_data['OrderNumber']; ?>
-                                            </br></br>
                                             <b>Date:</b> <?php echo $result_data['UpdateDate']; ?>
                                             </br></br>
                                             <b>Amount:</b> <?php echo $submitted_data['amount']; ?>

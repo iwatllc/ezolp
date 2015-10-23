@@ -29,14 +29,12 @@ class Changestatus extends MX_Controller {
     {
 
         $transactionfileid = $this->uri->segment(4);
-        $paymenttransactionid = $this->uri->segment(5);
 
         // Check Status of Payment for Settlement
         $this->load->module('payment');
         $status = $this->payment->checkstatus($transactionfileid);
 
         $data['transactionfileid'] = $transactionfileid;
-        $data['paymentresponseid'] = $paymenttransactionid;
         $data['status'] = $status;
 
         $view_vars = array(

@@ -31,10 +31,11 @@ class Refund extends MX_Controller {
     public function index()
     {
 
-		$paymentResponseId = $this->uri->segment(4);
+        $paymentTransactionFileId = $this->uri->segment(4);
         $this->load->model('payment/Payment_model', 'Payment');
-		$data = array('PaymentResponseId' => $paymentResponseId);
+        $data = array('TransactionFileName' => $paymentTransactionFileId);
 		$payment = $this->Payment->get($data);
+        $data['payment'] = $payment;
 		
         $view_vars = array(
             'title' => $this->config->item('Company_Title') . ' | Refund Form',
@@ -58,10 +59,9 @@ class Refund extends MX_Controller {
 
         if ($this->form_validation->run() == FALSE)
         {
-            $clientname = $this->configsys->get_config_value('clientname');
-			$paymentResponseId = $this->input->post('paymentresponseid');
+			$paymentTransactionFileId = $this->input->post('transactionfilename');
 	        $this->load->model('payment/Payment_model', 'Payment');
-			$data = array('PaymentResponseId' => $paymentResponseId);
+			$data = array('TransactionFileName' => $paymentTransactionFileId);
 			$payment = $this->Payment->get($data);
 
             $view_vars = array(

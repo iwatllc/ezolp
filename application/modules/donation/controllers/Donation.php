@@ -30,6 +30,8 @@ class Donation extends MX_Controller {
     public function index()
     {
 
+
+
         $clientname = $this->configsys->get_config_value('clientname');
 
 

@@ -30,11 +30,9 @@ class Void extends MX_Controller {
 
     public function index()
     {
-
-        $clientname = $this->configsys->get_config_value('clientname');
-		$paymentResponseId = $this->uri->segment(4);
+        $paymentTransactionFileId = $this->uri->segment(4);
 		$this->load->model('payment/Payment_model', 'Payment');
-		$data = array('PaymentResponseId' => $paymentResponseId);
+		$data = array('TransactionFileName' => $paymentTransactionFileId);
 		
 		$this->load->module('payment');
 		$payment = $this->Payment->get($data);
