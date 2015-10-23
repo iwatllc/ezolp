@@ -125,6 +125,14 @@
                         <span>Donor Intelligence</span>
                     </a>
                 </li>
+
+                <li class="has-sub<?php echo $pageName == 'contributionreport' ? ' active' : ''; ?>">
+                    <a href="<?php echo base_url(); ?>contributionreport">
+                        <i class="fa fa-file-text"></i>
+                        <span>Contribution Report</span>
+                    </a>
+                </li>
+
 <!--
                 <li class="has-sub<?php echo $pageName == 'virtualterminal' || $pageName == 'guestform' ? ' active' : ''; ?>">
                     <a href="javascript:;">
