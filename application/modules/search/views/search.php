@@ -108,8 +108,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <div class="form-group">
                                 <div class="col-md-9">
 
+
+                                    <input type="button" onclick="location.href='search';" class="btn btn-sm btn-default" value="Reset" />
+<!--                                    <form id="myFormId">-->
+<!--                                        <input class="btn btn-sm btn-default" name="reset" type="reset" onclick="resetForm('myFormId');" />-->
+<!--                                    </form>-->
                                     <?php
-                                        echo form_reset('reset', 'Reset', "class='btn btn-sm btn-default'", "id='reset'");
+//                                        echo form_reset('reset', 'Reset', "class='btn btn-sm btn-default'", "id='reset'");
 
                                         echo form_submit('search_submit', 'Submit', "class='btn btn-sm btn-success'", "id='submit'");
                                         echo form_close();
@@ -265,6 +270,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 <?php $this->load->view('footer'); ?>
 <script type="text/javascript">
+
+    function resetForm($form) {
+        $form.find('input:text, input:password, input:file, select, textarea').val('');
+        $form.find('input:radio, input:checkbox').removeAttr('checked').removeAttr('selected');
+    }
+
     $( document ).ready(function() {
 		//$("#myTable").tablesorter();
 
