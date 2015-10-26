@@ -32,7 +32,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <!-- begin col-12 -->
             <div class="col-12">
                 <?php $attributes = array('class' => 'form-horizontal form-bordered', 'id' => 'searchform'); ?>
-                <?php echo form_open('search/execute_search'); ?>
+                <?php // echo form_open('search/execute_search'); ?>
                 <!-- begin panel -->
                     <div class="panel panel-inverse" >
                         <div class="panel-heading">
@@ -40,13 +40,50 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         </div>
                         <div class="panel-body">
 
-                            <div class="col-md-9">
+                            <?php echo form_open('contributionreport/filter_date'); ?>
+
                                     <div class="form-inline">
+                                        <div class="input-group input-daterange">
+                                            <?php
+                                            $BegDate = array(
+                                                'name'          =>  'BegDate',
+                                                'value'         =>  set_value('BegDate', $begin_date),
+                                                'placeholder'   =>  date("m/d/Y", strtotime('-7 days')),
+                                                'class'         =>  'form-control',
+                                                'id'            =>  'datepicker',
+                                            );
 
+                                            echo form_input($BegDate)
+                                            ?>
 
+                                            <span class="input-group-addon">to</span>
+
+                                            <?php
+                                            $EndDate = array(
+                                                'name'          =>  'EndDate',
+                                                'value'         =>  set_value('EndDate', $end_date),
+                                                'placeholder'   =>  date('m/d/Y'),
+                                                'class'         =>  'form-control',
+                                                'id'            =>  'datepicker2',
+                                            );
+
+                                            echo form_input($EndDate);
+                                            ?>
+                                        </div>
+
+                                        <?php
+                                        $submit = array(
+                                            'name' => 'search_submit',
+                                            'class' => "btn btn-sm btn-success",
+                                            'id'    => 'submit',
+                                            'value' => 'Apply',
+                                        );
+
+                                        echo form_submit($submit);
+                                        echo form_close();
+                                        ?>
 
                                     </div>
-                            </div>
 
                         </div>
                     </div>
@@ -70,7 +107,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                                             <th></th>
                                                             <th>Name - Address</th>
                                                             <th>Amount Donated through <?php echo $page_data['company']; ?></th>
-                                                            <th>Amound Donated Elsewhere</th>
+                                                            <th>Total Amount Donated Elsewhere</th>
                                                         </tr>
                                             </thead>
                                             <tbody>
