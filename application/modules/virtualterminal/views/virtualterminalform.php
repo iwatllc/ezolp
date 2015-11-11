@@ -249,6 +249,7 @@ if($Virtualterminal_Clientform == "FALSE") {
 
                                         echo form_dropdown('expirationmonth', $options, set_value('expirationmonth'), $extra);
                                         ?>
+										
                                         <?php echo(!empty(form_error('expirationmonth')) ? '<span class="fa fa-times form-control-feedback"></span>' : ''); ?>
                                         <?php echo form_error('expirationmonth'); ?>
                                     </div>
@@ -362,12 +363,153 @@ if($Virtualterminal_Clientform == "FALSE") {
 <!-- end page container -->
 
 <?php $this->load->view('footer'); ?>
+	
+	<script src="<?php echo base_url(); ?>/assets/plugins/jquery-payment/lib/jquery.payment.min.js"></script>
+
+
+<script type="text/javascript">
+
+    $(document).ready(function() {
+        $("#loading-div-background").css({ opacity: 1.0 });
+
+        $('#vtpaymentform').submit(function(){
+            var cardType = $.payment.cardType($('.creditcard').val());
+            $('.cardtype').val(cardType);
+            $('#submit').attr({
+                disabled: 'disabled',
+                value: 'Processing, Please Wait...'
+            });
+            $("#loading-div-background").show();
+        });
+
+        $('.creditcard').payment('formatCardNumber');
+        $('.cc-cvc').payment('formatCardCVC');
+    });
+
+</script>
+
+
+<script type="text/javascript">
+    /* Credit Card Swipe Logic */
+    var readErrorReason = "Credit card read error. Please try again.";
+
+    var creditCardParser = function (rawData) {
+
+        var trackpattern = new RegExp("^(%[^%;\\?]+\\?)(;[0-9\\:<>\\=]+\\?)?(;[0-9\\:<>\\=]+\\?)?");
+
+        var trackmatches = trackpattern.exec(rawData);
+        if (!trackmatches) return null;
+
+        var fieldpattern = new RegExp("^(\\%)([a-zA-Z])(\\d{1,19})(\\^)(.{2,26})(\\^)(\\d{0,4}|\\^)(\\d{0,3}|\\^)(.*)(\\?)");
+
+        var fieldmatches = fieldpattern.exec(rawData);
+
+        if (!fieldmatches) return null;
+
+        // Extract the three lines
+        var cardData = {
+            track1: trackmatches[1],
+            track2: trackmatches[2],
+            track3: trackmatches[3],
+            FC: fieldmatches[2],
+            PAN: fieldmatches[3],
+            NM: fieldmatches[5],
+            ED: fieldmatches[7],
+            SC: fieldmatches[8],
+            DD: fieldmatches[9]
+        };
+
+        if (cardData.FC != "B")
+        {
+            readErrorReason = "Invalid Format Code. Only cards with Format Code 'B' may be processed.";
+        }
+        else if (cardData.PAN.length == 0)
+        {
+            readErrorReason = "Can not read Primary Account Number. Please try again.";
+        }
+        else if (cardData.ED.length == 0)
+        {
+            readErrorReason = "Can not read Expiration Date. Please try again.";
+        }
+
+        console.log(cardData);
+
+        return cardData;
+    };
+
+    var goodScan = function (data) {
+        $("#status").text("Success!");
+        $("#track1").text(data.track1);
+        $("#track2").text(data.track2);
+        $("#track3").text(data.track3);
+
+        // console.log(data.PAN);
+        // console.log(data.ED.substring(2, 4));
+        // console.log(data.ED.substring(0, 2));
+
+        // Swap around the name
+        var fullname  = data.NM.split("/");
+        var firstname = fullname[1].trim();
+        var lastname = fullname[0].trim();
+        var formattedname = firstname.concat(" ", lastname).trim();
+
+        $("[name='fullname']").val(formattedname);
+        $("[name='creditcard']").val(data.PAN);
+
+        // Set Value of Element then run the selectpicker refresh
+        $("#expirationmonth").val(data.ED.substring(2, 4));
+        $('.selectpicker').selectpicker('refresh');
+
+        // var expirationyear = data.ED.substring(0, 2);
+        // $("[name='expirationyear']").val(data.ED.substring(0, 2));
+        var year_prefix = "20";
+        var year_suffix = data.ED.substring(0, 2);
+        var cardyear = year_prefix.concat(year_suffix);
+        $("#expirationyear").val(cardyear);
+        $('.selectpicker').selectpicker('refresh');
+
+
+        $("[name='cvv2']").focus();
+    }
+
+    var badScan = function () {
+        $("#status").text("Failed!");
+        $(".line").text("");
+        alert(readErrorReason);
+    }
+
+    // Initialize the plugin with default parser and callbacks.
+    //
+    // Set debug to true to watch the characters get captured and the state machine transitions
+    // in the javascript console. This requires a browser that supports the console.log function.
+    //
+    // Set firstLineOnly to true to invoke the parser after scanning the first line. This will speed up the
+    // time from the start of the scan to invoking your success callback.
+    $.cardswipe({
+        firstLineOnly: false,
+        success: goodScan,
+        parser: creditCardParser,
+        error: badScan,
+        debug: true
+    });
+
+</script>
 
 </body>
 </html>
 
 <?php } else { ?>
 
+
+<?php 
+		$css = new Asset_css('virtualterminalform');
+	    $css->add_asset($this->config->item('base_preprocess'));
+		$css->add_asset($this->config->item('client'));
+		$css->add_asset('./client/client-virtualterminal.scss');
+	
+		$data['asset'] = $css;
+		$this->load->view('header', $data); 
+?>
 
 <!DOCTYPE html>
 <!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
@@ -379,7 +521,10 @@ if($Virtualterminal_Clientform == "FALSE") {
 <?php $this->load->view('header_client'); ?>
 
 <body>
-
+	
+		<?php include './client/client_website/client-header.php' ?>
+	
+<div class="container">
     <br>
     <?php $attributes = array('class' => 'form-horizontal', 'id' => 'vtpaymentform'); ?>
     <?php echo form_open('virtualterminal/submit', $attributes);
@@ -617,19 +762,18 @@ if($Virtualterminal_Clientform == "FALSE") {
 
     <br>
 
-    <button type="submit" value="Submit" class="???PUT CLASS HERE???" id="submit">Submit Button</button>
+    <button type="submit" value="Submit" class="btn btn-primary" id="submit">Submit Button</button>
 
     <br>
 
     <?php echo form_close(); ?>
 
-
-<?php } ?>
-
+	</div>
+	
+	<?php include './client/client_website/client-footer.php' ?>
+	
+	
 <?php $this->load->view('footer_client'); ?>
-
-</body>
-</html>
 
 <script src="<?php echo base_url(); ?>/assets/plugins/jquery-payment/lib/jquery.payment.min.js"></script>
 
@@ -760,4 +904,10 @@ if($Virtualterminal_Clientform == "FALSE") {
         debug: true
     });
 
-</script>
+</script>	
+	
+</body>
+</html>
+
+<?php } ?>
+
