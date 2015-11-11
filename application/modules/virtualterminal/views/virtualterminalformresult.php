@@ -129,6 +129,16 @@ if($Virtualterminal_Clientform == "FALSE") {
 
 <?php } else { ?>
 
+<?php 
+		$css = new Asset_css('virtualterminalform');
+	    $css->add_asset($this->config->item('base_preprocess'));
+		$css->add_asset($this->config->item('client'));
+		$css->add_asset('./client/client-virtualterminal.scss');
+	
+		$data['asset'] = $css;
+		$this->load->view('header', $data); 
+?>
+
 <!DOCTYPE html>
 <!--[if IE 8]>
 <html lang="en" class="ie8">
@@ -141,6 +151,10 @@ if($Virtualterminal_Clientform == "FALSE") {
 
 <body>
 
+	<?php include './client/client_website/client-header.php' ?>
+	
+	<div class="container" style="padding-bottom: 75px; margin: 0 auto; max-width: 960px;">
+	
     <?php echo $page_data['heading'];?>
     <br>
     <?php echo $client_data['clientaddress'];?><br/>
@@ -217,10 +231,14 @@ if($Virtualterminal_Clientform == "FALSE") {
     ?>
 
     <?php
-    echo anchor('virtualterminal/', 'PROCESS ANOTHER CARD', array('class' => '???'));
+    echo anchor('virtualterminal/', 'PROCESS ANOTHER CARD', array('class' => 'btn btn-primary'));
     ?>
 
-    <a href="javascript:window.print()" >PRINT RECEIPT</a>
+    <a class="btn btn-primary" href="javascript:window.print()" >PRINT RECEIPT</a>
+
+</div>
+
+<?php include './client/client_website/client-footer.php' ?>
 
 </body>
 </html>

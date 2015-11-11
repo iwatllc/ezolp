@@ -556,7 +556,7 @@ if($Virtualterminal_Clientform == "FALSE") {
 	
 		<?php include './client/client_website/client-header.php' ?>
 	
-<div class="container">
+<div class="container" style="max-width: 500px;">
     <br>
     <?php $attributes = array('class' => 'form-horizontal', 'id' => 'vtpaymentform'); ?>
     <?php echo form_open('virtualterminal/submit', $attributes);
