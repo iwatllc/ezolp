@@ -59,12 +59,16 @@ class Search_model extends CI_Model {
 			  if ($search_array['TransactionStatusId'] != NULL) {
                   $this->db->where('payment_response.TransactionStatusId', $search_array['TransactionStatusId']);
               }
-              $form_list = $this->_get_forms();
 
-              foreach ($form_list->result() as $form) {
-                  $this->db->join($form->tablename, 'payment_response.PaymentTransactionId = '.$form->tablename.'.id and payment_response.PaymentSource = "'.$form->mnemonic.'" ', 'left');
-              }
-			  $this->db->join('transaction_status', 'payment_response.TransactionStatusId = transaction_status.id', 'inner');
+//              This is the old code that pulled the data from the tables using individual joins.  Changed to union.
+//              $form_list = $this->_get_forms();
+//              foreach ($form_list->result() as $form) {
+//                  // $this->db->join($form->tablename, 'payment_response.PaymentTransactionId = '.$form->tablename.'.id and payment_response.PaymentSource = "'.$form->mnemonic.'" ', 'left');
+//              }
+
+              $this->db->join('form_submissions', 'payment_response.PaymentTransactionId = form_submissions.id and payment_response.PaymentSource = form_submissions.paymentsource ', 'left');
+
+              $this->db->join('transaction_status', 'payment_response.TransactionStatusId = transaction_status.id', 'inner');
 
               $this->db->order_by('payment_response.InsertDate', 'DESC');
 

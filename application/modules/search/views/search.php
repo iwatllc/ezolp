@@ -188,6 +188,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                                             <th>Batch Number</th>
                                                             <th>Transaction Date</th>
                                                             <th>Payer</th>
+                                                            <th>Email</th>
+                                                            <th>Notes</th>
                                                             <th>Transaction Amount</th>
                                                             <th>Auth Code</th>
                                                             <th>Transaction Status</th>
@@ -209,6 +211,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                                         echo "</td>";
                                                         echo "<td>";
                                                             echo $result->firstname. ' ' . $result->middleinitial . ' ' . $result->lastname;
+                                                        echo "</td>";
+                                                        echo "<td>";
+                                                            echo $result->email;
+                                                        echo "</td>";
+                                                        echo "<td>";
+                                                            echo $result->notes;
                                                         echo "</td>";
                                                         echo "<td align='right'>";
                                                             echo sprintf('$%01.2f', $result->TransactionAmount);

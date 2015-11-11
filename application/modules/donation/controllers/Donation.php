@@ -32,11 +32,9 @@ class Donation extends MX_Controller {
 
 
 
-        $clientname = $this->configsys->get_config_value('clientname');
-
+        $clientname = $this->configsys->get_config_value('Client_Name');
 
         $view_vars = array(
-            //'title' => $this->config->item('Client_Title'),
             'title' => '',
             'heading' => $this->config->item('Client_Heading'),
             'description' => $this->config->item('Client_Description'),
@@ -66,9 +64,13 @@ class Donation extends MX_Controller {
         $this->form_validation->set_rules('creditcard', 'Credit Card', 'required|callback_check_creditcard');
         $this->form_validation->set_rules('expirationmonth', 'Expiration Month', 'required');
         $this->form_validation->set_rules('expirationyear', 'Expiration Year', 'required');
-        $this->form_validation->set_rules('cvv2', 'CVV2 Code', 'required|min_length[3]|max_length[3]');
+        $this->form_validation->set_rules('cvv2', 'CVV2 Code', 'required|min_length[3]|max_length[4]');
         $this->form_validation->set_rules('paymentamount', 'Payment Amount', 'required');
 		$this->form_validation->set_rules('otheramount', 'Other Amount', 'callback_check_otheramount');
+        $this->form_validation->set_rules('recurring', 'Recurring','trim');
+        $this->form_validation->set_rules('cardtype', 'Card Type','trim');
+        $isrecurring = $this->input->post('recurring');
+
 
 
         if ($this->form_validation->run($this) == FALSE)
@@ -99,13 +101,16 @@ class Donation extends MX_Controller {
                 'notes' => $this->input->post('notes'),
                 'employer' => $this->input->post('employer'),
                 'occupation' => $this->input->post('occupation'),
+                'email' => $this->input->post('email'),
+                'cardtype' => $this->input->post('cardtype'),
                 'cclast4' => substr($this->input->post('creditcard'), -4),
                 'amount' => $pamount,
+                'ip' => $this->input->ip_address(),
                 'InsertDate' => date('Y-n-j H:i:s')
             );
 
 
-            // Get insertd record id to use as transaction id.
+            // Get inserted record id to use as transaction id.
             $transaction_id = $this->Donation->save($submitted_data);
 
             // Add transaction id to submitted data and pass to payment method.
@@ -121,7 +126,35 @@ class Donation extends MX_Controller {
             $this->load->module('payment');
             $result_data = $this->payment->process_payment($submitted_data);
 
-            $clientname = $this->configsys->get_config_value('clientname');
+            $clientname = $this->configsys->get_config_value('Client_Name');
+
+
+            // CHECK FOR RECURRING DONATION ADD TO THE SUBMISSION
+            if($isrecurring[0] == 'recurring' and $result_data['IsApproved'] == '1' ) {
+                $recurring_data['recurring'] ='add_subscription';
+                $recurring_data['plan_payments'] = '0';
+                $recurring_data['plan_amount'] = $pamount;
+                $recurring_data['month_frequency'] = '1';
+                $recurring_data['day_of_month'] = date('d');
+                $recurring_data['creditcard'] = $this->input->post('creditcard');
+                $recurring_data['expirationmonth'] = $this->input->post('expirationmonth');
+                $recurring_data['expirationyear'] = $this->input->post('expirationyear');
+                $recurring_data['cardtype'] = $this->input->post('cardtype');
+                $recurring_data['first_name'] = $this->input->post('firstname');
+                $recurring_data['last_name'] = $this->input->post('lastname');
+                $recurring_data['address1'] = $this->input->post('streetaddress');
+                $recurring_data['city'] = $this->input->post('city');
+                $recurring_data['state'] = $this->input->post('state');
+                $recurring_data['zip'] = $this->input->post('zip');
+                $recurring_data['email'] = $this->input->post('email');
+
+                $this->load->module('recurring');
+                $result_data_recurring = $this->recurring->addrecurring($recurring_data);
+
+                $data['result_data_recurring'] = $result_data_recurring;
+
+            }
+
 
             // Gather all the info for the view
             $view_vars = array(
@@ -135,8 +168,8 @@ class Donation extends MX_Controller {
             );
             $data['page_data'] = $view_vars;
             $data['result_data'] = $result_data;
+            $data['is_recurring'] = $isrecurring[0];
             $data['submitted_data'] = $submitted_data;
-
             $this->load->view('donationformresult', $data);
         }
 
@@ -154,10 +187,10 @@ class Donation extends MX_Controller {
     {
         $result = TRUE;
         $creditcard = $post_string;
-        $creditcard = str_replace('-', '', $creditcard);
+        $creditcard = str_replace(' ', '', $creditcard);
         $cc_length = strlen($creditcard);
 
-        if ($cc_length < '16') {
+        if ($cc_length < '15') {
             $this->form_validation->set_message('check_creditcard', 'Credit Card Number is not correct');
             $result = FALSE;
         } else if ($cc_length > '16') {

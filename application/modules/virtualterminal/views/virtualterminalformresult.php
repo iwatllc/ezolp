@@ -2,6 +2,12 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 
+<?php
+
+if($Virtualterminal_Clientform == "FALSE") {
+
+?>
+
 <!DOCTYPE html>
 <!--[if IE 8]>
 <html lang="en" class="ie8">
@@ -13,7 +19,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <?php $this->load->view('header'); ?>
 
     <body class="flat-black receipt-print">
-
+    <div id="page-container" class="fade in page-without-sidebar">
         <!-- begin #content -->
         <div id="content" class="content">
             <!-- begin page-header -->
@@ -44,7 +50,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
                         if (isset($approved) && $approved === TRUE)
                         {
-                            ?>
+                    ?>
                             <div class='success'>
                             Payment Successfully Processed!
                             </div>
@@ -60,20 +66,23 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             </br></br>
                             <b>Card Ending: ************</b><?php echo $submitted_data['cclast4']; ?>
                             </br></br>
-                            <b>Card Holder:</b> <?php echo $submitted_data['name']; ?>
+                            <b>Card Holder:</b> <?php echo $submitted_data['firstname']. ' ' . $submitted_data['lastname']; ?>
                             </br></br>
-                            <div class="center-text">
-                            I AGREE TO PAY ABOVE
-                            TOTAL AMOUNT ACCORDING
-                            TO THE CARD ISSUER
-                            AGREEMENT
-                            </div>
-                            <br/>
-                            <b>Signature:</b>
-                            </br></br></br></br>
-                            X__________________________________________________
-                            <br/><?php echo $submitted_data['name']; ?>
-                            <br/>
+
+                            <?php if($Virtualterminal_Signature == "TRUE"){ ?>
+                                <div class="center-text">
+                                I AGREE TO PAY ABOVE
+                                TOTAL AMOUNT ACCORDING
+                                TO THE CARD ISSUER
+                                AGREEMENT
+                                </div>
+                                <br/>
+                                <b>Signature:</b>
+                                </br></br></br></br>
+                                X__________________________________________________
+                                <br/><?php echo $submitted_data['firstname']. ' ' . $submitted_data['lastname']; ?>
+                                <br/>
+                            <?php } ?>
 
                             <?php
                         }
@@ -105,8 +114,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         </div>
         <!-- end #content -->
 
-    <img src="<?php echo base_url(); ?>/assets/img/ezolp.png" class="doprint receipt-logo">
-    <br/><br/>
 
     <?php
         echo anchor('virtualterminal/', 'PROCESS ANOTHER CARD', array('class' => 'btn btn-primary btn-lg m-r-5 dontprint'));
@@ -119,3 +126,103 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
     </body>
 </html>
+
+<?php } else { ?>
+
+<!DOCTYPE html>
+<!--[if IE 8]>
+<html lang="en" class="ie8">
+<![endif]-->
+<!--[if !IE]><!-->
+<html lang="en">
+<!--<![endif]-->
+
+    <?php $this->load->view('header_client'); ?>
+
+<body>
+
+    <?php echo $page_data['heading'];?>
+    <br>
+    <?php echo $client_data['clientaddress'];?><br/>
+    <?php echo $client_data['clientcity'];?>, <?php echo $client_data['clientstate'];?><?php echo $client_data['clientzip'];?><br/>
+    <?php echo $client_data['clientphone'];?><br/>
+    <?php echo $client_data['clientwebsite'];?><br/>
+
+    <?php
+        $approved = $result_data['IsApproved'];
+        $responseHTML = $result_data['ResponseHTML'];
+        $responseCODE = $result_data['ReturnCode'];
+
+        if ($approved == 1)
+        {
+            $approved = TRUE;
+        } else {
+            $approved = FALSE;
+        }
+
+        if (isset($approved) && $approved === TRUE)
+        {
+    ?>
+
+        Payment Successfully Processed!
+        <br>
+        Payment Reciept
+        </br>
+        </br>
+        <b>Reciept #:</b> <?php echo $result_data['OrderNumber']; ?>
+        </br></br>
+        <b>Date:</b> <?php echo $result_data['UpdateDate']; ?>
+        </br></br>
+        <b>Amount: $</b> <?php echo $submitted_data['amount']; ?>
+        </br></br>
+        <b>Card Ending: ************</b><?php echo $submitted_data['cclast4']; ?>
+        </br></br>
+        <b>Card Holder:</b> <?php echo $submitted_data['firstname']. ' ' . $submitted_data['lastname']; ?>
+        </br></br>
+
+        <?php if($Virtualterminal_Signature == "TRUE"){ ?>
+            <div class="center-text">
+            I AGREE TO PAY ABOVE
+            TOTAL AMOUNT ACCORDING
+            TO THE CARD ISSUER
+            AGREEMENT
+            </div>
+            <br/>
+            <b>Signature:</b>
+            </br></br></br></br>
+            X__________________________________________________
+            <br/><?php echo $submitted_data['firstname']. ' ' . $submitted_data['lastname']; ?>
+            <br/>
+        <?php } ?>
+
+    <?php } else { ?>
+
+                <div style='color: #FF0000; font-weight: bold;' />
+                There was an error processing this transaction.
+                </div>
+                <br/>
+                <div style='font-weight: bold;'>
+                Here is the SkipJack response for further details as to possibly why there was a failure:
+                </div>
+                <br/>
+                <br/>
+                <?php echo $responseHTML; ?>
+                <br/>
+    <?php }
+        echo "<div style='font-weight: bold;'>";
+        if (isset($response)){
+            // echo $respones;
+        }
+        echo "</div>";
+    ?>
+
+    <?php
+    echo anchor('virtualterminal/', 'PROCESS ANOTHER CARD', array('class' => '???'));
+    ?>
+
+    <a href="javascript:window.print()" >PRINT RECEIPT</a>
+
+</body>
+</html>
+
+<?php } ?>

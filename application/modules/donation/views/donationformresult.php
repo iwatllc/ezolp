@@ -104,7 +104,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 												</div>
                             
 													<div style='font-weight: bold;'>
-														Here is the SkipJack response for further details as to possibly why there was a failure:
+														Here is the response for further details as to possibly why there was a failure:
 													</div>
 
 													<div><?php echo $responseHTML; ?></div>
@@ -118,6 +118,45 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 												};
 												echo "</div>";
 												?>
+
+                                        <?php
+
+                                            if($is_recurring == 'recurring' and $approved) {
+                                                if ($result_data_recurring['IsApproved'] == 1)
+                                                {
+                                                    $approved_recurring = TRUE;
+                                                } else {
+                                                    $approved_recurring = FALSE;
+                                                }
+                                                if (isset($approved_recurring) && $approved_recurring === TRUE)
+                                                {   ?>
+
+                                                        <div class='alert alert-success'>
+                                                            Recurring Transaction was Successfully Processed!
+                                                        </div>
+
+                                                    <?php
+                                                } else {
+                                                    ?>
+
+                                                        <div style='color: #FF0000; font-weight: bold;'>
+                                                            There was an error processing the recurring transaction.
+                                                        </div>
+
+                                                        <div style='font-weight: bold;'>
+                                                            Here is the response for further details as to possibly why there was a failure:
+                                                        </div>
+
+                                                        <div><?php echo $result_data_recurring['responseHTML']; ?></div>
+
+                                                    <?php
+
+                                                }
+                                            }
+
+                                        ?>
+
+
 								
 								
 								<div style="margin-top:50px;">

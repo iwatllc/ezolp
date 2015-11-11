@@ -11,7 +11,8 @@ class Dashboard extends MX_Controller {
             // redirect to login page
             redirect('security/Auth', 'refresh');
         }
-        
+
+
         parent::__construct();
     }
 
@@ -20,6 +21,7 @@ class Dashboard extends MX_Controller {
      */
     public function index()
     {
+
         $this->load->helper('form');
         $this->load->helper('url');
         $this->load->load->library('session');

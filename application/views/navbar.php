@@ -112,11 +112,38 @@
                     </a>
                 </li>
 
-                <li class="has-sub">
-                    <a href="<?php echo base_url(); ?>donation" target="_blank">
-                        <i class="fa fa-credit-card"></i>
-                        <span>Donation</span>
+                <li class="has-sub<?php echo $pageName == 'recurring' ? ' active' : ''; ?>">
+                    <a href="<?php echo base_url(); ?>recurring">
+                        <i class="fa fa-retweet"></i>
+                        <span>Recurring Transactions</span>
                     </a>
+                </li>
+
+                <li class="has-sub">
+                    <a>
+                        <b class="caret pull-right"></b>
+                        <i class="fa fa-key"></i>
+                        <span>Forms</span>
+                    </a>
+                    <ul class="sub-menu">
+                        <li>
+                            <a href="<?php echo base_url(); ?>virtualterminal" target="_blank">
+                                <i class="fa fa-credit-card"></i>
+                                <span>Virtual Terminal</span></a>
+                        </li>
+                        <li>
+                            <a href="<?php echo base_url(); ?>donation" target="_blank">
+                                <i class="fa fa-credit-card"></i>
+                                <span>Donation</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="<?php echo base_url(); ?>guestform" target="_blank">
+                                <i class="fa fa-credit-card"></i>
+                                <span>Guest Form</span>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
 
                 <li class="has-sub">

@@ -47,7 +47,7 @@ class Nmi extends MX_Controller
 	    $query .= "username=" . urlencode($this->config->item('NMI_Username')) . "&";
 	    $query .= "password=" . urlencode($this->config->item('NMI_Password')) . "&";
 	    // Sales Information
-	    $query .= "ccnumber=" . urlencode(str_replace( '-', '', $data['creditcard'])) . "&";
+	    $query .= "ccnumber=" . urlencode(str_replace( ' ', '', $data['creditcard'])) . "&";
 	    $query .= "ccexp=" . urlencode($data['expirationmonth'].$data['expirationyear']) . "&";
 	    $query .= "amount=" . urlencode(number_format($data['amount'],2,".","")) . "&";
 	    $query .= "cvv=" . urlencode($data['cvv2']) . "&";
@@ -109,6 +109,56 @@ class Nmi extends MX_Controller
 	    $query .= "type=refund";
 	    return $this->_doPost($query, $this->config->item('NMI_URL'));
     }
+
+	function doRecurring($data) {
+
+		$query  = "";
+		// Login Information
+		$query .= "username=" . urlencode($this->config->item('NMI_Username')) . "&";
+		$query .= "password=" . urlencode($this->config->item('NMI_Password')) . "&";
+		// Transaction Information
+		$query .= "recurring=" . $data['recurring'] . "&";
+		$query .= "plan_payments=" . $data['plan_payments'] . "&";
+		$query .= "plan_amount=" . urlencode(number_format($data['plan_amount'],2,".","")) . "&";
+		$query .= "month_frequency=" . $data['month_frequency'] . "&";
+		$query .= "day_of_month=" . $data['day_of_month'] . "&";
+		$query .= "ccnumber=" . urlencode(str_replace( ' ', '', $data['creditcard'])) . "&";
+		$query .= "ccexp=" . urlencode($data['expirationmonth'].$data['expirationyear']) . "&";
+		$query .= "first_name=" . urlencode($data['first_name']) . "&";
+		$query .= "last_name=" . urlencode($data['last_name']) . "&";
+		$query .= "city=" . urlencode($data['city']) . "&";
+		$query .= "state=" . urlencode($data['state']) . "&";
+		$query .= "zip=" . urlencode($data['zip']) . "&";
+        if(array_key_exists('email', $data)) {
+            $query .= "email=" . urlencode($data['email']) . "&";
+        }
+        if(array_key_exists('streetaddress', $data)) {
+         $query .= "address1=" . urlencode($data['streetaddress']) . "&";
+        }
+		if(array_key_exists('streetaddress2', $data)) {
+            $query .= "address2=" . urlencode($data['streetaddress2']) . "&";
+        }
+
+        log_message('debug', "NMI Query -> " . print_r($query,TRUE));
+
+		return $this->_doPost($query, $this->config->item('NMI_URL'));
+	}
+
+	function doCancelRecurring($data){
+		$query  = "";
+		// Login Information
+		$query .= "username=" . urlencode($this->config->item('NMI_Username')) . "&";
+		$query .= "password=" . urlencode($this->config->item('NMI_Password')) . "&";
+		// Transaction Information
+        $query .= "recurring=delete_subscription&";
+        $query .= "subscription_id=" . $data;
+
+
+        log_message('debug', "NMI Query -> " . print_r($query,TRUE));
+
+        return $this->_doPost($query, $this->config->item('NMI_URL'));
+
+	}
 
 
 	private function _doPost($query, $url) {

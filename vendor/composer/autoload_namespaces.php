@@ -10,4 +10,5 @@ return array(
     'Lurker' => array($vendorDir . '/henrikbjorn/lurker/src'),
     'Less' => array($vendorDir . '/oyejorge/less.php/lib'),
     'JSqueeze' => array($vendorDir . '/patchwork/jsqueeze/class'),
+    'Composer\\Installer' => array($vendorDir . '/compwright/codeigniter-installers/src'),
 );

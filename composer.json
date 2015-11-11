@@ -8,9 +8,12 @@
     	"codegyre/robo": "*",
 		"patchwork/jsqueeze": "~1.0",
 		"natxet/CssMin": "~3.0"  ,
-		"leafo/scssphp": "*"
+		"leafo/scssphp": "*",
+	  	"lonnieezell/codeigniter-forensics": "dev-master"
 	},
 	"require-dev": {
 		"mikey179/vfsStream": "1.1.*"
 	}
+
 }
+

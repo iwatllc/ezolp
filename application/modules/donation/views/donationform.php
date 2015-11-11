@@ -79,6 +79,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <div class="col-12">
                 <?php $attributes = array('class' => 'form-horizontal', 'id' => 'donationform'); ?>
                 <?php echo form_open('donation/Donation/submit', $attributes); ?>
+                    <?php $data = array(
+                        'type'  => 'hidden',
+                        'name'  => 'cardtype',
+                        'id'    => 'cardtype',
+                        'value' => '',
+                        'class' => 'cardtype'
+                    );
+
+                    echo form_input($data) ;
+
+                    ?>
+
                     <!-- begin panel -->
                     <div class="panel panel-inverse" >
                         <div class="panel-heading">
@@ -142,6 +154,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										</div>
                                         <div class="row other-pay-error">
                                             <div class="col-md-9 col-md-offset-3">
+                                                <label class="col-md-3 control-label">Make Recurring</label>
+                                                <div class="col-md-9">
+                                                    <?php
+                                                    $data = array(
+                                                        'name'          => 'recurring[]',
+                                                        'id'            => 'recurring',
+                                                        'value'         => 'recurring',
+                                                        'class'         => 'form-control max-250',
+                                                        'checked'       => set_checkbox('recurring[]')
+                                                    );
+                                                    echo form_checkbox($data);
+                                                    ?>
+                                                </div>
                                                 Please make this a recurring contribution.<br>
                                                 By clicking donate, you acknowledge that you are making a <br>
                                                 recurring contribution and that the amount selected will <br>
@@ -476,13 +501,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                         <?php
                                         $data = array(
                                             'name'          => 'creditcard',
-                                            'id'            => 'masked-input-cc',
+                                            'id'            => 'creditcard',
                                             'value'         => set_value('creditcard'),
-                                            'class'         => 'form-control max-200',
+                                            'class'         => 'form-control max-200 creditcard',
                                             'type'          => 'text',
-                                            'placeholder'   => '9999-9999-9999-9999',
-                                            'maxlength'     => '19',
-                                            'data-parsley-required' => 'true'
+                                            'placeholder'   => '9999 9999 9999 9999',
                                         );
 
                                         echo form_input($data);
@@ -559,12 +582,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                         <?php
                                         $data = array(
                                             'name'          => 'cvv2',
-                                            'id'            => 'masked-input-cvv2',
+                                            'id'            => 'cvv2',
                                             'value'         => set_value('cvv2'),
-                                            'class'         => 'form-control max-200',
+                                            'class'         => 'form-control max-200 cvv2',
                                             'type'          => 'text',
                                             'placeholder'   => '000',
-                                            'maxlength'     => '3',
+                                            'maxlength'     => '4',
                                             'data-parsley-required' => 'true'
                                         );
 
@@ -651,24 +674,26 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 <?php $this->load->view('footer'); ?>
 
-
+<script src="<?php echo base_url(); ?>/assets/plugins/jquery-payment/lib/jquery.payment.min.js"></script>
 
 <script type="text/javascript">
-    //$('#vtpaymentform').submit(function(){
-    //    $('input[type=submit]', this).attr('disabled', 'disabled');
-    //});
     $(document).ready(function() {
         $("#loading-div-background").css({ opacity: 1.0 });
 
         $('#donationform').submit(function(){
+            var cardType = $.payment.cardType($('.creditcard').val());
+            $('.cardtype').val(cardType);
             $('#submit').attr({
                 disabled: 'disabled',
                 value: 'Processing, Please Wait...'
             });
             $("#loading-div-background").show();
         });
-    });
 
+        $('.creditcard').payment('formatCardNumber');
+        $('.cc-cvc').payment('formatCardCVC');
+
+    });
 </script>
 
 </body>
