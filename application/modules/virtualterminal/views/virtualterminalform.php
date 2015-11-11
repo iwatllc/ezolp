@@ -19,6 +19,7 @@ if($Virtualterminal_Clientform == "FALSE") {
 
 
 <style>
+    /* ====== THIS IS THE STYLING FOR THE MODAL PROCESSING FORM ======= */
     #loading-div-background{
         display: none;
         position: fixed;
@@ -520,6 +521,37 @@ if($Virtualterminal_Clientform == "FALSE") {
 
 <?php $this->load->view('header_client'); ?>
 
+<style>
+    /* ====== THIS IS THE STYLING FOR THE MODAL PROCESSING FORM ======= */
+    #loading-div-background{
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        background: #fff;
+        width: 100%;
+        height: 100%;
+    }
+
+    #loading-div{
+        width: 300px;
+        height: 150px;
+        background-color: #fff;
+        border: 5px solid #1d1ff5;
+        text-align: center;
+        color: #202020;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        margin-left: -150px;
+        margin-top: -100px;
+        -webkit-border-radius: 5px;
+        -moz-border-radius: 5px;
+        border-radius: 5px;
+        behavior: url("/css/pie/PIE.htc"); /* HANDLES IE */
+    }
+</style>
+
 <body>
 	
 		<?php include './client/client_website/client-header.php' ?>
@@ -769,11 +801,20 @@ if($Virtualterminal_Clientform == "FALSE") {
     <?php echo form_close(); ?>
 
 	</div>
+
+    <!-- #modal-message -->
+    <div id="loading-div-background">
+        <div id="loading-div" class="ui-corner-all">
+            <img style="height:64px;width:62px;margin:30px;" src="<?php echo base_url(); ?>assets/img/wait_spinner.gif" alt="Loading.."/><br>PROCESSING. PLEASE WAIT...
+        </div>
+    </div>
 	
 	<?php include './client/client_website/client-footer.php' ?>
 	
 	
 <?php $this->load->view('footer_client'); ?>
+
+
 
 <script src="<?php echo base_url(); ?>/assets/plugins/jquery-payment/lib/jquery.payment.min.js"></script>
 

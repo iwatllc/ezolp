@@ -74,7 +74,7 @@ class Virtualterminal extends MX_Controller {
         $this->form_validation->set_rules('middleinitial', 'Middle Initial', 'max_length[1]');
         $this->form_validation->set_rules('lastname', 'Last Name', 'required|max_length[100]');
         $this->form_validation->set_rules('creditcard', 'Credit Card', 'required|callback_check_creditcard');
-        $this->form_validation->set_rules('expirationmonth', 'Expiration Month', 'required|callback_check_default');
+        $this->form_validation->set_rules('expirationmonth', 'Expiration Month', 'required|callback_check_month');
         $this->form_validation->set_rules('expirationyear', 'Expiration Year', 'required');
         $this->form_validation->set_rules('cvv2', 'CVV2 Code', 'required|min_length[3]|max_length[4]');
         $this->form_validation->set_rules('paymentamount', 'Payment Amount', 'required');
@@ -228,9 +228,9 @@ class Virtualterminal extends MX_Controller {
 
 
 
-    function check_default($post_string)
+    function check_month($post_string)
     {
-        $this->form_validation->set_message('check_default', 'You need to select a state');
+        $this->form_validation->set_message('check_month', 'You need to select a month');
         return $post_string == '0' ? FALSE : TRUE;
     }
 
