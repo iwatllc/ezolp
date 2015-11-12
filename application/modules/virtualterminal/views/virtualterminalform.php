@@ -557,10 +557,8 @@ if($Virtualterminal_Clientform == "FALSE") {
 		<?php include './client/client_website/client-header.php' ?>
 	
 <div class="container" style="max-width: 500px;">
-    <br>
     <?php $attributes = array('class' => 'form-horizontal', 'id' => 'vtpaymentform'); ?>
     <?php echo form_open('virtualterminal/submit', $attributes);
-
         $data = array(
             'type'  => 'hidden',
             'name'  => 'cardtype',
@@ -568,13 +566,8 @@ if($Virtualterminal_Clientform == "FALSE") {
             'value' => '',
             'class' => 'cardtype'
         );
-
         echo form_input($data) ;
-
     ?>
-
-    <br>
-
         <?php echo(!empty(form_error('firstname')) ? ' ???PUT CLASS HERE??? ' : ''); ?>
         <label>FIRST NAME*</label>
         <?php

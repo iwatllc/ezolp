@@ -70,6 +70,8 @@ class Search_model extends CI_Model {
 
               $this->db->join('transaction_status', 'payment_response.TransactionStatusId = transaction_status.id', 'inner');
 
+              $this->db->join('transaction_type', 'payment_response.TransactionTypeId = transaction_type.id', 'inner');
+
               $this->db->order_by('payment_response.InsertDate', 'DESC');
 
               // Sample of what the join should look like.

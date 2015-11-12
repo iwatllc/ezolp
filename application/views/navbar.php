@@ -122,24 +122,24 @@
                 <li class="has-sub">
                     <a>
                         <b class="caret pull-right"></b>
-                        <i class="fa fa-key"></i>
+                        <i class="fa fa-credit-card"></i>
                         <span>Forms</span>
                     </a>
                     <ul class="sub-menu">
                         <li>
                             <a href="<?php echo base_url(); ?>virtualterminal" target="_blank">
-                                <i class="fa fa-credit-card"></i>
+                                <i class="fa"></i>
                                 <span>Virtual Terminal</span></a>
                         </li>
                         <li>
                             <a href="<?php echo base_url(); ?>donation" target="_blank">
-                                <i class="fa fa-credit-card"></i>
+                                <i class="fa"></i>
                                 <span>Donation</span>
                             </a>
                         </li>
                         <li>
                             <a href="<?php echo base_url(); ?>guestform" target="_blank">
-                                <i class="fa fa-credit-card"></i>
+                                <i class="fa"></i>
                                 <span>Guest Form</span>
                             </a>
                         </li>

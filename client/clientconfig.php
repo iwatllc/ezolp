@@ -54,11 +54,11 @@ $config['Company_Slogan'] = 'Leader In Fundraising Solutions';
 /***** CLIENT CONFIG ******/
 // DO NOT ADD ANY MORE CONFIG VARIABLES TO THIS FILE.  WE NEED TO MOVE THEM
 // DO THE DATABASE
-$config['Client_Heading'] = 'CLIENT HEADING';
-$config['Client_Description'] = 'CLIENT DESCRIPTION';
-$config['Client_Author'] = 'Client Company ' . date("Y");
-$config['Client_Name'] = 'Client Company Name';
-$config['Client_Logo'] = 'client/client.png';
-$config['Client_Slogan'] = 'CLIENT SLOGAN';
+// $config['Client_Heading'] = 'CLIENT HEADING';
+// $config['Client_Description'] = 'CLIENT DESCRIPTION';
+// $config['Client_Author'] = 'Client Company ' . date("Y");
+// $config['Client_Name'] = 'Client Company Name';
+// $config['Client_Logo'] = 'client/client_website/JM-logo.png';
+// $config['Client_Slogan'] = 'CLIENT SLOGAN';
 /***End Company Config Settings***/
 

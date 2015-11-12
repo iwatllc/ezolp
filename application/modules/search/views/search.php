@@ -186,15 +186,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                                     { ?>
                                                         <tr>
                                                             <th>Batch Number</th>
-                                                            <th>Transaction Date</th>
+                                                            <th>Date</th>
                                                             <th>Payer</th>
                                                             <th>Email</th>
                                                             <th>Notes</th>
-                                                            <th>Transaction Amount</th>
+                                                            <th>Amount</th>
                                                             <th>Auth Code</th>
-                                                            <th>Transaction Status</th>
+                                                            <th>Status</th>
+                                                            <th>Type</th>
                                                             <th>CVV2 Result</th>
                                                             <th>CC Last 4</th>
+                                                            <th>Card Type</th>
                                                             <th>Actions</th>
                                                         </tr>
                                             </thead>
@@ -228,10 +230,32 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                                             echo $result->status;
                                                         echo "</td>";
                                                         echo "<td>";
+                                                            echo $result->type;
+                                                        echo "</td>";
+                                                        echo "<td>";
                                                             echo $result->CVV2ResponseCode . ' ' . $result->CVV2ResponseMessage;
                                                         echo "</td>";
                                                         echo "<td>";
                                                             echo $result->cclast4;
+                                                        echo "</td>";
+                                                        echo "<td>";
+                                                            switch ($result->cardtype) {
+                                                                case 'visa':
+                                                                    echo '<i class="fa fa-2x fa-cc-visa"></i>';
+                                                                    break;
+                                                                case 'mastercard':
+                                                                    echo '<i class="fa fa-2x fa-cc-mastercard"></i>';
+                                                                    break;
+                                                                case 'amex':
+                                                                    echo '<i class="fa fa-2x fa-cc-amex"></i>';
+                                                                    break;
+                                                                case 'discover':
+                                                                    echo '<i class="fa fa-2x fa-cc-discover"></i>';
+                                                                    break;
+                                                                default:
+                                                                    echo $result->cardtype;
+                                                                    break;
+                                                            }
                                                         echo "</td>";
 														if(strcmp($result->status, 'Void') != 0 && strcmp($result->status, 'Refund') != 0) {
 															echo "<td>

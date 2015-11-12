@@ -33,9 +33,13 @@ class Changestatus extends MX_Controller {
         // Check Status of Payment for Settlement
         $this->load->module('payment');
         $status = $this->payment->checkstatus($transactionfileid);
+        $details = $this->payment->getstatusdetails($transactionfileid);
+        $paymentdetails = $this->payment->getpaymentdetails($transactionfileid);
 
         $data['transactionfileid'] = $transactionfileid;
         $data['status'] = $status;
+        $data['details'] = $details;
+        $data['paymentdetails'] = $paymentdetails;
 
         $view_vars = array(
             'title' => $this->config->item('Company_Title') . ' | Change Status ',

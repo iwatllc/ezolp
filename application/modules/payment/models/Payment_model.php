@@ -38,4 +38,28 @@ class Payment_model extends CI_Model {
 			return $row;
 		}
 	}
+
+    public function getpaymentdetails($transactionfileid){
+
+        $this->db->from('payment_response');
+        $this->db->where('transactionfilename', $transactionfileid);
+        $query = $this->db->get();
+        $row = $query->row();
+
+        if(isset($row)){
+            $paymenttransactionid = $row->PaymentTransactionId;
+            $paymentsource = $row->PaymentSource;
+
+            $this->db->from('payment_response');
+            $this->db->join('transaction_status', 'payment_response.transactionstatusid = transaction_status.id');
+            $this->db->join('transaction_type', 'payment_response.transactiontypeid = transaction_type.id');
+            $this->db->where('paymenttransactionid', $paymenttransactionid);
+            $this->db->where('paymentsource', $paymentsource);
+            $this->db->order_by('InsertDate', 'ASC');
+            $query = $this->db->get();
+            return $query;
+        }
+
+        return null;
+    }
 }

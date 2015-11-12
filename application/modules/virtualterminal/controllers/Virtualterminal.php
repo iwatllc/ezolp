@@ -121,6 +121,40 @@ class Virtualterminal extends MX_Controller {
             $this->load->module('payment');
             $result_data = $this->payment->process_payment($submitted_data);
 
+            // SEND EMAIL RECIEPT TO PAYER
+            $virtualterminal_sendreceipt = $this->configsys->get_config_value('Virtualterminal_Sendreceipt');
+            $virtualterminal_emailsubject = $this->configsys->get_config_value('Virtualterminal_Email_Subject');
+            $to_email = $this->input->post('email');
+            if ($virtualterminal_sendreceipt == 'TRUE') {
+                if(strlen(trim($to_email)) > 0){
+                    $this->load->module('email_sys');
+
+                    $message = '<!DOCTYPE html><html><body>';
+                    $message .= '<p>';
+                    $message .= 'Than you for your payment';
+                    $message .= '<br>';
+                    $message .= 'Please keep this receipt for your records';
+                    $message .= '<br>';
+                    $message .= '<hr>';
+                    $message .= $this->input->post('firstname'). ' ' . $this->input->post('lastname');
+                    $message .= '<br>';
+                    $message .= $this->input->post('cardtype'). ' Ending in ' . substr($this->input->post('creditcard'), -4);
+                    $message .= '<br>';
+                    $message .= 'Amount Paid: ' . str_replace( ',', '', $this->input->post('paymentamount') );
+                    $message .= '<br>';
+                    $message .= 'Date: ' . date('Y-n-j H:i:s') ;
+                    $message .= '<hr>';
+                    $message .= '<br>';
+                    $message .= '</p>';
+                    $message .= '</body></html>';
+
+                    $result_info = $this->email_sys->send_email($to_email, $virtualterminal_emailsubject, $message);
+                }
+            }
+
+
+
+
             // Gather all the info for the view
             $clientname = $this->configsys->get_config_value('Client_Name');
             $clientaddress = $this->configsys->get_config_value('Client_Address');

@@ -34,6 +34,19 @@
     <script src="<?php echo base_url(); ?>/assets/plugins/cardswipe/jquery.cardswipe.js"></script>
     <!-- ================== END PAGE LEVEL JS ================== -->
 
+    <!-- ================== GOOGLE ANALYTICS CODE ================== -->
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-68634784-1', 'auto');
+        ga('send', 'pageview');
+
+    </script>
+    <!-- ================== END GOOGLE ANALYTICS CODE ================== -->
+
     <script>
         $(document).ready(function() {
             App.init();

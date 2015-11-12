@@ -25,6 +25,7 @@ class Payment extends MX_Controller
         	'PaymentTransactionId' => $data['transaction_id'],
             'PaymentSource' => $data['PaymentSource'],
             'TransactionAmount' => $data['amount'],
+            'TransactionTypeId' => '1',
             'InsertDate' => date('Y-n-j H:i:s'),
 			'Gateway' => $gateway,			
         );
@@ -97,32 +98,37 @@ class Payment extends MX_Controller
     {
         $this->load->model('Payment_model', 'Payment');
 		$gateway = $this->config->item('Gateway'); //maybe this should be based on payment gateway, but we'd have to change config from static solution
-		
-		$payment_refund_data = array(
-            'PaymentTransactionId' => $data['transactionid'],
-            'PaymentSource' => $data['paymentsource'],
-            'TransactionAmount' => $data['amount'],
-            'InsertDate' => date('Y-n-j H:i:s'),
-			'Gateway' => $gateway
-        );
-        $refund_id = $this->Payment->save($payment_refund_data);
-		
+
 		log_message('debug', "Gateway is set -> " . $gateway);
+
 		if(strcmp($gateway, 'NPC') == 0) {
 			//Gateway is NPC
 			//TODO: Add NPC Gateway Refund Code
-		}
-
-		else if(strcmp($gateway, 'NMI') == 0) {
+		} else if(strcmp($gateway, 'NMI') == 0) {
 			//Gateway is NMI
 			$this->load->module('nmi');
 			$refund_result_data = $this->_NMI_process_refund($data['transactionfilename'], $data['amount']);
+
 		}
 		else {
 			show_error("Unrecognized gateway '". $gateway . "'");
 		}
-		
-        $this->Payment->update($refund_result_data, $refund_id);
+
+		if ($refund_result_data['IsApproved'] == '1' ) {
+
+			$payment_refund_data = array(
+                'PaymentTransactionId' => $data['transactionid'],
+                'PaymentSource' => $data['paymentsource'],
+                'TransactionAmount' => $data['amount'],
+                'TransactionTypeId' => '5',
+                'InsertDate' => date('Y-n-j H:i:s'),
+                'Gateway' => $gateway
+			);
+			$refund_id = $this->Payment->save($payment_refund_data);
+
+			$this->Payment->update($refund_result_data, $refund_id);
+		}
+
 
         return $refund_result_data;
 
@@ -163,7 +169,7 @@ class Payment extends MX_Controller
 			$result_data = $this->_NMI_process_void($payment->TransactionFileName);
 			if($result_data['IsApproved'] == 1) {
 				$success_void_data = array('VoidResponseHTML' => implode("|", $result_data),
-					  					   'TransactionStatusId' => 2);
+					  					   'TransactionStatusId' => 2, 'TransactionTypeId' => '4',);
 				$this->Payment->update($success_void_data, $payment->PaymentResponseId);					  
 		    }
 		}
@@ -219,4 +225,55 @@ class Payment extends MX_Controller
 
 
     }
+
+
+
+    public function getstatusdetails($transactionid){
+
+        $this->load->model('Payment_model', 'Payment');
+        $gateway = $this->config->item('Gateway'); //maybe this should be based on payment gateway, but we'd have to change config from static solution
+
+        if(strcmp($gateway, 'NPC') == 0) {
+
+            //Gateway is NPC
+            //TODO: Add NPC Gateway Void Code
+
+        } else if(strcmp($gateway, 'NMI') == 0) {
+            //Gateway is NMI
+            $this->load->module('nmi');
+            $result_data = $this->nmi->doQuery($transactionid);
+
+        } else {
+            show_error("Unrecognized gateway '". $gateway . "'");
+        }
+
+        return $result_data;
+
+    }
+
+    public function getpaymentdetails($transactionfileid){
+
+        $this->load->model('Payment_model', 'Payment');
+        $gateway = $this->config->item('Gateway'); //maybe this should be based on payment gateway, but we'd have to change config from static solution
+
+        if(strcmp($gateway, 'NPC') == 0) {
+
+            //Gateway is NPC
+            //TODO: Add NPC Gateway Void Code
+
+        } else if(strcmp($gateway, 'NMI') == 0) {
+
+            //Gateway is NMI
+            $this->load->model('Payment_model', 'Payment');
+            $result_data = $this->Payment->getpaymentdetails($transactionfileid);
+
+        } else {
+            show_error("Unrecognized gateway '". $gateway . "'");
+        }
+
+        return $result_data;
+    }
+
+
+
 }
