@@ -160,6 +160,28 @@
                     </a>
                 </li>
 
+                <li class="has-sub<?php
+                    if ($pageName == 'fileupload') {
+                        echo ' active';
+                    } elseif($pageName == 'prospect') {
+                        echo ' active';
+                    } else {
+                        echo '';
+                    }
+                ?>">
+                    <a>
+                        <b class="caret pull-right"></b>
+                        <i class="fa fa-group"></i>
+                        <span>Prospect List</span>
+                    </a>
+                    <ul class="sub-menu">
+                        <?php $thispage = $this->uri->uri_string(); ?>
+                        <li<?php echo $this->uri->uri_string() == 'prospect/get_matches' ? ' class="active"' : ''; ?>><a href="<?php echo base_url(); ?>prospect/get_matches">Prospect List</a></li>
+                        <li<?php echo $this->uri->uri_string() == 'fileupload' ? ' class="active"' : ''; ?>><a href="<?php echo base_url(); ?>fileupload">File Upload</a></li>
+                        <li<?php echo $this->uri->uri_string() == 'fileupload/file_list' ? ' class="active"' : ''; ?>><a href="<?php echo base_url(); ?>fileupload/file_list">File List</a></li>
+                    </ul>
+                </li>
+
 <!--
                 <li class="has-sub<?php echo $pageName == 'virtualterminal' || $pageName == 'guestform' ? ' active' : ''; ?>">
                     <a href="javascript:;">

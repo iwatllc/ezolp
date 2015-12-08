@@ -15,7 +15,6 @@ class Email_sys extends MX_Controller {
     {
         parent::__construct();
 
-
     }
 
     public function send_email($to, $subject, $message){

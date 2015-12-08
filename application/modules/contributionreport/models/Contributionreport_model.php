@@ -40,6 +40,22 @@ class Contributionreport_model extends CI_Model {
     }
 
 
+    public function get_matching_list($begin_date, $end_date){
+
+        $this->db->select('donationform_submissions.*, contributors.* ');
+        $this->db->from('donationform_submissions');
+        $this->db->join('contributors', 'donationform_submissions.lastname = contributors.lastname AND donationform_submissions.firstname = contributors.firstname AND donationform_submissions.city = contributors.city');
+        $this->db->where('donationform_submissions.InsertDate >=', $begin_date);
+        $this->db->where('donationform_submissions.InsertDate <=', $end_date);
+        //$sql = $this->db->get_compiled_select();
+        $query = $this->db->get();
+        return $query;
+
+    }
+
+
+
+
     public function get_total_amounts_donated_through_company_by_date($begin_date, $end_date)
     {
         $where_clause_donation = NULL;
@@ -78,4 +94,7 @@ JOIN
 
         return $query;
     }
+
+
+
 }

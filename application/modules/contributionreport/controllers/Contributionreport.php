@@ -40,7 +40,8 @@ class Contributionreport extends MX_Controller {
         $data['page_data'] = $view_vars;
 
         // New code with dates
-        $data['results'] = $this->Contributionreport->get_total_amounts_donated_through_company_by_date($begin_date, $end_date);
+        // $data['results'] = $this->Contributionreport->get_total_amounts_donated_through_company_by_date($begin_date, $end_date);
+        $data['results'] = $this->Contributionreport->get_matching_list($begin_date, $end_date);
 
         $this->load->view('contributionreport', $data);
     }
@@ -58,7 +59,8 @@ class Contributionreport extends MX_Controller {
 
         $this->load->model('Contributionreport_model', 'Contributionreport');
 
-        $data['results'] = $this->Contributionreport->get_total_amounts_donated_through_company_by_date($data['begin_date'], $data['end_date']);
+        //$data['results'] = $this->Contributionreport->get_total_amounts_donated_through_company_by_date($data['begin_date'], $data['end_date']);
+        $data['results'] = $this->Contributionreport->get_matching_list($data['begin_date'], $data['end_date']);
 
         $view_vars = array(
             'title' => $this->config->item('Company_Title'),

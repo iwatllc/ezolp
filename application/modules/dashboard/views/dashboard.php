@@ -145,7 +145,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-success" data-click="panel-reload"><i class="fa fa-repeat"></i></a>
                         <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
                     </div>
-                    <h4 class="panel-title">Gross Volume of Sales (by Day)</h4>
+                    <h4 class="panel-title">Gross Volume (by Day)</h4>
                 </div>
                 <div class="panel-body">
 
@@ -176,8 +176,41 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 </body>
 
+<!-- begin #footer -->
+<!-- ================== BEGIN BASE JS ================== -->
+<script src="<?php echo base_url(); ?>/assets/plugins/jquery/jquery-1.9.1.min.js"></script>
+<script src="<?php echo base_url(); ?>/assets/plugins/jquery/jquery-migrate-1.1.0.min.js"></script>
+<script src="<?php echo base_url(); ?>/assets/plugins/jquery-ui/ui/minified/jquery-ui.min.js"></script>
+<script src="<?php echo base_url(); ?>/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+<!--[if lt IE 9]>
+<script src="<?php echo base_url(); ?>/assets/crossbrowserjs/html5shiv.js"></script>
+<script src="<?php echo base_url(); ?>/assets/crossbrowserjs/respond.min.js"></script>
+<script src="<?php echo base_url(); ?>/assets/crossbrowserjs/excanvas.min.js"></script>
+<![endif]-->
+<script src="<?php echo base_url(); ?>/assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+<script src="<?php echo base_url(); ?>/assets/plugins/jquery-cookie/jquery.cookie.js"></script>
+<!-- ================== END BASE JS ================== -->
 
-<?php $this->load->view('footer_client'); ?>
+<!-- ================== BEGIN PAGE LEVEL JS ================== -->
+<script src="<?php echo base_url(); ?>/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+<script src="<?php echo base_url(); ?>/assets/plugins/ionRangeSlider/js/ion-rangeSlider/ion.rangeSlider.min.js"></script>
+<script src="<?php echo base_url(); ?>/assets/plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js"></script>
+<script src="<?php echo base_url(); ?>/assets/plugins/masked-input/masked-input.min.js"></script>
+<script src="<?php echo base_url(); ?>/assets/plugins/bootstrap-timepicker/js/bootstrap-timepicker.min.js"></script>
+<script src="<?php echo base_url(); ?>/assets/plugins/password-indicator/js/password-indicator.js"></script>
+<script src="<?php echo base_url(); ?>/assets/plugins/bootstrap-combobox/js/bootstrap-combobox.js"></script>
+<script src="<?php echo base_url(); ?>/assets/plugins/bootstrap-select/bootstrap-select.min.js"></script>
+<script src="<?php echo base_url(); ?>/assets/plugins/bootstrap-tagsinput/bootstrap-tagsinput.min.js"></script>
+<script src="<?php echo base_url(); ?>/assets/plugins/bootstrap-tagsinput/bootstrap-tagsinput-typeahead.js"></script>
+<script src="<?php echo base_url(); ?>/assets/plugins/jquery-tag-it/js/tag-it.min.js"></script>
+<script src="<?php echo base_url(); ?>/assets/plugins/parsley/dist/parsley.js"></script>
+<!-- <script src="assets/js/form-plugins.demo.min.js"></script> -->
+<script src="<?php echo base_url(); ?>/assets/js/form-plugins.demo.js"></script>
+<script src="<?php echo base_url(); ?>/assets/js/apps.min.js"></script>
+<script src="<?php echo base_url(); ?>/assets/plugins/maskMoney/jquery.maskMoney.min.js"></script>
+<script src="<?php echo base_url(); ?>/assets/plugins/cardswipe/jquery.cardswipe.js"></script>
+<!-- ================== END PAGE LEVEL JS ================== -->
+
 
 <script type="text/javascript">
 
@@ -204,7 +237,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             },
 
             title: {
-                text: 'Gross Volume of Sales',
+                text: 'Gross Volume',
                 x: -20 //center
             },
 

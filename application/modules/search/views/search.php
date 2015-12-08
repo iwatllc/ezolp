@@ -228,6 +228,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                                         echo "</td>";
 														echo "<td>";
                                                             echo $result->status;
+                                                            if ($result->status == 'Declined') {
+                                                                echo "<br>";
+                                                                echo $result->ResponseHTML;
+                                                            }
                                                         echo "</td>";
                                                         echo "<td>";
                                                             echo $result->type;
@@ -257,13 +261,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                                                     break;
                                                             }
                                                         echo "</td>";
-														if(strcmp($result->status, 'Void') != 0 && strcmp($result->status, 'Refund') != 0) {
-															echo "<td>
-                                                                    <button data-paymentTransactionFileName='". $result->TransactionFileName ."' data-paymentResponseId='". $result->PaymentTransactionId ."' class='btn btn-link btn-changestatus'>Check Status</button><br>
-																	<!--<button data-paymentResponseId='". $result->PaymentResponseId ."' class='btn btn-link btn-refund'>Refund</button><br> -->
-																	<!--<button data-transactionDate='". $result->InsertDate ."' data-paymentResponseId='". $result->PaymentResponseId ."' data-transactionAmount='". $result->TransactionAmount . "' class='btn btn-link btn-void'>Void</button> -->
-																	<button data-paymentTransactionFileName='". $result->TransactionFileName ."' data-paymentResponseId='". $result->PaymentTransactionId ."' class='btn btn-link btn-checkdonationamount'>Check Donation Amount</button><br>
-	                                                        	 </td>";
+														if(strcmp($result->status, 'Void') != 0 && strcmp($result->status, 'Refund') != 0 && strcmp($result->status, 'Declined') != 0 ) {
+															echo "<td>";
+															echo "<button data-paymentTransactionFileName='". $result->TransactionFileName ."' data-paymentResponseId='". $result->PaymentTransactionId ."' class='btn btn-link btn-changestatus'>Check Status</button><br>";
+                                                            if($result->paymentsource == 'DF'){
+                                                                echo "<button data-paymentTransactionFileName='". $result->TransactionFileName ."' data-paymentResponseId='". $result->PaymentTransactionId ."' class='btn btn-link btn-checkdonationamount'>Check Donation Amount</button><br>";
+                                                            }
+                                                            echo "</td>";
 														}
 														else {
 															echo "<td>&nbsp;</td>";

@@ -94,11 +94,11 @@ if($Virtualterminal_Clientform == "FALSE") {
                             </div>
                             <br/>
                             <div style='font-weight: bold;'>
-                            Here is the SkipJack response for further details as to possibly why there was a failure:
+                            Here is the response for further details as to possibly why there was a failure:
                             </div>
                             <br/>
-                            <br/>
                             <?php echo $responseHTML; ?>
+                            <br/>
                             <br/>
                             <?php
                         }
@@ -216,11 +216,11 @@ if($Virtualterminal_Clientform == "FALSE") {
                 </div>
                 <br/>
                 <div style='font-weight: bold;'>
-                Here is the SkipJack response for further details as to possibly why there was a failure:
+                Here is the response for further details as to possibly why there was a failure:
                 </div>
                 <br/>
-                <br/>
                 <?php echo $responseHTML; ?>
+                <br/>
                 <br/>
     <?php }
         echo "<div style='font-weight: bold;'>";

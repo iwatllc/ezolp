@@ -807,8 +807,6 @@ if($Virtualterminal_Clientform == "FALSE") {
 	
 <?php $this->load->view('footer_client'); ?>
 
-
-
 <script src="<?php echo base_url(); ?>/assets/plugins/jquery-payment/lib/jquery.payment.min.js"></script>
 
 

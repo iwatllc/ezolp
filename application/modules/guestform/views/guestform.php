@@ -2,6 +2,12 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 
+<?php
+
+if($Guestform_Clientform == "FALSE") {
+
+?>
+
 <!DOCTYPE html>
 <!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
 <!--[if !IE]><!-->
@@ -9,7 +15,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <!--<![endif]-->
 
 <?php $this->load->view('header'); ?>
-<?php $this->load->view('navbar'); ?>
 
 <style>
     #loading-div-background{
@@ -43,11 +48,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 <body class="flat-black">
 
+<div id="page-container" class="fade in page-without-sidebar">
 
     <!-- begin #content -->
     <div id="content" class="content">
         <!-- begin page-header -->
-        <h1 class="page-header"><?php echo $page_data['heading'];?></h1>
+
+        <h1 class="page-header">
+            <?php if($Guestform_Logo != 'FALSE'){ ?>
+                <img src="<?php echo base_url(); ?>/client/<?php echo $Guestform_Logo ?>" alt="" height="120" width="120">
+            <?php } ?>
+            <?php echo $page_data['heading'];?>
+        </h1>
         <!-- end page-header -->
 
 
@@ -55,7 +67,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <!-- begin col-12 -->
             <div class="col-12">
                 <?php $attributes = array('class' => 'form-horizontal', 'id' => 'guestform'); ?>
-                <?php echo form_open('guestform/submit', $attributes); ?>
+                <?php echo form_open('guestform/submit', $attributes);
+
+                    $data = array(
+                        'type'  => 'hidden',
+                        'name'  => 'cardtype',
+                        'id'    => 'cardtype',
+                        'value' => '',
+                        'class' => 'cardtype'
+                    );
+
+                    echo form_input($data) ;
+
+
+                ?>
                     <!-- begin panel -->
                     <div class="panel panel-inverse" >
                         <div class="panel-heading">
@@ -63,27 +88,71 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         </div>
                         <div class="panel-body">
                             <legend>Billing Information</legend>
-                                <div class="form-group <?php echo(!empty(form_error('fullname')) ? 'has-error has-feedback' : ''); ?>">
-                                    <label class="col-md-3 control-label">FULL NAME*</label>
+
+
+                                <div class="form-group <?php echo(!empty(form_error('firstname')) ? 'has-error has-feedback' : ''); ?>">
+                                    <label class="col-md-3 control-label">FIRST NAME*</label>
                                     <div class="col-md-9">
                                         <?php
-                                            $data = array(
-                                                'name'          => 'fullname',
-                                                'id'            => 'fullname',
-                                                'value'         => set_value('fullname'),
-                                                'class'         => 'form-control',
-                                                'type'          => 'text',
-                                                'placeholder'   => 'Required',
-                                                'maxlength'     => '100',
-                                                'data-parsley-required' => 'true'
-                                            );
+                                        $data = array(
+                                            'name'          => 'firstname',
+                                            'id'            => 'firstname',
+                                            'value'         => set_value('firstname'),
+                                            'class'         => 'form-control',
+                                            'type'          => 'text',
+                                            'placeholder'   => 'Required',
+                                            'maxlength'     => '100',
+                                            'data-parsley-required' => 'true'
+                                        );
 
-                                            echo form_input($data);
+                                        echo form_input($data);
                                         ?>
-                                        <?php echo(!empty(form_error('fullname')) ? '<span class="fa fa-times form-control-feedback"></span>' : ''); ?>
-                                        <?php echo form_error('fullname'); ?>
+                                        <?php echo(!empty(form_error('firstname')) ? '<span class="fa fa-times form-control-feedback"></span>' : ''); ?>
+                                        <?php echo form_error('firstname'); ?>
                                     </div>
                                 </div>
+                                <div class="form-group <?php echo(!empty(form_error('middleinitial')) ? 'has-error has-feedback' : ''); ?>">
+                                    <label class="col-md-3 control-label">MIDDLE INITIAL</label>
+                                    <div class="col-md-9">
+                                        <?php
+                                        $data = array(
+                                            'name'          => 'middleinitial',
+                                            'id'            => 'middleinitial',
+                                            'value'         => set_value('middleinitial'),
+                                            'class'         => 'form-control',
+                                            'type'          => 'text',
+                                            'placeholder'   => 'Middle Initial',
+                                            'maxlength'     => '1'
+                                        );
+
+                                        echo form_input($data);
+                                        ?>
+                                        <?php echo(!empty(form_error('middleinitial')) ? '<span class="fa fa-times form-control-feedback"></span>' : ''); ?>
+                                        <?php echo form_error('middleinitial'); ?>
+                                    </div>
+                                </div>
+                                <div class="form-group <?php echo(!empty(form_error('lastname')) ? 'has-error has-feedback' : ''); ?>">
+                                    <label class="col-md-3 control-label">LAST NAME*</label>
+                                    <div class="col-md-9">
+                                        <?php
+                                        $data = array(
+                                            'name'          => 'lastname',
+                                            'id'            => 'lastname',
+                                            'value'         => set_value('lastname'),
+                                            'class'         => 'form-control',
+                                            'type'          => 'text',
+                                            'placeholder'   => 'Required',
+                                            'maxlength'     => '100',
+                                            'data-parsley-required' => 'true'
+                                        );
+
+                                        echo form_input($data);
+                                        ?>
+                                        <?php echo(!empty(form_error('lastname')) ? '<span class="fa fa-times form-control-feedback"></span>' : ''); ?>
+                                        <?php echo form_error('lastname'); ?>
+                                    </div>
+                                </div>
+
                                 <div class="form-group <?php echo(!empty(form_error('streetaddress')) ? 'has-error has-feedback' : ''); ?>">
                                     <label class="col-md-3 control-label">STREET ADDRESS*</label>
                                     <div class="col-md-9">
@@ -240,46 +309,54 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     </div>
                                 </div>
                                 <div class="form-group <?php echo(!empty(form_error('email')) ? 'has-error has-feedback' : ''); ?>">
-                                    <label class="col-md-3 control-label">EMAIL</label>
-                                    <div class="col-md-9">
-                                        <?php
-                                        $data = array(
-                                            'name'          => 'email',
-                                            'id'            => 'email',
-                                            'value'         => set_value('email'),
-                                            'class'         => 'form-control',
-                                            'type'          => 'email',
-                                            'placeholder'   => 'email address',
-                                            'maxlength'     => '100',
-                                            'data-parsley-required' => 'false'
-                                        );
 
-                                        echo form_input($data);
-                                        ?>
-                                        <?php echo(!empty(form_error('zip')) ? '<span class="fa fa-times form-control-feedback"></span>' : ''); ?>
-                                        <?php echo form_error('zip'); ?>
-                                    </div>
+                                    <?php if($Guestform_Email == "TRUE") { ?>
+                                        <label class="col-md-3 control-label">EMAIL<?php echo( $Guestform_Email_Required == 'TRUE' ? '*' : ' ') ?></label>
+                                        <div class="col-md-9">
+                                            <?php
+                                            $data = array(
+                                                'name'          => 'email',
+                                                'id'            => 'email',
+                                                'value'         => set_value('email'),
+                                                'class'         => 'form-control',
+                                                'type'          => 'email',
+                                                'placeholder'   => 'email address',
+                                                'maxlength'     => '100',
+                                                'data-parsley-required' => $Guestform_Email_Required
+                                            );
+
+                                            echo form_input($data);
+                                            ?>
+                                            <?php echo(!empty(form_error('zip')) ? '<span class="fa fa-times form-control-feedback"></span>' : ''); ?>
+                                            <?php echo form_error('zip'); ?>
+                                        </div>
+                                    <?php } ?>
+
                                 </div>
                                 <div class="form-group <?php echo(!empty(form_error('notes')) ? 'has-error has-feedback' : ''); ?>">
-                                    <label class="col-md-3 control-label">NOTES</label>
-                                    <div class="col-md-9">
-                                        <?php
-                                        $data = array(
-                                            'name'          => 'notes',
-                                            'id'            => 'notes',
-                                            'value'         => set_value('notes'),
-                                            'class'         => 'form-control',
-                                            'type'          => 'text',
-                                            'placeholder'   => 'Notes',
-                                            'maxlength'     => '100',
-                                            'data-parsley-required' => 'true'
-                                        );
 
-                                        echo form_input($data);
-                                        ?>
-                                        <?php echo(!empty(form_error('notes')) ? '<span class="fa fa-times form-control-feedback"></span>' : ''); ?>
-                                        <?php echo form_error('notes'); ?>
-                                    </div>
+                                    <?php if($Guestform_Notes == "TRUE") { ?>
+                                        <label class="col-md-3 control-label"><?php echo $Guestform_Notes_Label ?><?php echo( $Guestform_Notes_Required == 'TRUE' ? '*' : ' ') ?></label>
+                                        <div class="col-md-9">
+                                            <?php
+                                            $data = array(
+                                                'name'          => 'notes',
+                                                'id'            => 'notes',
+                                                'value'         => set_value('notes'),
+                                                'class'         => 'form-control',
+                                                'type'          => 'text',
+                                                'placeholder'   => $Guestform_Notes_Label,
+                                                'maxlength'     => '100',
+                                                'data-parsley-required' => $Guestform_Notes_Required
+                                            );
+
+                                            echo form_input($data);
+                                            ?>
+                                            <?php echo(!empty(form_error('notes')) ? '<span class="fa fa-times form-control-feedback"></span>' : ''); ?>
+                                            <?php echo form_error('notes'); ?>
+                                        </div>
+                                    <?php } ?>
+
                                 </div>
                             <legend>Credit Card Information</legend>
                                 <div class="form-group <?php echo(!empty(form_error('creditcard')) ? 'has-error has-feedback' : ''); ?>">
@@ -288,13 +365,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                         <?php
                                         $data = array(
                                             'name'          => 'creditcard',
-                                            'id'            => 'masked-input-cc',
+                                            'id'            => 'creditcard',
                                             'value'         => set_value('creditcard'),
-                                            'class'         => 'form-control',
+                                            'class'         => 'form-control creditcard',
                                             'type'          => 'text',
-                                            'placeholder'   => '9999-9999-9999-9999',
-                                            'maxlength'     => '19',
-                                            'data-parsley-required' => 'true'
+                                            'placeholder'   => '9999 9999 9999 9999',
                                         );
 
                                         echo form_input($data);
@@ -371,12 +446,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                         <?php
                                         $data = array(
                                             'name'          => 'cvv2',
-                                            'id'            => 'masked-input-cvv2',
+                                            'id'            => 'cvv2',
                                             'value'         => set_value('cvv2'),
-                                            'class'         => 'form-control',
+                                            'class'         => 'form-control cvv2',
                                             'type'          => 'text',
-                                            'placeholder'   => '999',
-                                            'maxlength'     => '3',
+                                            'placeholder'   => '000',
+                                            'maxlength'     => '4',
                                             'data-parsley-required' => 'true'
                                         );
 
@@ -449,21 +524,29 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 <?php $this->load->view('footer'); ?>
 
+
+<script src="<?php echo base_url(); ?>/assets/plugins/jquery-payment/lib/jquery.payment.min.js"></script>
+
+
 <script type="text/javascript">
-    //$('#vtpaymentform').submit(function(){
-    //    $('input[type=submit]', this).attr('disabled', 'disabled');
-    //});
+
     $(document).ready(function() {
         $("#loading-div-background").css({ opacity: 1.0 });
 
         $('#guestform').submit(function(){
+            var cardType = $.payment.cardType($('.creditcard').val());
+            $('.cardtype').val(cardType);
             $('#submit').attr({
                 disabled: 'disabled',
                 value: 'Processing, Please Wait...'
             });
             $("#loading-div-background").show();
         });
+
+        $('.creditcard').payment('formatCardNumber');
+        $('.cc-cvc').payment('formatCardCVC');
     });
+
 </script>
 
 <script type="text/javascript">
@@ -575,3 +658,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 </body>
 </html>
+
+
+
+<?php } else { ?>
+
+
+
+<?php } ?>

@@ -6,10 +6,14 @@
 <html lang="en">
 <!--<![endif]-->
 
-<?php $this->load->view('navbar'); ?>
+<?php $this->load->view('navbar');
+ini_set('display_errors', 'On');
+ini_set('html_errors', 0);
+
+?>
 
 <head>
-    <title><?php echo $title; ?></title>
+    <title><?php echo $page_data['title']; ?></title>
 </head>
 
 <body class = "flat-back">
@@ -28,7 +32,7 @@
                         <div class="form-inline">
 
 
-                            <?php if ($company_donations->num_rows() > 0){ ?>
+                            <?php if ($company_donations <> 0 || $company_donations->num_rows() > 0){ ?>
                             <div class="table-responsive">
                                 <table id="myTable" class="table table-bordered tablesorter">
                                         <thead>

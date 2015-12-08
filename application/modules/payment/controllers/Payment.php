@@ -44,7 +44,8 @@ class Payment extends MX_Controller
 		else {
 			show_error("Unrecognized gateway '". $gateway . "'");
 		}
-		
+
+		// check $data for IsApproved = 3 and set transaction status ID to 4
         $this->Payment->update($post_payment_data, $payment_id);
 
         return $post_payment_data;
@@ -79,6 +80,7 @@ class Payment extends MX_Controller
 	{
 		$this->load->module('nmi');
 		$result_data = $this->nmi->doSale($data);
+
 		
 		return array(
             'AuthCode' => $result_data['authcode'],
@@ -90,7 +92,7 @@ class Payment extends MX_Controller
             'TransactionFileName' => $result_data['transactionid'],
             'ResponseHTML' => $result_data['responsetext'],
             'UpdateDate' => date('Y-n-j H:i:s'),
-            'TransactionStatusId' => 1 //Hardcode Approved Transaction Status
+            'TransactionStatusId' => ($result_data['response'] == '1' ? '1' : '4')
         );
 	}
 	

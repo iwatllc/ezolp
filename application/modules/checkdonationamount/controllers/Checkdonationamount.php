@@ -18,15 +18,28 @@ class Checkdonationamount extends MX_Controller
 
         $data['donations'] = $this->Checkdonationamount->get_donations($donationid);
 
-        $data['num_company_donations'] = $this->Checkdonationamount->get_num_company_donations($data['donations']);
-        $data['amount_company_donations'] = $this->Checkdonationamount->get_amount_company_donations($data['donations']);
-        $data['company_donations'] = $this->Checkdonationamount->get_company_donations($data['donations']);
+        $result = $data['donations']->result();
 
-        $data['num_all_donations'] = $this->Checkdonationamount->get_num_all_donations($data['donations']);
-        $data['amount_all_donations'] = $this->Checkdonationamount->get_amount_all_donations($data['donations']);
-        $data['all_donations'] = $this->Checkdonationamount->get_all_donations($data['donations']);
+//        if(isset($result))
+//        {
+//            $data['num_company_donations'] = 0;
+//            $data['amount_company_donations'] = 0;
+//            $data['company_donations'] = 0;
+//            $data['num_all_donations'] = 0;
+//            $data['amount_all_donations'] = 0;
+//            $data['all_donations'] = 0;
+//            $data['num_total_donations'] = 0;
+//        } else {
+            $data['num_company_donations'] = $this->Checkdonationamount->get_num_company_donations($data['donations']);
+            $data['amount_company_donations'] = $this->Checkdonationamount->get_amount_company_donations($data['donations']);
+            $data['company_donations'] = $this->Checkdonationamount->get_company_donations($data['donations']);
+            $data['num_all_donations'] = $this->Checkdonationamount->get_num_all_donations($data['donations']);
+            $data['amount_all_donations'] = $this->Checkdonationamount->get_amount_all_donations($data['donations']);
+            $data['all_donations'] = $this->Checkdonationamount->get_all_donations($data['donations']);
+            $data['num_total_donations'] = $this->Checkdonationamount->get_num_total_donations($data['donations']);
+//        }
 
-        $data['num_total_donations'] = $this->Checkdonationamount->get_num_total_donations($data['donations']);
+
 
         $view_vars = array(
             'title' => $this->config->item('Company_Title') . ' | Check Donation Amount ',
@@ -36,6 +49,9 @@ class Checkdonationamount extends MX_Controller
             'author' => $this->config->item('Company_Author')
         );
         $data['page_data'] = $view_vars;
+
+        ini_set('display_errors', 'On');
+        ini_set('html_errors', 0);
 
         $this->load->view('checkdonationamount', $data);
     }

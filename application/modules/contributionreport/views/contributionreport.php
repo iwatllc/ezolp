@@ -105,9 +105,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                                     { ?>
                                                         <tr>
                                                             <th></th>
-                                                            <th>Name - Address</th>
-                                                            <th>Amount Donated through <?php echo $page_data['company']; ?></th>
-                                                            <th>Total Amount Donated Elsewhere</th>
+                                                            <th width="200">Name - Address</th>
+                                                            <th>Committee</th>
+                                                            <th>Candidate</th>
                                                         </tr>
                                             </thead>
                                             <tbody>
@@ -120,13 +120,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                                             echo $count . '.';
                                                         echo "</td>";
                                                         echo "<td>";
-                                                            echo $result->firstname . ' ' . $result->lastname . ' - ' . $result->streetaddress;
+                                                            echo $result->firstname . ' ' . $result->lastname . ' <br> ';
+                                                            echo $result->streetaddress . ' <br> ';
+                                                            echo $result->city . ', ' . $result->state . ' ' . $result->zip . ' <br> ';
+                                                            echo '$' . $result->transaction_amt . ' ' . $result->report_type;
                                                         echo "</td>";
-                                                        echo "<td align='right'>";
-                                                            echo sprintf('$%01.2f', $result->total_company);
+                                                        echo "<td>";
+                                                            echo $result->CMTE_NM. ' <br> ';
+                                                            echo $result->CMTE_ST1 . ' ';
+                                                            echo $result->CMTE_CITY . ', ' . $result->CMTE_ST . ' ' . $result->CMTE_ZIP . ' <br> ';
+                                                            echo 'AFFILIATION: (' . $result->CMTE_PTY_AFFILIATION . ') ' . $result->CONNECTED_ORG_NM;
                                                         echo "</td>";
-                                                        echo "<td align='right'>";
-                                                            echo sprintf('$%01.2f', $result->total_other);
+                                                        echo "<td>";
+                                                            echo ($result->CAND_NAME != '' ? $result->CAND_NAME . ' <br> ' : 'UNKOWN' );
+                                                            echo ($result->CAND_PTY_AFFILIATION != '' ? 'AFFILIATION: (' . $result->CAND_PTY_AFFILIATION . ') <br> ' : '' );
                                                         echo "</td>";
                                                     echo "<tr>";
                                                     $count++;
@@ -146,17 +153,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                         } ?>
                         </div>
                     </div>
-                </div>
+            </div>
     
-    </div>
-    <!-- end #content -->
-    <input id="transactionid" type="hidden"/>
-	<div id="dialog-confirm-void" title="Void Transaction?"></div>
-    <!-- begin scroll to top btn -->
-    <a href="javascript:;" class="btn btn-icon btn-circle btn-success btn-scroll-to-top fade" data-click="scroll-top"><i class="fa fa-angle-up"></i></a>
-    <!-- end scroll to top btn -->
+        </div>
+        <!-- end #content -->
+        <input id="transactionid" type="hidden"/>
+        <div id="dialog-confirm-void" title="Void Transaction?"></div>
+        <!-- begin scroll to top btn -->
+        <a href="javascript:;" class="btn btn-icon btn-circle btn-success btn-scroll-to-top fade" data-click="scroll-top"><i class="fa fa-angle-up"></i></a>
+        <!-- end scroll to top btn -->
 
-</div>    
+    </div>
 <!-- end page container -->
 
 </body>
