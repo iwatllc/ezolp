@@ -14,7 +14,7 @@ class Checkdonationamount_model extends CI_Model
     public function get_donations($donationid)
     {
         $this->db->select('*');
-        $this->db->from('donation_submissions');
+        $this->db->from('donationform_submissions');
         $this->db->where('id', $donationid);
 
         $query = $this->db->get();

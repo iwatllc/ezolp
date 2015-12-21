@@ -32,7 +32,7 @@ ini_set('html_errors', 0);
                         <div class="form-inline">
 
 
-                            <?php if ($company_donations <> 0 || $company_donations->num_rows() > 0){ ?>
+                            <?php if ($company_donations->num_rows() <> 0 || $company_donations->num_rows() == null){ ?>
                             <div class="table-responsive">
                                 <table id="myTable" class="table table-bordered tablesorter">
                                         <thead>

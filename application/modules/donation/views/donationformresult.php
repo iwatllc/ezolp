@@ -30,7 +30,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <div class="navbar-header">
                 <a href="<?php echo current_url(); ?>">
                     <div class="logo-img">
-                        <img src="<?php echo base_url(); ?>/client/client.png">
+                        <?php if($Donationform_Logo != 'FALSE'){ ?>
+                            <img src="<?php echo base_url(); ?>/client/<?php echo $Donationform_Logo ?>">
+                        <?php } ?>
                     </div>
                     <h1 class="page-title"><?php echo $page_data['title'];?></h1>
                 </a>

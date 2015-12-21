@@ -28,7 +28,28 @@ class Donation extends MX_Controller {
     public function index()
     {
 
+// Gather all the info for the view
+        $clientname = $this->configsys->get_config_value('Client_Name');
+        $clientaddress = $this->configsys->get_config_value('Client_Address');
+        $clientcity = $this->configsys->get_config_value('Client_City');
+        $clientstate = $this->configsys->get_config_value('Client_State');
+        $clientzip = $this->configsys->get_config_value('Client_Zip');
+        $clientphone = $this->configsys->get_config_value('Client_Phone');
+        $clientwebsite = $this->configsys->get_config_value('Client_Website');
 
+        $client_data = array(
+            'clientname' => $clientname,
+            'clientaddress' => $clientaddress,
+            'clientcity' => $clientcity,
+            'clientstate' => $clientstate,
+            'clientzip' => $clientzip,
+            'clientphone' => $clientphone,
+            'clientwebsite' => $clientwebsite
+        );
+
+        $data['client_data'] = $client_data;
+
+        $data['Donationform_Logo'] = $this->configsys->get_config_value('Donationform_Logo');
 
         $clientname = $this->configsys->get_config_value('Client_Name');
 
