@@ -4,9 +4,49 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "19f2e37571a1a1dc91777b40bf62300d",
-    "content-hash": "ef233913102dbe5bd11ed80d3e9a7fe3",
+    "hash": "41b1b82322c4dda427e8e3dbfd0df3ef",
+    "content-hash": "16c3f7a34fefdffaba9d1797ec4ae555",
     "packages": [
+        {
+            "name": "adoy/oauth2",
+            "version": "1.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/adoy/PHP-OAuth2.git",
+                "reference": "617d8605955cbb0ca929358fda74eab308c39cfa"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/adoy/PHP-OAuth2/zipball/617d8605955cbb0ca929358fda74eab308c39cfa",
+                "reference": "617d8605955cbb0ca929358fda74eab308c39cfa",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "OAuth2": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL-2.1"
+            ],
+            "authors": [
+                {
+                    "name": "Berejeb Anis",
+                    "email": "anis.berejeb@gmail.com"
+                },
+                {
+                    "name": "Charron Pierrick",
+                    "email": "pierrick@webstart.fr"
+                }
+            ],
+            "description": "Light PHP wrapper for the OAuth 2.0 protocol (based on OAuth 2.0 Authorization Protocol draft-ietf-oauth-v2-15)",
+            "time": "2015-08-03 19:57:06"
+        },
         {
             "name": "codegyre/robo",
             "version": "0.5.4",
@@ -117,12 +157,12 @@
             "version": "1.0.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/henrikbjorn/Lurker.git",
+                "url": "https://github.com/flint/Lurker.git",
                 "reference": "a020d45b3bc37810aeafe27343c51af8a74c9419"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/henrikbjorn/Lurker/zipball/a020d45b3bc37810aeafe27343c51af8a74c9419",
+                "url": "https://api.github.com/repos/flint/Lurker/zipball/a020d45b3bc37810aeafe27343c51af8a74c9419",
                 "reference": "a020d45b3bc37810aeafe27343c51af8a74c9419",
                 "shasum": ""
             },
