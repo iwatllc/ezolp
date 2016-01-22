@@ -77,7 +77,7 @@ class Donation extends MX_Controller {
         $this->form_validation->set_rules('city', 'City', 'required|max_length[100]');
         $this->form_validation->set_rules('state', 'State', 'required|callback_check_default');
         $this->form_validation->set_rules('zip', 'Zip Code', 'required|min_length[5]|max_length[5]');
-        $this->form_validation->set_rules('email', 'Email', 'valid_email');
+        $this->form_validation->set_rules('email', 'Email', 'required|valid_email');
         $this->form_validation->set_rules('employer', 'Employer', 'required|max_length[100]');
         $this->form_validation->set_rules('occupation', 'Occupation', 'required|max_length[100]');
         $this->form_validation->set_rules('creditcard', 'Credit Card', 'required|callback_check_creditcard');
