@@ -13,8 +13,6 @@ class Application_settings extends CI_Model
         // CodeIgnitor does not support upsert...
         $this->db->where('key', $key);
         $this->db->from('application_config');
-        
-        echo $this->db->count_all_results();
 
         if($this->db->count_all_results() > 0) {
         	$this->db->where('key', $key);
@@ -30,6 +28,9 @@ class Application_settings extends CI_Model
         $row = $query->row();
         if($row) {
             return $row->value;  
+        }
+        else {
+            return null;
         }
     }
 }
