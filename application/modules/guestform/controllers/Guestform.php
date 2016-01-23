@@ -21,12 +21,8 @@ class Guestform extends MX_Controller {
         $this->form_validation->CI =& $this;
 
         $this->load->module('configsys');
-
-        // Your own constructor code
-        //$this->dx_auth->check_uri_permissions();
-
+        $this->load->module('nation_builder');
     }
-
 
     public function index()
     {
@@ -148,7 +144,7 @@ class Guestform extends MX_Controller {
             $result_data = $this->payment->process_payment($submitted_data);
 
             // CHECK TO SEE IF TRANSACTION WENT THROUGH
-            if($result_data['IsApproved'] == '1'){
+            if($result_data['IsApproved'] == '1') {
                 // SEND EMAIL RECIEPT TO PAYER
                 $guestform_sendreceipt = $this->configsys->get_config_value('Guestform_Sendreceipt');
                 $guestform_emailsubject = $this->configsys->get_config_value('Guesform_Email_Subject');
@@ -176,9 +172,12 @@ class Guestform extends MX_Controller {
                         $message .= '</p>';
                         $message .= '</body></html>';
 
-                        $result_info = $this->email_sys->send_email($to_email, $guestform_emailsubject, $message);
+                        // $result_info = $this->email_sys->send_email($to_email, $guestform_emailsubject, $message);
                     }
                 }
+
+                // Execute NationBuilder Donation Hook
+                $this->nation_builder->process_donation($submitted_data);
             }
 
             // Gather all the info for the view
@@ -210,7 +209,6 @@ class Guestform extends MX_Controller {
             $data['Guestform_Email_Required'] = $this->configsys->get_config_value('Guestform_Email_Required');
             $data['Guestform_Signature'] = $this->configsys->get_config_value('Guestform_Signature');
 
-
             // Gather all the info for the view
             $view_vars = array(
                 'title' => $this->configsys->get_config_value('Client_Title'),
@@ -226,9 +224,6 @@ class Guestform extends MX_Controller {
 
             $this->load->view('guestformresult', $data);
         }
-
-
-
     }
 
 

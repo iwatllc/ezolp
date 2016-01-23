@@ -4,27 +4,33 @@ class Configsys_model extends CI_Model {
 
     public function __construct()
     {
-            parent::__construct();
+        parent::__construct();
     }
 
-    public function save_config_value($data)
+    function set_value($key, $value)
     {
+        // CodeIgnitor does not support upsert...
+        $this->db->where('key', $key);
+        $this->db->from('system_config');
 
-        $this->db->insert('virtualterminal_submissions', $data);
-        return $this->db->insert_id();
-
+        if($this->db->count_all_results() > 0) {
+            $this->db->where('key', $key);
+            $this->db->update('system_config', ['value' => $value]);
+        } else {
+            $this->db->insert('system_config', ['key' => $key, 'value' => $value]);
+        }        
     }
 
-    public function get_config_value($data)
+    function get_value($key)
     {
-
-        $query = $this->db->get_where('system_config', array('key' => $data));
+        $query = $this->db->get_where('system_config', array('key' => $key));
         $row = $query->row();
-        return $row->value;
-
+        if($row) {
+            return $row->value;  
+        }
+        else {
+            return null;
+        }
     }
-
-
-
 
 }

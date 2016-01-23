@@ -35,7 +35,7 @@ class Backend extends CI_Controller
 
 	function nationbuilder()
 	{
-		$this->load->model('application_settings');
+		$this->load->model('configsys/configsys_model');
 
 		$view_vars = array(
 			'title' => $this->config->item('Company_Title'),
@@ -52,18 +52,18 @@ class Backend extends CI_Controller
 		if ($this->input->post('save'))
 		{
 			// Store form input
-			$this->application_settings->set_value('nationbuilder_slug', $this->input->post('slug'));
-			$this->application_settings->set_value('nationbuilder_client_id', $this->input->post('client_id'));
-			$this->application_settings->set_value('nationbuilder_client_secret', $this->input->post('client_secret'));
+			$this->configsys_model->set_value('nationbuilder_slug', $this->input->post('slug'));
+			$this->configsys_model->set_value('nationbuilder_client_id', $this->input->post('client_id'));
+			$this->configsys_model->set_value('nationbuilder_client_secret', $this->input->post('client_secret'));
 		}
 
 		// Retreive form values
 		$form_vars = array(
-			'slug' => $this->application_settings->get_value('nationbuilder_slug'),
-			'client_id' => $this->application_settings->get_value('nationbuilder_client_id'),
-			'client_secret' => $this->application_settings->get_value('nationbuilder_client_secret'),
+			'slug' => $this->configsys_model->get_value('nationbuilder_slug'),
+			'client_id' => $this->configsys_model->get_value('nationbuilder_client_id'),
+			'client_secret' => $this->configsys_model->get_value('nationbuilder_client_secret'),
 			'token_success' => false,
-			'access_token' => $this->application_settings->get_value('nationbuilder_access_token'),
+			'access_token' => $this->configsys_model->get_value('nationbuilder_access_token'),
 			'auth_url' => '#'
 		);
 
@@ -91,7 +91,7 @@ class Backend extends CI_Controller
 
 			// Store the access token if response was valid
 			if($response['code'] == 200) {
-				$this->application_settings->set_value('nationbuilder_access_token', $response['result']['access_token']);
+				$this->configsys_model->set_value('nationbuilder_access_token', $response['result']['access_token']);
 				$form_vars['access_token'] = $response['result']['access_token'];
 				$form_vars['token_success'] = true;
 			}
