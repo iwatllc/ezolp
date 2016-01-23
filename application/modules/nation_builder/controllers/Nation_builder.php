@@ -35,8 +35,6 @@ class Nation_builder extends MX_Controller {
 
         $donor = $this->push_person($person);
 
-        // print_r($donor);
-
         $donation = [
             'donation' => [
                 'donor_id' => $donor['person']['id'],
@@ -65,8 +63,6 @@ class Nation_builder extends MX_Controller {
 
         $response = $this->execute_request('/api/v1/donations', $donation, 'POST');
 
-        print_r($response);
-
         return $response;
     }
 
@@ -84,7 +80,6 @@ class Nation_builder extends MX_Controller {
 
         // Get response
         $json_response = curl_exec($ch);
-        // print_r($json_response);
         curl_close($ch);
         $response = json_decode($json_response, true);
         return $response;
