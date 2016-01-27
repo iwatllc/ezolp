@@ -49,6 +49,8 @@ class Donation extends MX_Controller {
 
         $data['client_data'] = $client_data;
 
+        $data['Donationform_Email_Required'] = $this->configsys->get_config_value('Donationform_Email_Required');
+
         $data['Donationform_Logo'] = $this->configsys->get_config_value('Donationform_Logo');
 
         $clientname = $this->configsys->get_config_value('Client_Name');
