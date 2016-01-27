@@ -141,8 +141,10 @@ class Guestform extends MX_Controller {
 
             // PROCESS CREDIT CARD DATA
             $this->load->module('payment');
-            $result_data = $this->payment->process_payment($submitted_data);
-
+            // $result_data = $this->payment->process_payment($submitted_data);
+            $result_data = [
+                'IsApproved' => '1',
+            ];
             // CHECK TO SEE IF TRANSACTION WENT THROUGH
             if($result_data['IsApproved'] == '1') {
                 // SEND EMAIL RECIEPT TO PAYER
@@ -172,7 +174,7 @@ class Guestform extends MX_Controller {
                         $message .= '</p>';
                         $message .= '</body></html>';
 
-                        // $result_info = $this->email_sys->send_email($to_email, $guestform_emailsubject, $message);
+                        $result_info = $this->email_sys->send_email($to_email, $guestform_emailsubject, $message);
                     }
                 }
 
