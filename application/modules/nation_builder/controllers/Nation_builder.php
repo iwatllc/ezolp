@@ -25,6 +25,8 @@ class Nation_builder extends MX_Controller {
     }
 
     public function process_donation($data) {
+        log_message('debug', 'Processing NationBuilder donation...');
+
         $person = [
             'person' => [
                 'email' => $data['email'],
@@ -50,6 +52,7 @@ class Nation_builder extends MX_Controller {
      * Creates/updates a donor on NationBuilder
      */
     private function push_person($person) {
+        log_message('debug', 'Pushing a person via the NationBuilder API...');
 
         $response = $this->execute_request('/api/v1/people/push', $person, 'PUT');
 
@@ -60,6 +63,7 @@ class Nation_builder extends MX_Controller {
      * Creates a donation on NationBuilder
      */
     private function create_donation($donation) {
+        log_message('debug', 'Creating a donation via the NationBuilder API...');
 
         $response = $this->execute_request('/api/v1/donations', $donation, 'POST');
 
@@ -68,21 +72,25 @@ class Nation_builder extends MX_Controller {
 
     private function execute_request($endpoint, $data, $type = 'POST') {
         $ch = curl_init($this->base_api_url . $endpoint . '?access_token=' . $this->access_token);
-        // echo $this->base_api_url . $endpoint . '?access_token=' . $this->access_token;
 
         // Configre Curl
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $type);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-        curl_setopt($ch, CURLOPT_TIMEOUT, '10');
+        curl_setopt($ch, CURLOPT_TIMEOUT, '8'); // 8 second timeout
         curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json","Accept: application/json"));
         curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
 
         // Get response
         $json_response = curl_exec($ch);
-        curl_close($ch);
-        $response = json_decode($json_response, true);
-        return $response;
+
+        if(curl_errno($ch)) {
+            log_message('error', 'Error executing NationBuilder request. ' . curl_error($ch));
+        } else {
+            curl_close($ch);
+            $response = json_decode($json_response, true);
+            return $response;
+        }
     }
 
 }
