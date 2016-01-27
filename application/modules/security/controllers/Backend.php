@@ -52,6 +52,7 @@ class Backend extends CI_Controller
 		if ($this->input->post('save'))
 		{
 			// Store form input
+			$this->configsys_model->set_value('nationbuilder_enabled', $this->input->post('nb_enabled'));
 			$this->configsys_model->set_value('nationbuilder_slug', $this->input->post('slug'));
 			$this->configsys_model->set_value('nationbuilder_client_id', $this->input->post('client_id'));
 			$this->configsys_model->set_value('nationbuilder_client_secret', $this->input->post('client_secret'));
@@ -59,6 +60,7 @@ class Backend extends CI_Controller
 
 		// Retreive form values
 		$form_vars = array(
+			'enabled' => $this->configsys_model->get_value('nationbulder_enabled'),
 			'slug' => $this->configsys_model->get_value('nationbuilder_slug'),
 			'client_id' => $this->configsys_model->get_value('nationbuilder_client_id'),
 			'client_secret' => $this->configsys_model->get_value('nationbuilder_client_secret'),

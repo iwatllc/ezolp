@@ -1,6 +1,14 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+$enabled = array(
+    'name' => 'nb_enabled',
+    'id' => 'nb_enabled',
+    'class' => 'form-control',
+    'checked' => $form_vars['enabled'],
+    'value' => 'true'
+);
+
 $slug = array(
     'name' => 'slug',
     'id' => 'slug',
@@ -80,6 +88,11 @@ $save = array(
                         <span class="close" data-dismiss="alert">×</span>
                     </div>
                     <div class="col-md-9">
+                        <div class="form-group">
+                            <?php echo form_label('Enabled', $slug['id']); ?>
+                            <?php echo form_checkbox($enabled) ?>
+                            <?php echo form_error($enabled['name']); ?>
+                        </div>
                         <div class="form-group">
                             <?php echo form_label('Slug', $slug['id']); ?>
                             <?php echo form_input($slug) ?>

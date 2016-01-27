@@ -25,27 +25,31 @@ class Nation_builder extends MX_Controller {
     }
 
     public function process_donation($data) {
-        log_message('debug', 'Processing NationBuilder donation...');
+        if($this->configsys_model->get_value('nationbuilder_enabled') === 'true') {
+            log_message('debug', 'Processing NationBuilder donation...');
 
-        $person = [
-            'person' => [
-                'email' => $data['email'],
-                'first_name' => $data['firstname'],
-                'last_name' => $data['lastname']
-            ]
-        ];
+            $person = [
+                'person' => [
+                    'email' => $data['email'],
+                    'first_name' => $data['firstname'],
+                    'last_name' => $data['lastname']
+                ]
+            ];
 
-        $donor = $this->push_person($person);
+            $donor = $this->push_person($person);
 
-        $donation = [
-            'donation' => [
-                'donor_id' => $donor['person']['id'],
-                'amount_in_cents' => bcmul($data['amount'], 100),
-                'payment_type_name' => 'Other',
-            ]
-        ];
+            $donation = [
+                'donation' => [
+                    'donor_id' => $donor['person']['id'],
+                    'amount_in_cents' => bcmul($data['amount'], 100),
+                    'payment_type_name' => 'Other',
+                ]
+            ];
 
-        $donation_result = $this->create_donation($donation);
+            $donation_result = $this->create_donation($donation);
+        } else {
+            log_message('debug', 'NationBuilder integration is disabled.');
+        }
     }
 
     /*
