@@ -47,12 +47,10 @@ class Guestform extends MX_Controller {
         // Call helper function to setup form validation
         $this->setup_form_validation();
 
-        if ($this->form_validation->run() == false)
-        {
+        if ($this->form_validation->run() == false) {
             $this->index();
-        }
-        else
-        {
+        } else {
+            // Construct array of submitted data
             $submitted_data = array(
                 'firstname' => $this->input->post('firstname'),
                 'middleinitial' => $this->input->post('middleinitial'),
@@ -85,7 +83,7 @@ class Guestform extends MX_Controller {
             $result_data = $this->payment->process_payment($submitted_data);
 
             // Was the credit card processed successfully?
-            if(true) {
+            if($result_data['IsApproved'] == '1') {
                 // Trigger Events
                 Events::trigger('guestform_payment_approved', $this->get_view_data($submitted_data, $result_data), 'string');
 
