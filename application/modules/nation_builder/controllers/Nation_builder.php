@@ -21,20 +21,26 @@ class Nation_builder extends MX_Controller {
         $this->access_token = $this->configsys_model->get_value('nationbuilder_access_token');
         $this->base_api_url = 'https://' . $this->slug . '.nationbuilder.com';
 
+        // Register event handlers
+        Events::register('guestform_payment_approved', array($this, 'process_donation'));
+
         parent::__construct();
     }
 
+    /*
+     * Allows a person and their dontaion to be added to NationbuilderAPI
+     */
     public function process_donation($data) {
         if($this->configsys_model->get_value('nationbuilder_enabled') === 'true') {
             // since we only match on email, the provided email MUST be valid.
-            if(filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
+            if(filter_var($data['submitted_data']['email'], FILTER_VALIDATE_EMAIL)) {
                 log_message('debug', 'Processing NationBuilder donation...');
 
                 $person = [
                     'person' => [
-                        'email' => $data['email'],
-                        'first_name' => $data['firstname'],
-                        'last_name' => $data['lastname']
+                        'email' => $data['submitted_data']['email'],
+                        'first_name' => $data['submitted_data']['firstname'],
+                        'last_name' => $data['submitted_data']['lastname']
                     ]
                 ];
 
@@ -43,7 +49,7 @@ class Nation_builder extends MX_Controller {
                 $donation = [
                     'donation' => [
                         'donor_id' => $donor['person']['id'],
-                        'amount_in_cents' => bcmul($data['amount'], 100),
+                        'amount_in_cents' => bcmul($data['submitted_data']['amount'], 100),
                         'payment_type_name' => 'Other',
                     ]
                 ];

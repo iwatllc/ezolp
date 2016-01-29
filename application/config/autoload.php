@@ -42,6 +42,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 $autoload['packages'] = array('Database');
 $autoload['packages'] = array(APPPATH.'third_party/codeigniter-forensics');
+$autoload['packages'] = array(APPPATH.'third_party/codeigniter-events');
 
 
 /*
@@ -61,7 +62,7 @@ $autoload['packages'] = array(APPPATH.'third_party/codeigniter-forensics');
 |	$autoload['libraries'] = array('user_agent' => 'ua');
 */
 
-$autoload['libraries'] = array('DX_Auth', 'form_validation', 'kmassets/utils', 'kmassets/asset_js', 'kmassets/asset_css', 'database');
+$autoload['libraries'] = array('DX_Auth', 'form_validation', 'kmassets/utils', 'kmassets/asset_js', 'kmassets/asset_css', 'database', 'events');
 
 
 /*
