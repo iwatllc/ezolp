@@ -10,6 +10,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Payment extends MX_Controller
 {
+    public function __construct()
+    {
+        parent::__construct();
+
+        // Load Required Modules
+        $this->load->module('nation_builder');
+    }
+
     public function index()
     {
         Echo "index function";
@@ -48,8 +56,10 @@ class Payment extends MX_Controller
 		// check $data for IsApproved = 3 and set transaction status ID to 4
         $this->Payment->update($post_payment_data, $payment_id);
 
-        return $post_payment_data;
+        // Inject payment_id (for use with third party integrations)
+        $post_payment_data['PaymentResponseId'] = $payment_id;
 
+        return $post_payment_data;
     }
 
 	private function _NPC_post_payment($data)
@@ -129,11 +139,11 @@ class Payment extends MX_Controller
 			$refund_id = $this->Payment->save($payment_refund_data);
 
 			$this->Payment->update($refund_result_data, $refund_id);
+
+            Events::trigger('payment_refund_approved', $refund_id);
 		}
 
-
         return $refund_result_data;
-
     }
 	
 	private function _NMI_process_refund($transactionId, $transactionAmount)
@@ -172,7 +182,9 @@ class Payment extends MX_Controller
 			if($result_data['IsApproved'] == 1) {
 				$success_void_data = array('VoidResponseHTML' => implode("|", $result_data),
 					  					   'TransactionStatusId' => 2, 'TransactionTypeId' => '4',);
-				$this->Payment->update($success_void_data, $payment->PaymentResponseId);					  
+				$this->Payment->update($success_void_data, $payment->PaymentResponseId);
+
+                Events::trigger('payment_void_approved', $payment->PaymentResponseId);				  
 		    }
 		}
 		else {
@@ -223,12 +235,7 @@ class Payment extends MX_Controller
         }
 
         return $status;
-
-
-
     }
-
-
 
     public function getstatusdetails($transactionid){
 
@@ -250,7 +257,6 @@ class Payment extends MX_Controller
         }
 
         return $result_data;
-
     }
 
     public function getpaymentdetails($transactionfileid){
