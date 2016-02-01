@@ -14,7 +14,7 @@ class Nation_builder extends MX_Controller {
     {
         // load required models
         $this->load->model('configsys/configsys_model');
-        $this->load->model('nation_builder/NationBuilderDonation');
+        $this->load->model('nation_builder/Nation_builder_donation');
 
         // set config variables
         $this->slug = $this->configsys_model->get_value('nationbuilder_slug');
@@ -64,7 +64,7 @@ class Nation_builder extends MX_Controller {
                 // Determine if this a valid response
                 if(isset($donation_result) && isset($donation_result['donation']) && isset($donation_result['donation']['id'])) {
                     // Create the association between the PaymentResponseId and the donation id
-                    $this->NationBuilderDonation->add($data['result_data']['PaymentResponseId'], $donation_result['donation']['id']);
+                    $this->Nation_builder_donation->add($data['result_data']['PaymentResponseId'], $donation_result['donation']['id']);
                 } else {
                     log_message('error', 'Unexpected result from NationBuilder API. ' . print_r($donation_result));
                 }
@@ -83,7 +83,7 @@ class Nation_builder extends MX_Controller {
      */
     public function process_refund($paymentResponseId) {
         if($this->configsys_model->get_value('nationbuilder_enabled') === 'true') {
-            $donationId = $this->NationBuilderDonation->getDonationId($paymentResponseId);
+            $donationId = $this->Nation_builder_donation->getDonationId($paymentResponseId);
 
             if(isset($donationId)) {
                 $this->delete_donation($donationId);

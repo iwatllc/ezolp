@@ -1,6 +1,6 @@
 <?php
 
-class NationBuilderDonation extends CI_Model {
+class Nation_builder_donation extends CI_Model {
 
     public function __construct()
     {
