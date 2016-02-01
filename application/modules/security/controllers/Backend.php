@@ -60,7 +60,7 @@ class Backend extends CI_Controller
 
 		// Retreive form values
 		$form_vars = array(
-			'enabled' => $this->configsys_model->get_value('nationbulder_enabled'),
+			'enabled' => $this->configsys_model->get_value('nationbuilder_enabled'),
 			'slug' => $this->configsys_model->get_value('nationbuilder_slug'),
 			'client_id' => $this->configsys_model->get_value('nationbuilder_client_id'),
 			'client_secret' => $this->configsys_model->get_value('nationbuilder_client_secret'),
