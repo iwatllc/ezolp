@@ -345,7 +345,8 @@
                                         <div class="progress-stages">
                                             <div class="progress-stage stage-1 active" data-stageID="1">
                                                 <div class="container-fluid">
-                                                    <div class="row radio-inline padbottomless"> <span><input id="donation_amount_25" type="radio" name="donation[amount_option]" class="donation_amount_option" value="25"  /><label class="radio" for="donation_amount_25">$25</label></span>
+                                                    <div class="row radio-inline padbottomless">
+                                                        <span><input id="donation_amount_25" type="radio" name="paymentamount" class="donation_amount_option" value="25"  /><label class="radio" for="donation_amount_25">$25</label></span>
                                                         <span><input id="donation_amount_50" type="radio" name="paymentamount" class="donation_amount_option" value="50" /><label class="radio" for="donation_amount_50">$50</label></span>
                                                         <span><input id="donation_amount_100" type="radio" name="paymentamount" class="donation_amount_option" value="100" /><label class="radio" for="donation_amount_100">$100</label></span>
                                                         <span><input id="donation_amount_250" type="radio" name="paymentamount" class="donation_amount_option" value="250" /><label class="radio" for="donation_amount_250">$250</label></span>
@@ -426,6 +427,11 @@
 
                                                             echo form_input($data);
                                                         ?>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row">
+                                                        <div class="col-md-12 form-group">
                                                         <?php
                                                             $data = array(
                                                                 'name'          => 'streetaddress2',
@@ -435,13 +441,14 @@
                                                                 'type'          => 'text',
                                                                 'placeholder'   => 'Address 2',
                                                                 'maxlength'     => '100',
-                                                                'data-parsley-required' => 'true'
+                                                                'data-parsley-required' => 'false'
                                                             );
 
                                                             echo form_input($data);
                                                         ?>
                                                         </div>
                                                     </div>
+
                                                     <div class="row">
                                                         <div class="col-md-4 form-group">
                                                         <?php
@@ -451,7 +458,7 @@
                                                                 'value'         => set_value('city'),
                                                                 'class'         => 'form-control max-350',
                                                                 'type'          => 'text',
-                                                                'placeholder'   => 'Required',
+                                                                'placeholder'   => 'City',
                                                                 'maxlength'     => '100',
                                                                 'data-parsley-required' => 'true'
                                                             );
@@ -577,24 +584,28 @@
                                                         ?>
                                                         </div>
                                                     </div>
-                                                    <div class="row">
-                                                        <div class="col-md-12 form-group">
-                                                        <?php
-                                                            $data = array(
-                                                                'name'          => 'notes',
-                                                                'id'            => 'notes',
-                                                                'value'         => set_value('notes'),
-                                                                'class'         => 'form-control max-350',
-                                                                'type'          => 'text',
-                                                                'placeholder'   => 'Notes',
-                                                                'maxlength'     => '100',
-                                                                'data-parsley-required' => 'true'
-                                                            );
 
-                                                            echo form_input($data);
-                                                        ?>
+                                                    <?php if($Donationform_Notes == "TRUE") { ?>
+                                                        <div class="row">
+                                                            <div class="col-md-12 form-group">
+                                                            <?php
+                                                                $data = array(
+                                                                    'name'          => 'notes',
+                                                                    'id'            => 'notes',
+                                                                    'value'         => set_value('notes'),
+                                                                    'class'         => 'form-control max-350',
+                                                                    'type'          => 'text',
+                                                                    'placeholder'   => 'Notes',
+                                                                    'maxlength'     => '100',
+                                                                    'data-parsley-required' => 'true'
+                                                                );
+
+                                                                echo form_input($data);
+                                                            ?>
+                                                            </div>
                                                         </div>
-                                                    </div>
+                                                    <?php } ?>
+
                                                     <h4 class="padbottomless padtop text-center">Employment Info</h4>
                                                     <div class="row">
                                                         <div class="col-md-6 form-group">

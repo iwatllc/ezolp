@@ -154,6 +154,8 @@ class Donation extends MX_Controller {
 
         $data['Donationform_Email_Required'] = $this->configsys->get_config_value('Donationform_Email_Required');
 
+        $data['Donationform_Notes'] = $this->configsys->get_config_value('Donationform_Notes');
+
         $data['Donationform_Logo'] = $this->configsys->get_config_value('Donationform_Logo');
 
         $clientname = $this->configsys->get_config_value('Client_Name');
@@ -201,19 +203,19 @@ class Donation extends MX_Controller {
         $this->form_validation->set_rules('expirationyear', 'Expiration Year', 'required');
         $this->form_validation->set_rules('cvv2', 'CVV2 Code', 'required|min_length[3]|max_length[4]');
         $this->form_validation->set_rules('paymentamount', 'Payment Amount', 'required');
-        $this->form_validation->set_rules('otheramount', 'Other Amount', 'callback_check_otheramount');
+        $this->form_validation->set_rules('otheramount', 'Other Amount', 'trim|callback_check_otheramount');
         $this->form_validation->set_rules('recurring', 'Recurring','trim');
         $this->form_validation->set_rules('cardtype', 'Card Type','trim');
 
         // Handle notes field requirement
-        $Guestform_Notes_Required = $this->configsys->get_config_value('Guestform_Notes_Required');
-        if ($Guestform_Notes_Required == 'TRUE'){
+        $Donationform_Notes_Required = $this->configsys->get_config_value('Donationform_Notes_Required');
+        if ($Donationform_Notes_Required == 'TRUE'){
             $this->form_validation->set_rules('notes', 'Notes', 'required');
         }
 
         // Handle notes field requirement
-        $Guestform_Email_Required = $this->configsys->get_config_value('Guestform_Email_Required');
-        if ($Guestform_Email_Required == 'TRUE'){
+        $Donationform_Email_Required = $this->configsys->get_config_value('Donationform_Email_Required');
+        if ($Donationform_Email_Required == 'TRUE'){
             $this->form_validation->set_rules('email', 'Email', 'required');
         }
     }
