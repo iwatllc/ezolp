@@ -87,7 +87,7 @@ class Backend extends CI_Controller
 		{
 			// Grab the code param and use it to request a token
 			$code = $this->input->get('code');
-			$accessTokenUrl = 'https://iwat.nationbuilder.com/oauth/token';
+			$accessTokenUrl = 'https://' . $form_vars['slug'] . '.nationbuilder.com/oauth/token';
 			$params = array('code' => $code, 'redirect_uri' => $redirectUrl);
 			$response = $client->getAccessToken($accessTokenUrl, 'authorization_code', $params);
 
