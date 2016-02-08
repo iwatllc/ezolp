@@ -66,7 +66,7 @@ class Nation_builder extends MX_Controller {
                     // Create the association between the PaymentResponseId and the donation id
                     $this->Nation_builder_donation->add($data['result_data']['PaymentResponseId'], $donation_result['donation']['id']);
                 } else {
-                    log_message('error', 'Unexpected result from NationBuilder API. ' . print_r($donation_result));
+                    log_message('error', 'Unexpected result from NationBuilder API. ' . print_r($donation_result, true));
                 }
 
             } else {
