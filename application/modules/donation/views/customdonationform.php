@@ -84,7 +84,7 @@
                     $(this).removeClass('error');
                 });
                 $('.has-error').each(function() {
-                    $(this).removeClass('error');
+                    $(this).removeClass('has-error');
                 });
             }
             this.validateEmail = function(email) {
