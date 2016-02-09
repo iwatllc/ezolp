@@ -236,13 +236,10 @@
             }
         }
     }
-    $(document).ready(function() {
-        $('.donation_form .radio-inline label[for=donation_amount_other]').before('<br/>');
-    });
     $(function() {
         var amount = getUrlParameter('amount');
         if (amount) {
-            $('#donation_amount_other').val(amount);
+            $('#otheramount').val(amount);
             $('.progress-stage.stage-1 .progress-stage-button-next').click();
         }
     });
@@ -351,25 +348,25 @@
                                                         <span><input id="donation_amount_100" type="radio" name="paymentamount" class="donation_amount_option" value="100" /><label class="radio" for="donation_amount_100">$100</label></span>
                                                         <span><input id="donation_amount_250" type="radio" name="paymentamount" class="donation_amount_option" value="250" /><label class="radio" for="donation_amount_250">$250</label></span>
                                                         <span><input id="donation_amount_1000" type="radio" name="paymentamount" class="donation_amount_option" value="1000" /><label class="radio" for="donation_amount_1000">$1,000</label></span>
-                                                        <span><input id="donation_amount_2500" type="radio" name="paymentamount" class="donation_amount_option" value="2500" /><label class="radio" for="donation_amount_2500">$2,500</label></span>
-                                                        <span><input id="donation_amount_o" type="radio" name="paymentamount" class="donation_amount_option" value="other" /><label class="radio" for="donation_amount_o">Other</label></span>
-            
-                                                        <div class="form-group col-md-6 col-md-offset-3">
+                                                        <span><input id="donation_amount_2500" type="radio" name="paymentamount" class="donation_amount_option" value="2500" /><label class="radio" for="donation_amount_2500">$2,500</label></span>         
+                                                        <div class="padtop form-inline">
                                                             <label for="otheramount">Other $</label>
-                                                        <?php
-                                                            $data = array(
-                                                                'name'          => 'otheramount',
-                                                                'id'            => 'otheramount',
-                                                                'value'         => set_value('otheramount'),
-                                                                'class'         => 'form-control',
-                                                                'type'          => 'text',
-                                                                'placeholder'   => '0.00',
-                                                                'maxlength'     => '10',
-                                                                'data-parsley-required' => 'true'
-                                                            );
+                                                            <div class="form-group">
+                                                            <?php
+                                                                $data = array(
+                                                                    'name'          => 'otheramount',
+                                                                    'id'            => 'otheramount',
+                                                                    'value'         => set_value('otheramount'),
+                                                                    'class'         => 'form-control',
+                                                                    'type'          => 'text',
+                                                                    'placeholder'   => '0.00',
+                                                                    'maxlength'     => '10',
+                                                                    'data-parsley-required' => 'true'
+                                                                );
 
-                                                            echo form_input($data);
-                                                        ?>
+                                                                echo form_input($data);
+                                                            ?>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
