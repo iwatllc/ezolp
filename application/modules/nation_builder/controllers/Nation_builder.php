@@ -45,7 +45,16 @@ class Nation_builder extends MX_Controller {
                     'person' => [
                         'email' => $data['submitted_data']['email'],
                         'first_name' => $data['submitted_data']['firstname'],
-                        'last_name' => $data['submitted_data']['lastname']
+                        'last_name' => $data['submitted_data']['lastname'],
+                        'home_address' => [
+                            'address1' => $data['submitted_data']['streetaddress'],
+                            'address2' => $data['submitted_data']['streetaddress2'],
+                            'city' => $data['submitted_data']['city'],
+                            'state' => $data['submitted_data']['state'],
+                            'zip' => $data['submitted_data']['zip'],
+                        ],
+                        'employer' => $data['submitted_data']['employer'],
+                        'occupation' => $data['submitted_data']['occupation'],
                     ]
                 ];
 
@@ -55,7 +64,18 @@ class Nation_builder extends MX_Controller {
                     'donation' => [
                         'donor_id' => $donor['person']['id'],
                         'amount_in_cents' => bcmul($data['submitted_data']['amount'], 100),
-                        'payment_type_name' => 'Other'
+                        'payment_type_name' => 'Other',
+                        'billing_address' => [
+                            'address1' => $data['submitted_data']['streetaddress'],
+                            'address2' => $data['submitted_data']['streetaddress2'],
+                            'city' => $data['submitted_data']['city'],
+                            'state' => $data['submitted_data']['state'],
+                            'zip' => $data['submitted_data']['zip'],
+                        ],
+                        'note' => $data['submitted_data']['notes'],
+                        'employer' => $data['submitted_data']['employer'],
+                        'occupation' => $data['submitted_data']['occupation'],
+                        'succeeded_at' => date('c'), // TODO: use the transaction timestamp instead
                     ]
                 ];
 
