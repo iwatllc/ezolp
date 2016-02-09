@@ -155,6 +155,20 @@
                             return true;
                         }
                         break;
+                    case "3":
+                        var invalidCount = 0;
+                        if (!$('#donation_is_confirmed').is(':checked')) {
+                            $('#donation_is_confirmed').parent().parent().addClass('has-error');
+                            this.triggerAlert("You must check this box to contribute. ", $('#donation_is_confirmed').parent());
+                            invalidCount++;
+                        }
+
+                        if(invalidCount > 0) {
+                            return false;
+                        } else {
+                            return true;
+                        }
+                        break;
                     default:
                         return true;
                 }
@@ -206,6 +220,16 @@
                     }
                 });
             });
+            // Prevent submission of form if validation fails.
+            $('#donate_page_new_donation_form').on('submit', function(e){
+                e.preventDefault();
+                StagedDonations.removeAlerts();
+                var currentStage = $('.progress-stage.active').attr('data-stageid');
+                var isValid = StagedDonations.validateDonations(currentStage);
+                if(!isValid) {
+                    e.preventDefault();
+                }
+            });
             $('.progress-stages .radio').each(function() {
                 $(this).click(function(event) {
                     StagedDonations.updateProgressIndicator(progressIndicator, 1);
@@ -245,9 +269,10 @@
     });
     $(function() { 
         $('#otheramount').on('input',function(e){
-            $("input:radio[name='paymentamount']").each(function(i) {
+            $("input:radio[name='paymentamount']").not("#donation_amount_o").each(function(i) {
                 this.checked = false;
             });
+            $("#donation_amount_o").prop('checked', true);
         });
     });
     </script>
@@ -355,7 +380,8 @@
                                                         <span><input id="donation_amount_100" type="radio" name="paymentamount" class="donation_amount_option" value="100" /><label class="radio" for="donation_amount_100">$100</label></span>
                                                         <span><input id="donation_amount_250" type="radio" name="paymentamount" class="donation_amount_option" value="250" /><label class="radio" for="donation_amount_250">$250</label></span>
                                                         <span><input id="donation_amount_1000" type="radio" name="paymentamount" class="donation_amount_option" value="1000" /><label class="radio" for="donation_amount_1000">$1,000</label></span>
-                                                        <span><input id="donation_amount_2500" type="radio" name="paymentamount" class="donation_amount_option" value="2500" /><label class="radio" for="donation_amount_2500">$2,500</label></span>         
+                                                        <span><input id="donation_amount_2500" type="radio" name="paymentamount" class="donation_amount_option" value="2500" /><label class="radio" for="donation_amount_2500">$2,500</label></span>   
+                                                        <span style="display: none;"><input id="donation_amount_o" type="radio" name="paymentamount" class="donation_amount_option" value="other" checked="checked" /><label class="radio" for="donation_amount_o">Other</label></span>
                                                         <div class="padtop form-inline">
                                                             <label for="otheramount">Other $</label>
                                                             <div class="form-group">
