@@ -243,6 +243,13 @@
             $('.progress-stage.stage-1 .progress-stage-button-next').click();
         }
     });
+    $(function() { 
+        $('#otheramount').on('input',function(e){
+            $("input:radio[name='paymentamount']").each(function(i) {
+                this.checked = false;
+            });
+        });
+    });
     </script>
     <style>
         .no-gutter > [class*='col-'] {
