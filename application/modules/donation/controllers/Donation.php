@@ -102,6 +102,14 @@ class Donation extends MX_Controller {
                 // Trigger Events
                 Events::trigger('donation_payment_approved', $this->get_view_data($submitted_data, $result_data), 'string');
 
+                // Handle donationform receipt
+                if(strcasecmp($this->configsys->get_config_value('Donationform_Sendreceipt'), 'false')) {
+                    // Send Receipt
+                    $this->email_sys->send_email($submitted_data['email'], 
+                        $this->configsys->get_config_value('Donationform_Email_Subject', "Payment Receipt"), 
+                        $this->get_email_body());
+                }
+
                 // Handle Recurring Dontation
                 if($this->input->post('recurring')[0] == 'recurring') {
                     $recurring_data['recurring'] ='add_subscription';
@@ -218,6 +226,32 @@ class Donation extends MX_Controller {
         if ($Donationform_Email_Required == 'TRUE'){
             $this->form_validation->set_rules('email', 'Email', 'required');
         }
+    }
+
+    /*
+     * Returns the body for an email receipt
+     */
+    private function get_email_body() {
+        $message = '<!DOCTYPE html><html><body>';
+        $message .= '<p>';
+        $message .= 'Than you for your payment';
+        $message .= '<br>';
+        $message .= 'Please keep this receipt for your records';
+        $message .= '<br>';
+        $message .= '<hr>';
+        $message .= $this->input->post('firstname'). ' ' . $this->input->post('lastname');
+        $message .= '<br>';
+        $message .= $this->input->post('cardtype'). ' Ending in ' . substr($this->input->post('creditcard'), -4);
+        $message .= '<br>';
+        $message .= 'Amount Paid: ' . str_replace( ',', '', $this->input->post('paymentamount') );
+        $message .= '<br>';
+        $message .= 'Date: ' . date('Y-n-j H:i:s') ;
+        $message .= '<hr>';
+        $message .= '<br>';
+        $message .= '</p>';
+        $message .= '</body></html>';
+
+        return $message;
     }
 
     function check_default($post_string)
