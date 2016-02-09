@@ -83,6 +83,9 @@
                 $('.error').each(function() {
                     $(this).removeClass('error');
                 });
+                $('.has-error').each(function() {
+                    $(this).removeClass('error');
+                });
             }
             this.validateEmail = function(email) {
                 var re = /\S+@\S+\.\S+/;
@@ -222,7 +225,6 @@
             });
             // Prevent submission of form if validation fails.
             $('#donate_page_new_donation_form').on('submit', function(e){
-                e.preventDefault();
                 StagedDonations.removeAlerts();
                 var currentStage = $('.progress-stage.active').attr('data-stageid');
                 var isValid = StagedDonations.validateDonations(currentStage);
