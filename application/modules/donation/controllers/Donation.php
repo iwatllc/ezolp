@@ -227,18 +227,34 @@ class Donation extends MX_Controller {
     private function get_email_body() {
         $message = '<!DOCTYPE html><html><body>';
         $message .= '<p>';
-        $message .= 'Than you for your payment';
+        $message .= 'Thank you for your payment. Please keep this receipt for your records.';
         $message .= '<br>';
-        $message .= 'Please keep this receipt for your records';
         $message .= '<br>';
         $message .= '<hr>';
-        $message .= $this->input->post('firstname'). ' ' . $this->input->post('lastname');
+        $message .= '<strong>Name:</strong> ' . $this->input->post('firstname'). ' ' . $this->input->post('lastname');
         $message .= '<br>';
-        $message .= $this->input->post('cardtype'). ' Ending in ' . substr($this->input->post('creditcard'), -4);
+        $message .= '<strong>Address:</strong> <br>';
+        $message .= $this->input->post('streetaddress');
         $message .= '<br>';
-        $message .= 'Amount Paid: ' . str_replace( ',', '', $this->get_payment_amount());
+        if(!empty($this->input->post('streetaddress2'))) {
+            $message .= $this->input->post('streetaddress2');
+            $message .= '<br>';
+        }
+        $message .= $this->input->post('city') . ', ' . $this->input->post('state') . ' ' . $this->input->post('zip') ;
         $message .= '<br>';
-        $message .= 'Date: ' . date('Y-n-j H:i:s') ;
+        $message .= '<strong>Email:</strong> ' . $this->input->post('email');
+        $message .= '<br>';
+        $message .= '<strong>Phone:</strong> ' . $this->input->post('phone');
+        $message .= '<br>';
+        $message .= '<strong>Employer:</strong> ' . $this->input->post('employer');
+        $message .= '<br>';
+        $message .= '<strong>Occupation:</strong> ' . $this->input->post('occupation');
+        $message .= '<br>';
+        $message .= '<strong>Payment Type:</strong> ' . $this->input->post('cardtype'). ' Ending in ' . substr($this->input->post('creditcard'), -4);
+        $message .= '<br>';
+        $message .= '<strong>Amount Paid:</strong> $' . str_replace( ',', '', $this->get_payment_amount());
+        $message .= '<br>';
+        $message .= '<strong>Date:</strong> ' . date('Y-n-j H:i:s') ;
         $message .= '<hr>';
         $message .= '<br>';
         $message .= '</p>';
