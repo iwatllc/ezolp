@@ -227,7 +227,7 @@ class Donation extends MX_Controller {
     private function get_email_body() {
         $message = '<!DOCTYPE html><html><body>';
         $message .= '<p>';
-        $message .= 'Than you for your payment';
+        $message .= 'Thank you for your payment';
         $message .= '<br>';
         $message .= 'Please keep this receipt for your records';
         $message .= '<br>';
