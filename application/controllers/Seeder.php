@@ -23,8 +23,9 @@ class Seeder extends CI_Controller
         // initiate faker
         $this->faker = Faker\Factory::create();
  
-        // load any required models
+        // load required models
         $this->load->model('Contributor_model');
+        $this->load->model('donation/Donation_model');
     }
  
     /**
@@ -36,7 +37,7 @@ class Seeder extends CI_Controller
         // $this->_truncate_db();
  
         // seed users
-        $this->_seed_contributors(1);
+        $this->_basic_seed(200);
 
     }
  
@@ -54,27 +55,58 @@ class Seeder extends CI_Controller
             echo ".";
 
             $firstName = $this->faker->firstName();
+            $middleName = $this->faker->firstName();
+            $middleInitial = substr($middleName,0,1);
             $lastName = $this->faker->lastName();
+            $email = $firstName.$lastName.'@'.$this->faker->safeEmailDomain();
+            $address = $this->faker->streetAddress();
             $state = $this->faker->stateAbbr();
             $zip = substr($this->faker->postcode(),0,5);
             $city = $this->faker->city();
             $employer = $this->faker->company();
-            $transactionDate = $this->faker->dateTimeBetween($startDate = '-1 years', $endDate = 'now')->format('Y-m-d');
-            $transactionAmount = $this->faker->biasedNumberBetween($min = 10, $max = 2000, $function = 'sqrt');
+            $occupation = ucwords($this->faker->word());
+            $transactionDate = $this->faker->dateTimeBetween('-8 months', 'now');
+            $transactionAmount = $this->faker->biasedNumberBetween(10, 2000, 'sqrt');
+            $creditCardType = $this->faker->creditCardType();
+            $creditCardNumber = substr($this->faker->creditCardNumber(),-4);
+            $notes = $this->faker->optional(0.2, $default = '')->text(200);
+            $ipAddress = $this->faker->ipv4();
+
  
-            $data = array(
-                'name'              => $firstName.' '.$lastName,
+            $this->Contributor_model->insert(array(
+                'name'              => $firstName.' '.$middleInitial.' '.$lastName,
                 'firstname'         => $firstName,
                 'lastname'          => $lastName,
                 'city'              => $city,
                 'state'             => $state,
                 'zip_code'          => $zip,
                 'employer'          => $employer,
-                'transaction_date'  => $transactionDate,
+                'occupation'        => $occupation,
+                'transaction_date'  => $transactionDate->format('Y-m-d'),
                 'transaction_amt'   => $transactionAmount,
-            );
- 
-            $this->Contributor_model->insert($data);
+                'memo_text'         => $notes,
+            ));
+
+            // 10% get inserted as donations
+            if($this->faker->boolean(10)) {
+                $this->Donation_model->save(array(
+                    'firstname'         => $firstName,
+                    'lastname'          => $lastName,
+                    'middleinitial'     => $middleInitial,
+                    'streetaddress'     => $address,
+                    'city'              => $city,
+                    'state'             => $state,
+                    'zip'               => $zip,
+                    'employer'          => $employer,
+                    'occupation'        => $occupation,
+                    'email'             => $email,
+                    'cardtype'          => $creditCardType,
+                    'cclast4'           => $creditCardNumber,
+                    'notes'             => $notes,
+                    'amount'            => $transactionAmount,
+                    'InsertDate'        => $transactionDate->format('Y-m-d H:i:s'),
+                ));
+            }
         }
  
         echo PHP_EOL;
