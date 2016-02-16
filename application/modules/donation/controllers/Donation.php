@@ -34,7 +34,7 @@ class Donation extends MX_Controller {
     public function index()
     {
         // Display the guestform index
-        $this->load->view('donationform', $this->get_view_data());
+        $this->load->view('customdonationform', $this->get_view_data());
     }
 
     /*
@@ -54,13 +54,6 @@ class Donation extends MX_Controller {
         	$this->index();
         }
         else {
-            // Determine Payment Amount
-			if(strcasecmp($this->input->post('paymentamount'), 'other') == 0) {
-				$pamount = str_replace( ',', '', $this->input->post('otheramount') );
-			} else {
-				$pamount = str_replace( ',', '', $this->input->post('paymentamount') );
-			}
-
             // Construct array of submitted data
             $submitted_data = array(
                 'firstname' => $this->input->post('firstname'),
@@ -77,7 +70,7 @@ class Donation extends MX_Controller {
                 'email' => $this->input->post('email'),
                 'cardtype' => $this->input->post('cardtype'),
                 'cclast4' => substr($this->input->post('creditcard'), -4),
-                'amount' => $pamount,
+                'amount' => $this->get_payment_amount(),
                 'ip' => $this->input->ip_address(),
                 'InsertDate' => date('Y-n-j H:i:s')
             );
@@ -102,11 +95,19 @@ class Donation extends MX_Controller {
                 // Trigger Events
                 Events::trigger('donation_payment_approved', $this->get_view_data($submitted_data, $result_data), 'string');
 
+                // Handle donationform receipt
+                if(strcasecmp($this->configsys->get_config_value('Donationform_Sendreceipt'), 'false')) {
+                    // Send Receipt
+                    $this->email_sys->send_email($submitted_data['email'], 
+                        $this->configsys->get_config_value('Donationform_Email_Subject', "Payment Receipt"), 
+                        $this->get_email_body());
+                }
+
                 // Handle Recurring Dontation
                 if($this->input->post('recurring')[0] == 'recurring') {
                     $recurring_data['recurring'] ='add_subscription';
                     $recurring_data['plan_payments'] = '0';
-                    $recurring_data['plan_amount'] = $pamount;
+                    $recurring_data['plan_amount'] = $this->get_payment_amount();
                     $recurring_data['month_frequency'] = '1';
                     $recurring_data['day_of_month'] = date('d');
                     $recurring_data['creditcard'] = $this->input->post('creditcard');
@@ -129,7 +130,7 @@ class Donation extends MX_Controller {
             }
 
             // Load the donation form result view
-            $this->load->view('donationformresult', $this->get_view_data($submitted_data, $result_data, $result_data_recurring));
+            $this->load->view('customdonationformresult', $this->get_view_data($submitted_data, $result_data, $result_data_recurring));
         }
     }
 
@@ -153,6 +154,8 @@ class Donation extends MX_Controller {
         );
 
         $data['Donationform_Email_Required'] = $this->configsys->get_config_value('Donationform_Email_Required');
+
+        $data['Donationform_Notes'] = $this->configsys->get_config_value('Donationform_Notes');
 
         $data['Donationform_Logo'] = $this->configsys->get_config_value('Donationform_Logo');
 
@@ -201,26 +204,66 @@ class Donation extends MX_Controller {
         $this->form_validation->set_rules('expirationyear', 'Expiration Year', 'required');
         $this->form_validation->set_rules('cvv2', 'CVV2 Code', 'required|min_length[3]|max_length[4]');
         $this->form_validation->set_rules('paymentamount', 'Payment Amount', 'required');
-        $this->form_validation->set_rules('otheramount', 'Other Amount', 'callback_check_otheramount');
+        $this->form_validation->set_rules('otheramount', 'Other Amount', 'trim|callback_check_otheramount');
         $this->form_validation->set_rules('recurring', 'Recurring','trim');
         $this->form_validation->set_rules('cardtype', 'Card Type','trim');
 
         // Handle notes field requirement
-        $Guestform_Notes_Required = $this->configsys->get_config_value('Guestform_Notes_Required');
-        if ($Guestform_Notes_Required == 'TRUE'){
+        $Donationform_Notes_Required = $this->configsys->get_config_value('Donationform_Notes_Required');
+        if ($Donationform_Notes_Required == 'TRUE'){
             $this->form_validation->set_rules('notes', 'Notes', 'required');
         }
 
         // Handle notes field requirement
-        $Guestform_Email_Required = $this->configsys->get_config_value('Guestform_Email_Required');
-        if ($Guestform_Email_Required == 'TRUE'){
+        $Donationform_Email_Required = $this->configsys->get_config_value('Donationform_Email_Required');
+        if ($Donationform_Email_Required == 'TRUE'){
             $this->form_validation->set_rules('email', 'Email', 'required');
         }
     }
 
+    /*
+     * Returns the body for an email receipt
+     */
+    private function get_email_body() {
+        $message = '<!DOCTYPE html><html><body>';
+        $message .= '<p>';
+        $message .= 'Thank you for your payment';
+        $message .= '<br>';
+        $message .= 'Please keep this receipt for your records';
+        $message .= '<br>';
+        $message .= '<hr>';
+        $message .= $this->input->post('firstname'). ' ' . $this->input->post('lastname');
+        $message .= '<br>';
+        $message .= $this->input->post('cardtype'). ' Ending in ' . substr($this->input->post('creditcard'), -4);
+        $message .= '<br>';
+        $message .= 'Amount Paid: ' . str_replace( ',', '', $this->get_payment_amount());
+        $message .= '<br>';
+        $message .= 'Date: ' . date('Y-n-j H:i:s') ;
+        $message .= '<hr>';
+        $message .= '<br>';
+        $message .= '</p>';
+        $message .= '</body></html>';
+
+        return $message;
+    }
+
+    /*
+     * Returns the amount the user paid
+     */
+    private function get_payment_amount() {
+        // Determine Payment Amount
+        if(strcasecmp($this->input->post('paymentamount'), 'other') == 0) {
+            $payment_amount = str_replace( ',', '', $this->input->post('otheramount') );
+        } else {
+            $payment_amount = str_replace( ',', '', $this->input->post('paymentamount') );
+        }
+
+        return $payment_amount;
+    }
+
     function check_default($post_string)
     {
-        $this->form_validation->set_message('check_default', 'You need to select a state');
+        $this->form_validation->set_message('check_default', 'You need gito select a state');
         return $post_string == '0' ? FALSE : TRUE;
     }
 

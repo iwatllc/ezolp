@@ -87,12 +87,11 @@ class Guestform extends MX_Controller {
                 // Trigger Events
                 Events::trigger('guestform_payment_approved', $this->get_view_data($submitted_data, $result_data), 'string');
 
-                $receipt_enabled = strtoupper($this->configsys->get_config_value('Guestform_Sendreceipt'));
-
-                if($receipt_enabled === 'TRUE') {
+                // Handle Guestform Receipt
+                if(strcasecmp($this->configsys->get_config_value('Guestform_Sendreceipt'), 'false')) {
                     // Send Receipt
                     $this->email_sys->send_email($submitted_data['email'], 
-                        $this->configsys->get_config_value('Guesform_Email_Subject'), 
+                        $this->configsys->get_config_value('Guesform_Email_Subject', "Payment Receipt"), 
                         $this->get_email_body());
                 }
             }
@@ -184,7 +183,7 @@ class Guestform extends MX_Controller {
     private function get_email_body() {
         $message = '<!DOCTYPE html><html><body>';
         $message .= '<p>';
-        $message .= 'Than you for your payment';
+        $message .= 'Thank you for your payment';
         $message .= '<br>';
         $message .= 'Please keep this receipt for your records';
         $message .= '<br>';
