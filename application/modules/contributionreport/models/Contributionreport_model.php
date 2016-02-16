@@ -41,6 +41,7 @@ class Contributionreport_model extends CI_Model {
 
 
     public function get_matching_list($begin_date, $end_date){
+        $this -> db -> query('SET SQL_BIG_SELECTS=1');
 
         $this->db->select('donationform_submissions.*, contributors.* ');
         $this->db->from('donationform_submissions');
@@ -49,6 +50,7 @@ class Contributionreport_model extends CI_Model {
         $this->db->where('donationform_submissions.InsertDate <=', $end_date);
         //$sql = $this->db->get_compiled_select();
         $query = $this->db->get();
+        // print_r($this->db->last_query());
         return $query;
 
     }
