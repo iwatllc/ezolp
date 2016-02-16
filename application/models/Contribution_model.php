@@ -36,7 +36,7 @@ class Contribution_model extends CI_Model {
     	$committeeIds = array();
 
     	$this->db->db_select($this->contributionsDatabase);
-    	$result = $this->db->query('SELECT `CMTE_ID` FROM `CommitteeMaster`');
+    	$result = $this->db->query('SELECT `CMTE_ID` FROM `committeemaster`');
 
     	foreach($result->result_array() as $item){
    			$committeeIds[] = $item['CMTE_ID'];
