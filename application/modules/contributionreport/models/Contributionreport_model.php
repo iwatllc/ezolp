@@ -49,6 +49,7 @@ class Contributionreport_model extends CI_Model {
         $this->db->where('donationform_submissions.InsertDate <=', $end_date);
         //$sql = $this->db->get_compiled_select();
         $query = $this->db->get();
+        print_r($this->db->last_query());
         return $query;
 
     }

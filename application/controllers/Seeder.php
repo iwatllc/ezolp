@@ -7,7 +7,10 @@ if (!defined('BASEPATH')) {
 /**
  * Seeder Class
  *
- * Stop talking and start faking!
+ * Creates fake data for the demo site
+ *
+ * Example Command: 
+ *    php index.php Seeder demo_seed
  */
 class Seeder extends CI_Controller
 {
@@ -19,26 +22,27 @@ class Seeder extends CI_Controller
         if (!$this->input->is_cli_request()) {
             exit('Direct access is not allowed');
         }
+
+        // TODO: Add restriction so this can only be run within certain environments?
  
         // initiate faker
         $this->faker = Faker\Factory::create();
  
         // load required models
-        $this->load->model('Contributor_model');
+        $this->load->model('Contribution_model');
         $this->load->model('donation/Donation_model');
     }
  
     /**
      * seed local database
      */
-    function seed()
+    function demo_seed()
     {
         // purge existing data
-        // $this->_truncate_db();
+        $this->Contribution_model->removeAllContributors();
  
         // seed users
-        $this->_basic_seed(200);
-
+        $this->_basic_seed(10000);
     }
  
     /**
@@ -49,6 +53,8 @@ class Seeder extends CI_Controller
     function _basic_seed($limit)
     {
         echo "seeding $limit contributors";
+
+        $committeeIds = $this->Contribution_model->getCommitteeIds();
  
         // create a bunch of base buyer accounts
         for ($i = 0; $i < $limit; $i++) {
@@ -71,9 +77,10 @@ class Seeder extends CI_Controller
             $creditCardNumber = substr($this->faker->creditCardNumber(),-4);
             $notes = $this->faker->optional(0.2, $default = '')->text(200);
             $ipAddress = $this->faker->ipv4();
-
+            $committeeId = $this->faker->randomElement($committeeIds);
  
-            $this->Contributor_model->insert(array(
+            $this->Contribution_model->insertContributor(array(
+                'filer_identification_number' => $committeeId,
                 'name'              => $firstName.' '.$middleInitial.' '.$lastName,
                 'firstname'         => $firstName,
                 'lastname'          => $lastName,
@@ -87,7 +94,7 @@ class Seeder extends CI_Controller
                 'memo_text'         => $notes,
             ));
 
-            // 10% get inserted as donations
+            // Insert as a donation 10% of the time
             if($this->faker->boolean(10)) {
                 $this->Donation_model->save(array(
                     'firstname'         => $firstName,
