@@ -31,6 +31,7 @@ class Seeder extends CI_Controller
         // load required models
         $this->load->model('Contribution_model');
         $this->load->model('donation/Donation_model');
+        $this->load->model('payment/Payment_model');
     }
  
     /**
@@ -40,7 +41,9 @@ class Seeder extends CI_Controller
     {
         // purge existing data
         $this->Contribution_model->removeAllContributors();
- 
+        $this->Donation_model->removeAllDonations();
+        $this->Payment_model->removeAllPayments();
+
         // seed users
         $this->_basic_seed(10000);
     }
@@ -74,10 +77,12 @@ class Seeder extends CI_Controller
             $transactionDate = $this->faker->dateTimeBetween('-8 months', 'now');
             $transactionAmount = $this->faker->biasedNumberBetween(10, 2000, 'sqrt');
             $creditCardType = $this->faker->creditCardType();
-            $creditCardNumber = substr($this->faker->creditCardNumber(),-4);
+            $creditCardNumber = substr($this->faker->creditCardNumber(),0,4);
             $notes = $this->faker->optional(0.2, $default = '')->text(200);
             $ipAddress = $this->faker->ipv4();
             $committeeId = $this->faker->randomElement($committeeIds);
+            $authCode = substr($this->faker->md5(),-6);
+            $transactionFileName = $this->faker->isbn10();
  
             $this->Contribution_model->insertContributor(array(
                 'filer_identification_number' => $committeeId,
@@ -96,7 +101,7 @@ class Seeder extends CI_Controller
 
             // Insert as a donation 10% of the time
             if($this->faker->boolean(10)) {
-                $this->Donation_model->save(array(
+                $donationId = $this->Donation_model->save(array(
                     'firstname'         => $firstName,
                     'lastname'          => $lastName,
                     'middleinitial'     => $middleInitial,
@@ -112,6 +117,25 @@ class Seeder extends CI_Controller
                     'notes'             => $notes,
                     'amount'            => $transactionAmount,
                     'InsertDate'        => $transactionDate->format('Y-m-d H:i:s'),
+                ));
+
+                $this->Payment_model->save(array(
+                    'PaymentTransactionId'  => $donationId,
+                    'Gateway'               => 'NMI',
+                    'TransactionStatusId'   => 1,
+                    'PaymentSource'         => 'DF',
+                    'AuthCode'              => $authCode,
+                    'TransactionAmount'     => $transactionAmount,
+                    'AVSResponseCode'       => 0,
+                    'OrderNumber'           => $donationId,
+                    'IsApproved'            => 1,
+                    'CVV2ResponseCode'      => 'M',
+                    'ReturnCode'            => 100,
+                    'TransactionFileName'   => $transactionFileName,
+                    'ResponseHTML'          => 'Approved',
+                    'TransactionTypeId'     => 1,
+                    'InsertDate'        => $transactionDate->format('Y-m-d H:i:s'),
+                    'UpdateDate'        => $transactionDate->format('Y-m-d H:i:s'),
                 ));
             }
         }

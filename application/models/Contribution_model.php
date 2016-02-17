@@ -17,6 +17,8 @@ class Contribution_model extends CI_Model {
     	$this->db->db_select($this->contributionsDatabase);
     	$this->db->from('contributors'); 
 		$this->db->truncate(); 
+
+        $this->selectPreviousDatabase();
     }
 
     public function insertContributor($data)

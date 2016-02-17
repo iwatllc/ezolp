@@ -13,12 +13,15 @@ class Payment_model extends CI_Model {
         parent::__construct();
     }
 
+    public function removeAllPayments() {
+        $this->db->from('payment_response'); 
+        $this->db->truncate(); 
+    }
+
     public function save($data)
     {
-
         $this->db->insert('payment_response', $data);
         return $this->db->insert_id();
-
     }
 
     public function update($data, $id)
