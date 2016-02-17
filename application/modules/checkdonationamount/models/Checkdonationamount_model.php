@@ -150,6 +150,7 @@ class Checkdonationamount_model extends CI_Model
             $donation_array['InsertDate'] = $result->InsertDate;
         }
 
+        $this->db->query('SET SQL_BIG_SELECTS=1');
         $this->db->select('*');
         $this->db->from('contributors');
         $this->db->where('name', $donation_array['name']);
@@ -271,15 +272,17 @@ class Checkdonationamount_model extends CI_Model
         $this->db->where('zip', $donation_array['zip']);
         $this->db->get();
         $query1 = $this->db->last_query();
+        print_r($query1);
 
         $this->db->select("transaction_date, transaction_amt");
         $this->db->from("contributors");
-        $this->db->where('name', $donation_array['fullname']);
+        $this->db->where("(`name` LIKE '%$result->firstname%' AND `name` LIKE '%$result->lastname%')");
         $this->db->where('city', $donation_array['city']);
         $this->db->where('state', $donation_array['state']);
         $this->db->where('zip_code', $donation_array['zip']);
         $this->db->get();
         $query2 =  $this->db->last_query();
+        print_r($query2);
 
         $query = $this->db->query($query1." UNION ".$query2);
 
