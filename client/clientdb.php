@@ -11,7 +11,7 @@ $db['default'] = array(
     'hostname' => 'localhost',
     'username' => 'ezolp',
     // 'username' => 'root',
-    'password' => '45RaaMUvZawF9CLP',
+    'password' => 'ezolppass',
     'database' => 'ezolp',
     'dbdriver' => 'mysqli',
     'dbprefix' => '',
@@ -28,5 +28,3 @@ $db['default'] = array(
     'failover' => array(),
     'save_queries' => TRUE
 );
-
-
