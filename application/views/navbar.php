@@ -112,12 +112,14 @@
                     </a>
                 </li>
 
+                <!--
                 <li class="has-sub<?php echo $pageName == 'recurring' ? ' active' : ''; ?>">
                     <a href="<?php echo base_url(); ?>recurring">
                         <i class="fa fa-retweet"></i>
                         <span>Recurring Transactions</span>
                     </a>
                 </li>
+                -->
 
                 <li class="has-sub">
                     <a>
@@ -143,23 +145,40 @@
                                 <span>Guest Form</span>
                             </a>
                         </li>
+                        <li>
+                            <a href="<?php echo base_url(); ?>classifiedad" target="_blank">
+                                <i class="fa"></i>
+                                <span>Classified Ad</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="<?php echo base_url(); ?>displayad" target="_blank">
+                                <i class="fa"></i>
+                                <span>Display Ad</span>
+                            </a>
+                        </li>
                     </ul>
                 </li>
 
+                <!--
                 <li class="has-sub">
                     <a href="https://mytransactiondata.com/" target="_blank">
                         <i class="fa fa-area-chart"></i>
                         <span>Donor Intelligence</span>
                     </a>
                 </li>
+                -->
 
+                <!--
                 <li class="has-sub<?php echo $pageName == 'contributionreport' ? ' active' : ''; ?>">
                     <a href="<?php echo base_url(); ?>contributionreport">
                         <i class="fa fa-file-text"></i>
                         <span>Contribution Report</span>
                     </a>
                 </li>
+                -->
 
+                <!--
                 <li class="has-sub<?php
                     if ($pageName == 'fileupload') {
                         echo ' active';
@@ -181,6 +200,7 @@
                         <li<?php echo $this->uri->uri_string() == 'fileupload/file_list' ? ' class="active"' : ''; ?>><a href="<?php echo base_url(); ?>fileupload/file_list">File List</a></li>
                     </ul>
                 </li>
+                -->
 
 <!--
                 <li class="has-sub<?php echo $pageName == 'virtualterminal' || $pageName == 'guestform' ? ' active' : ''; ?>">
