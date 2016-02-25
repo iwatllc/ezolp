@@ -105,7 +105,7 @@ $autoload['helper'] = array('url', 'form', 'date', 'security', 'ezolp_utils');
 |
 */
 
-$autoload['config'] = array('kmassets/config_assets');
+$autoload['config'] = array('kmassets/config_assets', 'gearman');
 
 
 /*

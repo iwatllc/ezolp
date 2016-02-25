@@ -33,9 +33,19 @@ class Nation_builder extends MX_Controller {
     }
 
     /*
-     * Allows a person and their dontaion to be added to Nationbuilder API
+     * Helper function to map an event function to a gearman job
      */
     public function process_donation($data) {
+        $this->lib_gearman->gearman_client();
+        $this->lib_gearman->do_job_background('processNationBuilderDonation', serialize($data));
+    }
+
+    /*
+     * Allows a person and their dontaion to be added to Nationbuilder API
+     */
+    public function process_donation_worker($job) {
+        $data = unserialize($job->workload());
+
         if($this->configsys_model->get_value('nationbuilder_enabled') === 'true') {
             // since we only match on email, the provided email MUST be valid.
             if(filter_var($data['submitted_data']['email'], FILTER_VALIDATE_EMAIL)) {
@@ -99,9 +109,19 @@ class Nation_builder extends MX_Controller {
     }
 
     /*
+     * Helper function to map an event function to a gearman job
+     */
+    public function process_refund($data) {
+        $this->lib_gearman->gearman_client();
+        $this->lib_gearman->do_job_background('processNationBuilderRefund', serialize($data));
+    }
+
+    /*
      * Removes a dontaion from the Nationbuilder API
      */
-    public function process_refund($paymentResponseId) {
+    public function process_refund_worker($job) {
+        $paymentResponseId = unserialize($job->workload());
+
         if($this->configsys_model->get_value('nationbuilder_enabled') === 'true') {
             $donationId = $this->Nation_builder_donation->getDonationId($paymentResponseId);
 
@@ -155,7 +175,7 @@ class Nation_builder extends MX_Controller {
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $type);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-        curl_setopt($ch, CURLOPT_TIMEOUT, '8'); // 8 second timeout
+        curl_setopt($ch, CURLOPT_TIMEOUT, '30'); // 8 second timeout
         curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json","Accept: application/json"));
         curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
 
@@ -164,10 +184,30 @@ class Nation_builder extends MX_Controller {
 
         if(curl_errno($ch)) {
             log_message('error', 'Error executing NationBuilder request. ' . curl_error($ch));
+            exit(255);
         } else {
             curl_close($ch);
             $response = json_decode($json_response, true);
             return $response;
+        }
+    }
+
+    public function worker()
+    {
+        $worker = $this->lib_gearman->gearman_worker();
+
+        // Register functions to worker
+        $this->lib_gearman->add_worker_function('processNationBuilderDonation', array($this, 'process_donation_worker'));
+        $this->lib_gearman->add_worker_function('processNationBuilderRefund', array($this, 'process_refund_worker'));
+
+        while ($this->lib_gearman->work()) {
+            if (!$worker->returnCode()) {
+                echo "worker done successfully \n";
+            }
+            if ($worker->returnCode() != GEARMAN_SUCCESS) {
+                echo "return_code: " . $this->lib_gearman->current('worker')->returnCode() . "\n";
+                break;
+            }
         }
     }
 
