@@ -21,7 +21,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <?php $this->load->view('navbar'); ?>
 
 <head>
-    <title><?php echo $title; ?></title>
+    <title><?php echo $page_data['title']; ?></title>
 </head>
     
 <body class = "flat-back">
@@ -32,62 +32,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <!-- begin col-12 -->
             <div class="col-12">
                 <?php $attributes = array('class' => 'form-horizontal form-bordered', 'id' => 'searchform'); ?>
-                <?php // echo form_open('search/execute_search'); ?>
-                <!-- begin panel -->
-                    <div class="panel panel-inverse" >
-                        <div class="panel-heading">
-                            <h4 class="panel-title">Filter by Date</h4>
-                        </div>
+                
+                <div class="panel panel-inverse" >
+                    <div class="panel-heading">
+                        <h4 class="panel-title">Contribution Report Configuration</h4>
+                    </div>
                         <div class="panel-body">
-
-                            <?php echo form_open('contributionreport/filter_date'); ?>
-
-                                    <div class="form-inline">
-                                        <div class="input-group input-daterange">
-                                            <?php
-                                            $BegDate = array(
-                                                'name'          =>  'BegDate',
-                                                'value'         =>  set_value('BegDate', $begin_date),
-                                                'placeholder'   =>  date("m/d/Y", strtotime('-7 days')),
-                                                'class'         =>  'form-control',
-                                                'id'            =>  'datepicker',
-                                            );
-
-                                            echo form_input($BegDate)
-                                            ?>
-
-                                            <span class="input-group-addon">to</span>
-
-                                            <?php
-                                            $EndDate = array(
-                                                'name'          =>  'EndDate',
-                                                'value'         =>  set_value('EndDate', $end_date),
-                                                'placeholder'   =>  date('m/d/Y'),
-                                                'class'         =>  'form-control',
-                                                'id'            =>  'datepicker2',
-                                            );
-
-                                            echo form_input($EndDate);
-                                            ?>
-                                        </div>
-
-                                        <?php
-                                        $submit = array(
-                                            'name' => 'search_submit',
-                                            'class' => "btn btn-sm btn-success",
-                                            'id'    => 'submit',
-                                            'value' => 'Apply',
-                                        );
-
-                                        echo form_submit($submit);
-                                        echo form_close();
-                                        ?>
-
-                                    </div>
-
+                        <?php
+                            echo '<div><strong>Start Date:</strong> ' . $results->input->startDate . "</div>";
+                            echo '<div><strong>End Date:</strong> ' . $results->input->endDate . "</div>";
+                        ?>
                         </div>
                     </div>
-
+                
 
                 <div class="panel panel-inverse" >
                     <div class="panel-heading">
@@ -101,7 +58,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                                 <?php 
                                                 if (isset($results))
                                                 {
-                                                    if ($results->num_rows() > 0)
+                                                    if (count(get_object_vars($results)) > 0)
                                                     { ?>
                                                         <tr>
                                                             <th></th>
@@ -113,7 +70,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                             <tbody>
                                                 <?php
                                                 $count = 1;
-                                                foreach ($results->result() as $result)
+                                                foreach ($results->results->data as $result)
                                                 {
                                                     echo "<tr>";
                                                         echo "<td>";
@@ -169,17 +126,5 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </body>
 
 <?php $this->load->view('footer'); ?>
-
-<script type="text/javascript">
-    $( document ).ready(function() {
-		//$("#myTable").tablesorter();
-
-        $( "#datepicker" ).datepicker({defaultDate: null});
-        $( "#datepicker2" ).datepicker({defaultDate: null});
-
-    });
-
-</script>
-
 
 </html>

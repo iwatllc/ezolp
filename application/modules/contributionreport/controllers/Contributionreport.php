@@ -4,74 +4,127 @@ class Contributionreport extends MX_Controller {
         
     public function __construct()
     {
-        if (!$this->dx_auth->is_logged_in())
+        // redirect if this is not a cli request and the user is not logged in
+        if (!$this->input->is_cli_request() && !$this->dx_auth->is_logged_in())
         {
             // redirect to login page
             redirect('security/auth', 'refresh');
         }
+
+        // load required models
+        $this->load->model('Contributionreport_model', 'Contributionreport');
+
+        $this->view_vars = array(
+            'title' => $this->config->item('Company_Title'),
+            'heading' => $this->config->item('Company_Title'),
+            'description' => $this->config->item('Company_Description'),
+            'company' => $this->config->item('Company_Name'),
+            'logo' => $this->config->item('Company_Logo'),
+            'author' => $this->config->item('Company_Author')
+        );
         
         parent::__construct();
     }
     
     public function index()
     {
-        $data['todays_date'] = date('l, F j, Y');
-
-        // By default, the date filter will display info for the past 7 days starting from today
-        $begin_date = date("Y-m-d", strtotime('-7 days')); // begin_date = today's date - 7
-        $end_date = date("Y-m-d"); // end_date = today
-
-        $data['begin_date'] = '';
-        $data['end_date'] = '';
-
-        $data['begin_formatted'] = date("F j, Y", strtotime('-7 days'));
-        $data['end_formatted'] = date("F j, Y");
-
-        $this->load->model('Contributionreport_model', 'Contributionreport');
-
-        $view_vars = array(
-            'title' => $this->config->item('Company_Title'),
-            'heading' => $this->config->item('Company_Title'),
-            'description' => $this->config->item('Company_Description'),
-            'company' => $this->config->item('Company_Name'),
-            'logo' => $this->config->item('Company_Logo'),
-            'author' => $this->config->item('Company_Author')
-        );
-        $data['page_data'] = $view_vars;
-
-        // New code with dates
-        // $data['results'] = $this->Contributionreport->get_total_amounts_donated_through_company_by_date($begin_date, $end_date);
-        $data['results'] = $this->Contributionreport->get_matching_list($begin_date, $end_date);
-
-        $this->load->view('contributionreport', $data);
+        $data['page_data'] = $this->view_vars;
+        $data['start_date'] = date("m/d/Y", strtotime('-7 days'));
+        $data['end_date'] = date("m/d/Y");
+        $data['results'] = $this->Contributionreport->get_all_reports();
+        
+        $this->load->view('index', $data);
     }
 
-    /**
-     * Filter the Contribution Report for insert dates on company donations.
-     */
-    public function filter_date()
-    {
-        $data['begin_date'] = date( "Y-m-d", strtotime( $this->input->post('BegDate') ) );
-        $data['end_date'] = date( "Y-m-d", strtotime( $this->input->post('EndDate') ) );
+    public function submit() {
+        $this->lib_gearman->gearman_client();
 
-        $data['begin_formatted'] = date('F j, Y', strtotime($data['begin_date']));
-        $data['end_formatted'] = date('F j, Y', strtotime($data['end_date']));
+        $input = array(
+            'startDate' => $this->input->post('startDate'),
+            'endDate' => $this->input->post('endDate'),
+            );
+        
+        $id = $this->Contributionreport->create_new_report($input);
+        $this->lib_gearman->do_job_background('processContributionReport', serialize([
+            'input' => $input,
+            'id'    => $id,
+            ]));
 
-        $this->load->model('Contributionreport_model', 'Contributionreport');
+        // Redirect to report view
+        redirect('/contributionreport/view/'.$id);
+    }
 
-        //$data['results'] = $this->Contributionreport->get_total_amounts_donated_through_company_by_date($data['begin_date'], $data['end_date']);
-        $data['results'] = $this->Contributionreport->get_matching_list($data['begin_date'], $data['end_date']);
+    public function create() {
+        $data['page_data'] = $this->view_vars;
+        $this->load->view('contributionreport/create', $data);
+    }
 
-        $view_vars = array(
-            'title' => $this->config->item('Company_Title'),
-            'heading' => $this->config->item('Company_Title'),
-            'description' => $this->config->item('Company_Description'),
-            'company' => $this->config->item('Company_Name'),
-            'logo' => $this->config->item('Company_Logo'),
-            'author' => $this->config->item('Company_Author')
-        );
-        $data['page_data'] = $view_vars;
+    public function view() {
+        $data['page_data'] = $this->view_vars;
 
-        $this->load->view('contributionreport', $data);
+        // Grab report id from URI
+        $report_id = $this->uri->segment(3);
+
+        if(!$report_id) {
+            // TODO: better error handling (display error)
+            redirect('/contributionreport');
+        }
+
+        // Attempt to retreive report
+        $report = $this->Contributionreport->get_report($report_id);
+
+        if($report->status_code < Contributionreport_model::STATUS_COMPLETED) {
+            $this->output->set_header('refresh:5; url='.current_url());
+            $this->load->view('contributionreport/processing', $data);
+        }
+
+        if(empty($report)) {
+            // TODO: better error handling (display error)
+            redirect('/contributionreport');
+        } else {
+            $data['results'] = $report;
+        }
+
+        $this->load->view('contributionreport/view', $data);
+    }
+
+    function contribution_report_worker($job) {
+        $data = unserialize($job->workload());
+
+        // TODO: validate input
+
+        $this->Contributionreport->set_report_in_progress($data['id']);
+
+        $query = $this->Contributionreport->get_matching_list(date("Y-m-d", strtotime('-7 days')), date("Y-m-d"));
+        $result = array();
+
+        if ($query->num_rows() > 0)
+        {
+           foreach ($query->result() as $row)
+           {
+                $result['data'][] = $row;
+           }
+        }
+
+        $this->Contributionreport->set_report_result($data['id'], $result);
+
+        // set status to completed
+    }
+
+    public function worker() {
+        $worker = $this->lib_gearman->gearman_worker();
+
+        // Register functions to worker
+        $this->lib_gearman->add_worker_function('processContributionReport', array($this, 'contribution_report_worker'));
+
+        while ($this->lib_gearman->work()) {
+            if (!$worker->returnCode()) {
+                log_message('debug', get_class($this) . " worker done successfully.");
+            }
+            if ($worker->returnCode() != GEARMAN_SUCCESS) {
+                log_message('error', get_class($this) . " worker: " . $this->lib_gearman->current('worker')->returnCode());
+                break;
+            }
+        }
     }
 }
