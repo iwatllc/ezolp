@@ -9,3 +9,4 @@
 ### CLI Functions
 * Seed Database: `php index.php Seeder demo_seed`
 * NationBuilder Worker: `php index.php 'nation_builder/Nation_builder' worker`
+* Contribution Report Worker: `php index.php 'contributionreport/Contributionreport' worker`
