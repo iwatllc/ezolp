@@ -87,7 +87,8 @@ server:
     install: '1'
     packages:
         - libgearman-dev
-        - gearman-server
+        - gearman-job-server
+        - php5-curl
 users_groups:
     install: '1'
     groups: {  }
