@@ -100,7 +100,7 @@ class Lib_gearman
     public function add_worker_function($identifier,$function_name)
     {
         $this->worker->addFunction($identifier, $function_name);
-        log_message('debug', "Gearman Library: Successfully added worker function with identifier $identifier with function $function_name");
+        log_message('debug', "Gearman Library: Successfully added worker function with identifier $identifier with function " . print_r($function_name, true));
 
     }
     /**
