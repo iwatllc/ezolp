@@ -14,5 +14,18 @@ class Classifiedad_model extends CI_Model {
         return $this -> db -> insert_id();
     }
 
+    function check_promo_code($code)
+    {
+        $this -> db -> where('code',$code);
+        $query = $this -> db -> get('ca_promo');
+        if ($query -> num_rows() > 0)
+        {
+            return $query -> row();
+        }
+        else
+        {
+            return '';
+        }
+    }
 
 }

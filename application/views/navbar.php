@@ -112,6 +112,18 @@
                     </a>
                 </li>
 
+                <li class="has-sub<?php echo $pageName == 'promocodes' ? ' active' : ''; ?>">
+                    <a>
+                        <b class="caret pull-right"></b>
+                        <i class="fa fa-gear"></i>
+                        <span>Manage Promo Codes</span>
+                    </a>
+                    <ul class="sub-menu">
+                        <li<?php echo $this->uri->segment(3) == 'classified_ad_promo_code' ? ' class="active"' : ''; ?>><a href="<?php echo base_url(); ?>ca_promo">Manage Classified Ad Promo Codes</a></li>
+                        <li<?php echo $this->uri->segment(3) == 'display_ad_promo_code' ? ' class="active"' : ''; ?>><a href="<?php echo base_url(); ?>da_promo">Manage Dispaly Ad Promo Codes</a></li>
+                    </ul>
+                </li>
+
                 <!--
                 <li class="has-sub<?php echo $pageName == 'recurring' ? ' active' : ''; ?>">
                     <a href="<?php echo base_url(); ?>recurring">

@@ -4,7 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 <?php
 
-if($Guestform_Clientform == "FALSE") {
+if($Classifiedad_Clientform == "FALSE") {
 
 ?>
 
@@ -55,8 +55,8 @@ if($Guestform_Clientform == "FALSE") {
         <!-- begin page-header -->
 
         <h1 class="page-header">
-            <?php if($Guestform_Logo != 'FALSE'){ ?>
-                <img src="<?php echo base_url(); ?>/client/<?php echo $Guestform_Logo ?>" alt="" height="120" width="120">
+            <?php if($Classifiedad_Logo != 'FALSE'){ ?>
+                <img src="<?php echo base_url(); ?>/client/<?php echo $Classifiedad_Logo ?>" alt="" height="120" width="120">
             <?php } ?>
             <?php echo $page_data['heading'];?>
         </h1>
@@ -65,7 +65,7 @@ if($Guestform_Clientform == "FALSE") {
         <div class="row">
             <!-- begin col-12 -->
             <div class="col-12">
-                <?php $attributes = array('class' => 'form-horizontal', 'id' => 'guestform'); ?>
+                <?php $attributes = array('class' => 'form-horizontal', 'id' => 'classifiedad'); ?>
                 <?php echo form_open('classifiedad/submit', $attributes);
                     $data = array(
                         'type'  => 'hidden',
@@ -284,8 +284,8 @@ if($Guestform_Clientform == "FALSE") {
                             </div>
                                 <div class="form-group <?php echo(!empty(form_error('email')) ? 'has-error has-feedback' : ''); ?>">
 
-                                    <?php if($Guestform_Email == "TRUE") { ?>
-                                        <label class="col-md-3 control-label">EMAIL<?php echo( $Guestform_Email_Required == 'TRUE' ? '*' : ' ') ?></label>
+                                    <?php if($Classifiedad_Email == "TRUE") { ?>
+                                        <label class="col-md-3 control-label">EMAIL<?php echo( $Classifiedad_Email_Required == 'TRUE' ? '*' : ' ') ?></label>
                                         <div class="col-md-9">
                                             <?php
                                             $data = array(
@@ -296,7 +296,7 @@ if($Guestform_Clientform == "FALSE") {
                                                 'type'          => 'email',
                                                 'placeholder'   => 'email address',
                                                 'maxlength'     => '100',
-                                                'data-parsley-required' => $Guestform_Email_Required
+                                                'data-parsley-required' => $Classifiedad_Email_Required
                                             );
 
                                             echo form_input($data);
@@ -316,37 +316,49 @@ if($Guestform_Clientform == "FALSE") {
                             ?>
 
                             <legend>I would like my ad to be listed in the following issue(s):</legend>
-                        <div id="allInputs">
+                        <div id="allIssues">
                             <div class="form-group <?php echo(!empty(form_error('issue')) ? 'has-error has-feedback' : ''); ?>">
-                                <div class="col-md-3 control-label">
-                                    <table>
-                                        <?php foreach ($month_array as $month)
-                                              {?>
-                                            <tr>
-                                                <?php
-                                                    $data = array(
-                                                        'name'          => 'issues[]',
-                                                        'id'            => $month,
-                                                        'value'         => $month,
-                                                        'class'         => 'form-control',
-                                                        'data-parsley-required' => 'true'
-                                                    );
+                                <div class="col-md-8 control-label">
+                                    <table align="center">
+                                        <?php
+                                            $i = 0;
+                                            foreach ($month_array as $month)
+                                            {
+                                                $data = array(
+                                                    'name'          => 'issues[]',
+                                                    'id'            => $month,
+                                                    'value'         => $month,
+                                                    'class'         => 'form-control',
+                                                    'data-parsley-required' => 'true'
+                                                );
+                                                if ($i % 2 != 0) // if it's divisible by 6
+                                                {
+                                                        echo '<td>' . form_checkbox($data) . '</td>';
+                                                        echo '<td><label class="col-md-3 control-label">' . $month . '</label></td>';
+                                                    echo '</tr>';
+                                                } else
+                                                {
+                                                    echo '<tr>';
+                                                        echo '<td>' . form_checkbox($data) . '</td>';
+                                                        echo '<td><label class="col-md-3 control-label">' . $month . '</label></td>';
+                                                        echo '<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>';
+                                                }
 
-                                                    echo '<td>'.form_checkbox($data).'</td>';
-                                                ?>
-                                                <td><label class="col-md-3 control-label"><?php echo $month; ?></label></td>
-                                            </tr>
-                                          <?php } ?>
+                                                $i++;
+                                            }
+                                        ?>
                                     </table>
                                 </div>
                                 <?php echo(!empty(form_error('issue')) ? '<span class="fa fa-times form-control-feedback"></span>' : ''); ?>
                                 <?php echo form_error('issue'); ?>
                             </div>
+                        </div>
 
                             <legend>Your ad text:</legend>
+                        <div id="allInputs">
                             <div class="form-group <?php echo(!empty(form_error('adtext')) ? 'has-error has-feedback' : ''); ?>">
                                 <label class="col-md-3 control-label">Your ad text:</label>
-                                <div class="col-md-9">
+                                <div class="col-md-5">
                                     <?php
                                     $data = array(
                                         'name'          => 'adtext',
@@ -368,9 +380,9 @@ if($Guestform_Clientform == "FALSE") {
                             </div>
                         </div>
 
-                            <div class="form-group <?php echo(!empty(form_error('totallines')) ? 'has-error has-feedback' : ''); ?>">
+                            <div class="form-group">
                                 <label class="col-md-3 control-label">Total Lines:</label>
-                                <div class="col-md-9">
+                                <div class="col-md-1">
                                     <?php
                                     $data = array(
                                         'name'          => 'totallines',
@@ -378,37 +390,168 @@ if($Guestform_Clientform == "FALSE") {
                                         'value'         => set_value('totallines'),
 //                                        'class'         => 'form-control',
                                         'type'          => 'text',
-                                        'size'          => '10',
+                                        'size'          => '4',
                                         'data-parsley-required' => 'true',
-                                        'readonly'      => 'true'
+                                        'readonly'      => 'true',
+                                        'style'         => '-webkit-appearance:none; -moz-appearance:none; appearance:none;'
+                                    );
+
+                                     echo form_input($data);
+                                    ?>
+                                    <span id="numlines"></span>
+                                </div>
+                            </div>
+
+                            <div class="form-group <?php echo(!empty(form_error('promocode')) ? 'has-error has-feedback' : ''); ?>">
+                                <label class="col-md-3 control-label">Promotional Code:</label>
+                                <div class="col-md-5">
+                                    <?php
+                                    $data = array(
+                                        'name'          => 'promocode',
+                                        'id'            => 'promocode',
+                                        'value'         => set_value('promocode'),
+                                        'class'         => 'form-control',
+                                        'type'          => 'text',
+                                        'size'          => '30',
+                                        'data-parsley-required' => 'true'
                                     );
 
                                     echo form_input($data);
                                     ?>
-                                    <?php echo(!empty(form_error('totallines')) ? '<span class="fa fa-times form-control-feedback"></span>' : ''); ?>
-                                    <?php echo form_error('totallines'); ?>
+                                    <?php echo(!empty(form_error('promocode')) ? '<span class="fa fa-times form-control-feedback"></span>' : ''); ?>
+                                    <?php echo form_error('promocode'); ?>
+                                    <span id="promo-result"></span>
                                 </div>
                             </div>
 
+                            <div class="form-group" id="promo-info" style="display:none"></div>
+                            <span id="percentage" style="display:none"></span>
+                            <span id="numMonths" style="display:none"></span>
+
                             <div class="form-group <?php echo(!empty(form_error('grandtotal')) ? 'has-error has-feedback' : ''); ?>">
-                                <label class="col-md-3 control-label"><b>TOTAL:</b></label>
-                                <div class="col-md-9">
+                                <label class="col-md-3 control-label"><b>TOTAL AMOUNT:</b></label>
+                                <div class="col-md-1">
                                     <?php
                                     $data = array(
                                         'name'          => 'grandtotal',
                                         'id'            => 'grandtotal',
                                         'value'         => set_value('grandtotal'),
-//                                        'class'         => 'form-control',
+                                        'class'         => 'form-control',
                                         'type'          => 'text',
                                         'size'          => '20',
                                         'data-parsley-required' => 'true',
                                         'readonly'      => 'true'
+//                                        'style'         => 'outline: none; border-color: green; box-shadow: 0 0 10px green;'
                                     );
 
                                     echo form_input($data);
                                     ?>
-                                    <?php echo(!empty(form_error('totallines')) ? '<span class="fa fa-times form-control-feedback"></span>' : ''); ?>
-                                    <?php echo form_error('totallines'); ?>
+                                    <?php echo(!empty(form_error('grandtotal')) ? '<span class="fa fa-times form-control-feedback"></span>' : ''); ?>
+                                    <?php echo form_error('grandtotal'); ?>
+                                </div>
+                            </div>
+
+                        <legend>Credit Card Information</legend>
+                            <div class="form-group <?php echo(!empty(form_error('creditcard')) ? 'has-error has-feedback' : ''); ?>">
+                                <label class="col-md-3 control-label">CREDIT CARD *</label>
+                                <div class="col-md-9">
+                                    <?php
+                                    $data = array(
+                                        'name'          => 'creditcard',
+                                        'id'            => 'creditcard',
+                                        'value'         => set_value('creditcard'),
+                                        'class'         => 'form-control creditcard',
+                                        'type'          => 'text',
+                                        'placeholder'   => '9999 9999 9999 9999',
+                                    );
+
+                                    echo form_input($data);
+                                    ?>
+                                    <?php echo(!empty(form_error('creditcard')) ? '<span class="fa fa-times form-control-feedback"></span>' : ''); ?>
+                                    <?php echo form_error('creditcard'); ?>
+
+                                </div>
+                            </div>
+
+                            <div class="form-group <?php echo(!empty(form_error('expirationmonth')) ? 'has-error has-feedback' : ''); ?>">
+                                <label class="col-md-3 control-label">Expiration Month *</label>
+                                <div class="col-md-9">
+                                    <?php
+                                    $extra = array(
+                                        'class' => 'form-control selectpicker',
+                                        'id' => 'expirationmonth',
+                                        'name' => 'expirationmonth',
+                                        'data-live-search' => 'true',
+                                        'data-style' => (!empty(form_error('expirationmonth')) ? 'btn-danger' : ''),
+                                    );
+
+                                    $options = array(
+                                        '0'  => 'Select Month',
+                                        '01' => 'January (01)',
+                                        '02' => 'February (02)',
+                                        '03' => 'March (03)',
+                                        '04' => 'April (04)',
+                                        '05' => 'May (05)',
+                                        '06' => 'June (06)',
+                                        '07' => 'July (07)',
+                                        '08' => 'August (08)',
+                                        '09' => 'September (09)',
+                                        '10' => 'October (10)',
+                                        '11' => 'November (11)',
+                                        '12' => 'December (12)',
+                                    );
+
+                                    echo form_dropdown('expirationmonth', $options, set_value('expirationmonth'), $extra);
+                                    ?>
+                                    <?php echo(!empty(form_error('expirationmonth')) ? '<span class="fa fa-times form-control-feedback"></span>' : ''); ?>
+                                    <?php echo form_error('expirationmonth'); ?>
+                                </div>
+                            </div>
+                            <div class="form-group <?php echo(!empty(form_error('expirationyear')) ? 'has-error has-feedback' : ''); ?>">
+                                <label class="col-md-3 control-label">Expiration Year *</label>
+                                <div class="col-md-9">
+                                    <?php
+                                    $extra = array(
+                                        'class' => 'form-control selectpicker',
+                                        'id' => 'expirationyear',
+                                        'name' => 'expirationyear',
+                                        'data-live-search' => 'true',
+                                        'data-style' => (!empty(form_error('expirationyear')) ? 'btn-danger' : ''),
+                                    );
+
+
+                                    $options = array();
+                                    for ($i = 0; $i <= 10; $i++ ){
+                                        $a_year = date("Y") + $i;
+                                        $options[$a_year] = $a_year;
+                                    }
+
+                                    echo form_dropdown('expirationyear', $options, set_value('expirationyear'), $extra);
+                                    ?>
+                                    <?php echo(!empty(form_error('expirationyear')) ? '<span class="fa fa-times form-control-feedback"></span>' : ''); ?>
+                                    <?php echo form_error('expirationyear'); ?>
+                                </div>
+                            </div>
+
+                            <div class="form-group <?php echo(!empty(form_error('cvv2')) ? 'has-error has-feedback' : ''); ?>">
+                                <label class="col-md-3 control-label">CVV2 *</label>
+                                <div class="col-md-9">
+                                    <?php
+                                    $data = array(
+                                        'name'          => 'cvv2',
+                                        'id'            => 'cvv2',
+                                        'value'         => set_value('cvv2'),
+                                        'class'         => 'form-control cvv2',
+                                        'type'          => 'text',
+                                        'placeholder'   => '000',
+                                        'maxlength'     => '4',
+                                        'data-parsley-required' => 'true'
+                                    );
+
+                                    echo form_input($data);
+                                    ?>
+                                    <?php echo(!empty(form_error('cvv2')) ? '<span class="fa fa-times form-control-feedback"></span>' : ''); ?>
+                                    <?php echo form_error('cvv2'); ?>
                                 </div>
                             </div>
 
@@ -431,7 +574,7 @@ if($Guestform_Clientform == "FALSE") {
                                             <br/>
                                             <u>Phone:</u> (717)263-9293 x 215
                                             <br/>
-                                            <u>Email:</u> <a href="mailto:#">print@osinc.org</a>
+                                            <u>Email:</u> <a href="mailto:print@osinc.org">print@osinc.org</a>
                                             <br/>
                                             <u>Address:</u>  Occupational Services, Inc.
                                             <br/>
@@ -481,40 +624,198 @@ if($Guestform_Clientform == "FALSE") {
     $(document).ready(function() {
         var lines_per_char = "<?php echo $lines_per_char ?>";
         var price_per_line = "<?php echo $price_per_line ?>";
+        var x_timer;
 
-        (function()
+
+
+        // Change total on text area change
+        function updateTotal() // add e as paramenter if we want IE
         {
-            function showLength(e)
+//            e = e || window.event; // IE doesn't pass event to callback
+//            var target = e.target || e.srcElement; // IE == srcElement, good browsers: target
+
+            // Static database variables
+            var numChars = document.getElementById('adtext').value.length;
+            var pricePerLine = parseFloat(price_per_line);
+
+            // Ad Text variables
+            var numChecked = parseFloat($('input[name="issues[]"]:checked').length);
+            var numLines = Math.ceil( numChars / lines_per_char );
+            document.getElementById('totallines').value = numLines;
+
+            // Promo code variables
+            var percentage = $('#percentage').text();
+            var numMonths = $('#numMonths').text();
+
+//            console.log('Total before Promo Code: ' + total);
+
+            // Apply percentage off depending on the number of boxes checked and the promo code percentage
+            if (numMonths && numChecked >= numMonths)
             {
-                e = e || window.event; // IE doesn't pass event to callback
-                var target = e.target || e.srcElement; // IE == srcElement, good browsers: target
-                var lines = Math.ceil( target.value.length / lines_per_char ); // set the total amount of lines by dividing it by the number of lines per character and then rounding up to the nearest whole number
-                var price = (lines * price_per_line).toFixed(2); // set the total price by taking the number of lines times the price
-                document.getElementById('totallines').value = lines; // set the text box for lines
-                document.getElementById('grandtotal').value = price; // set the text box total price
-            }
-            //bind event listener to the div containing all elements you want to be 'handled'
-            var mainDiv = document.getElementById('allInputs');
-            if (!(mainDiv.addEventListener))
+                var numMonthsWithoutPercentage = numChecked - numMonths;
+                var numMonthsWithPercentage = numChecked - numMonthsWithoutPercentage;
+
+                var withoutPercentage = numMonthsWithoutPercentage * (numLines * pricePerLine);
+
+                if (percentage)
+                {
+                    // convert to true percentage
+                    var decimalPercent = parseFloat(percentage) / 100.0;
+
+                    var newTotal = numMonthsWithPercentage * (numLines * pricePerLine);
+
+                    var discount = decimalPercent * newTotal;
+
+                    var withPercentage = newTotal - discount;
+                }
+
+                var total = withPercentage + withoutPercentage;
+
+//                console.log('Without Promo code applied to ' + numMonthsWithoutPercentage + 'months: ' + withoutPercentage);
+//                console.log('With Promo code applied to ' + numMonthsWithPercentage + 'months: ' + withPercentage);
+            } else if (numMonths && numChecked < numMonths)
             {
-                mainDiv.attachEvent('onfocusout',showLength); //IE doesn't have EventListeners, and doesn't support onchange this way, use onfocusout
-            }
-            else
+                // All months get the percentage off
+                var allMonths = numChecked;
+                if (percentage)
+                {
+                    // convert to true percentage
+                    var decimalPercent = parseFloat(percentage) / 100.0;
+
+                    var newTotal = allMonths * (numLines * pricePerLine);
+
+                    var discount = decimalPercent * newTotal;
+
+                    var total = newTotal - discount;
+                }
+
+            } else
             {
-                mainDiv.addEventListener('keyup',showLength,false);
+//                console.log('Promotion not applied!');
+                var total = numChecked * (numLines * pricePerLine);
             }
-        })();
-    });
 
-</script>
+//            console.log(
+////                'Lines per character: '             + lines_per_char + '\n' +
+////                'Price per line: '                  + price_per_line + '\n' +
+//                'Number of lines in Text Area: '    + numLines + '\n' +
+//                'Number of months checked: '        + numChecked + '\n' +
+//                'Percentage off  for promo code: '  + percentage + '\n' +
+//                'Number of months for promo code: ' + numMonths + '\n' +
+//                'Grand Total: '                     + total
+//            );
+
+            if(total)
+            {
+                document.getElementById('grandtotal').value = total.toFixed(2);
+            } else
+            {
+                total = 0;
+                document.getElementById('grandtotal').value = total.toFixed(2);
+            }
+
+//                $('#numlines').text(lines); // set total lines span
+            document.getElementById('totallines').value = numLines; // set hidden input
+        }
 
 
-<script type="text/javascript">
+        // bind event listener to the div containing all elements you want to be 'handled'
+        var mainDiv = document.getElementById('allInputs');
+        var issuesDiv = document.getElementById('allIssues');
+        if (!(mainDiv.addEventListener) && !(issuesDiv.addEventListener))
+        {
+            mainDiv.attachEvent('onfocusout',updateTotal); //IE doesn't have EventListeners, and doesn't support onchange this way, use onfocusout
+            issuesDiv.attachEvent("onclick", updateTotal);
+        }
+        else
+        {
+            mainDiv.addEventListener('keyup',updateTotal,false);
+            issuesDiv.addEventListener('CheckboxStateChange',updateTotal,false);
+        }
 
-    $(document).ready(function() {
+
+        // Check the promo code
+        $("#promocode").keyup(function (e)
+        {
+            clearTimeout(x_timer);
+            var promo_code = $(this).val();
+            x_timer = setTimeout(function() { check_promocode_ajax(promo_code); }, 1000);
+        });
+        function check_promocode_ajax(promocode)
+        {
+            $("#promo-result").html('<img src="<?php echo base_url() ?>assets/img/ajax-loader.gif" />');
+
+            jQuery.ajax({
+                type: "POST",
+                url: "<?php echo base_url(); ?>" + "classifiedad/Classifiedad/check_promocode",
+                dataType: 'json',
+                data: {promocode:promocode},
+                success: function(res) {
+                    if (res) {
+                        $("#promo-result").html('<img src="<?php echo base_url() ?>assets/img/checkmark.ico" />');
+                        $("#promo-info").show();
+
+                        $("#promo-info").html(
+                            '<label class="col-md-3 control-label">Promotional Code Information:</label>' +
+                            '<div class="col-md-8">' +
+                            '<div class="panel-body">' +
+                            '<table class="table" border="1">' +
+                            '<thead>' +
+                            '<tr>' +
+                            '<th>Code</th>' +
+                            '<th>Description</th>' +
+                            '<th>Percentage</th>' +
+                            '<th>Months</th>' +
+                            '<th>Start Date</th>' +
+                            '<th>End Date</th>' +
+                            '</tr>' +
+                            '</thead>' +
+                            '<tbody>' +
+                            '<tr>' +
+                            '<td>' + res.code + '</td>' +
+                            '<td>' + res.description + '</td>' +
+                            '<td>' + res.percentage + '</td>' +
+                            '<td>' + res.months + '</td>' +
+                            '<td>' + res.startdate + '</td>' +
+                            '<td>' + res.enddate + '</td>' +
+                            '</tr>' +
+                            '</tbody>' +
+                            '</table>' +
+                            '</div>' +
+                            '</div>'
+                        );
+
+                        // Set the percentage in a div
+                        $("#percentage").html(parseInt(res.percentage));
+
+                        // Set the number of months in a div
+                        $("#numMonths").html(parseInt(res.months));
+
+                        // Set the total value by applying the discount
+//                        document.getElementById('grandtotal').value = (document.getElementById('grandtotal').value - ((parseInt(res.percentage) / 100) * document.getElementById('grandtotal').value)).toFixed(2); // set the text box total price
+
+                        $("#promocode").prop("disabled", true);
+
+                        updateTotal();
+
+                    } else
+                    {
+                        $("#promo-result").html('<img src="<?php echo base_url() ?>assets/img/cross.png" />');
+                        $("#promo-info").empty();
+                        $("#promo-info").hide();
+
+                    }
+                }
+            });
+        }
+
+        // Credit card information gets processed
         $("#loading-div-background").css({ opacity: 1.0 });
 
-        $('#guestform').submit(function(){
+        $('#classifiedad').submit(function(){
+            $("#promocode").prop("disabled", false);
+            $("#promocode").prop("readonly", true);
+
             var cardType = $.payment.cardType($('.creditcard').val());
             $('.cardtype').val(cardType);
             $('#submit').attr({

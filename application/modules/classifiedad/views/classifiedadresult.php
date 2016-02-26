@@ -1,8 +1,4 @@
-<?php
-defined('BASEPATH') OR exit('No direct script access allowed');
-?>
-
-
+<?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 <!DOCTYPE html>
 <!--[if IE 8]>
 <html lang="en" class="ie8">
@@ -60,7 +56,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <?php echo $submitted_data['city']; ?>&nbsp;<?php echo $submitted_data['state']; ?>&nbsp;<?php echo $submitted_data['zip']; ?>
                                 </br><br></br>
 
-                                <?php if($Guestform_Signature == "TRUE"){ ?>
+                                <?php if($Classifiedad_Signature == "TRUE"){ ?>
                                     <div class="center-text">
                                         I AGREE TO PAY ABOVE
                                         TOTAL AMOUNT ACCORDING
@@ -106,7 +102,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <!-- end #content -->
 
     <?php
-        echo anchor('guestform/', 'PROCESS ANOTHER CARD', array('class' => 'btn btn-primary btn-lg m-r-5 dontprint'));
+        echo anchor('classifiedad/', 'PROCESS ANOTHER CARD', array('class' => 'btn btn-primary btn-lg m-r-5 dontprint'));
     ?>
 
     <a href="javascript:window.print()" class="btn btn-primary btn-lg m-r-5 dontprint">PRINT RECEIPT</a>
