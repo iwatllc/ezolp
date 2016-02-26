@@ -90,11 +90,12 @@ class Contributionreport extends MX_Controller {
     function contribution_report_worker($job) {
         $data = unserialize($job->workload());
 
-        // TODO: validate input
-
         $this->Contributionreport->set_report_in_progress($data['id']);
 
-        $query = $this->Contributionreport->get_matching_list(date("Y-m-d", strtotime('-7 days')), date("Y-m-d"));
+        $startDate = DateTime::createFromFormat('m/d/Y', $data['input']['startDate']);
+        $endDate = DateTime::createFromFormat('m/d/Y', $data['input']['endDate']);
+
+        $query = $this->Contributionreport->get_matching_list($startDate->format("Y-m-d"), $endDate->format("Y-m-d"));
         $result = array();
 
         if ($query->num_rows() > 0)
