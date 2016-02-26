@@ -38,6 +38,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <h4 class="panel-title">Contribution Report Configuration</h4>
                     </div>
                     <div class="panel-body">
+                    <?php
+                        echo '<div><strong>Start Date:</strong> ' . $results->input->startDate . "</div>";
+                        echo '<div><strong>End Date:</strong> ' . $results->input->endDate . "</div>";
+                    ?>
                     </div>
                 </div>      
                 

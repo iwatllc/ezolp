@@ -72,6 +72,7 @@ class Contributionreport extends MX_Controller {
 
         // Attempt to retreive report
         $report = $this->Contributionreport->get_report($report_id);
+        $data['results'] = $report;
 
         if($report->status_code < Contributionreport_model::STATUS_COMPLETED) {
             $this->output->set_header('refresh:5; url='.current_url());
@@ -81,8 +82,6 @@ class Contributionreport extends MX_Controller {
         if(empty($report)) {
             // TODO: better error handling (display error)
             redirect('/contributionreport');
-        } else {
-            $data['results'] = $report;
         }
 
         $this->load->view('contributionreport/view', $data);
