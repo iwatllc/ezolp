@@ -379,7 +379,7 @@ class DX_Auth
 			if (isset($auto['key_id']) AND $auto['key_id'] AND $auto['user_id'])
 			{
 				// Load Models				
-				$this->ci->load->model('dx_auth/user_autologin', 'user_autologin');
+				$this->ci->load->model('security/user_autologin', 'user_autologin');
 
 				// Get key
 				$query = $this->ci->user_autologin->get_key($auto['key_id'], $auto['user_id']);								

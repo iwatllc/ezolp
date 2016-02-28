@@ -42,6 +42,9 @@ class Ca_promo extends MX_Controller {
         // Get all users
         $data['ca_promos'] = $this -> Ca_promo_model -> list_all_promos($offset, $row_count)->result();
 
+        $data['begin_date'] = '';
+        $data['end_date'] = '';
+
         // Pagination config
         $p_config['base_url'] = 'ca_promo';
         $p_config['uri_segment'] = 3;
@@ -52,41 +55,107 @@ class Ca_promo extends MX_Controller {
         $this -> load -> view('ca_promo', $data);
     }
 
-    public function execute_search()
+    function ajax_add_promocode()
     {
-        $search_array['PaymentTransactionId'] = $this->input->post('PaymentTransactionId');
-        $search_array['BegDate'] = date( "Y-m-d", strtotime( $this->input->post('BegDate') ) );
-        $search_array['EndDate'] = date( "Y-m-d", strtotime( $this->input->post('EndDate') ) );
-        $search_array['PaymentSource'] = $this->input->post('PaymentSource');
-        $search_array['TransactionAmount'] = $this->input->post('TransactionAmount');
-        $search_array['AuthCode'] = $this->input->post('AuthCode');
-        $search_array['OrderNumber'] = $this->input->post('OrderNumber');
-        $search_array['CVV2ResponseCode'] = $this->input->post('CVV2ResponseCode');
-        $search_array['SerialNumber'] = $this->input->post('SerialNumber');
-        $search_array['TransactionStatusId'] = $this->input->post('TransactionStatusId');
+        $this -> load -> model('ca_promo_model', '', TRUE);
 
-        $this->load->model('Search_model', 'Search');
+        // run form validation
+        $this -> form_validation -> set_rules('code', 'Code', 'required');
+        $this -> form_validation -> set_rules('description', 'Description', 'required');
+        $this -> form_validation -> set_rules('begindate', 'Start Date', 'required');
+        $this -> form_validation -> set_rules('enddate', 'End Date', 'required');
+        $this -> form_validation -> set_rules('months', 'Months', 'required');
+        $this -> form_validation -> set_rules('percentage', 'Percentage', 'required');
 
-        $data['results'] = $this->Search->get_search_results($search_array);
+        if ($this -> form_validation -> run() == FALSE)
+        {
+            $errors = array();
+            if ($this -> form_validation -> run('code') == FALSE)
+                $errors['code_error'] = form_error('code');
+            if ($this -> form_validation -> run('description') == FALSE)
+                $errors['description_error'] = form_error('description');
+            if ($this -> form_validation -> run('begindate') == FALSE)
+                $errors['begindate_error'] = form_error('begindate');
+            if ($this -> form_validation -> run('enddate') == FALSE)
+                $errors['enddate_error'] = form_error('enddate');
+            if ($this -> form_validation -> run('months') == FALSE)
+                $errors['months_error'] = form_error('months');
+            if ($this -> form_validation -> run('percentage') == FALSE)
+                $errors['percentage_error'] = form_error('percentage');
 
-        $data['num_results'] = $this->Search->get_num_results($data['results']);
-        $total_amount = $this->Search->get_total_amount($data['results']);
-        $data['total_amount'] = floor($total_amount * 100) / 100; // round down nearest 2 decimal places
+            echo json_encode($errors);
 
-        $data['search_array'] = $search_array;
+            return; // if form validation fails, exit to ajax success message
+        }
 
-        $view_vars = array(
-            'title' => $this->config->item('Company_Title'),
-            'heading' => $this->config->item('Company_Title'),
-            'description' => $this->config->item('Company_Description'),
-            'company' => $this->config->item('Company_Name'),
-            'logo' => $this->config->item('Company_Logo'),
-            'author' => $this->config->item('Company_Author')
+        $code           = $this -> input -> post('code');
+        $description    = $this -> input -> post('description');
+        $begindate      = $this -> input -> post('begindate');
+        $enddate        = $this -> input -> post('enddate');
+        $months         = $this -> input -> post('months');
+        $percentage     = $this -> input -> post('percentage');
+
+        $begindate = new DateTime($begindate);
+        $begindate =  $begindate -> format('Y-m-d');
+
+        $enddate = new DateTime($enddate);
+        $enddate =  $enddate -> format('Y-m-d');
+
+        $this -> load -> helper('date');
+        $datestring = "%Y-%m-%d %H:%i:%s";
+        $time = time();
+        $createddate = mdate($datestring, $time);
+
+        // insert data to database, return the id of the row that was inserted
+        $id = $this -> ca_promo_model -> add_promo($code, $description, $begindate, $enddate, $months, $percentage, $createddate);
+
+        // query the table for the row that was just inserted
+        $row = $this -> ca_promo_model -> get_promo($id);
+
+        $dt = new DateTime($row -> startdate);
+        $startdate = $dt -> format('m-d-Y');
+        $dt = new DateTime($row -> enddate);
+        $enddate = $dt -> format('m-d-Y');
+
+
+        $data = array(
+            'id'                => $row -> id,
+            'code'              => $row -> code,
+            'description'       => $row -> description,
+            'begindate'         => $startdate,
+            'enddate'           => $enddate,
+            'months'            => $row -> months,
+            'percentage'        => $row -> percentage,
+            'num_promos'      => $this-> ca_promo_model -> get_num_promos()
         );
-        $data['transaction_statuses'] = $this->Search->get_transaction_statuses();
-        $data['payment_sources'] = $this->Search->get_form_lists();
-        $data['page_data'] = $view_vars;
 
-        $this->load->view('search', $data);
+        // go back to ajax to print data
+        echo json_encode($data);
+    }
+
+    public function ajax_del_promocode()
+    {
+        $this -> load -> model('ca_promo_model', '', TRUE);
+
+        $data = array();
+
+        if( isset( $_POST['promocodes'] ) )
+        {
+            foreach ( $_POST['promocodes'] as $id )
+            {
+                // delete sales rep
+                $this -> ca_promo_model -> del_promocode($id);
+
+//                // query the table for the row that was just deleted
+//                $row = $this -> jobnote_model -> get_jobnote($id);
+
+                array_push($data, $id);
+            }
+        }
+
+        $data['num_promocodes'] = $this-> ca_promo_model -> get_num_promos();
+
+        // go back to ajax to print data
+        echo json_encode($data);
     }
 }
