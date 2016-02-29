@@ -272,7 +272,7 @@ if($Classifiedad_Clientform == "FALSE") {
                                         'class'         => 'form-control',
                                         'type'          => 'text',
                                         'placeholder'   => '999-999-9999',
-                                        'maxlength'     => '5',
+                                        'maxlength'     => '14',
                                         'data-parsley-required' => 'true'
                                     );
 
@@ -311,7 +311,7 @@ if($Classifiedad_Clientform == "FALSE") {
                             <?php
                                 for ($i = 0; $i < 12; $i++)
                                 {
-                                    $month_array[$i] = date('F', strtotime('+'.($i+1).' month'));
+                                    $month_array[$i] = date('F', strtotime('first day of +'.($i+1).' month'));
                                 }
                             ?>
 
@@ -427,7 +427,7 @@ if($Classifiedad_Clientform == "FALSE") {
                                         'name'      => 'promocode-btn',
                                         'id'        => 'promocode-btn',
                                         'type'      => 'button',
-                                        'content'   => 'Check',
+                                        'content'   => 'Validate',
                                         'class'     => 'btn btn-primary m-r-5 m-b-5'
                                     );
 
@@ -754,7 +754,7 @@ if($Classifiedad_Clientform == "FALSE") {
 
         function check_promocode_ajax(promocode)
         {
-            $("#promo-result").html('<img src="<?php echo base_url() ?>assets/img/ajax-loader.gif" />');
+            $("#promo-result").html('<img src="<?php echo base_url() ?>assets/img/ajax-loader.gif" />  Validating Promo Code...');
 
             jQuery.ajax({
                 type: "POST",
@@ -763,7 +763,7 @@ if($Classifiedad_Clientform == "FALSE") {
                 data: {promocode:promocode},
                 success: function(res) {
                     if (res) {
-                        $("#promo-result").html('<img src="<?php echo base_url() ?>assets/img/checkmark.ico" />');
+                        $("#promo-result").html('<img src="<?php echo base_url() ?>assets/img/checkmark.ico" /> <span style="color:green;">Promo Code is Valid</span>');
                         $("#promo-info").show();
 
                         $("#promo-info").html(
@@ -811,7 +811,7 @@ if($Classifiedad_Clientform == "FALSE") {
 
                     } else
                     {
-                        $("#promo-result").html('<img src="<?php echo base_url() ?>assets/img/cross.png" />');
+                        $("#promo-result").html('<img src="<?php echo base_url() ?>assets/img/cross.png" /> <span style="color:red;">Promo Code is Not Valid</span>');
                         $("#promo-info").empty();
                         $("#promo-info").hide();
 
