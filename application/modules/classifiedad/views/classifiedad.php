@@ -404,7 +404,7 @@ if($Classifiedad_Clientform == "FALSE") {
 
                             <div class="form-group <?php echo(!empty(form_error('promocode')) ? 'has-error has-feedback' : ''); ?>">
                                 <label class="col-md-3 control-label">Promotional Code:</label>
-                                <div class="col-md-5">
+                                <div class="col-md-4">
                                     <?php
                                     $data = array(
                                         'name'          => 'promocode',
@@ -417,7 +417,23 @@ if($Classifiedad_Clientform == "FALSE") {
                                     );
 
                                     echo form_input($data);
+
                                     ?>
+                                </div>
+                                <div class="col-md-1">
+                                    <?php
+                                    $data = array(
+                                        'name'      => 'promocode-btn',
+                                        'id'        => 'promocode-btn',
+                                        'type'      => 'button',
+                                        'content'   => 'Check',
+                                        'class'     => 'btn btn-primary m-r-5 m-b-5'
+                                    );
+
+                                    echo form_button($data);
+
+                                    ?>
+                                </div>
                                     <?php echo(!empty(form_error('promocode')) ? '<span class="fa fa-times form-control-feedback"></span>' : ''); ?>
                                     <?php echo form_error('promocode'); ?>
                                     <span id="promo-result"></span>
@@ -626,8 +642,6 @@ if($Classifiedad_Clientform == "FALSE") {
         var price_per_line = "<?php echo $price_per_line ?>";
         var x_timer;
 
-
-
         // Change total on text area change
         function updateTotal() // add e as paramenter if we want IE
         {
@@ -661,11 +675,8 @@ if($Classifiedad_Clientform == "FALSE") {
                 {
                     // convert to true percentage
                     var decimalPercent = parseFloat(percentage) / 100.0;
-
                     var newTotal = numMonthsWithPercentage * (numLines * pricePerLine);
-
                     var discount = decimalPercent * newTotal;
-
                     var withPercentage = newTotal - discount;
                 }
 
@@ -675,23 +686,17 @@ if($Classifiedad_Clientform == "FALSE") {
 //                console.log('With Promo code applied to ' + numMonthsWithPercentage + 'months: ' + withPercentage);
             } else if (numMonths && numChecked < numMonths)
             {
-                // All months get the percentage off
-                var allMonths = numChecked;
+                var allMonths = numChecked; // all months get the percentage off
                 if (percentage)
                 {
-                    // convert to true percentage
-                    var decimalPercent = parseFloat(percentage) / 100.0;
-
+                    var decimalPercent = parseFloat(percentage) / 100.0; // convert to true percentage
                     var newTotal = allMonths * (numLines * pricePerLine);
-
                     var discount = decimalPercent * newTotal;
-
                     var total = newTotal - discount;
                 }
 
             } else
             {
-//                console.log('Promotion not applied!');
                 var total = numChecked * (numLines * pricePerLine);
             }
 
@@ -735,11 +740,13 @@ if($Classifiedad_Clientform == "FALSE") {
 
 
         // Check the promo code
-        $("#promocode").keyup(function (e)
-        {
-            clearTimeout(x_timer);
-            var promo_code = $(this).val();
-            x_timer = setTimeout(function() { check_promocode_ajax(promo_code); }, 1000);
+        $(document).on('click', '#promocode-btn', function() {
+            var promo_code = $('#promocode').val();
+
+            check_promocode_ajax(promo_code);
+
+//            clearTimeout(x_timer);
+//            x_timer = setTimeout(function() { check_promocode_ajax(promo_code); }, 1000);
         });
         function check_promocode_ajax(promocode)
         {
