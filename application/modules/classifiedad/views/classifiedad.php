@@ -328,7 +328,7 @@ if($Classifiedad_Clientform == "FALSE") {
                                                     'name'          => 'issues[]',
                                                     'id'            => $month,
                                                     'value'         => $month,
-                                                    'class'         => 'form-control',
+//                                                    'class'         => 'form-control',
                                                     'data-parsley-required' => 'true'
                                                 );
                                                 if ($i % 2 != 0) // if it's divisible by 6
@@ -341,7 +341,7 @@ if($Classifiedad_Clientform == "FALSE") {
                                                     echo '<tr>';
                                                         echo '<td>' . form_checkbox($data) . '</td>';
                                                         echo '<td><label class="col-md-3 control-label">' . $month . '</label></td>';
-                                                        echo '<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>';
+                                                        echo '<td><span style="padding-left:5em"></span></td>';
                                                 }
 
                                                 $i++;
@@ -757,7 +757,7 @@ if($Classifiedad_Clientform == "FALSE") {
 
                         $("#promo-info").html(
                             '<label class="col-md-3 control-label">Promotional Code Information:</label>' +
-                            '<div class="col-md-8">' +
+                            '<div class="col-md-9">' +
                             '<div class="panel-body">' +
                             '<table class="table" border="1">' +
                             '<thead>' +
