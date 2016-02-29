@@ -583,7 +583,7 @@ if($Classifiedad_Clientform == "FALSE") {
                                         </address>
                                         <address>
                                             <strong>Partnering with:</strong><br />
-                                            Internet and web design:  IWAT  (info)
+                                            Design & Built By iWAT
                                         </address>
                                     </div>
                             </div>

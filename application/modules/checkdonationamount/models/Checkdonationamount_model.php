@@ -150,6 +150,8 @@ class Checkdonationamount_model extends CI_Model
             $donation_array['InsertDate'] = $result->InsertDate;
         }
 
+        $this -> db -> query('SET SQL_BIG_SELECTS=1');
+
         $this->db->select('*');
         $this->db->from('contributors');
         $this->db->where('name', $donation_array['name']);

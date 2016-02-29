@@ -15,6 +15,8 @@ class Prospect_model extends CI_Model {
 
     public function get_matching_list(){
 
+        $this -> db -> query('SET SQL_BIG_SELECTS=1');
+
         $this->db->limit(100);
         $this->db->select('contributors.*, prospect.* ');
         $this->db->from('contributors');

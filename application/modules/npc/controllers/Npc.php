@@ -62,7 +62,7 @@ class Npc extends MX_Controller
         (
             'serialnumber' => $merchantserialnumber,
             'developerserialnumber' => $developerserialnumber,
-            'SJName' => $data['name'],
+            'SJName' => $data['firstname'] . " " . $data['lastname'],
             'StreetAddress' => $streetaddress,
             'StreetAddress2' => $streetaddress2,
             'City' => $city,
