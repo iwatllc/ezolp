@@ -102,7 +102,7 @@
         <!-- end #content -->
 
     <?php
-        echo anchor('classifiedad/', 'PROCESS ANOTHER CARD', array('class' => 'btn btn-primary btn-lg m-r-5 dontprint'));
+        echo anchor('classifiedad/', 'PROCESS ANOTHER AD', array('class' => 'btn btn-primary btn-lg m-r-5 dontprint'));
     ?>
 
     <a href="javascript:window.print()" class="btn btn-primary btn-lg m-r-5 dontprint">PRINT RECEIPT</a>
