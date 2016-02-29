@@ -317,7 +317,7 @@ if($Classifiedad_Clientform == "FALSE") {
 
                             <legend>I would like my ad to be listed in the following issue(s):</legend>
                         <div id="allIssues">
-                            <div class="form-group <?php echo(!empty(form_error('issue')) ? 'has-error has-feedback' : ''); ?>">
+                            <div class="form-group <?php echo(!empty(form_error('issues[]')) ? 'has-error has-feedback' : ''); ?>">
                                 <div class="col-md-8 control-label">
                                     <table align="center">
                                         <?php
@@ -325,21 +325,22 @@ if($Classifiedad_Clientform == "FALSE") {
                                             foreach ($month_array as $month)
                                             {
                                                 $data = array(
-                                                    'name'          => 'issues[]',
+                                                    'name'          => $month,
+                                                    'specifier'     => 'issues[]',
                                                     'id'            => $month,
-                                                    'value'         => $month,
+                                                    'value'         => set_value($month),
 //                                                    'class'         => 'form-control',
                                                     'data-parsley-required' => 'true'
                                                 );
                                                 if ($i % 2 != 0) // if it's divisible by 6
                                                 {
-                                                        echo '<td>' . form_checkbox($data) . '</td>';
+                                                        echo '<td><input type="checkbox" name="issues[]" value="'.$month.'"' . set_checkbox('issues[]', $month) . '/></td>';
                                                         echo '<td><label class="col-md-3 control-label">' . $month . '</label></td>';
                                                     echo '</tr>';
                                                 } else
                                                 {
                                                     echo '<tr>';
-                                                        echo '<td>' . form_checkbox($data) . '</td>';
+                                                    echo '<td><input type="checkbox" name="issues[]" value="'.$month.'"' . set_checkbox('issues[]', $month) . '/></td>';
                                                         echo '<td><label class="col-md-3 control-label">' . $month . '</label></td>';
                                                         echo '<td><span style="padding-left:5em"></span></td>';
                                                 }
@@ -349,8 +350,8 @@ if($Classifiedad_Clientform == "FALSE") {
                                         ?>
                                     </table>
                                 </div>
-                                <?php echo(!empty(form_error('issue')) ? '<span class="fa fa-times form-control-feedback"></span>' : ''); ?>
-                                <?php echo form_error('issue'); ?>
+                                <?php echo(!empty(form_error('issues[]')) ? '<span class="fa fa-times form-control-feedback"></span>' : ''); ?>
+                                <?php echo form_error('issues[]'); ?>
                             </div>
                         </div>
 
@@ -446,7 +447,7 @@ if($Classifiedad_Clientform == "FALSE") {
 
                             <div class="form-group <?php echo(!empty(form_error('grandtotal')) ? 'has-error has-feedback' : ''); ?>">
                                 <label class="col-md-3 control-label"><b>TOTAL AMOUNT:</b></label>
-                                <div class="col-md-1">
+                                <div class="col-md-2">
                                     <?php
                                     $data = array(
                                         'name'          => 'grandtotal',
@@ -456,8 +457,8 @@ if($Classifiedad_Clientform == "FALSE") {
                                         'type'          => 'text',
                                         'size'          => '20',
                                         'data-parsley-required' => 'true',
-                                        'readonly'      => 'true'
-//                                        'style'         => 'outline: none; border-color: green; box-shadow: 0 0 10px green;'
+                                        'readonly'      => 'true',
+                                        'style'         => 'outline: none; border-color: green; box-shadow: 0 0 10px green; background-color:white; color: #000000;'
                                     );
 
                                     echo form_input($data);
@@ -640,7 +641,12 @@ if($Classifiedad_Clientform == "FALSE") {
     $(document).ready(function() {
         var lines_per_char = "<?php echo $lines_per_char ?>";
         var price_per_line = "<?php echo $price_per_line ?>";
-        var x_timer;
+
+        // On page load, check if promo code exists (in case form validation fails)
+        if ($('#promocode').val() != '')
+        {
+            $('#promocode-btn').click();
+        }
 
         // Change total on text area change
         function updateTotal() // add e as paramenter if we want IE
@@ -661,8 +667,6 @@ if($Classifiedad_Clientform == "FALSE") {
             var percentage = $('#percentage').text();
             var numMonths = $('#numMonths').text();
 
-//            console.log('Total before Promo Code: ' + total);
-
             // Apply percentage off depending on the number of boxes checked and the promo code percentage
             if (numMonths && numChecked >= numMonths)
             {
@@ -682,8 +686,6 @@ if($Classifiedad_Clientform == "FALSE") {
 
                 var total = withPercentage + withoutPercentage;
 
-//                console.log('Without Promo code applied to ' + numMonthsWithoutPercentage + 'months: ' + withoutPercentage);
-//                console.log('With Promo code applied to ' + numMonthsWithPercentage + 'months: ' + withPercentage);
             } else if (numMonths && numChecked < numMonths)
             {
                 var allMonths = numChecked; // all months get the percentage off
@@ -700,15 +702,15 @@ if($Classifiedad_Clientform == "FALSE") {
                 var total = numChecked * (numLines * pricePerLine);
             }
 
-//            console.log(
-////                'Lines per character: '             + lines_per_char + '\n' +
-////                'Price per line: '                  + price_per_line + '\n' +
-//                'Number of lines in Text Area: '    + numLines + '\n' +
-//                'Number of months checked: '        + numChecked + '\n' +
-//                'Percentage off  for promo code: '  + percentage + '\n' +
-//                'Number of months for promo code: ' + numMonths + '\n' +
-//                'Grand Total: '                     + total
-//            );
+            console.log(
+//                'Lines per character: '             + lines_per_char + '\n' +
+//                'Price per line: '                  + price_per_line + '\n' +
+                'Number of lines in Text Area: '    + numLines + '\n' +
+                'Number of months checked: '        + numChecked + '\n' +
+                'Percentage off  for promo code: '  + percentage + '\n' +
+                'Number of months for promo code: ' + numMonths + '\n' +
+                'Grand Total: '                     + total
+            );
 
             if(total)
             {
@@ -738,16 +740,18 @@ if($Classifiedad_Clientform == "FALSE") {
             issuesDiv.addEventListener('CheckboxStateChange',updateTotal,false);
         }
 
+        $("#allIssues").change(function() {
+
+            updateTotal();
+        });
+
 
         // Check the promo code
         $(document).on('click', '#promocode-btn', function() {
             var promo_code = $('#promocode').val();
-
             check_promocode_ajax(promo_code);
-
-//            clearTimeout(x_timer);
-//            x_timer = setTimeout(function() { check_promocode_ajax(promo_code); }, 1000);
         });
+
         function check_promocode_ajax(promocode)
         {
             $("#promo-result").html('<img src="<?php echo base_url() ?>assets/img/ajax-loader.gif" />');
@@ -943,7 +947,6 @@ if($Classifiedad_Clientform == "FALSE") {
     });
 
 </script>
-
 
 </body>
 </html>

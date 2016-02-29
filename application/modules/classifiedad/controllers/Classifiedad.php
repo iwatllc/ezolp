@@ -165,7 +165,7 @@ class Classifiedad extends MX_Controller {
         $this -> form_validation -> set_rules('zip', 'Zip Code', 'required|min_length[5]|max_length[5]');
         $this -> form_validation -> set_rules('phone', 'Phone Number', 'required|min_length[14]|max_length[14]');
         $this -> form_validation -> set_rules('email', 'Email', 'valid_email');
-        $this -> form_validation -> set_rules('issues', 'Issues');
+        $this -> form_validation -> set_rules('issues[]', 'Issues', 'required');
         $this -> form_validation -> set_rules('adtext', 'Ad Text', 'required');
         $this -> form_validation -> set_rules('grandtotal', 'Total', 'required');
 
