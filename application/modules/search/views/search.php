@@ -131,10 +131,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     </div>
                         <div class="panel-body">
                             <div class="table-responsive">
-                                <?php if (isset($num_results)) 
-                                      {
-                                           echo 'Records Returned: ' . $num_results;
-                                      } ?>
                                 <table border="1" width="50%" style="text-align: center;">
                               <?php if (isset($results))
                                     { 
@@ -261,17 +257,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                                                     break;
                                                             }
                                                         echo "</td>";
-														if(strcmp($result->status, 'Void') != 0 && strcmp($result->status, 'Refund') != 0 && strcmp($result->status, 'Declined') != 0 ) {
-															echo "<td>";
-															echo "<button data-paymentTransactionFileName='". $result->TransactionFileName ."' data-paymentResponseId='". $result->PaymentTransactionId ."' class='btn btn-link btn-changestatus'>Check Status</button><br>";
-                                                            if($result->paymentsource == 'DF'){
-                                                                echo "<button data-paymentTransactionFileName='". $result->TransactionFileName ."' data-paymentResponseId='". $result->PaymentTransactionId ."' class='btn btn-link btn-checkdonationamount'>Check Donation Amount</button><br>";
-                                                            }
-                                                            echo "</td>";
-														}
-														else {
+//														if(strcmp($result->status, 'Void') != 0 && strcmp($result->status, 'Refund') != 0 && strcmp($result->status, 'Declined') != 0 ) {
+//															echo "<td>";
+//															echo "<button data-paymentTransactionFileName='". $result->TransactionFileName ."' data-paymentResponseId='". $result->PaymentTransactionId ."' class='btn btn-link btn-changestatus'>Check Status</button><br>";
+//                                                            if($result->paymentsource == 'DF'){
+//                                                                echo "<button data-paymentTransactionFileName='". $result->TransactionFileName ."' data-paymentResponseId='". $result->PaymentTransactionId ."' class='btn btn-link btn-checkdonationamount'>Check Donation Amount</button><br>";
+//                                                            }
+//                                                            echo "</td>";
+//														}
+//														else {
 															echo "<td>&nbsp;</td>";
-														}
+//														}
                                                     echo "<tr>";
                                                 } ?>
                                             </tbody>

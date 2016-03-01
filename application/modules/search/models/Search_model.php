@@ -72,12 +72,15 @@ class Search_model extends CI_Model {
 
               $this->db->join('transaction_type', 'payment_response.TransactionTypeId = transaction_type.id', 'inner');
 
+              $this->db->join('classifiedad_submissions', 'payment_response.TransactionTypeId = classifiedad_submissions.id AND payment_response.PaymentSource = "CA"', 'inner');
+
+
               $this->db->order_by('payment_response.InsertDate', 'DESC');
 
               // Sample of what the join should look like.
               //$this->db->join('virtualterminal_submissions', 'payment_response.PaymentTransactionId = virtualterminal_submissions.id and payment_response.PaymentSource = "VT" ');
               // Uncomment this to view the sql code in debug.
-              // $sql = $this->db->get_compiled_select();
+//               $sql = $this->db->get_compiled_select();
 
               return $this->db->get();
 

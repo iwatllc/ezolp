@@ -65,7 +65,7 @@ class Payment extends MX_Controller
 	private function _NPC_post_payment($data)
 	{
 		$this->load->module('npc');
-        $result_data = $this->npc->post_payment($data);
+        $result_data = $this->npc->post_payment($data);  //
 
         return array(
             'AuthCode' => $result_data['AUTHCODE'],
@@ -88,22 +88,39 @@ class Payment extends MX_Controller
 	
 	private function _NMI_post_payment($data)
 	{
-		$this->load->module('nmi');
-		$result_data = $this->nmi->doSale($data);
+        if ($data['amount'] == '0.00')
+        {
+            return array(
+                'AuthCode'              => 'FREE',
+                'AVSResponseCode'       => 'N',
+                'OrderNumber'           => $data['transaction_id'],
+                'IsApproved'            => '1',
+                'CVV2ResponseCode'      => '0',
+                'ReturnCode'            => '1',
+                'TransactionFileName'   => '0',
+                'ResponseHTML'          => '',
+                'UpdateDate'            => date('Y-n-j H:i:s'),
+                'TransactionStatusId'   => '1'
+            );
+        } else
+        {
+            $this->load->module('nmi');
 
-		
-		return array(
-            'AuthCode' => $result_data['authcode'],
-            'AVSResponseCode' => $result_data['avsresponse'],
-            'OrderNumber' => $result_data['orderid'],
-            'IsApproved' => $result_data['response'],
-            'CVV2ResponseCode' => $result_data['cvvresponse'],
-            'ReturnCode' => $result_data['response_code'],
-            'TransactionFileName' => $result_data['transactionid'],
-            'ResponseHTML' => $result_data['responsetext'],
-            'UpdateDate' => date('Y-n-j H:i:s'),
-            'TransactionStatusId' => ($result_data['response'] == '1' ? '1' : '4')
-        );
+            $result_data = $this->nmi->doSale($data);
+
+            return array(
+                'AuthCode' => $result_data['authcode'],
+                'AVSResponseCode' => $result_data['avsresponse'],
+                'OrderNumber' => $result_data['orderid'],
+                'IsApproved' => $result_data['response'],
+                'CVV2ResponseCode' => $result_data['cvvresponse'],
+                'ReturnCode' => $result_data['response_code'],
+                'TransactionFileName' => $result_data['transactionid'],
+                'ResponseHTML' => $result_data['responsetext'],
+                'UpdateDate' => date('Y-n-j H:i:s'),
+                'TransactionStatusId' => ($result_data['response'] == '1' ? '1' : '4')
+            );
+        }
 	}
 	
 	public function process_refund($data)

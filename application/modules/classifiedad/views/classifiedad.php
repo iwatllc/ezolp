@@ -660,6 +660,18 @@ if($Classifiedad_Clientform == "FALSE") {
             $('#promocode-btn').click();
         }
 
+        // Allow enter key to be pressed for promo code
+        $('#promocode').on('keyup keypress', function(e) {
+            // look for window.event in case event isn't passed in
+            e = e || window.event;
+            if (e.keyCode == 13)
+            {
+                document.getElementById('promocode-btn').click();
+                return false;
+            }
+            return true;
+        });
+
         // Change total on text area change
         function updateTotal() // add e as paramenter if we want IE
         {
