@@ -389,7 +389,7 @@ if($Classifiedad_Clientform == "FALSE") {
                                         'name'          => 'totallines',
                                         'id'            => 'totallines',
                                         'value'         => set_value('totallines'),
-//                                        'class'         => 'form-control',
+                                        'class'         => 'form-control',
                                         'type'          => 'text',
                                         'size'          => '4',
                                         'data-parsley-required' => 'true',
@@ -421,7 +421,7 @@ if($Classifiedad_Clientform == "FALSE") {
 
                                     ?>
                                 </div>
-                                <div class="col-md-1">
+                                <div class="col-md-2">
                                     <?php
                                     $data = array(
                                         'name'      => 'promocode-btn',
@@ -433,12 +433,24 @@ if($Classifiedad_Clientform == "FALSE") {
 
                                     echo form_button($data);
 
+                                    $data = array(
+                                        'name'      => 'promocode-btn-cancel',
+                                        'id'        => 'promocode-btn-cancel',
+                                        'type'      => 'button',
+                                        'content'   => 'Clear',
+                                        'class'     => 'btn btn-danger m-r-5 m-b-5',
+                                        'style'     => 'display:none'
+                                    );
+
+                                    echo form_button($data);
+
                                     ?>
                                 </div>
                                     <?php echo(!empty(form_error('promocode')) ? '<span class="fa fa-times form-control-feedback"></span>' : ''); ?>
                                     <?php echo form_error('promocode'); ?>
-                                    <span id="promo-result"></span>
                                 </div>
+                            <div class="col-md-3"></div>
+                            <div class="col-md-4" id="promo-result"></div><br/>
                             </div>
 
                             <div class="form-group" id="promo-info" style="display:none"></div>
@@ -745,16 +757,35 @@ if($Classifiedad_Clientform == "FALSE") {
             updateTotal();
         });
 
-
         // Check the promo code
         $(document).on('click', '#promocode-btn', function() {
             var promo_code = $('#promocode').val();
             check_promocode_ajax(promo_code);
         });
 
+        // Cancel the promo code
+        $(document).on('click', '#promocode-btn-cancel', function() {
+            $('#promo-info').hide(); // hide info table
+            $('#promo-info').empty(); // clear info table
+            $("#percentage").empty(); // reset the percentage
+            $("#numMonths").empty(); // reset the number of months
+            $("#promocode").val('');// clear promo code text
+            $("#promocode").prop("disabled", false); // make promo code text editable
+            $('#promo-result').empty(); // remove promo code notification (valid/invalid)
+            $("button[id=promocode-btn-cancel]").hide();
+            $("button[id=promocode-btn]").show();
+
+
+            updateTotal();  // update total amount with the promo code removed
+        });
+
         function check_promocode_ajax(promocode)
         {
-            $("#promo-result").html('<img src="<?php echo base_url() ?>assets/img/ajax-loader.gif" />  Validating Promo Code...');
+            // Replace button with animated loading gif
+            $('#promocode-btn').attr('disabled', true).empty().prepend('<img src="<?php echo base_url() ?>assets/img/loading-gif.gif" />&nbsp; Validating...');
+
+            $("#promo-result").empty();
+//            $("#promo-result").html('<img src="<?php //echo base_url() ?>//assets/img/ajax-loader.gif" />  Validating...');
 
             jQuery.ajax({
                 type: "POST",
@@ -765,6 +796,8 @@ if($Classifiedad_Clientform == "FALSE") {
                     if (res) {
                         $("#promo-result").html('<img src="<?php echo base_url() ?>assets/img/checkmark.ico" /> <span style="color:green;">Promo Code is Valid</span>');
                         $("#promo-info").show();
+                        $("button[id=promocode-btn-cancel]").show();
+                        $("button[id=promocode-btn]").attr('disabled', false).empty().hide().prepend('Validate');
 
                         $("#promo-info").html(
                             '<label class="col-md-3 control-label">Promotional Code Information:</label>' +
@@ -811,6 +844,7 @@ if($Classifiedad_Clientform == "FALSE") {
 
                     } else
                     {
+                        $('#promocode-btn').removeAttr('disabled').empty().prepend('Validate');
                         $("#promo-result").html('<img src="<?php echo base_url() ?>assets/img/cross.png" /> <span style="color:red;">Promo Code is Not Valid</span>');
                         $("#promo-info").empty();
                         $("#promo-info").hide();
