@@ -23,14 +23,17 @@ class Configsys extends MX_Controller {
     }
 
 
-    public function get_config_value($data)
+    public function get_config_value($data, $defaultValue = "")
     {
         $this->load->model('Configsys_model');
         $value = $this->Configsys_model->get_value($data);
-        return $value;
+
+        if(empty($value)) {
+            return $defaultValue;
+        } else {
+            return $value;
+        }
     }
-
-
 
 
 }
