@@ -408,7 +408,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     </div>
                                 </div>
                                 <div class="form-group <?php echo(!empty(form_error('email')) ? 'has-error has-feedback' : ''); ?>">
-                                    <label class="col-md-3 control-label">Email</label>
+                                    <label class="col-md-3 control-label">Email<?php echo( $Donationform_Email_Required == 'TRUE' ? '*' : ' ') ?></label>
                                     <div class="col-md-9">
                                         <?php
                                         $data = array(
@@ -419,7 +419,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                             'type'          => 'email',
                                             'placeholder'   => 'email address',
                                             'maxlength'     => '100',
-                                            'data-parsley-required' => 'false'
+                                            'data-parsley-required' => $Donationform_Email_Required
                                         );
 
                                         echo form_input($data);

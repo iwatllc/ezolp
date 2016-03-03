@@ -16,6 +16,8 @@ class Backend extends CI_Controller
 		$this->load->library('Table');
 		$this->load->library('Pagination');
 		$this->load->library('DX_Auth');
+		$this->load->library('user_agent');
+		// $this->load->library('Oauth2_lib');
 		
 		$this->load->helper('form');
 		$this->load->helper('url');
@@ -28,6 +30,80 @@ class Backend extends CI_Controller
 	function index()
 	{
 		$this->users();
+	}
+
+
+	function nationbuilder()
+	{
+		$this->load->model('configsys/configsys_model');
+
+		$view_vars = array(
+			'title' => $this->config->item('Company_Title'),
+			'heading' => $this->config->item('Company_Title'),
+			'description' => $this->config->item('Company_Description'),
+			'company' => $this->config->item('Company_Name'),
+			'logo' => $this->config->item('Company_Logo'),
+			'author' => $this->config->item('Company_Author'),
+			'page_title' => 'Manage NationBuilder Integration',
+		);
+		$data['page_data'] = $view_vars;
+
+		// handle form submission
+		if ($this->input->post('save'))
+		{
+			// Store form input
+			$this->configsys_model->set_value('nationbuilder_enabled', $this->input->post('nb_enabled'));
+			$this->configsys_model->set_value('nationbuilder_slug', $this->input->post('slug'));
+			$this->configsys_model->set_value('nationbuilder_client_id', $this->input->post('client_id'));
+			$this->configsys_model->set_value('nationbuilder_client_secret', $this->input->post('client_secret'));
+		}
+
+		// Retreive form values
+		$form_vars = array(
+			'enabled' => $this->configsys_model->get_value('nationbuilder_enabled'),
+			'slug' => $this->configsys_model->get_value('nationbuilder_slug'),
+			'client_id' => $this->configsys_model->get_value('nationbuilder_client_id'),
+			'client_secret' => $this->configsys_model->get_value('nationbuilder_client_secret'),
+			'token_success' => false,
+			'access_token' => $this->configsys_model->get_value('nationbuilder_access_token'),
+			'auth_url' => '#'
+		);
+
+		require_once 'vendor/adoy/oauth2/src/OAuth2/Client.php';
+		require_once 'vendor/adoy/oauth2/src/OAuth2/GrantType/IGrantType.php';
+		require_once 'vendor/adoy/oauth2/src/OAuth2/GrantType/AuthorizationCode.php';
+
+		// Create the OAuth2 client
+		$client = new OAuth2\Client($form_vars['client_id'], $form_vars['client_secret']);
+
+		// Generate the auth url
+		$redirectUrl    = base_url() . 'security/backend/nationbuilder';
+		$authorizeUrl   = 'https://' . $form_vars['slug'] . '.nationbuilder.com/oauth/authorize';
+		$authUrl = $client->getAuthenticationUrl($authorizeUrl, $redirectUrl);
+		$form_vars['auth_url'] = $authUrl;
+
+		// handle oauth callback
+		if ($this->input->get('code'))
+		{
+			// Grab the code param and use it to request a token
+			$code = $this->input->get('code');
+			$accessTokenUrl = 'https://' . $form_vars['slug'] . '.nationbuilder.com/oauth/token';
+			$params = array('code' => $code, 'redirect_uri' => $redirectUrl);
+			$response = $client->getAccessToken($accessTokenUrl, 'authorization_code', $params);
+
+			// Store the access token if response was valid
+			if($response['code'] == 200) {
+				$this->configsys_model->set_value('nationbuilder_access_token', $response['result']['access_token']);
+				$form_vars['access_token'] = $response['result']['access_token'];
+				$form_vars['token_success'] = true;
+			}
+			// TODO: handle response code other than 200.
+		}
+
+		$data['form_vars'] = $form_vars;
+		
+		// Load view
+		$this->load->view('backend/nationbuilder', $data);
 	}
 	
 	function users()

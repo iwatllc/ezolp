@@ -7,6 +7,7 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'org\\bovigo\\vfs' => array($vendorDir . '/mikey179/vfsStream/src/main/php'),
+    'OAuth2' => array($vendorDir . '/adoy/oauth2/src'),
     'Lurker' => array($vendorDir . '/henrikbjorn/lurker/src'),
     'Less' => array($vendorDir . '/oyejorge/less.php/lib'),
     'JSqueeze' => array($vendorDir . '/patchwork/jsqueeze/class'),

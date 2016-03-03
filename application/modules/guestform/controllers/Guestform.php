@@ -10,8 +10,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Guestform extends MX_Controller {
 
-
-
     public function __construct()
     {
         parent::__construct();
@@ -20,99 +18,39 @@ class Guestform extends MX_Controller {
         $this->load->library('form_validation');
         $this->form_validation->CI =& $this;
 
+        // Load Required Modules
+        $this->load->module('payment');
         $this->load->module('configsys');
+        $this->load->module('nation_builder');
+        $this->load->module('email_sys');
 
-        // Your own constructor code
-        //$this->dx_auth->check_uri_permissions();
-
+        // Load Required Models
+        $this->load->model('Guestform_model', 'Guestform');
     }
 
-
+    /*
+     * Handles the default view
+     */
     public function index()
     {
-        // Gather all the info for the view
-        $clientname = $this->configsys->get_config_value('Client_Name');
-        $clientaddress = $this->configsys->get_config_value('Client_Address');
-        $clientcity = $this->configsys->get_config_value('Client_City');
-        $clientstate = $this->configsys->get_config_value('Client_State');
-        $clientzip = $this->configsys->get_config_value('Client_Zip');
-        $clientphone = $this->configsys->get_config_value('Client_Phone');
-        $clientwebsite = $this->configsys->get_config_value('Client_Website');
-
-        $client_data = array(
-            'clientname' => $clientname,
-            'clientaddress' => $clientaddress,
-            'clientcity' => $clientcity,
-            'clientstate' => $clientstate,
-            'clientzip' => $clientzip,
-            'clientphone' => $clientphone,
-            'clientwebsite' => $clientwebsite
-        );
-
-        $data['client_data'] = $client_data;
-
-        $data['Guestform_Notes'] = $this->configsys->get_config_value('Guestform_Notes');
-        $data['Guestform_Email'] = $this->configsys->get_config_value('Guestform_Email');
-        $data['Guestform_Clientform'] = $this->configsys->get_config_value('Guestform_Clientform');
-        $data['Guestform_Notes_Label'] = $this->configsys->get_config_value('Guestform_Notes_Label');
-        $data['Guestform_Notes_Required'] = $this->configsys->get_config_value('Guestform_Notes_Required');
-        $data['Guestform_Email_Required'] = $this->configsys->get_config_value('Guestform_Email_Required');
-        $data['Guestform_Logo'] = $this->configsys->get_config_value('Guestform_Logo');
-
-
-        $view_vars = array(
-            'title' => $this->configsys->get_config_value('Client_Title'),
-            'heading' => $this->configsys->get_config_value('Client_Title'),
-            'description' => $this->configsys->get_config_value('Client_Description'),
-            'company' => $this->configsys->get_config_value('Client_Name'),
-            'logo' => $this->configsys->get_config_value('Client_Logo'),
-            'author' => $this->configsys->get_config_value('Client_Author')
-        );
-        $data['page_data'] = $view_vars;
-
-        $this->load->view('guestform', $data);
+        // Display the guestform index
+        $this->load->view('guestform', $this->get_view_data());
     }
 
-
+    /*
+     * Handles submission of the guest form
+     */
     public function submit()
     {
-        $this->form_validation->set_rules('firstname', 'First Name', 'required|max_length[100]');
-        $this->form_validation->set_rules('middleinitial', 'Middle Initial', 'max_length[1]');
-        $this->form_validation->set_rules('lastname', 'Last Name', 'required|max_length[100]');
-        $this->form_validation->set_rules('streetaddress', 'Street Address', 'required|max_length[100]');
-        $this->form_validation->set_rules('city', 'City', 'required|max_length[100]');
-        $this->form_validation->set_rules('state', 'State', 'required|callback_check_default');
-        $this->form_validation->set_rules('zip', 'Zip Code', 'required|min_length[5]|max_length[5]');
-        $this->form_validation->set_rules('email', 'Email', 'valid_email');
-        $this->form_validation->set_rules('creditcard', 'Credit Card', 'required|callback_check_creditcard');
-        $this->form_validation->set_rules('expirationmonth', 'Expiration Month', 'required|callback_check_default');
-        $this->form_validation->set_rules('expirationyear', 'Expiration Year', 'required');
-        $this->form_validation->set_rules('cvv2', 'CVV2 Code', 'required|min_length[3]|max_length[4]');
-        $this->form_validation->set_rules('paymentamount', 'Payment Amount', 'required');
+        log_message('debug', 'GuestForm submitted...');
 
-        $Guestform_Notes_Required = $this->configsys->get_config_value('Guestform_Notes_Required');
-        if ($Guestform_Notes_Required == 'TRUE'){
-            $this->form_validation->set_rules('notes', 'Notes', 'required');
-        }
+        // Call helper function to setup form validation
+        $this->setup_form_validation();
 
-        $Guestform_Email_Required = $this->configsys->get_config_value('Guestform_Email_Required');
-        if ($Guestform_Email_Required == 'TRUE'){
-            $this->form_validation->set_rules('email', 'Email', 'required');
-        }
-
-
-
-
-        if ($this->form_validation->run() == FALSE)
-        {
+        if ($this->form_validation->run() == false) {
             $this->index();
-        }
-        else
-        {
-
-            // SAVE SUBMITTED FORM DATA
-            $this->load->model('Guestform_model', 'Guestform');
-
+        } else {
+            // Construct array of submitted data
             $submitted_data = array(
                 'firstname' => $this->input->post('firstname'),
                 'middleinitial' => $this->input->post('middleinitial'),
@@ -127,9 +65,8 @@ class Guestform extends MX_Controller {
                 'cardtype' => $this->input->post('cardtype'),
                 'cclast4' => substr($this->input->post('creditcard'), -4),
                 'amount' => str_replace( ',', '', $this->input->post('paymentamount') ),
-                'InsertDate' => date('Y-n-j H:i:s')
+                'InsertDate' => date('Y-n-j H:i:s'),
             );
-
 
             // Get insertd record id to use as transaction id.
             $transaction_id = $this->Guestform->save($submitted_data);
@@ -142,95 +79,130 @@ class Guestform extends MX_Controller {
             $submitted_data['cvv2'] = $this->input->post('cvv2');
             $submitted_data['PaymentSource'] = 'GF';
 
-
-            // PROCESS CREDIT CARD DATA
-            $this->load->module('payment');
+            // Process Credit Card            
             $result_data = $this->payment->process_payment($submitted_data);
 
-            // CHECK TO SEE IF TRANSACTION WENT THROUGH
-            if($result_data['IsApproved'] == '1'){
-                // SEND EMAIL RECIEPT TO PAYER
-                $guestform_sendreceipt = $this->configsys->get_config_value('Guestform_Sendreceipt');
-                $guestform_emailsubject = $this->configsys->get_config_value('Guesform_Email_Subject');
-                $to_email = $this->input->post('email');
-                if ($guestform_sendreceipt == 'TRUE') {
-                    if(strlen(trim($to_email)) > 0){
-                        $this->load->module('email_sys');
+            // Was the credit card processed successfully?
+            if($result_data['IsApproved'] == '1') {
+                // Trigger Events
+                Events::trigger('guestform_payment_approved', $this->get_view_data($submitted_data, $result_data), 'string');
 
-                        $message = '<!DOCTYPE html><html><body>';
-                        $message .= '<p>';
-                        $message .= 'Than you for your payment';
-                        $message .= '<br>';
-                        $message .= 'Please keep this receipt for your records';
-                        $message .= '<br>';
-                        $message .= '<hr>';
-                        $message .= $this->input->post('firstname'). ' ' . $this->input->post('lastname');
-                        $message .= '<br>';
-                        $message .= $this->input->post('cardtype'). ' Ending in ' . substr($this->input->post('creditcard'), -4);
-                        $message .= '<br>';
-                        $message .= 'Amount Paid: ' . str_replace( ',', '', $this->input->post('paymentamount') );
-                        $message .= '<br>';
-                        $message .= 'Date: ' . date('Y-n-j H:i:s') ;
-                        $message .= '<hr>';
-                        $message .= '<br>';
-                        $message .= '</p>';
-                        $message .= '</body></html>';
+                $receipt_enabled = strtoupper($this->configsys->get_config_value('Guestform_Sendreceipt'));
 
-                        $result_info = $this->email_sys->send_email($to_email, $guestform_emailsubject, $message);
-                    }
+                if($receipt_enabled === 'TRUE') {
+                    // Send Receipt
+                    $this->email_sys->send_email($submitted_data['email'], 
+                        $this->configsys->get_config_value('Guesform_Email_Subject'), 
+                        $this->get_email_body());
                 }
             }
 
-            // Gather all the info for the view
-            $clientname = $this->configsys->get_config_value('Client_Name');
-            $clientaddress = $this->configsys->get_config_value('Client_Address');
-            $clientcity = $this->configsys->get_config_value('Client_City');
-            $clientstate = $this->configsys->get_config_value('Client_State');
-            $clientzip = $this->configsys->get_config_value('Client_Zip');
-            $clientphone = $this->configsys->get_config_value('Client_Phone');
-            $clientwebsite = $this->configsys->get_config_value('Client_Website');
-
-            $client_data = array(
-                'clientname' => $clientname,
-                'clientaddress' => $clientaddress,
-                'clientcity' => $clientcity,
-                'clientstate' => $clientstate,
-                'clientzip' => $clientzip,
-                'clientphone' => $clientphone,
-                'clientwebsite' => $clientwebsite
-            );
-
-            $data['client_data'] = $client_data;
-
-            $data['Guestform_Notes'] = $this->configsys->get_config_value('Guestform_Notes');
-            $data['Guestform_Email'] = $this->configsys->get_config_value('Guestform_Email');
-            $data['Guestform_Clientform'] = $this->configsys->get_config_value('Guestform_Clientform');
-            $data['Guestform_Notes_Label'] = $this->configsys->get_config_value('Guestform_Notes_Label');
-            $data['Guestform_Notes_Required'] = $this->configsys->get_config_value('Guestform_Notes_Required');
-            $data['Guestform_Email_Required'] = $this->configsys->get_config_value('Guestform_Email_Required');
-            $data['Guestform_Signature'] = $this->configsys->get_config_value('Guestform_Signature');
-
-
-            // Gather all the info for the view
-            $view_vars = array(
-                'title' => $this->configsys->get_config_value('Client_Title'),
-                'heading' => $this->configsys->get_config_value('Client_Title'),
-                'description' => $this->configsys->get_config_value('Client_Description'),
-                'company' => $this->configsys->get_config_value('Client_Name'),
-                'logo' => $this->configsys->get_config_value('Client_Logo'),
-                'author' => $this->configsys->get_config_value('Client_Author')
-            );
-            $data['page_data'] = $view_vars;
-            $data['result_data'] = $result_data;
-            $data['submitted_data'] = $submitted_data;
-
-            $this->load->view('guestformresult', $data);
+            // Load the guestform result view
+            $this->load->view('guestformresult', $this->get_view_data($submitted_data, $result_data));
         }
-
-
-
     }
 
+    /*
+     * Collects all required configuration data for the guestform views
+     */
+    private function get_view_data($submitted_data = array(), $result_data = array()) {
+        log_message('debug', 'Getting GuestForm view data...');
+
+        $data = array();
+
+        // Gather all the info for the view
+        $data['client_data'] = array(
+            'clientname' => $this->configsys->get_config_value('Client_Name'),
+            'clientaddress' => $this->configsys->get_config_value('Client_Address'),
+            'clientcity' => $this->configsys->get_config_value('Client_City'),
+            'clientstate' => $this->configsys->get_config_value('Client_State'),
+            'clientzip' => $this->configsys->get_config_value('Client_Zip'),
+            'clientphone' => $this->configsys->get_config_value('Client_Phone'),
+            'clientwebsite' => $this->configsys->get_config_value('Client_Website'),
+        );
+
+        $data['Guestform_Notes'] = $this->configsys->get_config_value('Guestform_Notes');
+        $data['Guestform_Email'] = $this->configsys->get_config_value('Guestform_Email');
+        $data['Guestform_Clientform'] = $this->configsys->get_config_value('Guestform_Clientform');
+        $data['Guestform_Notes_Label'] = $this->configsys->get_config_value('Guestform_Notes_Label');
+        $data['Guestform_Notes_Required'] = $this->configsys->get_config_value('Guestform_Notes_Required');
+        $data['Guestform_Email_Required'] = $this->configsys->get_config_value('Guestform_Email_Required');
+        $data['Guestform_Signature'] = $this->configsys->get_config_value('Guestform_Signature');
+        $data['Guestform_Logo'] = $this->configsys->get_config_value('Guestform_Logo');
+
+        $view_vars = array(
+            'title' => $this->configsys->get_config_value('Client_Title'),
+            'heading' => $this->configsys->get_config_value('Client_Title'),
+            'description' => $this->configsys->get_config_value('Client_Description'),
+            'company' => $this->configsys->get_config_value('Client_Name'),
+            'logo' => $this->configsys->get_config_value('Client_Logo'),
+            'author' => $this->configsys->get_config_value('Client_Author')
+        );
+        $data['page_data'] = $view_vars;
+        $data['result_data'] = $result_data;
+        $data['submitted_data'] = $submitted_data;
+
+        return $data;
+    }
+
+    /*
+     * Configures form validation for the guestform
+     */
+    private function setup_form_validation() {
+        log_message('debug', 'Setting up GuestForm form validation...');
+
+        $this->form_validation->set_rules('firstname', 'First Name', 'required|max_length[100]');
+        $this->form_validation->set_rules('middleinitial', 'Middle Initial', 'max_length[1]');
+        $this->form_validation->set_rules('lastname', 'Last Name', 'required|max_length[100]');
+        $this->form_validation->set_rules('streetaddress', 'Street Address', 'required|max_length[100]');
+        $this->form_validation->set_rules('city', 'City', 'required|max_length[100]');
+        $this->form_validation->set_rules('state', 'State', 'required|callback_check_default');
+        $this->form_validation->set_rules('zip', 'Zip Code', 'required|min_length[5]|max_length[5]');
+        $this->form_validation->set_rules('email', 'Email', 'valid_email');
+        $this->form_validation->set_rules('creditcard', 'Credit Card', 'required|callback_check_creditcard');
+        $this->form_validation->set_rules('expirationmonth', 'Expiration Month', 'required|callback_check_default');
+        $this->form_validation->set_rules('expirationyear', 'Expiration Year', 'required');
+        $this->form_validation->set_rules('cvv2', 'CVV2 Code', 'required|min_length[3]|max_length[4]');
+        $this->form_validation->set_rules('paymentamount', 'Payment Amount', 'required');
+
+        // Handle notes field requirement
+        $Guestform_Notes_Required = $this->configsys->get_config_value('Guestform_Notes_Required');
+        if ($Guestform_Notes_Required == 'TRUE'){
+            $this->form_validation->set_rules('notes', 'Notes', 'required');
+        }
+
+        // Handle notes field requirement
+        $Guestform_Email_Required = $this->configsys->get_config_value('Guestform_Email_Required');
+        if ($Guestform_Email_Required == 'TRUE'){
+            $this->form_validation->set_rules('email', 'Email', 'required');
+        }
+    }
+
+    /*
+     * Returns the body for an email receipt
+     */
+    private function get_email_body() {
+        $message = '<!DOCTYPE html><html><body>';
+        $message .= '<p>';
+        $message .= 'Than you for your payment';
+        $message .= '<br>';
+        $message .= 'Please keep this receipt for your records';
+        $message .= '<br>';
+        $message .= '<hr>';
+        $message .= $this->input->post('firstname'). ' ' . $this->input->post('lastname');
+        $message .= '<br>';
+        $message .= $this->input->post('cardtype'). ' Ending in ' . substr($this->input->post('creditcard'), -4);
+        $message .= '<br>';
+        $message .= 'Amount Paid: ' . str_replace( ',', '', $this->input->post('paymentamount') );
+        $message .= '<br>';
+        $message .= 'Date: ' . date('Y-n-j H:i:s') ;
+        $message .= '<hr>';
+        $message .= '<br>';
+        $message .= '</p>';
+        $message .= '</body></html>';
+
+        return $message;
+    }
 
     function check_default($post_string)
     {

@@ -208,6 +208,7 @@
                         <li<?php echo $this->uri->segment(3) == 'uri_permissions' ? ' class="active"' : ''; ?>><a href="<?php echo base_url(); ?>security/backend/uri_permissions">URI Permissions</a></li>
                         <li<?php echo $this->uri->segment(3) == 'custom_permissions' ? ' class="active"' : ''; ?>><a href="<?php echo base_url(); ?>security/backend/custom_permissions">Custom Permissions</a></li>
                         <li<?php echo $this->uri->segment(3) == 'add_user' ? ' class="active"' : ''; ?>><a href="<?php echo base_url(); ?>security/backend/add_user">Add User</a></li>
+                        <li<?php echo $this->uri->segment(3) == 'nationbuilder' ? ' class="active"' : ''; ?>><a href="<?php echo base_url(); ?>security/backend/nationbuilder">NationBuilder</a></li>
                     </ul>
                 </li>
 
