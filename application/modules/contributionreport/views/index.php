@@ -233,7 +233,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                                             echo $row->creation_date;
                                                         echo "</td>";
                                                         echo "<td>";
-                                                            echo '<a href="'.base_url().'/contributionreport/view/'.$row->id.'">View</a>';
+                                                            echo '<a href="'.base_url().'/contributionreport/view/'.$row->id.'"><i class="fa fa-eye fa-lg"></i> <span>View</span></a>';
                                                         echo "</td>";
                                                     echo "<tr>";
                                                 } ?>
