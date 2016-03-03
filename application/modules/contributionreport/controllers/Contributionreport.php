@@ -31,6 +31,13 @@ class Contributionreport extends MX_Controller {
         $data['page_data'] = $this->view_vars;
         $data['start_date'] = date("m/d/Y", strtotime('-7 days'));
         $data['end_date'] = date("m/d/Y");
+        $data['firstName'] = null;
+        $data['lastName'] = null;
+        $data['city'] = null;
+        $data['state'] = null;
+        $data['zip'] = null;
+        $data['employer'] = null;
+        $data['occupation'] = null;
         $data['results'] = $this->Contributionreport->get_all_reports();
         
         $this->load->view('index', $data);
@@ -42,6 +49,13 @@ class Contributionreport extends MX_Controller {
         $input = array(
             'startDate' => $this->input->post('startDate'),
             'endDate' => $this->input->post('endDate'),
+            'firstName' => $this->input->post('firstName'),
+            'lastName' => $this->input->post('lastName'),
+            'city' => $this->input->post('city'),
+            'state' => $this->input->post('state'),
+            'zip' => $this->input->post('zip'),
+            'employer' => $this->input->post('employer'),
+            'occupation' => $this->input->post('occupation'),
             );
         
         $id = $this->Contributionreport->create_new_report($input);
@@ -92,10 +106,7 @@ class Contributionreport extends MX_Controller {
 
         $this->Contributionreport->set_report_in_progress($data['id']);
 
-        $startDate = DateTime::createFromFormat('m/d/Y', $data['input']['startDate']);
-        $endDate = DateTime::createFromFormat('m/d/Y', $data['input']['endDate']);
-
-        $query = $this->Contributionreport->get_matching_list($startDate->format("Y-m-d"), $endDate->format("Y-m-d"));
+        $query = $this->Contributionreport->get_matching_list($data['input']);
         $result = array();
 
         if ($query->num_rows() > 0)

@@ -39,8 +39,33 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     </div>
                         <div class="panel-body">
                         <?php
-                            echo '<div><strong>Start Date:</strong> ' . $results->input->startDate . "</div>";
-                            echo '<div><strong>End Date:</strong> ' . $results->input->endDate . "</div>";
+                            if(!empty($results->input->startDate)) {
+                                echo '<div><strong>Start Date:</strong> ' . $results->input->startDate . "</div>";
+                            }
+                            if(!empty($results->input->endDate)) {
+                                echo '<div><strong>End Date:</strong> ' . $results->input->endDate . "</div>";
+                            }
+                            if(!empty($results->input->firstName)) {
+                                echo '<div><strong>First Name:</strong> ' . $results->input->firstName . "</div>";
+                            }
+                            if(!empty($results->input->lastName)) {
+                                echo '<div><strong>Last Name:</strong> ' . $results->input->lastName . "</div>";
+                            }
+                            if(!empty($results->input->city)) {
+                                echo '<div><strong>City:</strong> ' . $results->input->city . "</div>";
+                            }
+                            if(!empty($results->input->state)) {
+                                echo '<div><strong>State:</strong> ' . $results->input->state . "</div>";
+                            }
+                            if(!empty($results->input->zip)) {
+                                echo '<div><strong>Zip:</strong> ' . $results->input->zip . "</div>";
+                            }
+                            if(!empty($results->input->employer)) {
+                                echo '<div><strong>Employer:</strong> ' . $results->input->employer . "</div>";
+                            }
+                            if(!empty($results->input->occupation)) {
+                                echo '<div><strong>Occupation:</strong> ' . $results->input->occupation . "</div>";
+                            }                   
                         ?>
                         </div>
                     </div>
@@ -56,9 +81,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                         <table id="myTable" class="table table-bordered tablesorter">
                                             <thead>
                                                 <?php 
-                                                if (isset($results))
+                                                if (isset($results) && isset($results->results))
                                                 {
-                                                    if (count(get_object_vars($results)) > 0)
+                                                    if (count($results->results) > 0)
                                                     { ?>
                                                         <tr>
                                                             <th></th>
