@@ -45,17 +45,47 @@ class Contributionreport_model extends CI_Model {
     }
 
 
-    public function get_matching_list($begin_date, $end_date){
-        $this -> db -> query('SET SQL_BIG_SELECTS=1');
+    public function get_matching_list($filters) {
 
+        $startDate = DateTime::createFromFormat('m/d/Y', $filters['startDate'])->format("Y-m-d");
+        $endDate = DateTime::createFromFormat('m/d/Y', $filters['endDate'])->format("Y-m-d");
+
+        $this->db->query('SET SQL_BIG_SELECTS=1');
         $this->db->select('donationform_submissions.*, contributors.* ');
         $this->db->from('donationform_submissions');
         $this->db->join('contributors', 'donationform_submissions.lastname = contributors.lastname AND donationform_submissions.firstname = contributors.firstname AND donationform_submissions.city = contributors.city');
-        $this->db->where('donationform_submissions.InsertDate >=', $begin_date);
-        $this->db->where('donationform_submissions.InsertDate <=', $end_date);
-        //$sql = $this->db->get_compiled_select();
+        
+        // Append where conditions when needed
+        if(!empty($startDate)) {
+            $this->db->where('donationform_submissions.InsertDate >=', $startDate);
+        }
+        if(!empty($endDate)) {
+            $this->db->where('donationform_submissions.InsertDate <=', $endDate);
+        }
+        if(!empty($filters['zip'])) {
+            $this->db->where('donationform_submissions.zip', $filters['zip']);
+        }
+        if(!empty($filters['firstName'])) {
+            $this->db->like('donationform_submissions.firstname', $filters['firstName']);
+        }
+        if(!empty($filters['lastName'])) {
+            $this->db->like('donationform_submissions.lastname', $filters['lastName']);
+        }
+        if(!empty($filters['city'])) {
+            $this->db->like('donationform_submissions.city', $filters['city']);
+        }
+        if(!empty($filters['state'])) {
+            $this->db->like('donationform_submissions.state', $filters['state']);
+        }
+        if(!empty($filters['occupation'])) {
+            $this->db->like('donationform_submissions.occupation', $filters['occupation']);
+        }
+        if(!empty($filters['employer'])) {
+            $this->db->like('donationform_submissions.employer', $filters['employer']);
+        }
+
         $query = $this->db->get();
-        // print_r($this->db->last_query());
+
         return $query;
     }
 
