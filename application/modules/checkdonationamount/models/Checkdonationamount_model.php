@@ -150,9 +150,10 @@ class Checkdonationamount_model extends CI_Model
             $donation_array['InsertDate'] = $result->InsertDate;
         }
 
+        $this->db->query('SET SQL_BIG_SELECTS=1');
         $this->db->select('*');
         $this->db->from('contributors');
-        $this->db->where('name', $donation_array['name']);
+        $this->db->where("(`name` LIKE '%$result->firstname%' AND `name` LIKE '%$result->lastname%')");
         $this->db->where('city', $donation_array['city']);
         $this->db->where('state', $donation_array['state']);
 //        $this->db->where('zip_code', $donation_array['zip']);
@@ -190,7 +191,7 @@ class Checkdonationamount_model extends CI_Model
 
         $this->db->select('SUM(transaction_amt) AS total_amt');
         $this->db->from('contributors');
-        $this->db->where('name', $donation_array['name']);
+        $this->db->where("(`name` LIKE '%$result->firstname%' AND `name` LIKE '%$result->lastname%')");
         $this->db->where('city', $donation_array['city']);
         $this->db->where('state', $donation_array['state']);
 //        $this->db->where('zip_code', $donation_array['zip']);
@@ -230,7 +231,7 @@ class Checkdonationamount_model extends CI_Model
 
         $this->db->select('*');
         $this->db->from('contributors');
-        $this->db->where('name', $donation_array['name']);
+        $this->db->where("(`name` LIKE '%$result->firstname%' AND `name` LIKE '%$result->lastname%')");
         $this->db->where('city', $donation_array['city']);
         $this->db->where('state', $donation_array['state']);
 //        $this->db->where('zip_code', $donation_array['zip']);
@@ -274,7 +275,7 @@ class Checkdonationamount_model extends CI_Model
 
         $this->db->select("transaction_date, transaction_amt");
         $this->db->from("contributors");
-        $this->db->where('name', $donation_array['fullname']);
+        $this->db->where("(`name` LIKE '%$result->firstname%' AND `name` LIKE '%$result->lastname%')");
         $this->db->where('city', $donation_array['city']);
         $this->db->where('state', $donation_array['state']);
         $this->db->where('zip_code', $donation_array['zip']);

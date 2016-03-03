@@ -34,7 +34,7 @@ class Donation extends MX_Controller {
     public function index()
     {
         // Display the guestform index
-        $this->load->view('customdonationform', $this->get_view_data());
+        $this->load->view('donationform', $this->get_view_data());
     }
 
     /*
@@ -130,7 +130,7 @@ class Donation extends MX_Controller {
             }
 
             // Load the donation form result view
-            $this->load->view('customdonationformresult', $this->get_view_data($submitted_data, $result_data, $result_data_recurring));
+            $this->load->view('donationformresult', $this->get_view_data($submitted_data, $result_data, $result_data_recurring));
         }
     }
 

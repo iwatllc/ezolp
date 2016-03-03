@@ -33,4 +33,15 @@ class Configsys_model extends CI_Model {
         }
     }
 
+    function get_config_value($key, $defaultValue = "")
+    {
+        $value = $this->get_value($key);
+        if($value != null) {
+            return $value;  
+        }
+        else {
+            return $defaultValue;
+        }
+    }
+
 }
