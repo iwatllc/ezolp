@@ -20,7 +20,6 @@ class Displayad extends MX_Controller {
         // Load Required Modules
         $this -> load -> module('payment');
         $this -> load -> module('configsys');
-//        $this -> load -> module('nation_builder');
         $this -> load -> module('email_sys');
 
         // Load Required Models
@@ -35,8 +34,6 @@ class Displayad extends MX_Controller {
 
     public function submit()
     {
-        log_message('debug', 'DisplayAd submitted...');
-
         // Call helper function to setup form validation
         $this -> setup_form_validation();
 
@@ -45,6 +42,39 @@ class Displayad extends MX_Controller {
             $this -> index();
         } else
         {
+            // Load upload library and configure the upload settings
+            $this->load->library('upload', $this -> image_upload_settings());
+
+            // Retrieve the next AUTO_INCREMENT value in the 'displayad_submissions' table
+            $da_submissionid = $this -> Displayad_model -> get_auto_increment_value();
+
+            $name_array = array();
+            $count = count($_FILES['userfile']['size']);
+            foreach($_FILES as $key => $value)
+            {
+                for($s = 0; $s <= $count - 1; $s++)
+                {
+                    $_FILES['userfile']['name']     =$value['name'][$s];
+                    $_FILES['userfile']['type']     = $value['type'][$s];
+                    $_FILES['userfile']['tmp_name'] = $value['tmp_name'][$s];
+                    $_FILES['userfile']['error']    = $value['error'][$s];
+                    $_FILES['userfile']['size']     = $value['size'][$s];
+
+                    $this -> upload -> do_upload();
+                    $data = $this -> upload -> data();
+                    $name_array[] = $data['file_name'];
+
+                    echo '<pre>';
+                    print_r($data);
+                    echo '</pre>';
+
+                    // Make query to database to upload the file
+                    $file_id = $this -> Displayad_model -> upload_file($da_submissionid, $data);
+                }
+            }
+
+            $names = implode(',', $name_array); // get all the names of the files into a comma separated string
+
             // Construct array of submitted data
             $submitted_data = array(
                 'firstname'     => $this -> input -> post('firstname'),
@@ -56,16 +86,16 @@ class Displayad extends MX_Controller {
                 'phone'         => $this -> input -> post('phone'),
                 'email'         => $this -> input -> post('email'),
                 'issues'        => implode(', ', $this -> input -> post('issues')), // comma separate months
-//                'adtext'        => $this -> input -> post('adtext'),
-//                'totallines'    => $this -> input -> post('totallines'),
                 'promocode'     => $this -> input -> post('promocode'),
+                'option'        => $this -> input -> post('size'),
+                'images'        => $names,
                 'cardtype'      => $this -> input -> post('cardtype'),
                 'cclast4'       => substr($this -> input -> post('creditcard'), -4),
                 'amount'        => str_replace( ',', '', $this -> input -> post('grandtotal') ),
                 'created'       => date('Y-n-j H:i:s')
             );
 
-            // Get insertd record id to use as transaction id.
+            // Get inserted record id to use as transaction id.
             $transaction_id = $this -> Displayad_model -> add_displayad_submission($submitted_data);
 
             // Add transaction id to submitted data and pass to payment method.
@@ -82,9 +112,6 @@ class Displayad extends MX_Controller {
             // Was the credit card processed successfully?
             if($result_data['IsApproved'] == '1')
             {
-                // Trigger Events
-//                Events::trigger('displayad_payment_approved', $this -> get_view_data($submitted_data, $result_data), 'string');
-
                 // Handle Displayad Receipt
                 if(strcasecmp($this -> configsys -> get_config_value('Displayad_Sendreceipt'), 'false'))
                 {
@@ -120,14 +147,14 @@ class Displayad extends MX_Controller {
             'clientwebsite' => $this->configsys->get_config_value('Client_Website'),
         );
 
-        $data['Classifiedad_Notes'] = $this->configsys->get_config_value('Classifiedad_Notes');
-        $data['Classifiedad_Email'] = $this->configsys->get_config_value('Classifiedad_Email');
-        $data['Classifiedad_Clientform'] = $this->configsys->get_config_value('Classifiedad_Clientform');
-        $data['Classifiedad_Notes_Label'] = $this->configsys->get_config_value('Classifiedad_Notes_Label');
-        $data['Classifiedad_Notes_Required'] = $this->configsys->get_config_value('Classifiedad_Notes_Required');
-        $data['Classifiedad_Email_Required'] = $this->configsys->get_config_value('Classifiedad_Email_Required');
-        $data['Classifiedad_Signature'] = $this->configsys->get_config_value('Classifiedad_Signature');
-        $data['Classifiedad_Logo'] = $this->configsys->get_config_value('Classifiedad_Logo');
+        $data['Displayad_Notes'] = $this->configsys->get_config_value('Displayad_Notes');
+        $data['Displayad_Email'] = $this->configsys->get_config_value('Displayad_Email');
+        $data['Displayad_Clientform'] = $this->configsys->get_config_value('Displayad_Clientform');
+        $data['Displayad_Notes_Label'] = $this->configsys->get_config_value('Displayad_Notes_Label');
+        $data['Displayad_Notes_Required'] = $this->configsys->get_config_value('Displayad_Notes_Required');
+        $data['Displayad_Email_Required'] = $this->configsys->get_config_value('Displayad_Email_Required');
+        $data['Displayad_Signature'] = $this->configsys->get_config_value('Displayad_Signature');
+        $data['Displayad_Logo'] = $this->configsys->get_config_value('Displayad_Logo');
 
         $view_vars = array(
             'title' => $this->configsys->get_config_value('Client_Title'),
@@ -153,8 +180,6 @@ class Displayad extends MX_Controller {
      */
     private function setup_form_validation()
     {
-        log_message('debug', 'Setting up DispalyAd form validation...');
-
         $this -> form_validation -> set_rules('firstname', 'First Name', 'required|max_length[100]');
         $this -> form_validation -> set_rules('lastname', 'Last Name', 'required|max_length[100]');
         $this -> form_validation -> set_rules('streetaddress', 'Street Address', 'required|max_length[300]');
@@ -164,7 +189,14 @@ class Displayad extends MX_Controller {
         $this -> form_validation -> set_rules('phone', 'Phone Number', 'required|min_length[14]|max_length[14]');
         $this -> form_validation -> set_rules('email', 'Email', 'valid_email');
         $this -> form_validation -> set_rules('issues[]', 'Issues', 'required');
-//        $this -> form_validation -> set_rules('adtext', 'Ad Text', 'required');
+        $this -> form_validation -> set_rules('size[]', 'Size and Color', 'required');
+
+        // set form validation for file upload
+        if ($_FILES['userfile']['name'][0] == '')
+        {
+            $this -> form_validation -> set_rules('userfile[]', 'File(s)', 'required');
+        }
+
         $this -> form_validation -> set_rules('grandtotal', 'Total', 'required');
 
         $this->form_validation->set_rules('creditcard', 'Credit Card', 'required|callback_check_creditcard');
@@ -249,5 +281,16 @@ class Displayad extends MX_Controller {
         }
 
         echo json_encode($data);
+    }
+
+    private function image_upload_settings()
+    {
+        $config['upload_path'] = './image/uploads';
+        $config['allowed_types'] = 'gif|jpg|png';
+        $config['max_size']    = '100';
+        $config['max_width']  = '1024';
+        $config['max_height']  = '768';
+
+        return $config;
     }
 }

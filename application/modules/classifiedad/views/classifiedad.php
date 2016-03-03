@@ -79,10 +79,14 @@ if($Classifiedad_Clientform == "FALSE") {
                     <!-- begin panel -->
                     <div class="panel panel-inverse" >
                         <div class="panel-heading">
-                            <h4 class="panel-title">Place your Classified Ad in THE CONNECTOR (* = Required Field)</h4>
+                            <h4 class="panel-title">* = Required Field</h4>
                         </div>
                         <div class="panel-body">
-                            <legend><b>Pricing:</b> $<?php echo $price_per_line; ?>  per line per month.</legend>
+                            <legend>
+                                <h1><font color="#b8860b">Place your Classified Ad in <u>THE CONNECTOR</u></font></h1>
+                                <br/>
+                                <b>Pricing:</b> $<?php echo $price_per_line; ?>  per line per month.
+                            </legend>
 
                             <legend>Billing Information</legend>
                                 <div class="form-group <?php echo(!empty(form_error('firstname')) ? 'has-error has-feedback' : ''); ?>">
@@ -355,15 +359,15 @@ if($Classifiedad_Clientform == "FALSE") {
                             </div>
                         </div>
 
-                            <legend>Your ad text:</legend>
-                        <div id="allInputs">
+                        <legend>Your ad text:</legend>
+                        <span id="allInputs">
                             <div class="form-group <?php echo(!empty(form_error('adtext')) ? 'has-error has-feedback' : ''); ?>">
                                 <label class="col-md-3 control-label">Your ad text:</label>
                                 <div class="col-md-5">
                                     <?php
                                     $data = array(
                                         'name'          => 'adtext',
-                                        'id'            => 'adtext',
+                                        'id'            => 'adtexter',
                                         'value'         => set_value('adtext'),
                                         'class'         => 'form-control',
                                         'type'          => 'text',
@@ -379,7 +383,6 @@ if($Classifiedad_Clientform == "FALSE") {
                                     <?php echo form_error('adtext'); ?>
                                 </div>
                             </div>
-                        </div>
 
                             <div class="form-group">
                                 <label class="col-md-3 control-label">Total Lines:</label>
@@ -450,8 +453,8 @@ if($Classifiedad_Clientform == "FALSE") {
                                     <?php echo form_error('promocode'); ?>
                                 </div>
                             <div class="col-md-3"></div>
-                            <div class="col-md-4" id="promo-result"></div><br/>
-                            </div>
+                            <div class="col-md-9" id="promo-result"></div><br/>
+                        </span>
 
                             <div class="form-group" id="promo-info" style="display:none"></div>
                             <span id="percentage" style="display:none"></span>
@@ -498,7 +501,6 @@ if($Classifiedad_Clientform == "FALSE") {
                                     ?>
                                     <?php echo(!empty(form_error('creditcard')) ? '<span class="fa fa-times form-control-feedback"></span>' : ''); ?>
                                     <?php echo form_error('creditcard'); ?>
-
                                 </div>
                             </div>
 
@@ -590,6 +592,7 @@ if($Classifiedad_Clientform == "FALSE") {
                                     <button type="submit" class="btn btn-sm btn-success">Submit Button</button>
                                 </div>
                             </div>
+                            <br/>
                         </div>
                         <!-- end panel body -->
 
@@ -598,21 +601,44 @@ if($Classifiedad_Clientform == "FALSE") {
                                 <div class="col-md-12 end-form-donate">
                                     <div class="panel-body">
                                         <address>
-                                            <strong><u>OSI offers a full range of printing services with experienced personnel to meet your printing needs from design to print to mailing services.</u></strong><br/><br/>
-                                            <strong>Contact info:</strong>
-                                            <br/>
-                                            <u>Phone:</u> (717)263-9293 x 215
-                                            <br/>
-                                            <u>Email:</u> <a href="mailto:print@osinc.org">print@osinc.org</a>
-                                            <br/>
-                                            <u>Address:</u>  Occupational Services, Inc.
-                                            <br/>
-                                            <div style="margin-left:5em">17 Redwood Street</div>
-                                            <div style="margin-left:5em">Chambersburg, PA  17201</div><br/>
+                                            <legend>
+                                                <center><h4><strong>OSI offers a full range of printing services with experienced personnel to meet your printing needs from design to print to mailing services.</strong></h4></center>
+                                            </legend>
+                                            <table>
+                                                <caption><strong>Contact info:</strong></caption>
+                                                <tbody>
+                                                    <tr>
+                                                        <td><u>Phone:</u></td>
+                                                        <td>&nbsp;(717)263-9293 x 215</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><u>Email:</u></td>
+                                                        <td>&nbsp;<a href="mailto:print@osinc.org">print@osinc.org</a></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><u>Address:</u></td>
+                                                        <td>&nbsp;Occupational Services, Inc.</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td></td>
+                                                        <td>&nbsp;17 Redwood Street</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td></td>
+                                                        <td>&nbsp;Chambersburg, PA  17201</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
                                         </address>
                                         <address>
-                                            <strong>Partnering with:</strong><br />
-                                            Design & Built By iWAT
+                                            <table>
+                                                <caption><strong>Partnering with:</strong></caption>
+                                                <tbody>
+                                                <tr>
+                                                    <td>Design & Built By <a href="http://www.iwatllc.com" target="_blank">iWAT</a></td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
                                         </address>
                                     </div>
                             </div>
@@ -679,7 +705,7 @@ if($Classifiedad_Clientform == "FALSE") {
 //            var target = e.target || e.srcElement; // IE == srcElement, good browsers: target
 
             // Static database variables
-            var numChars = document.getElementById('adtext').value.length;
+            var numChars = document.getElementById('adtexter').value.length;
             var pricePerLine = parseFloat(price_per_line);
 
             // Ad Text variables

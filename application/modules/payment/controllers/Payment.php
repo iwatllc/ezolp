@@ -64,26 +64,42 @@ class Payment extends MX_Controller
 
 	private function _NPC_post_payment($data)
 	{
-		$this->load->module('npc');
-        $result_data = $this->npc->post_payment($data);  //
+        if ($data['amount'] == '0.00')
+        {
+            return array(
+                'AuthCode'              => 'FREE',
+                'AVSResponseCode'       => 'N',
+                'OrderNumber'           => $data['transaction_id'],
+                'IsApproved'            => '1',
+                'CVV2ResponseCode'      => '0',
+                'ReturnCode'            => '1',
+                'TransactionFileName'   => '0',
+                'ResponseHTML'          => '',
+                'UpdateDate'            => date('Y-n-j H:i:s'),
+                'TransactionStatusId'   => '1'
+            );
+        } else {
+            $this->load->module('npc');
+            $result_data = $this->npc->post_payment($data);  //
 
-        return array(
-            'AuthCode' => $result_data['AUTHCODE'],
-            'SerialNumber' => $result_data['szSerialNumber'],
-            'AuthorizationDeclinedMessage' => $result_data['szAuthorizationDeclinedMessage'],
-            'AVSResponseCode' => $result_data['szAVSResponseCode'],
-            'AVSResponseMessage' => $result_data['szAVSResponseMessage'],
-            'OrderNumber' => $result_data['szOrderNumber'],
-            'AuthorizationResponseCode' => $result_data['szAuthorizationResponseCode'],
-            'IsApproved' => $result_data['szIsApproved'],
-            'CVV2ResponseCode' => $result_data['szCVV2ResponseCode'],
-            'CVV2ResponseMessage' => $result_data['szCVV2ResponseMessage'],
-            'ReturnCode' => $result_data['szReturnCode'],
-            'TransactionFileName' => $result_data['szTransactionFileName'],
-            'CAVVResponseCode' => $result_data['szCAVVResponseCode'],
-            'ResponseHTML' => $result_data['html'],
-            'UpdateDate' => date('Y-n-j H:i:s')
-        );		
+            return array(
+                'AuthCode' => $result_data['AUTHCODE'],
+                'SerialNumber' => $result_data['szSerialNumber'],
+                'AuthorizationDeclinedMessage' => $result_data['szAuthorizationDeclinedMessage'],
+                'AVSResponseCode' => $result_data['szAVSResponseCode'],
+                'AVSResponseMessage' => $result_data['szAVSResponseMessage'],
+                'OrderNumber' => $result_data['szOrderNumber'],
+                'AuthorizationResponseCode' => $result_data['szAuthorizationResponseCode'],
+                'IsApproved' => $result_data['szIsApproved'],
+                'CVV2ResponseCode' => $result_data['szCVV2ResponseCode'],
+                'CVV2ResponseMessage' => $result_data['szCVV2ResponseMessage'],
+                'ReturnCode' => $result_data['szReturnCode'],
+                'TransactionFileName' => $result_data['szTransactionFileName'],
+                'CAVVResponseCode' => $result_data['szCAVVResponseCode'],
+                'ResponseHTML' => $result_data['html'],
+                'UpdateDate' => date('Y-n-j H:i:s')
+            );
+        }
 	}
 	
 	private function _NMI_post_payment($data)

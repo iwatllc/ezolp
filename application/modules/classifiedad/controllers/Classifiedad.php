@@ -84,9 +84,6 @@ class Classifiedad extends MX_Controller {
             // Was the credit card processed successfully?
             if($result_data['IsApproved'] == '1')
             {
-                // Trigger Events
-//                Events::trigger('classifiedad_payment_approved', $this -> get_view_data($submitted_data, $result_data), 'string');
-
                 // Handle Classifiedad Receipt
                 if(strcasecmp($this -> configsys -> get_config_value('Classifiedad_Sendreceipt'), 'false'))
                 {

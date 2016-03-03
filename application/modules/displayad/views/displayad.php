@@ -4,7 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 <?php
 
-if($Classifiedad_Clientform == "FALSE") {
+if($Displayad_Clientform == "FALSE") {
 
     ?>
 
@@ -17,6 +17,10 @@ if($Classifiedad_Clientform == "FALSE") {
     <?php $this->load->view('header'); ?>
 
     <style>
+        input[type="file"] {
+            display: none;
+        }
+
         #loading-div-background{
             display: none;
             position: fixed;
@@ -55,8 +59,8 @@ if($Classifiedad_Clientform == "FALSE") {
             <!-- begin page-header -->
 
             <h1 class="page-header">
-                <?php if($Classifiedad_Logo != 'FALSE'){ ?>
-                    <img src="<?php echo base_url(); ?>/client/<?php echo $Classifiedad_Logo ?>" alt="" height="120" width="120">
+                <?php if($Displayad_Logo != 'FALSE'){ ?>
+                    <img src="<?php echo base_url(); ?>/client/<?php echo $Displayad_Logo ?>" alt="" height="120" width="120">
                 <?php } ?>
                 <?php echo $page_data['heading'];?>
             </h1>
@@ -65,8 +69,8 @@ if($Classifiedad_Clientform == "FALSE") {
             <div class="row">
                 <!-- begin col-12 -->
                 <div class="col-12">
-                    <?php $attributes = array('class' => 'form-horizontal', 'id' => 'classifiedad'); ?>
-                    <?php echo form_open('classifiedad/submit', $attributes);
+                    <?php $attributes = array('class' => 'form-horizontal', 'id' => 'classifiedad', 'enctype' => 'multipart/form-data'); ?>
+                    <?php echo form_open_multipart('displayad/submit', $attributes);
                     $data = array(
                         'type'  => 'hidden',
                         'name'  => 'cardtype',
@@ -79,67 +83,69 @@ if($Classifiedad_Clientform == "FALSE") {
                     <!-- begin panel -->
                     <div class="panel panel-inverse" >
                         <div class="panel-heading">
-                            <h4 class="panel-title">Place your Display Ad in THE CONNECTOR (* = Required Field)</h4>
+                            <h4 class="panel-title">* = Required Field</h4>
                         </div>
                         <div class="panel-body">
                             <legend>
+                                <h1><font color="#b8860b">Place your Display Ad in <u>THE CONNECTOR</u></font></h1>
+                                <br/>
                                 <h3><b>Your ad will be distributed to a broad range of readers across Franklin County in both <span style="color:purple">Print</span> <i>and</i> <span style="color:purple">Online</span>.</b></h3>
                                 <br/>
                                 <h4>Whether you have an ad ready to upload or need to start from scratch, the professionals in our print shop are ready to help.<br/><br/>Call <a href="tel:7172649293,215">717-264-9293 ext.215</a> or email <a href="mailto:jlahr@osinc.org">jlahr@osinc.org</a>.</h4>
                             </legend>
 
                             <div class="table-responsive col-md-6">
-                                <table class="table table-bordered tablesorter">
+                                <table class="table table-hover">
+                                    <caption><center><h3><u><font face="Modern,Arial">Monthly Pricing</font></u></h3></center></caption>
                                     <thead>
                                     <tr>
                                         <th></th>
-                                        <th>B/W</th>
-                                        <th>Color</th>
+                                        <th><font size="4">B/W</font></th>
+                                        <th><font size="4">Color</font></th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <?php
-                                    foreach($monthly_pricing->result() as $row)
-                                    {
-                                        echo "<tr>";
-                                        echo "<td>";
-                                        echo $row -> pagesize;
-                                        echo "</td>";
-                                        echo "<td>";
-                                        echo $row -> bwprice;
-                                        echo "</td>";
-                                        echo "<td>";
-                                        echo $row -> colorprice;
-                                        echo "</td>";
-                                        echo "<tr>";
-                                    }
-                                    ?>
+                                        <?php
+                                        foreach($monthly_pricing->result() as $row)
+                                        {
+                                            echo "<tr>";
+                                            echo "<td>";
+                                            echo "<font size='4' color='black'>" . $row -> pagesize . "</font>";
+                                            echo "</td>";
+                                            echo "<td>";
+                                            echo "<font size='4'>" . "&#36; " . $row -> bwprice . "</font>";
+                                            echo "</td>";
+                                            echo "<td>";
+                                            echo "<font size='4'>" . "&#36; " . $row -> colorprice . "</font>";
+                                            echo "</td>";
+                                            echo "<tr>";
+                                        }
+                                        ?>
                                     </tbody>
                                 </table>
                             </div>
 
                             <div class="table-responsive col-md-6">
-                                <table class="table table-bordered tablesorter">
+                                <table class="table table-hover">
+                                    <caption><center><h3><u><font face="Modern,Arial">Repeat Advertising Discounts</font></u></h3></center></caption>
                                     <thead>
-                                    <tr>
-                                        <th></th>
-                                        <th></th>
-                                        <th></th>
-                                    </tr>
+                                    <td><font size="4">&nbsp;</font></td>
+                                    <td><font size="4">&nbsp;</font></td>
+                                    <td><font size="4">&nbsp;</font></td>
                                     </thead>
                                     <tbody>
                                     <?php
                                     foreach($repeat_advertising_discounts->result() as $row)
                                     {
                                         echo "<tr>";
-                                        echo "<td>";
-                                        echo $row -> numissues . 'Issues';
+                                        echo "<td align='right'>";
+                                        echo "<b><font size='4' color='black'>" . $row -> numissues . " Issues" . "</font></b>";
+                                        echo "</td>";
+                                        echo "<td align='center'>";
+                                        echo "<font size='4'>" . " - " . "</font>";
                                         echo "</td>";
                                         echo "<td>";
-                                        echo " - ";
-                                        echo "</td>";
-                                        echo "<td>";
-                                        echo "Save " . $row -> percentagediscount . "%";
+                                        echo "<b><font size='4' color='red'>" . "Save " . $row -> percentagediscount . "&#37;" . "</font></b>";
                                         echo "</td>";
                                         echo "<tr>";
                                     }
@@ -147,7 +153,6 @@ if($Classifiedad_Clientform == "FALSE") {
                                     </tbody>
                                 </table>
                             </div>
-
 
                             <legend>Billing Information</legend>
                             <div class="form-group <?php echo(!empty(form_error('firstname')) ? 'has-error has-feedback' : ''); ?>">
@@ -349,8 +354,8 @@ if($Classifiedad_Clientform == "FALSE") {
                             </div>
                             <div class="form-group <?php echo(!empty(form_error('email')) ? 'has-error has-feedback' : ''); ?>">
 
-                                <?php if($Classifiedad_Email == "TRUE") { ?>
-                                    <label class="col-md-3 control-label">EMAIL<?php echo( $Classifiedad_Email_Required == 'TRUE' ? '*' : ' ') ?></label>
+                                <?php if($Displayad_Email == "TRUE") { ?>
+                                    <label class="col-md-3 control-label">EMAIL<?php echo( $Displayad_Email_Required == 'TRUE' ? '*' : ' ') ?></label>
                                     <div class="col-md-9">
                                         <?php
                                         $data = array(
@@ -361,7 +366,7 @@ if($Classifiedad_Clientform == "FALSE") {
                                             'type'          => 'email',
                                             'placeholder'   => 'email address',
                                             'maxlength'     => '100',
-                                            'data-parsley-required' => $Classifiedad_Email_Required
+                                            'data-parsley-required' => $Displayad_Email_Required
                                         );
 
                                         echo form_input($data);
@@ -389,14 +394,6 @@ if($Classifiedad_Clientform == "FALSE") {
                                             $i = 0;
                                             foreach ($month_array as $month)
                                             {
-                                                $data = array(
-                                                    'name'          => $month,
-                                                    'specifier'     => 'issues[]',
-                                                    'id'            => $month,
-                                                    'value'         => set_value($month),
-//                                                    'class'         => 'form-control',
-                                                    'data-parsley-required' => 'true'
-                                                );
                                                 if ($i % 2 != 0) // if it's divisible by 6
                                                 {
                                                     echo '<td><input type="checkbox" name="issues[]" value="'.$month.'"' . set_checkbox('issues[]', $month) . '/></td>';
@@ -418,244 +415,276 @@ if($Classifiedad_Clientform == "FALSE") {
                                     <?php echo(!empty(form_error('issues[]')) ? '<span class="fa fa-times form-control-feedback"></span>' : ''); ?>
                                     <?php echo form_error('issues[]'); ?>
                                 </div>
-                            </div>
 
-                            <legend>Your ad text:</legend>
-                            <div id="allInputs">
-                                <div class="form-group <?php echo(!empty(form_error('adtext')) ? 'has-error has-feedback' : ''); ?>">
-                                    <label class="col-md-3 control-label">Your ad text:</label>
-                                    <div class="col-md-5">
-                                        <?php
-                                        $data = array(
-                                            'name'          => 'adtext',
-                                            'id'            => 'adtext',
-                                            'value'         => set_value('adtext'),
-                                            'class'         => 'form-control',
-                                            'type'          => 'text',
-                                            'placeholder'   => 'Required',
-                                            'rows'          => '4',
-                                            'columns'       => '50',
-                                            'data-parsley-required' => 'true'
-                                        );
-
-                                        echo form_textarea($data);
-                                        ?>
-                                        <?php echo(!empty(form_error('adtext')) ? '<span class="fa fa-times form-control-feedback"></span>' : ''); ?>
-                                        <?php echo form_error('adtext'); ?>
+                                <legend>Size and color options:</legend>
+                                <div id="allIssues">
+                                    <div class="form-group <?php echo(!empty(form_error('size[]')) ? 'has-error has-feedback' : ''); ?>">
+                                        <div class="col-md-8 control-label">
+                                            <table align="center">
+                                                <?php
+                                                    foreach($monthly_pricing->result() as $price)
+                                                    {
+                                                        echo '<tr>';
+                                                            echo '<td>';
+                                                                echo '<input type="radio" name="size[]"  value="'.$price->pagesize.' - B/W ('.$price->bwprice.')'.'"' . set_radio('size[]', $price->pagesize.' - B/W ('.$price->bwprice.')') . '>&nbsp;&nbsp;&nbsp;<label class="control-label">' . $price->pagesize . ' - B/W (' . $price->bwprice . ')</label>';
+                                                            echo '</td>';
+                                                        echo '<td><span style="padding-left:5em"></span></td>';
+                                                        echo '<td>';
+                                                                echo '<input type="radio" name="size[]" value="'.$price->pagesize.' - Color ('.$price->bwprice.')'.'"' . set_radio('size[]', $price->pagesize.' - Color ('.$price->bwprice.')') . '>&nbsp;&nbsp;&nbsp;<label class="control-label">' . $price->pagesize . ' - Color (' . $price->colorprice . ')</label>';
+                                                            echo '</td>';
+                                                        echo '</tr>';
+                                                    }
+                                                ?>
+                                            </table>
+                                        </div>
+                                        <?php echo(!empty(form_error('size[]')) ? '<span class="fa fa-times form-control-feedback"></span>' : ''); ?>
+                                        <?php echo form_error('size[]'); ?>
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <label class="col-md-3 control-label">Total Lines:</label>
-                                <div class="col-md-1">
+                            <legend>Upload Files:</legend>
+                            <span id="allInputs">
+                                <div class="form-group <?php echo(!empty(form_error('userfile[]')) ? 'has-error has-feedback' : ''); ?>">
+                                    <label class="col-md-3 control-label">File Upload:</label>
+                                    <div class="row fileupload-buttonbar">
+                                        <div class="col-md-7">
+                                            <div class="panel-body">
+                                                <blockquote class="f-s-14">
+                                                    <p>Select the files you wish to upload.<br>You may choose a single file or multiple files.</p>
+                                                </blockquote>
+                                                <form id="fileupload" action="assets/global/plugins/jquery-file-upload/server/php/" method="POST" enctype="multipart/form-data">
+                                                    <div class="row fileupload-buttonbar">
+                                                        <div class="col-md-9">
+                                                            <label class="btn btn-primary m-r-5 m-b-5">
+                                                                <input type="file" name="userfile[]" id="files" multiple />
+                                                                <i class="fa fa-plus"></i> Add Files...
+                                                            </label>
+
+                                                            <button type="reset" id="clear-uploads-btn" class="btn btn-danger m-r-5 m-b-5">
+                                                                <i class="fa fa-ban"></i>
+                                                                <span>Remove All</span>
+                                                            </button>
+
+
+                                                            <span  class="alert alert-info fade in m-b-10">
+                                                                <span id="numFiles">No file(s) chosen</span>
+                                                            </span>
+
+                                                        </div>
+                                                    </div>
+                                                    <br/>
+                                                    <!-- The table listing the files available for upload/download -->
+                                                    <table id="image-preview" role="presentation" class="table table-striped">
+                                                        <tbody class="files">
+
+                                                        </tbody>
+                                                    </table>
+                                                </form>
+    <!--                                            <div class="note note-info">-->
+    <!--                                                <h4>Demo Notes</h4>-->
+    <!--                                                <ul>-->
+    <!--                                                    <li>The maximum file size for uploads in this demo is <strong>5 MB</strong> (default file size is unlimited).</li>-->
+    <!--                                                    <li>Only image files (<strong>JPG, GIF, PNG</strong>) are allowed in this demo (by default there is no file type restriction).</li>-->
+    <!--                                                    <li>Uploaded files will be deleted automatically after <strong>5 minutes</strong> (demo setting).</li>-->
+    <!--                                                </ul>-->
+    <!--                                            </div>-->
+                                            </div>
+                                        </div>
+                                        <?php echo(!empty(form_error('userfile[]')) ? '<span class="fa fa-times form-control-feedback"></span>' : ''); ?>
+                                        <?php echo form_error('userfile[]'); ?>
+                                    </div>
+                                </div>
+                            </span>
+
+                                <div class="form-group <?php echo(!empty(form_error('promocode')) ? 'has-error has-feedback' : ''); ?>">
+                                    <label class="col-md-3 control-label">Promotional Code:</label>
+                                    <div class="col-md-4">
+                                        <?php
+                                        $data = array(
+                                            'name'          => 'promocode',
+                                            'id'            => 'promocode',
+                                            'value'         => set_value('promocode'),
+                                            'class'         => 'form-control',
+                                            'type'          => 'text',
+                                            'size'          => '30',
+                                            'data-parsley-required' => 'true'
+                                        );
+
+                                        echo form_input($data);
+
+                                        ?>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <?php
+                                        $data = array(
+                                            'name'      => 'promocode-btn',
+                                            'id'        => 'promocode-btn',
+                                            'type'      => 'button',
+                                            'content'   => 'Validate',
+                                            'class'     => 'btn btn-primary m-r-5 m-b-5'
+                                        );
+
+                                        echo form_button($data);
+
+                                        $data = array(
+                                            'name'      => 'promocode-btn-cancel',
+                                            'id'        => 'promocode-btn-cancel',
+                                            'type'      => 'button',
+                                            'content'   => 'Clear',
+                                            'class'     => 'btn btn-danger m-r-5 m-b-5',
+                                            'style'     => 'display:none'
+                                        );
+
+                                        echo form_button($data);
+
+                                        ?>
+                                    </div>
+                                    <?php echo(!empty(form_error('promocode')) ? '<span class="fa fa-times form-control-feedback"></span>' : ''); ?>
+                                    <?php echo form_error('promocode'); ?>
+                                </div>
+                                <div class="col-md-3"></div>
+                                <div class="col-md-4" id="promo-result"></div>
+                                <br/>
+
+                            <div class="form-group" id="promo-info" style="display:none"></div>
+                            <span id="percentage" style="display:none"></span>
+                            <span id="numMonths" style="display:none"></span>
+
+                            <div class="form-group <?php echo(!empty(form_error('grandtotal')) ? 'has-error has-feedback' : ''); ?>">
+                                <label class="col-md-3 control-label"><b>TOTAL AMOUNT:</b></label>
+                                <div class="col-md-2">
                                     <?php
                                     $data = array(
-                                        'name'          => 'totallines',
-                                        'id'            => 'totallines',
-                                        'value'         => set_value('totallines'),
+                                        'name'          => 'grandtotal',
+                                        'id'            => 'grandtotal',
+                                        'value'         => set_value('grandtotal'),
                                         'class'         => 'form-control',
                                         'type'          => 'text',
-                                        'size'          => '4',
+                                        'size'          => '20',
                                         'data-parsley-required' => 'true',
                                         'readonly'      => 'true',
-                                        'style'         => '-webkit-appearance:none; -moz-appearance:none; appearance:none;'
+                                        'style'         => 'outline: none; border-color: green; box-shadow: 0 0 10px green; background-color:white; color: #000000;'
                                     );
 
                                     echo form_input($data);
                                     ?>
-                                    <span id="numlines"></span>
+                                    <?php echo(!empty(form_error('grandtotal')) ? '<span class="fa fa-times form-control-feedback"></span>' : ''); ?>
+                                    <?php echo form_error('grandtotal'); ?>
                                 </div>
                             </div>
 
-                            <div class="form-group <?php echo(!empty(form_error('promocode')) ? 'has-error has-feedback' : ''); ?>">
-                                <label class="col-md-3 control-label">Promotional Code:</label>
-                                <div class="col-md-4">
+                            <legend>Credit Card Information</legend>
+                            <div class="form-group <?php echo(!empty(form_error('creditcard')) ? 'has-error has-feedback' : ''); ?>">
+                                <label class="col-md-3 control-label">CREDIT CARD *</label>
+                                <div class="col-md-9">
                                     <?php
                                     $data = array(
-                                        'name'          => 'promocode',
-                                        'id'            => 'promocode',
-                                        'value'         => set_value('promocode'),
-                                        'class'         => 'form-control',
+                                        'name'          => 'creditcard',
+                                        'id'            => 'creditcard',
+                                        'value'         => set_value('creditcard'),
+                                        'class'         => 'form-control creditcard',
                                         'type'          => 'text',
-                                        'size'          => '30',
+                                        'placeholder'   => '9999 9999 9999 9999',
+                                    );
+
+                                    echo form_input($data);
+                                    ?>
+                                    <?php echo(!empty(form_error('creditcard')) ? '<span class="fa fa-times form-control-feedback"></span>' : ''); ?>
+                                    <?php echo form_error('creditcard'); ?>
+                                </div>
+                            </div>
+
+                            <div class="form-group <?php echo(!empty(form_error('expirationmonth')) ? 'has-error has-feedback' : ''); ?>">
+                                <label class="col-md-3 control-label">Expiration Month *</label>
+                                <div class="col-md-9">
+                                    <?php
+                                    $extra = array(
+                                        'class' => 'form-control selectpicker',
+                                        'id' => 'expirationmonth',
+                                        'name' => 'expirationmonth',
+                                        'data-live-search' => 'true',
+                                        'data-style' => (!empty(form_error('expirationmonth')) ? 'btn-danger' : ''),
+                                    );
+
+                                    $options = array(
+                                        '0'  => 'Select Month',
+                                        '01' => 'January (01)',
+                                        '02' => 'February (02)',
+                                        '03' => 'March (03)',
+                                        '04' => 'April (04)',
+                                        '05' => 'May (05)',
+                                        '06' => 'June (06)',
+                                        '07' => 'July (07)',
+                                        '08' => 'August (08)',
+                                        '09' => 'September (09)',
+                                        '10' => 'October (10)',
+                                        '11' => 'November (11)',
+                                        '12' => 'December (12)',
+                                    );
+
+                                    echo form_dropdown('expirationmonth', $options, set_value('expirationmonth'), $extra);
+                                    ?>
+                                    <?php echo(!empty(form_error('expirationmonth')) ? '<span class="fa fa-times form-control-feedback"></span>' : ''); ?>
+                                    <?php echo form_error('expirationmonth'); ?>
+                                </div>
+                            </div>
+                            <div class="form-group <?php echo(!empty(form_error('expirationyear')) ? 'has-error has-feedback' : ''); ?>">
+                                <label class="col-md-3 control-label">Expiration Year *</label>
+                                <div class="col-md-9">
+                                    <?php
+                                    $extra = array(
+                                        'class' => 'form-control selectpicker',
+                                        'id' => 'expirationyear',
+                                        'name' => 'expirationyear',
+                                        'data-live-search' => 'true',
+                                        'data-style' => (!empty(form_error('expirationyear')) ? 'btn-danger' : ''),
+                                    );
+
+
+                                    $options = array();
+                                    for ($i = 0; $i <= 10; $i++ ){
+                                        $a_year = date("Y") + $i;
+                                        $options[$a_year] = $a_year;
+                                    }
+
+                                    echo form_dropdown('expirationyear', $options, set_value('expirationyear'), $extra);
+                                    ?>
+                                    <?php echo(!empty(form_error('expirationyear')) ? '<span class="fa fa-times form-control-feedback"></span>' : ''); ?>
+                                    <?php echo form_error('expirationyear'); ?>
+                                </div>
+                            </div>
+
+                            <div class="form-group <?php echo(!empty(form_error('cvv2')) ? 'has-error has-feedback' : ''); ?>">
+                                <label class="col-md-3 control-label">CVV2 *</label>
+                                <div class="col-md-9">
+                                    <?php
+                                    $data = array(
+                                        'name'          => 'cvv2',
+                                        'id'            => 'cvv2',
+                                        'value'         => set_value('cvv2'),
+                                        'class'         => 'form-control cvv2',
+                                        'type'          => 'text',
+                                        'placeholder'   => '000',
+                                        'maxlength'     => '4',
                                         'data-parsley-required' => 'true'
                                     );
 
                                     echo form_input($data);
-
                                     ?>
+                                    <?php echo(!empty(form_error('cvv2')) ? '<span class="fa fa-times form-control-feedback"></span>' : ''); ?>
+                                    <?php echo form_error('cvv2'); ?>
                                 </div>
-                                <div class="col-md-2">
-                                    <?php
-                                    $data = array(
-                                        'name'      => 'promocode-btn',
-                                        'id'        => 'promocode-btn',
-                                        'type'      => 'button',
-                                        'content'   => 'Validate',
-                                        'class'     => 'btn btn-primary m-r-5 m-b-5'
-                                    );
+                            </div>
 
-                                    echo form_button($data);
-
-                                    $data = array(
-                                        'name'      => 'promocode-btn-cancel',
-                                        'id'        => 'promocode-btn-cancel',
-                                        'type'      => 'button',
-                                        'content'   => 'Clear',
-                                        'class'     => 'btn btn-danger m-r-5 m-b-5',
-                                        'style'     => 'display:none'
-                                    );
-
-                                    echo form_button($data);
-
-                                    ?>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">Submit</label>
+                                <div class="col-md-9">
+                                    <button type="submit" name="submit" class="btn btn-sm btn-success">Submit Button</button>
                                 </div>
-                                <?php echo(!empty(form_error('promocode')) ? '<span class="fa fa-times form-control-feedback"></span>' : ''); ?>
-                                <?php echo form_error('promocode'); ?>
                             </div>
-                            <div class="col-md-3"></div>
-                            <div class="col-md-4" id="promo-result"></div><br/>
+                            <br/>
                         </div>
-
-                        <div class="form-group" id="promo-info" style="display:none"></div>
-                        <span id="percentage" style="display:none"></span>
-                        <span id="numMonths" style="display:none"></span>
-
-                        <div class="form-group <?php echo(!empty(form_error('grandtotal')) ? 'has-error has-feedback' : ''); ?>">
-                            <label class="col-md-3 control-label"><b>TOTAL AMOUNT:</b></label>
-                            <div class="col-md-2">
-                                <?php
-                                $data = array(
-                                    'name'          => 'grandtotal',
-                                    'id'            => 'grandtotal',
-                                    'value'         => set_value('grandtotal'),
-                                    'class'         => 'form-control',
-                                    'type'          => 'text',
-                                    'size'          => '20',
-                                    'data-parsley-required' => 'true',
-                                    'readonly'      => 'true',
-                                    'style'         => 'outline: none; border-color: green; box-shadow: 0 0 10px green; background-color:white; color: #000000;'
-                                );
-
-                                echo form_input($data);
-                                ?>
-                                <?php echo(!empty(form_error('grandtotal')) ? '<span class="fa fa-times form-control-feedback"></span>' : ''); ?>
-                                <?php echo form_error('grandtotal'); ?>
-                            </div>
-                        </div>
-
-                        <legend>Credit Card Information</legend>
-                        <div class="form-group <?php echo(!empty(form_error('creditcard')) ? 'has-error has-feedback' : ''); ?>">
-                            <label class="col-md-3 control-label">CREDIT CARD *</label>
-                            <div class="col-md-9">
-                                <?php
-                                $data = array(
-                                    'name'          => 'creditcard',
-                                    'id'            => 'creditcard',
-                                    'value'         => set_value('creditcard'),
-                                    'class'         => 'form-control creditcard',
-                                    'type'          => 'text',
-                                    'placeholder'   => '9999 9999 9999 9999',
-                                );
-
-                                echo form_input($data);
-                                ?>
-                                <?php echo(!empty(form_error('creditcard')) ? '<span class="fa fa-times form-control-feedback"></span>' : ''); ?>
-                                <?php echo form_error('creditcard'); ?>
-
-                            </div>
-                        </div>
-
-                        <div class="form-group <?php echo(!empty(form_error('expirationmonth')) ? 'has-error has-feedback' : ''); ?>">
-                            <label class="col-md-3 control-label">Expiration Month *</label>
-                            <div class="col-md-9">
-                                <?php
-                                $extra = array(
-                                    'class' => 'form-control selectpicker',
-                                    'id' => 'expirationmonth',
-                                    'name' => 'expirationmonth',
-                                    'data-live-search' => 'true',
-                                    'data-style' => (!empty(form_error('expirationmonth')) ? 'btn-danger' : ''),
-                                );
-
-                                $options = array(
-                                    '0'  => 'Select Month',
-                                    '01' => 'January (01)',
-                                    '02' => 'February (02)',
-                                    '03' => 'March (03)',
-                                    '04' => 'April (04)',
-                                    '05' => 'May (05)',
-                                    '06' => 'June (06)',
-                                    '07' => 'July (07)',
-                                    '08' => 'August (08)',
-                                    '09' => 'September (09)',
-                                    '10' => 'October (10)',
-                                    '11' => 'November (11)',
-                                    '12' => 'December (12)',
-                                );
-
-                                echo form_dropdown('expirationmonth', $options, set_value('expirationmonth'), $extra);
-                                ?>
-                                <?php echo(!empty(form_error('expirationmonth')) ? '<span class="fa fa-times form-control-feedback"></span>' : ''); ?>
-                                <?php echo form_error('expirationmonth'); ?>
-                            </div>
-                        </div>
-                        <div class="form-group <?php echo(!empty(form_error('expirationyear')) ? 'has-error has-feedback' : ''); ?>">
-                            <label class="col-md-3 control-label">Expiration Year *</label>
-                            <div class="col-md-9">
-                                <?php
-                                $extra = array(
-                                    'class' => 'form-control selectpicker',
-                                    'id' => 'expirationyear',
-                                    'name' => 'expirationyear',
-                                    'data-live-search' => 'true',
-                                    'data-style' => (!empty(form_error('expirationyear')) ? 'btn-danger' : ''),
-                                );
-
-
-                                $options = array();
-                                for ($i = 0; $i <= 10; $i++ ){
-                                    $a_year = date("Y") + $i;
-                                    $options[$a_year] = $a_year;
-                                }
-
-                                echo form_dropdown('expirationyear', $options, set_value('expirationyear'), $extra);
-                                ?>
-                                <?php echo(!empty(form_error('expirationyear')) ? '<span class="fa fa-times form-control-feedback"></span>' : ''); ?>
-                                <?php echo form_error('expirationyear'); ?>
-                            </div>
-                        </div>
-
-                        <div class="form-group <?php echo(!empty(form_error('cvv2')) ? 'has-error has-feedback' : ''); ?>">
-                            <label class="col-md-3 control-label">CVV2 *</label>
-                            <div class="col-md-9">
-                                <?php
-                                $data = array(
-                                    'name'          => 'cvv2',
-                                    'id'            => 'cvv2',
-                                    'value'         => set_value('cvv2'),
-                                    'class'         => 'form-control cvv2',
-                                    'type'          => 'text',
-                                    'placeholder'   => '000',
-                                    'maxlength'     => '4',
-                                    'data-parsley-required' => 'true'
-                                );
-
-                                echo form_input($data);
-                                ?>
-                                <?php echo(!empty(form_error('cvv2')) ? '<span class="fa fa-times form-control-feedback"></span>' : ''); ?>
-                                <?php echo form_error('cvv2'); ?>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="col-md-3 control-label">Submit</label>
-                            <div class="col-md-9">
-                                <button type="submit" class="btn btn-sm btn-success">Submit Button</button>
-                            </div>
-                        </div>
-                    </div>
                     <!-- end panel body -->
 
                     <div class="donation-grp">
@@ -663,21 +692,44 @@ if($Classifiedad_Clientform == "FALSE") {
                             <div class="col-md-12 end-form-donate">
                                 <div class="panel-body">
                                     <address>
-                                        <strong><u>OSI offers a full range of printing services with experienced personnel to meet your printing needs from design to print to mailing services.</u></strong><br/><br/>
-                                        <strong>Contact info:</strong>
-                                        <br/>
-                                        <u>Phone:</u> (717)263-9293 x 215
-                                        <br/>
-                                        <u>Email:</u> <a href="mailto:print@osinc.org">print@osinc.org</a>
-                                        <br/>
-                                        <u>Address:</u>  Occupational Services, Inc.
-                                        <br/>
-                                        <div style="margin-left:5em">17 Redwood Street</div>
-                                        <div style="margin-left:5em">Chambersburg, PA  17201</div><br/>
+                                        <legend>
+                                            <center><h4><strong>OSI offers a full range of printing services with experienced personnel to meet your printing needs from design to print to mailing services.</strong></h4></center>
+                                        </legend>
+                                        <table>
+                                            <caption><strong>Contact info:</strong></caption>
+                                            <tbody>
+                                            <tr>
+                                                <td><u>Phone:</u></td>
+                                                <td>&nbsp;(717)263-9293 x 215</td>
+                                            </tr>
+                                            <tr>
+                                                <td><u>Email:</u></td>
+                                                <td>&nbsp;<a href="mailto:print@osinc.org">print@osinc.org</a></td>
+                                            </tr>
+                                            <tr>
+                                                <td><u>Address:</u></td>
+                                                <td>&nbsp;Occupational Services, Inc.</td>
+                                            </tr>
+                                            <tr>
+                                                <td></td>
+                                                <td>&nbsp;17 Redwood Street</td>
+                                            </tr>
+                                            <tr>
+                                                <td></td>
+                                                <td>&nbsp;Chambersburg, PA  17201</td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
                                     </address>
                                     <address>
-                                        <strong>Partnering with:</strong><br />
-                                        Design & Built By iWAT
+                                        <table>
+                                            <caption><strong>Partnering with:</strong></caption>
+                                            <tbody>
+                                            <tr>
+                                                <td>Design & Built By <a href="http://www.iwatllc.com" target="_blank">iWAT</a></td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
                                     </address>
                                 </div>
                             </div>
@@ -716,14 +768,58 @@ if($Classifiedad_Clientform == "FALSE") {
     <script type="text/javascript">
 
         $(document).ready(function() {
-            var lines_per_char = "<?php echo $lines_per_char ?>";
-            var price_per_line = "<?php echo $price_per_line ?>";
 
-            // On page load, check if promo code exists (in case form validation fails)
+            // Event handler when files are selected
+            $(document).on('change', '#files', function() {
+                var inp = document.getElementById('files');
+
+                if (inp.files && inp.files[0])
+                {
+                    $(inp.files).each(function (index, element)
+                    {
+                        var name = element.name;
+                        var size = bytesToSize(element.size);
+
+                        var reader = new FileReader();
+                        reader.readAsDataURL(this);
+                        reader.onload = function (e)
+                        {
+                            var tableRow =  "<tr>" +
+                                                "<td><img class='thumb' src='" + e.target.result + "'></td>" +
+                                                "<td>" + name + "</td>" +
+                                                "<td>" + size + "</td>" +
+//                                              "<td>" + "Cancel Button" + "</td>" +
+                                            "</tr>";
+
+                            $('#image-preview tbody').append(tableRow);
+                        }
+                        console.log("File name: " + name + " | File size: " + size);
+                    });
+
+                    console.log("Total Number of Files: " + inp.files.length);
+                    $('#numFiles').text("Files: " + inp.files.length);
+                }
+            });
+
+            // Clear the entire image-preview table
+            $(document).on('click', '#clear-uploads-btn', function() {
+                $('#numFiles').text("No file(s) chosen");
+                $("#image-preview tr").remove();
+            });
+
+
+                // On page load, check if promo code exists (in case form validation fails)
             if ($('#promocode').val() != '')
             {
                 $('#promocode-btn').click();
             }
+
+            function bytesToSize(bytes) {
+                var sizes = ['Bytes', 'KB', 'MB'];
+                if (bytes == 0) return 'n/a';
+                var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
+                return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[[i]];
+            };
 
             // Change total on text area change
             function updateTotal() // add e as paramenter if we want IE
@@ -731,14 +827,9 @@ if($Classifiedad_Clientform == "FALSE") {
 //            e = e || window.event; // IE doesn't pass event to callback
 //            var target = e.target || e.srcElement; // IE == srcElement, good browsers: target
 
-                // Static database variables
-                var numChars = document.getElementById('adtext').value.length;
-                var pricePerLine = parseFloat(price_per_line);
-
-                // Ad Text variables
+                // Price variables
                 var numChecked = parseFloat($('input[name="issues[]"]:checked').length);
-                var numLines = Math.ceil( numChars / lines_per_char );
-                document.getElementById('totallines').value = numLines;
+                var price = $('input[name="size[]"]:checked').val();
 
                 // Promo code variables
                 var percentage = $('#percentage').text();
@@ -750,13 +841,13 @@ if($Classifiedad_Clientform == "FALSE") {
                     var numMonthsWithoutPercentage = numChecked - numMonths;
                     var numMonthsWithPercentage = numChecked - numMonthsWithoutPercentage;
 
-                    var withoutPercentage = numMonthsWithoutPercentage * (numLines * pricePerLine);
+                    var withoutPercentage = numMonthsWithoutPercentage * price;
 
                     if (percentage)
                     {
                         // convert to true percentage
                         var decimalPercent = parseFloat(percentage) / 100.0;
-                        var newTotal = numMonthsWithPercentage * (numLines * pricePerLine);
+                        var newTotal = numMonthsWithPercentage * price;
                         var discount = decimalPercent * newTotal;
                         var withPercentage = newTotal - discount;
                     }
@@ -769,20 +860,18 @@ if($Classifiedad_Clientform == "FALSE") {
                     if (percentage)
                     {
                         var decimalPercent = parseFloat(percentage) / 100.0; // convert to true percentage
-                        var newTotal = allMonths * (numLines * pricePerLine);
+                        var newTotal = allMonths * price;
                         var discount = decimalPercent * newTotal;
                         var total = newTotal - discount;
                     }
 
                 } else
                 {
-                    var total = numChecked * (numLines * pricePerLine);
+                    var total = numChecked * price;
                 }
 
                 console.log(
-//                'Lines per character: '             + lines_per_char + '\n' +
-//                'Price per line: '                  + price_per_line + '\n' +
-                    'Number of lines in Text Area: '    + numLines + '\n' +
+                    'Price checked: '                   + price + '\n' +
                     'Number of months checked: '        + numChecked + '\n' +
                     'Percentage off  for promo code: '  + percentage + '\n' +
                     'Number of months for promo code: ' + numMonths + '\n' +
@@ -798,27 +887,10 @@ if($Classifiedad_Clientform == "FALSE") {
                     document.getElementById('grandtotal').value = total.toFixed(2);
                 }
 
-//                $('#numlines').text(lines); // set total lines span
-                document.getElementById('totallines').value = numLines; // set hidden input
             }
 
-
-            // bind event listener to the div containing all elements you want to be 'handled'
-            var mainDiv = document.getElementById('allInputs');
-            var issuesDiv = document.getElementById('allIssues');
-            if (!(mainDiv.addEventListener) && !(issuesDiv.addEventListener))
-            {
-                mainDiv.attachEvent('onfocusout',updateTotal); //IE doesn't have EventListeners, and doesn't support onchange this way, use onfocusout
-                issuesDiv.attachEvent("onclick", updateTotal);
-            }
-            else
-            {
-                mainDiv.addEventListener('keyup',updateTotal,false);
-                issuesDiv.addEventListener('CheckboxStateChange',updateTotal,false);
-            }
-
+            // Update the total price when a checkbox or radio button changes
             $("#allIssues").change(function() {
-
                 updateTotal();
             });
 
@@ -850,7 +922,6 @@ if($Classifiedad_Clientform == "FALSE") {
                 $('#promocode-btn').attr('disabled', true).empty().prepend('<img src="<?php echo base_url() ?>assets/img/loading-gif.gif" />&nbsp; Validating...');
 
                 $("#promo-result").empty();
-//            $("#promo-result").html('<img src="<?php //echo base_url() ?>//assets/img/ajax-loader.gif" />  Validating...');
 
                 jQuery.ajax({
                     type: "POST",
