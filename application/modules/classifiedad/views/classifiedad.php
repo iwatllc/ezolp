@@ -460,6 +460,8 @@ if($Classifiedad_Clientform == "FALSE") {
                             <span id="percentage" style="display:none"></span>
                             <span id="numMonths" style="display:none"></span>
 
+                            <br/>
+
                             <div class="form-group <?php echo(!empty(form_error('grandtotal')) ? 'has-error has-feedback' : ''); ?>">
                                 <label class="col-md-3 control-label"><b>TOTAL AMOUNT:</b></label>
                                 <div class="col-md-2">
