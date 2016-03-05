@@ -33,15 +33,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <div class="panel-body">
                     <button type="button" id ="delpromo-btn" class="btn btn-danger m-r-5 m-b-5"><i class="fa fa-trash-o"></i> Delete</button>
                     <button type="button" id="addpromo-btn" class="btn btn-info m-r-5 m-b-5"><i class="fa fa-plus"></i> Add</button>
-<!--                    <span class="alert alert-success">-->
-<!--                        <strong>Success!</strong> Promo Code Added-->
-<!--                    </span>-->
+                    <!--                    <span class="alert alert-success">-->
+                    <!--                        <strong>Success!</strong> Promo Code Added-->
+                    <!--                    </span>-->
                 </div>
 
                 <div id="overlay"></div>
 
                 <!---------------- ADD PROMO CODE BEGINS ---------------------------->
-                <div id="popup">
+                <div id="add-popup">
                     <div class="form-group" id="addcodefield">
                         <label class="col-md-2 control-label">Code:</label>
                         <div class="col-md-3">
@@ -52,7 +52,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 'value'         => set_value('addcode'),
                                 'class'         => 'form-control',
                                 'type'          => 'text',
-                                'placeholder'   => 'Promo Code',
+                                'placeholder'   => 'Promo Code Name',
                                 'data-parsley-required' => 'true',
                             );
                             echo form_input($data);
@@ -71,7 +71,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 'value'         => set_value('adddescription'),
                                 'class'         => 'form-control',
                                 'type'          => 'text',
-                                'placeholder'   => 'Promo Code',
+                                'placeholder'   => 'Promo Code Description',
                                 'data-parsley-required' => 'true',
                                 'rows'          => '3',
                                 'style'        => 'resize:horizontal;'
@@ -161,6 +161,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 </div>
                 <!---------------- ADD PROMO CODE ENDS ---------------------------->
 
+
+
                 <div class="panel-body">
 
                     <table class="table table-bordered table-striped" id="promo-table">
@@ -179,14 +181,139 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <?php foreach ($ca_promos as $promo)
                         {
                             echo '<tr id ="'.$promo->id.'">';
-                                echo '<td>'.form_checkbox('promocodes[]', $promo->id).'</td>';
-                                echo '<td>'.$promo->code.'</td>';
-                                echo '<td>'.$promo->description.'</td>';
-                                echo '<td>'.$promo->months.'</td>';
-                                echo '<td>'.$promo->percentage.'%</td>';
-                                echo '<td>'.date('m-d-Y', strtotime($promo -> startdate)).'</td>';
-                                echo '<td>'.date('m-d-Y', strtotime($promo -> enddate)).'</td>';
+                            echo '<td>'.form_checkbox('promocodes[]', $promo->id).'</td>';
+//                            echo '<td><button type="button" id="'.$promo->id.'" class="btn btn-success m-r-5 m-b-5 editpromo"><i class="fa fa-pencil"></i> Edit</button></td>';
+                            echo '<td>'.$promo->code.'</td>';
+                            echo '<td>'.$promo->description.'</td>';
+                            echo '<td>'.$promo->months.'</td>';
+                            echo '<td>'.$promo->percentage.'%</td>';
+                            echo '<td>'.date('m-d-Y', strtotime($promo -> startdate)).'</td>';
+                            echo '<td>'.date('m-d-Y', strtotime($promo -> enddate)).'</td>';
                             echo '</tr>';
+                            ?>
+
+                            <!---------------- EDIT PROMO CODE BEGINS ---------------------------->
+                            <div id="edit-popup">
+                                <div class="form-group" id="editcodefield">
+                                    <label class="col-md-2 control-label">Edit Code:</label>
+                                    <div class="col-md-3">
+                                        <?php
+                                        $data = array(
+                                            'name'          => 'promocode',
+                                            'id'            => 'addcode',
+                                            'value'         => set_value('promocode', $promo->code),
+                                            'class'         => 'form-control',
+                                            'type'          => 'text',
+                                            'placeholder'   => 'Promo Code Name',
+                                            'data-parsley-required' => 'true',
+                                        );
+                                        echo form_input($data);
+                                        echo '<span class="form-control-feedback" id="addcode-err"></span>';
+                                        ?>
+                                    </div>
+                                </div>
+                                <br/><br/>
+                                <div class="form-group" id="editdescriptionfield">
+                                    <label class="col-md-2 control-label">Description:</label>
+                                    <div class="col-md-9">
+                                        <?php
+                                        $data = array(
+                                            'name'          => 'description',
+                                            'id'            => 'adddescription',
+                                            'value'         => set_value('description', $promo->description),
+                                            'class'         => 'form-control',
+                                            'type'          => 'text',
+                                            'placeholder'   => 'Promo Code Description',
+                                            'data-parsley-required' => 'true',
+                                            'rows'          => '3',
+                                            'style'        => 'resize:horizontal;'
+                                        );
+                                        echo form_textarea($data);
+                                        echo '<span class="form-control-feedback" id="adddescription-err"></span>';
+                                        ?>
+                                    </div>
+                                </div>
+                                <br/><br/><br/><br/>
+                                <div class="form-group" id="editdatesfield">
+                                    <label class="col-md-2 control-label">Dates Valid:</label>
+                                    <div class="col-md-7 input-group input-daterange">
+                                        <?php
+                                        $BegDate = array(
+                                            'name'          =>  'begindate',
+                                            'id'            =>  'addbegindate',
+                                            'value'         =>  set_value('begindate', date("m/d/Y", strtotime($promo->startdate)) ),
+                                            'placeholder'   =>  date("m/d/Y"),
+                                            'class'         =>  'form-control'
+                                        );
+
+                                        echo form_input($BegDate)
+                                        ?>
+                                        <span class="input-group-addon">to</span>
+                                        <?php
+                                        $EndDate = array(
+                                            'name'          =>  'enddate',
+                                            'id'            =>  'addenddate',
+                                            'value'         =>  set_value('addenddate', date("m/d/Y", strtotime($promo->enddate)) ),
+                                            'placeholder'   =>  date("m/d/Y", strtotime('+7 days')),
+                                            'class'         =>  'form-control'
+                                        );
+
+                                        echo form_input($EndDate);
+                                        echo '<span class="form-control-feedback" id="adddates-err"></span>';
+                                        ?>
+                                    </div>
+                                </div>
+                                <br/>
+                                <div class="form-group" id="editmonthsfield">
+                                    <label class="col-md-2 control-label">Months:</label>
+                                    <div class="col-md-2">
+                                        <select id="addmonths" class="form-control">
+                                            <option value="1" selected>1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                            <option value="6">6</option>
+                                            <option value="7">7</option>
+                                            <option value="8">8</option>
+                                            <option value="9">9</option>
+                                            <option value="10">10</option>
+                                            <option value="11">11</option>
+                                            <option value="12">12</option>
+                                        </select>
+                                        <span class="form-control-feedback" id="addmonths-err"></span>
+                                    </div>
+                                </div>
+                                <br/>
+                                <br/>
+                                <div class="form-group" id="editpercentagefield">
+                                    <label class="col-md-2 control-label">Percentage:</label>
+                                    <div class="col-md-2 input-group " style="padding-left:1em">
+                                        <?php
+                                        $data = array(
+                                            'name'          => 'percentage',
+                                            'id'            => 'addpercentage',
+                                            'value'         => set_value('addpercentage'),
+                                            'class'         => 'form-control',
+                                            'type'          => 'text',
+                                            'onkeypress'    => 'return event.charCode >= 48 && event.charCode <= 57',
+                                            'maxlength'     => '3',
+                                            'data-parsley-required' => 'true',
+                                        );
+                                        echo form_input($data);
+                                        echo '<span class="input-group-addon">%</span>';
+                                        echo '<span class="form-control-feedback" id="addpercentage-err"></span>';
+                                        ?>
+                                    </div>
+                                </div>
+                                <div class="panel-body">
+                                    <button type="button" id="editpromo-submit" class="btn btn-info m-r-5 m-b-5"><i class="fa fa-edit"></i> Update Promo Code</button>
+                                    <button type="button" id="cancelpromo-btn" class="btn btn-warning m-r-5 m-b-5"><i class="fa fa-times"></i> Cancel</button>
+                                </div>
+                            </div>
+                            <!---------------- EDIT PROMO CODE ENDS ---------------------------->
+
+                            <?php
                         }
                         ?>
                         </tbody>
@@ -213,12 +340,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
     // On Add Promo button click, show Add Promo form
     $(document).on('click', '#addpromo-btn', function() {
-        $('#overlay, #popup').css('display', 'block');
+        $('#overlay, #add-popup').css('display', 'block');
+    });
+
+    // Open Edit Charge form
+    $('#promo-table').on('click', '.editpromo', function(e){
+        e.preventDefault();
+        var id = $(this).attr('id');
+        $('#overlay, #edit-popup').css('display', 'block');
     });
 
     // On Overlay or Cancel Promo button click, hide Add Promo form
     $(document).on('click', '#overlay, #cancelpromo-btn', function() {
-        $('#overlay, #popup').css('display', 'none');
+        $('#overlay, #add-popup, #edit-popup').css('display', 'none', 'none');
     });
 
     // Add a Promo Code
@@ -326,7 +460,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     }
 
                     // Hide Add Promo form
-                    $('#overlay, #popup').css('display', 'none');//
+                    $('#overlay, #add-popup').css('display', 'none');//
 
                     // reset all values on form after submission
                     $("#addcode").val('');
@@ -428,7 +562,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         opacity:.80;
     }
 
-    #popup{
+    #add-popup{
         color: #333;
         display: none;
         position: fixed;
@@ -436,7 +570,25 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         left: 18%;
         width:70%;
         min-width:70%;
-        height: 460px;
+        height: 70%;
+        padding: 1em;
+        border: 5px solid #333;
+        background-color: white;
+        text-align: left;
+        z-index:1001;
+        overflow: auto;
+        font-size:16px;
+    }
+
+    #edit-popup{
+        color: #333;
+        display: none;
+        position: fixed;
+        top: 10%;
+        left: 18%;
+        width:70%;
+        min-width:70%;
+        height: 70%;
         padding: 1em;
         border: 5px solid #333;
         background-color: white;
