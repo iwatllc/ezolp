@@ -60,20 +60,30 @@ class Displayad extends MX_Controller {
                     $_FILES['userfile']['error']    = $value['error'][$s];
                     $_FILES['userfile']['size']     = $value['size'][$s];
 
-                    $this -> upload -> do_upload();
-                    $data = $this -> upload -> data();
-                    $name_array[] = $data['file_name'];
 
-                    echo '<pre>';
-                    print_r($data);
-                    echo '</pre>';
+                    if ($this -> upload -> do_upload())
+                    {
+                        $data = $this -> upload -> data();
+                        $name_array[] = $data['file_name'];
 
-                    // Make query to database to upload the file
-                    $file_id = $this -> Displayad_model -> upload_file($da_submissionid, $data);
+                        // Make query to database to upload the file
+                        $file_id = $this -> Displayad_model -> upload_file($da_submissionid, $data);
+                    }
+                    else
+                    {
+                        $error = $this -> upload -> display_errors();
+
+                        // Need to set an error for 'userfile[]' here
+                        $this -> form_validation -> set_rules('userfile[]', 'File(s)', 'callback_file_check');
+                        $this -> index(); // load screen and display errors
+                    }
+
                 }
             }
 
             $names = implode(',', $name_array); // get all the names of the files into a comma separated string
+
+            $option = $this -> input -> post ('size')[0];
 
             // Construct array of submitted data
             $submitted_data = array(
@@ -87,7 +97,7 @@ class Displayad extends MX_Controller {
                 'email'         => $this -> input -> post('email'),
                 'issues'        => implode(', ', $this -> input -> post('issues')), // comma separate months
                 'promocode'     => $this -> input -> post('promocode'),
-                'option'        => $this -> input -> post('size'),
+                'option'        => $option,
                 'images'        => $names,
                 'cardtype'      => $this -> input -> post('cardtype'),
                 'cclast4'       => substr($this -> input -> post('creditcard'), -4),
@@ -127,9 +137,6 @@ class Displayad extends MX_Controller {
         }
     }
 
-    /*
-     * Collects all required configuration data for the displayad views
-     */
     private function get_view_data($submitted_data = array(), $result_data = array())
     {
         log_message('debug', 'Getting Displayad view data...');
@@ -175,9 +182,6 @@ class Displayad extends MX_Controller {
         return $data;
     }
 
-    /*
-     * Configures form validation for the displayad
-     */
     private function setup_form_validation()
     {
         $this -> form_validation -> set_rules('firstname', 'First Name', 'required|max_length[100]');
@@ -205,9 +209,6 @@ class Displayad extends MX_Controller {
         $this->form_validation->set_rules('cvv2', 'CVV2 Code', 'required|min_length[3]|max_length[4]');
     }
 
-    /*
-     * Returns the body for an email receipt
-     */
     private function get_email_body()
     {
         $message = '<!DOCTYPE html><html><body>';
@@ -286,11 +287,18 @@ class Displayad extends MX_Controller {
     private function image_upload_settings()
     {
         $config['upload_path'] = './image/uploads';
-        $config['allowed_types'] = 'gif|jpg|png';
-        $config['max_size']    = '100';
-        $config['max_width']  = '1024';
-        $config['max_height']  = '768';
+        $config['allowed_types'] = 'gif|jpg|png|svg|ico|bmp';
+        $config['max_size']    = '';
+        $config['max_width']  = '';
+        $config['max_height']  = '';
 
         return $config;
+    }
+
+    public function file_check()
+    {
+        $this -> form_validation -> set_message('userfile[]', 'There was an error');
+
+        return false;
     }
 }

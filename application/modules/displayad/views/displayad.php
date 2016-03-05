@@ -6,7 +6,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 if($Displayad_Clientform == "FALSE") {
 
-    ?>
+?>
 
     <!DOCTYPE html>
     <!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
@@ -18,7 +18,8 @@ if($Displayad_Clientform == "FALSE") {
 
     <style>
         input[type="file"] {
-            display: none;
+            /*display: none;*/
+            /*background:transparent; border:none; color:transparent;*/
         }
 
         #loading-div-background{
@@ -69,7 +70,7 @@ if($Displayad_Clientform == "FALSE") {
             <div class="row">
                 <!-- begin col-12 -->
                 <div class="col-12">
-                    <?php $attributes = array('class' => 'form-horizontal', 'id' => 'classifiedad', 'enctype' => 'multipart/form-data'); ?>
+                    <?php $attributes = array('class' => 'form-horizontal', 'id' => 'displayad', 'enctype' => 'multipart/form-data'); ?>
                     <?php echo form_open_multipart('displayad/submit', $attributes);
                     $data = array(
                         'type'  => 'hidden',
@@ -153,6 +154,8 @@ if($Displayad_Clientform == "FALSE") {
                                     </tbody>
                                 </table>
                             </div>
+
+                            <br/><br/><br/><br/><br/><br/><br/>
 
                             <legend>Billing Information</legend>
                             <div class="form-group <?php echo(!empty(form_error('firstname')) ? 'has-error has-feedback' : ''); ?>">
@@ -424,13 +427,13 @@ if($Displayad_Clientform == "FALSE") {
                                                 <?php
                                                     foreach($monthly_pricing->result() as $price)
                                                     {
-                                                        echo '<tr>';
+                                                        echo '<tr align="left">';
                                                             echo '<td>';
-                                                                echo '<input type="radio" name="size[]"  value="'.$price->pagesize.' - B/W ('.$price->bwprice.')'.'"' . set_radio('size[]', $price->pagesize.' - B/W ('.$price->bwprice.')') . '>&nbsp;&nbsp;&nbsp;<label class="control-label">' . $price->pagesize . ' - B/W (' . $price->bwprice . ')</label>';
+                                                                echo '<input type="radio" name="size[]" price="'.$price->bwprice.'" value="'.$price->pagesize.' - B/W ('.$price->bwprice.')'.'"' . set_radio('size[]', $price->pagesize.' - B/W ('.$price->bwprice.')') . '>&nbsp;&nbsp;&nbsp;<label class="control-label">' . $price->pagesize . ' - B/W (' . $price->bwprice . ')</label>';
                                                             echo '</td>';
                                                         echo '<td><span style="padding-left:5em"></span></td>';
                                                         echo '<td>';
-                                                                echo '<input type="radio" name="size[]" value="'.$price->pagesize.' - Color ('.$price->bwprice.')'.'"' . set_radio('size[]', $price->pagesize.' - Color ('.$price->bwprice.')') . '>&nbsp;&nbsp;&nbsp;<label class="control-label">' . $price->pagesize . ' - Color (' . $price->colorprice . ')</label>';
+                                                                echo '<input type="radio" name="size[]" price="'.$price->colorprice.'" value="'.$price->pagesize.' - Color ('.$price->colorprice.')'.'"' . set_radio('size[]', $price->pagesize.' - Color ('.$price->colorprice.')') . '>&nbsp;&nbsp;&nbsp;<label class="control-label">' . $price->pagesize . ' - Color (' . $price->colorprice . ')</label>';
                                                             echo '</td>';
                                                         echo '</tr>';
                                                     }
@@ -451,24 +454,25 @@ if($Displayad_Clientform == "FALSE") {
                                         <div class="col-md-7">
                                             <div class="panel-body">
                                                 <blockquote class="f-s-14">
-                                                    <p>Select the files you wish to upload.<br>You may choose a single file or multiple files.</p>
+                                                    <p>Select the files you wish to upload.<br>You may choose a single file or multiple files.<br>Accepted image formats: JPG, PNG, GIF, BMP, SVG</p>
                                                 </blockquote>
                                                 <form id="fileupload" action="assets/global/plugins/jquery-file-upload/server/php/" method="POST" enctype="multipart/form-data">
                                                     <div class="row fileupload-buttonbar">
                                                         <div class="col-md-9">
                                                             <label class="btn btn-primary m-r-5 m-b-5">
                                                                 <input type="file" name="userfile[]" id="files" multiple />
-                                                                <i class="fa fa-plus"></i> Add Files...
+<!--                                                                <i class="fa fa-plus"></i> Add Files...--><span style="padding-left:5em"></span>
                                                             </label>
 
-                                                            <button type="reset" id="clear-uploads-btn" class="btn btn-danger m-r-5 m-b-5">
+                                                            <button type="reset" id="clear-uploads-btn" class="btn btn-danger m-r-5 m-b-5" style="display:none">
                                                                 <i class="fa fa-ban"></i>
                                                                 <span>Remove All</span>
                                                             </button>
 
-
-                                                            <span  class="alert alert-info fade in m-b-10">
-                                                                <span id="numFiles">No file(s) chosen</span>
+                                                            <span id="numFiles">
+                                                                <span  class="alert alert-warning fade in m-b-10">
+                                                                    No files chosen
+                                                                </span>
                                                             </span>
 
                                                         </div>
@@ -544,12 +548,14 @@ if($Displayad_Clientform == "FALSE") {
                                     <?php echo form_error('promocode'); ?>
                                 </div>
                                 <div class="col-md-3"></div>
-                                <div class="col-md-4" id="promo-result"></div>
+                                <span class="col-md-4" id="promo-result"></span>
                                 <br/>
 
-                            <div class="form-group" id="promo-info" style="display:none"></div>
+                            <span class="form-group" id="promo-info" style="display:none"></span>
                             <span id="percentage" style="display:none"></span>
                             <span id="numMonths" style="display:none"></span>
+
+                            <br/>
 
                             <div class="form-group <?php echo(!empty(form_error('grandtotal')) ? 'has-error has-feedback' : ''); ?>">
                                 <label class="col-md-3 control-label"><b>TOTAL AMOUNT:</b></label>
@@ -775,6 +781,8 @@ if($Displayad_Clientform == "FALSE") {
 
                 if (inp.files && inp.files[0])
                 {
+                    $("#image-preview tr").remove(); // clear table first
+
                     $(inp.files).each(function (index, element)
                     {
                         var name = element.name;
@@ -785,7 +793,7 @@ if($Displayad_Clientform == "FALSE") {
                         reader.onload = function (e)
                         {
                             var tableRow =  "<tr>" +
-                                                "<td><img class='thumb' src='" + e.target.result + "'></td>" +
+                                                "<td><img width='60' height='60' src='" + e.target.result + "'></td>" +
                                                 "<td>" + name + "</td>" +
                                                 "<td>" + size + "</td>" +
 //                                              "<td>" + "Cancel Button" + "</td>" +
@@ -793,18 +801,19 @@ if($Displayad_Clientform == "FALSE") {
 
                             $('#image-preview tbody').append(tableRow);
                         }
-                        console.log("File name: " + name + " | File size: " + size);
                     });
 
-                    console.log("Total Number of Files: " + inp.files.length);
-                    $('#numFiles').text("Files: " + inp.files.length);
+                    $('#numFiles').html('<span  class="alert alert-success fade in m-b-10">' + inp.files.length + ' files chosen</span>');
+
+                    $('#clear-uploads-btn').show();
                 }
             });
 
             // Clear the entire image-preview table
             $(document).on('click', '#clear-uploads-btn', function() {
-                $('#numFiles').text("No file(s) chosen");
+                $('#numFiles').html('<span  class="alert alert-warning fade in m-b-10">No files chosen</span>');
                 $("#image-preview tr").remove();
+                $('#clear-uploads-btn').hide();
             });
 
 
@@ -829,7 +838,9 @@ if($Displayad_Clientform == "FALSE") {
 
                 // Price variables
                 var numChecked = parseFloat($('input[name="issues[]"]:checked').length);
-                var price = $('input[name="size[]"]:checked').val();
+//                var price = $('input[name="size[]"]:checked').val();
+
+                var price = $('input[name="size[]"]:checked').attr("price")
 
                 // Promo code variables
                 var percentage = $('#percentage').text();
@@ -870,16 +881,35 @@ if($Displayad_Clientform == "FALSE") {
                     var total = numChecked * price;
                 }
 
-                console.log(
-                    'Price checked: '                   + price + '\n' +
-                    'Number of months checked: '        + numChecked + '\n' +
-                    'Percentage off  for promo code: '  + percentage + '\n' +
-                    'Number of months for promo code: ' + numMonths + '\n' +
-                    'Grand Total: '                     + total
-                );
+//                console.log(
+//                    'Price checked: '                   + price + '\n' +
+//                    'Number of months checked: '        + numChecked + '\n' +
+//                    'Percentage off  for promo code: '  + percentage + '\n' +
+//                    'Number of months for promo code: ' + numMonths + '\n' +
+//                    'Grand Total: '                     + total
+//                );
 
                 if(total)
                 {
+                    var dis;
+                    // Apply discounts
+                    if (numChecked >= 3 && numChecked < 6)
+                    {
+                        // apply 10% discount
+                        dis = (total * 0.1);
+                        total = total - dis;
+                    } else if (numChecked >= 6 && numChecked < 12)
+                    {
+                        // apply 19% discount
+                        dis = (total * 0.19);
+                        total = total - dis;
+                    } else if (numChecked == 12)
+                    {
+                        // apply 27% discount
+                        dis = (total * 0.27);
+                        total = total - dis;
+                    }
+
                     document.getElementById('grandtotal').value = total.toFixed(2);
                 } else
                 {
@@ -925,7 +955,7 @@ if($Displayad_Clientform == "FALSE") {
 
                 jQuery.ajax({
                     type: "POST",
-                    url: "<?php echo base_url(); ?>" + "classifiedad/Classifiedad/check_promocode",
+                    url: "<?php echo base_url(); ?>" + "displayad/Displayad/check_promocode",
                     dataType: 'json',
                     data: {promocode:promocode},
                     success: function(res) {
@@ -937,7 +967,7 @@ if($Displayad_Clientform == "FALSE") {
 
                             $("#promo-info").html(
                                 '<label class="col-md-3 control-label">Promotional Code Information:</label>' +
-                                '<div class="col-md-9">' +
+                                '<div class="col-md-8">' +
                                 '<div class="panel-body">' +
                                 '<table class="table" border="1">' +
                                 '<thead>' +
@@ -993,7 +1023,7 @@ if($Displayad_Clientform == "FALSE") {
             // Credit card information gets processed
             $("#loading-div-background").css({ opacity: 1.0 });
 
-            $('#classifiedad').submit(function(){
+            $('#displayad').submit(function(){
                 $("#promocode").prop("disabled", false);
                 $("#promocode").prop("readonly", true);
 
