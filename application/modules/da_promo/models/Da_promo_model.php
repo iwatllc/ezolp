@@ -21,14 +21,14 @@ class Da_promo_model extends CI_Model {
         return $query;
     }
 
-    function add_promo($code, $description, $begindate, $enddate, $months, $percentage, $createddate)
+    function add_promo($code, $description, $begindate, $enddate, $months, $amount, $createddate)
     {
         $data = array(
             'code'          => $code,
             'description'   => $description,
             'startdate'     => $begindate,
             'enddate'       => $enddate,
-            'percentage'    => $percentage,
+            'amount'    => $amount,
             'months'        => $months,
             'created'       => $createddate
         );

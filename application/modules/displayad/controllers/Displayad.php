@@ -272,7 +272,7 @@ class Displayad extends MX_Controller {
                 'code'        => $row -> code,
                 'description' => $row -> description,
                 'months'      => $row -> months,
-                'percentage'  => $row -> percentage,
+                'amount'  => $row -> amount,
                 'startdate'   => date('m-d-Y h:i A', strtotime($row -> startdate)),
                 'enddate'     => date('m-d-Y h:i A', strtotime($row -> enddate))
             );

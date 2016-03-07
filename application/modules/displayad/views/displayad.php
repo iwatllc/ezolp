@@ -552,7 +552,7 @@ if($Displayad_Clientform == "FALSE") {
                                 <br/>
 
                             <span class="form-group" id="promo-info" style="display:none"></span>
-                            <span id="percentage" style="display:none"></span>
+                            <span id="amount" style="display:none"></span>
                             <span id="numMonths" style="display:none"></span>
 
                             <br/>
@@ -838,15 +838,13 @@ if($Displayad_Clientform == "FALSE") {
 
                 // Price variables
                 var numChecked = parseFloat($('input[name="issues[]"]:checked').length);
-//                var price = $('input[name="size[]"]:checked').val();
-
                 var price = $('input[name="size[]"]:checked').attr("price")
 
                 // Promo code variables
-                var percentage = $('#percentage').text();
+                var amount = $('#amount').text();
                 var numMonths = $('#numMonths').text();
 
-                // Apply percentage off depending on the number of boxes checked and the promo code percentage
+                // Apply percentage off depending on the number of boxes checked and the promo code amount
                 if (numMonths && numChecked >= numMonths)
                 {
                     var numMonthsWithoutPercentage = numChecked - numMonths;
@@ -854,12 +852,10 @@ if($Displayad_Clientform == "FALSE") {
 
                     var withoutPercentage = numMonthsWithoutPercentage * price;
 
-                    if (percentage)
+                    if (amount) // for promo code
                     {
-                        // convert to true percentage
-                        var decimalPercent = parseFloat(percentage) / 100.0;
                         var newTotal = numMonthsWithPercentage * price;
-                        var discount = decimalPercent * newTotal;
+                        var discount = amount;
                         var withPercentage = newTotal - discount;
                     }
 
@@ -867,12 +863,11 @@ if($Displayad_Clientform == "FALSE") {
 
                 } else if (numMonths && numChecked < numMonths)
                 {
-                    var allMonths = numChecked; // all months get the percentage off
-                    if (percentage)
+                    var allMonths = numChecked; // all months get the amount off
+                    if (amount) // for promo code
                     {
-                        var decimalPercent = parseFloat(percentage) / 100.0; // convert to true percentage
                         var newTotal = allMonths * price;
-                        var discount = decimalPercent * newTotal;
+                        var discount = amount;
                         var total = newTotal - discount;
                     }
 
@@ -882,14 +877,14 @@ if($Displayad_Clientform == "FALSE") {
                 }
 
 //                console.log(
-//                    'Price checked: '                   + price + '\n' +
-//                    'Number of months checked: '        + numChecked + '\n' +
-//                    'Percentage off  for promo code: '  + percentage + '\n' +
-//                    'Number of months for promo code: ' + numMonths + '\n' +
-//                    'Grand Total: '                     + total
+//                    'Price checked: '                       + price + '\n' +
+//                    'Number of months checked: '            + numChecked + '\n' +
+//                    'Amount off with promo code: '          + amount + '\n' +
+//                    'Number of months with promo code: '    + numMonths + '\n' +
+//                    'Grand Total: '                         + total
 //                );
 
-                if(total)
+                if(total && total > 0)
                 {
                     var dis;
                     // Apply discounts
@@ -934,7 +929,7 @@ if($Displayad_Clientform == "FALSE") {
             $(document).on('click', '#promocode-btn-cancel', function() {
                 $('#promo-info').hide(); // hide info table
                 $('#promo-info').empty(); // clear info table
-                $("#percentage").empty(); // reset the percentage
+                $("#amount").empty(); // reset the amount
                 $("#numMonths").empty(); // reset the number of months
                 $("#promocode").val('');// clear promo code text
                 $("#promocode").prop("disabled", false); // make promo code text editable
@@ -974,8 +969,8 @@ if($Displayad_Clientform == "FALSE") {
                                 '<tr>' +
                                 '<th>Code</th>' +
                                 '<th>Description</th>' +
-                                '<th>Percentage</th>' +
                                 '<th>Months</th>' +
+                                '<th>Amount</th>' +
                                 '<th>Start Date</th>' +
                                 '<th>End Date</th>' +
                                 '</tr>' +
@@ -984,8 +979,8 @@ if($Displayad_Clientform == "FALSE") {
                                 '<tr>' +
                                 '<td>' + res.code + '</td>' +
                                 '<td>' + res.description + '</td>' +
-                                '<td>' + res.percentage + '</td>' +
                                 '<td>' + res.months + '</td>' +
+                                '<td>&#36; ' + res.amount + '</td>' +
                                 '<td>' + res.startdate + '</td>' +
                                 '<td>' + res.enddate + '</td>' +
                                 '</tr>' +
@@ -995,14 +990,11 @@ if($Displayad_Clientform == "FALSE") {
                                 '</div>'
                             );
 
-                            // Set the percentage in a div
-                            $("#percentage").html(parseInt(res.percentage));
+                            // Set the amount in a div
+                            $("#amount").html(parseInt(res.amount));
 
                             // Set the number of months in a div
                             $("#numMonths").html(parseInt(res.months));
-
-                            // Set the total value by applying the discount
-//                        document.getElementById('grandtotal').value = (document.getElementById('grandtotal').value - ((parseInt(res.percentage) / 100) * document.getElementById('grandtotal').value)).toFixed(2); // set the text box total price
 
                             $("#promocode").prop("disabled", true);
 

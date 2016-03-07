@@ -65,7 +65,7 @@ class Da_promo extends MX_Controller {
         $this -> form_validation -> set_rules('begindate', 'Start Date', 'required');
         $this -> form_validation -> set_rules('enddate', 'End Date', 'required');
         $this -> form_validation -> set_rules('months', 'Months', 'required');
-        $this -> form_validation -> set_rules('percentage', 'Percentage', 'required');
+        $this -> form_validation -> set_rules('amount', 'Amount', 'required');
 
         if ($this -> form_validation -> run() == FALSE)
         {
@@ -80,8 +80,8 @@ class Da_promo extends MX_Controller {
                 $errors['enddate_error'] = form_error('enddate');
             if ($this -> form_validation -> run('months') == FALSE)
                 $errors['months_error'] = form_error('months');
-            if ($this -> form_validation -> run('percentage') == FALSE)
-                $errors['percentage_error'] = form_error('percentage');
+            if ($this -> form_validation -> run('amount') == FALSE)
+                $errors['amount_error'] = form_error('amount');
 
             echo json_encode($errors);
 
@@ -93,7 +93,7 @@ class Da_promo extends MX_Controller {
         $begindate      = $this -> input -> post('begindate');
         $enddate        = $this -> input -> post('enddate');
         $months         = $this -> input -> post('months');
-        $percentage     = $this -> input -> post('percentage');
+        $amount     = $this -> input -> post('amount');
 
         $begindate = new DateTime($begindate);
         $begindate =  $begindate -> format('Y-m-d');
@@ -107,7 +107,7 @@ class Da_promo extends MX_Controller {
         $createddate = mdate($datestring, $time);
 
         // insert data to database, return the id of the row that was inserted
-        $id = $this -> da_promo_model -> add_promo($code, $description, $begindate, $enddate, $months, $percentage, $createddate);
+        $id = $this -> da_promo_model -> add_promo($code, $description, $begindate, $enddate, $months, $amount, $createddate);
 
         // query the table for the row that was just inserted
         $row = $this -> da_promo_model -> get_promo($id);
@@ -125,7 +125,7 @@ class Da_promo extends MX_Controller {
             'begindate'         => $startdate,
             'enddate'           => $enddate,
             'months'            => $row -> months,
-            'percentage'        => $row -> percentage,
+            'amount'        => $row -> amount,
             'num_promos'      => $this-> da_promo_model -> get_num_promos()
         );
 

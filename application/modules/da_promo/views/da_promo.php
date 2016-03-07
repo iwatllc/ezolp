@@ -84,7 +84,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <br/><br/><br/><br/>
                     <div class="form-group" id="adddatesfield">
                         <label class="col-md-2 control-label">Dates Valid:</label>
-                        <div class="col-md-7 input-group input-daterange">
+                        <div class="col-md-7 input-group input-daterange"  style="padding-left:1em">
                             <?php
                             $BegDate = array(
                                 'name'          =>  'begindate',
@@ -134,23 +134,24 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     </div>
                     <br/>
                     <br/>
-                    <div class="form-group" id="addpercentagefield">
-                        <label class="col-md-2 control-label">Percentage:</label>
-                        <div class="col-md-2 input-group " style="padding-left:1em">
+                    <div class="form-group" id="addamountfield">
+                        <label class="col-md-2 control-label">Amount:</label>
+                        <div class="col-md-2 input-group"  style="padding-left:1em">
                             <?php
                             $data = array(
-                                'name'          => 'percentage',
-                                'id'            => 'addpercentage',
-                                'value'         => set_value('addpercentage'),
+                                'name'          => 'amount',
+                                'id'            => 'addamount',
+                                'value'         => set_value('addamount'),
                                 'class'         => 'form-control',
                                 'type'          => 'text',
-                                'onkeypress'    => 'return event.charCode >= 48 && event.charCode <= 57',
-                                'maxlength'     => '3',
+//                                'onkeypress'    => 'return event.charCode >= 48 && event.charCode <= 57',
+//                                'pattern'       => '^\d+\.\d{2}$',
+//                                'maxlength'     => '7',
                                 'data-parsley-required' => 'true',
                             );
+                            echo '<span class="input-group-addon">$</span>';
                             echo form_input($data);
-                            echo '<span class="input-group-addon">%</span>';
-                            echo '<span class="form-control-feedback" id="addpercentage-err"></span>';
+                            echo '<span class="form-control-feedback" id="addamount-err"></span>';
                             ?>
                         </div>
                     </div>
@@ -172,7 +173,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <th width="15%">Code</th>
                             <th width="30%">Description</th>
                             <th width="5%">Months</th>
-                            <th width="5%">Percentage</th>
+                            <th width="5%">Amount</th>
                             <th width="15%">Start Date</th>
                             <th width="15%">End Date</th>
                         </tr>
@@ -186,7 +187,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             echo '<td>'.$promo->code.'</td>';
                             echo '<td>'.$promo->description.'</td>';
                             echo '<td>'.$promo->months.'</td>';
-                            echo '<td>'.$promo->percentage.'%</td>';
+                            echo '<td>&#36; '.$promo->amount.'</td>';
                             echo '<td>'.date('m-d-Y', strtotime($promo -> startdate)).'</td>';
                             echo '<td>'.date('m-d-Y', strtotime($promo -> enddate)).'</td>';
                             echo '</tr>';
@@ -286,14 +287,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 </div>
                                 <br/>
                                 <br/>
-                                <div class="form-group" id="editpercentagefield">
-                                    <label class="col-md-2 control-label">Percentage:</label>
+                                <div class="form-group" id="editamountfield">
+                                    <label class="col-md-2 control-label">Amount:</label>
                                     <div class="col-md-2 input-group " style="padding-left:1em">
                                         <?php
                                         $data = array(
-                                            'name'          => 'percentage',
-                                            'id'            => 'addpercentage',
-                                            'value'         => set_value('addpercentage'),
+                                            'name'          => 'amount',
+                                            'id'            => 'addamount',
+                                            'value'         => set_value('addamount'),
                                             'class'         => 'form-control',
                                             'type'          => 'text',
                                             'onkeypress'    => 'return event.charCode >= 48 && event.charCode <= 57',
@@ -302,7 +303,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                         );
                                         echo form_input($data);
                                         echo '<span class="input-group-addon">%</span>';
-                                        echo '<span class="form-control-feedback" id="addpercentage-err"></span>';
+                                        echo '<span class="form-control-feedback" id="addamount-err"></span>';
                                         ?>
                                     </div>
                                 </div>
@@ -372,7 +373,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         var begindate = $( "#addbegindate" ).datepicker().val();
         var enddate = $( "#addenddate" ).datepicker().val();
         var months = $("#addmonths").val();
-        var percentage = $("#addpercentage").val();
+        var amount = $("#addamount").val();
 
 //        console.log(
 //            'Code: ' + code + '\n' +
@@ -380,14 +381,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 //            'Begin Date: ' + begindate + '\n' +
 //            'End Date: ' + enddate + '\n' +
 //            'Months: ' + months + '\n' +
-//            'Percentage: ' + percentage
+//            'Amount: ' + amount
 //        );
 
         jQuery.ajax({
             type: "POST",
             url: "<?php echo base_url(); ?>" + "da_promo/Da_promo/ajax_add_promocode",
             dataType: 'json',
-            data: {code:code, description:description, begindate:begindate, enddate:enddate, months:months, percentage:percentage},
+            data: {code:code, description:description, begindate:begindate, enddate:enddate, months:months, amount:amount},
             success: function(res) {
                 if (res) {
 
@@ -397,7 +398,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 //                        'Begin Date: ' + res.begindate + '\n' +
 //                        'End Date: ' + res.enddate + '\n' +
 //                        'Months: ' + res.months + '\n' +
-//                        'Percentage: ' + res.percentage
+//                        'Amount: ' + res.amount
 //                    );
 
                     // Replace button with original glyphicon
@@ -409,7 +410,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     $("#addbegindate-err").empty();
                     $("#addenddate-err").empty();
                     $("#addmonths-err").empty();
-                    $("#addpercentage-err").empty();
+                    $("#addamount-err").empty();
 
                     // check form validation first
                     if (res.code_error)
@@ -445,16 +446,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     {
                         $('#addmonthsfield').removeClass('has-error');
                     }
-                    if (res.percentage_error)
+                    if (res.amount_error)
                     {
-//                        $('#addpercentage-err').append(res.percentage_error);
-                        $('#addpercentagefield').addClass('has-error');
+//                        $('#addamount-err').append(res.amount_error);
+                        $('#addamountfield').addClass('has-error');
                     } else
                     {
-                        $('#addpercentagefield').removeClass('has-error');
+                        $('#addamountfield').removeClass('has-error');
                     }
 
-                    if (res.code_error || res.description_error || res.begindate_error || res.enddate_error || res.months_error || res.percentage_error)
+                    if (res.code_error || res.description_error || res.begindate_error || res.enddate_error || res.months_error || res.amount_error)
                     {
                         return; // do not run any more javascript, there are errors on form
                     }
@@ -468,14 +469,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     $("#addbegindate").datepicker().val('');
                     $("#addenddate").datepicker().val('');
                     $("#addmonths").val('1');
-                    $("#addpercentage").val('');
+                    $("#addamount").val('');
 
                     var newtr =
                         '<td><input type="checkbox" name="promocodes[]" value="' + res.id + '"  /></td>' +
                         '<td>' + res.code + '</td>' +
                         '<td>' + res.description + '</td>' +
                         '<td>' + res.months + '</td>' +
-                        '<td>' + res.percentage + '%</td>' +
+                        '<td>&#36; ' + res.amount + '</td>' +
                         '<td>' + res.begindate + '</td>' +
                         '<td>' + res.enddate + '</td>';
 
@@ -546,6 +547,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         $( "#addenddate" ).datepicker("setDate", '7');
 
     });
+
+    $("form input[name='amount']").maskMoney();
+
 
 </script>
 
