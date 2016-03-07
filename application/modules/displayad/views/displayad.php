@@ -61,7 +61,7 @@ if($Displayad_Clientform == "FALSE") {
 
             <h1 class="page-header">
                 <?php if($Displayad_Logo != 'FALSE'){ ?>
-                    <img src="<?php echo base_url(); ?>/client/<?php echo $Displayad_Logo ?>" alt="" height="120" width="120">
+                    <img src="<?php echo base_url(); ?>client/<?php echo $Displayad_Logo ?>" alt="" height="120" width="120">
                 <?php } ?>
                 <?php echo $page_data['heading'];?>
             </h1>
@@ -126,6 +126,8 @@ if($Displayad_Clientform == "FALSE") {
                                 </table>
                             </div>
 
+                            <br/><br/><br/><br/><br/><br/>
+
                             <div class="table-responsive col-md-6">
                                 <table class="table table-hover">
                                     <caption><center><h3><u><font face="Modern,Arial">Repeat Advertising Discounts</font></u></h3></center></caption>
@@ -155,7 +157,7 @@ if($Displayad_Clientform == "FALSE") {
                                 </table>
                             </div>
 
-                            <br/><br/><br/><br/><br/><br/><br/>
+                            <br/><br/><br/><br/><br/><br/>
 
                             <legend>Billing Information</legend>
                             <div class="form-group <?php echo(!empty(form_error('firstname')) ? 'has-error has-feedback' : ''); ?>">
@@ -358,7 +360,7 @@ if($Displayad_Clientform == "FALSE") {
                             <div class="form-group <?php echo(!empty(form_error('email')) ? 'has-error has-feedback' : ''); ?>">
 
                                 <?php if($Displayad_Email == "TRUE") { ?>
-                                    <label class="col-md-3 control-label">EMAIL<?php echo( $Displayad_Email_Required == 'TRUE' ? '*' : ' ') ?></label>
+                                    <label class="col-md-3 control-label">EMAIL*<?php echo( $Displayad_Email_Required == 'TRUE' ? '*' : ' ') ?></label>
                                     <div class="col-md-9">
                                         <?php
                                         $data = array(
@@ -458,7 +460,7 @@ if($Displayad_Clientform == "FALSE") {
                                                 </blockquote>
                                                 <form id="fileupload" action="assets/global/plugins/jquery-file-upload/server/php/" method="POST" enctype="multipart/form-data">
                                                     <div class="row fileupload-buttonbar">
-                                                        <div class="col-md-9">
+                                                        <div class="col-md-10">
                                                             <label class="btn btn-primary m-r-5 m-b-5">
                                                                 <input type="file" name="userfile[]" id="files" multiple />
 <!--                                                                <i class="fa fa-plus"></i> Add Files...--><span style="padding-left:5em"></span>
@@ -769,19 +771,19 @@ if($Displayad_Clientform == "FALSE") {
     <?php $this->load->view('footer'); ?>
 
 
-    <script src="<?php echo base_url(); ?>/assets/plugins/jquery-payment/lib/jquery.payment.min.js"></script>
+    <script src="<?php echo base_url(); ?>assets/plugins/jquery-payment/lib/jquery.payment.min.js"></script>
 
     <script type="text/javascript">
 
         $(document).ready(function() {
 
-            // Event handler when files are selected
+            /* Event handler when files are selected */
             $(document).on('change', '#files', function() {
                 var inp = document.getElementById('files');
 
                 if (inp.files && inp.files[0])
                 {
-                    $("#image-preview tr").remove(); // clear table first
+                    $("#image-preview tr").remove(); /* clear table first */
 
                     $(inp.files).each(function (index, element)
                     {
@@ -796,7 +798,7 @@ if($Displayad_Clientform == "FALSE") {
                                                 "<td><img width='60' height='60' src='" + e.target.result + "'></td>" +
                                                 "<td>" + name + "</td>" +
                                                 "<td>" + size + "</td>" +
-//                                              "<td>" + "Cancel Button" + "</td>" +
+                                              /* "<td>" + "Cancel Button" + "</td>" + */
                                             "</tr>";
 
                             $('#image-preview tbody').append(tableRow);
@@ -809,15 +811,14 @@ if($Displayad_Clientform == "FALSE") {
                 }
             });
 
-            // Clear the entire image-preview table
+            /* Clear the entire image-preview table */
             $(document).on('click', '#clear-uploads-btn', function() {
                 $('#numFiles').html('<span  class="alert alert-warning fade in m-b-10">No files chosen</span>');
                 $("#image-preview tr").remove();
                 $('#clear-uploads-btn').hide();
             });
 
-
-                // On page load, check if promo code exists (in case form validation fails)
+            /*  On page load, check if promo code exists (in case form validation fails) */
             if ($('#promocode').val() != '')
             {
                 $('#promocode-btn').click();
@@ -830,21 +831,21 @@ if($Displayad_Clientform == "FALSE") {
                 return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[[i]];
             };
 
-            // Change total on text area change
-            function updateTotal() // add e as paramenter if we want IE
+            /*  Change total on text area change */
+            function updateTotal()
             {
-//            e = e || window.event; // IE doesn't pass event to callback
-//            var target = e.target || e.srcElement; // IE == srcElement, good browsers: target
+                /*  e = e || window.event; // IE doesn't pass event to callback */
+                /*  var target = e.target || e.srcElement; // IE == srcElement, good browsers: target */
 
-                // Price variables
+                /* Price variables */
                 var numChecked = parseFloat($('input[name="issues[]"]:checked').length);
                 var price = $('input[name="size[]"]:checked').attr("price")
 
-                // Promo code variables
+                /* Promo code variables */
                 var amount = $('#amount').text();
                 var numMonths = $('#numMonths').text();
 
-                // Apply percentage off depending on the number of boxes checked and the promo code amount
+                /*  Apply percentage off depending on the number of boxes checked and the promo code amount */
                 if (numMonths && numChecked >= numMonths)
                 {
                     var numMonthsWithoutPercentage = numChecked - numMonths;
@@ -852,7 +853,7 @@ if($Displayad_Clientform == "FALSE") {
 
                     var withoutPercentage = numMonthsWithoutPercentage * price;
 
-                    if (amount) // for promo code
+                    if (amount)
                     {
                         var newTotal = numMonthsWithPercentage * price;
                         var discount = amount;
@@ -863,8 +864,8 @@ if($Displayad_Clientform == "FALSE") {
 
                 } else if (numMonths && numChecked < numMonths)
                 {
-                    var allMonths = numChecked; // all months get the amount off
-                    if (amount) // for promo code
+                    var allMonths = numChecked;
+                    if (amount)
                     {
                         var newTotal = allMonths * price;
                         var discount = amount;
@@ -876,31 +877,27 @@ if($Displayad_Clientform == "FALSE") {
                     var total = numChecked * price;
                 }
 
-//                console.log(
-//                    'Price checked: '                       + price + '\n' +
-//                    'Number of months checked: '            + numChecked + '\n' +
-//                    'Amount off with promo code: '          + amount + '\n' +
-//                    'Number of months with promo code: '    + numMonths + '\n' +
-//                    'Grand Total: '                         + total
-//                );
+                 console.log(
+                    'Price checked: '                       + price + '\n' +
+                    'Number of months checked: '            + numChecked + '\n' +
+                    'Amount off with promo code: '          + amount + '\n' +
+                    'Number of months with promo code: '    + numMonths + '\n' +
+                    'Grand Total: '                         + total
+                );
 
-                if(total && total > 0)
+                if (total && total > 0)
                 {
                     var dis;
-                    // Apply discounts
                     if (numChecked >= 3 && numChecked < 6)
                     {
-                        // apply 10% discount
                         dis = (total * 0.1);
                         total = total - dis;
                     } else if (numChecked >= 6 && numChecked < 12)
                     {
-                        // apply 19% discount
                         dis = (total * 0.19);
                         total = total - dis;
                     } else if (numChecked == 12)
                     {
-                        // apply 27% discount
                         dis = (total * 0.27);
                         total = total - dis;
                     }
@@ -914,36 +911,35 @@ if($Displayad_Clientform == "FALSE") {
 
             }
 
-            // Update the total price when a checkbox or radio button changes
+            /* Update the total price when a checkbox or radio button changes */
             $("#allIssues").change(function() {
                 updateTotal();
             });
 
-            // Check the promo code
+            /* Check the promo code */
             $(document).on('click', '#promocode-btn', function() {
                 var promo_code = $('#promocode').val();
                 check_promocode_ajax(promo_code);
             });
 
-            // Cancel the promo code
+            /* Cancel the promo code */
             $(document).on('click', '#promocode-btn-cancel', function() {
-                $('#promo-info').hide(); // hide info table
-                $('#promo-info').empty(); // clear info table
-                $("#amount").empty(); // reset the amount
-                $("#numMonths").empty(); // reset the number of months
-                $("#promocode").val('');// clear promo code text
-                $("#promocode").prop("disabled", false); // make promo code text editable
-                $('#promo-result').empty(); // remove promo code notification (valid/invalid)
+                $('#promo-info').hide(); /* hide info table */
+                $('#promo-info').empty(); /* clear info table */
+                $("#amount").empty(); /* reset the amount */
+                $("#numMonths").empty(); /* reset the number of months */
+                $("#promocode").val(''); /* clear promo code text */
+                $("#promocode").prop("disabled", false); /* make promo code text editable */
+                $('#promo-result').empty(); /* remove promo code notification (valid/invalid) */
                 $("button[id=promocode-btn-cancel]").hide();
                 $("button[id=promocode-btn]").show();
 
 
-                updateTotal();  // update total amount with the promo code removed
+                updateTotal();  /* update total amount with the promo code removed */
             });
 
             function check_promocode_ajax(promocode)
             {
-                // Replace button with animated loading gif
                 $('#promocode-btn').attr('disabled', true).empty().prepend('<img src="<?php echo base_url() ?>assets/img/loading-gif.gif" />&nbsp; Validating...');
 
                 $("#promo-result").empty();
@@ -952,7 +948,15 @@ if($Displayad_Clientform == "FALSE") {
                     type: "POST",
                     url: "<?php echo base_url(); ?>" + "displayad/Displayad/check_promocode",
                     dataType: 'json',
+                    timeout: 8000,
                     data: {promocode:promocode},
+                    error: function(xhr, error){
+                        console.debug(xhr); console.debug(error);
+                        $('#promocode-btn').removeAttr('disabled').empty().prepend('Validate');
+                        $("#promo-result").html('<img src="<?php echo base_url() ?>assets/img/cross.png" /> <span style="color:red;">Validation is not responding. Try again with a different browser. </span>');
+                        $("#promo-info").empty();
+                        $("#promo-info").hide();
+                    },
                     success: function(res) {
                         if (res) {
                             $("#promo-result").html('<img src="<?php echo base_url() ?>assets/img/checkmark.ico" /> <span style="color:green;">Promo Code is Valid</span>');
@@ -990,10 +994,8 @@ if($Displayad_Clientform == "FALSE") {
                                 '</div>'
                             );
 
-                            // Set the amount in a div
-                            $("#amount").html(parseInt(res.amount));
+                            $("#amount").html(res.amount);
 
-                            // Set the number of months in a div
                             $("#numMonths").html(parseInt(res.months));
 
                             $("#promocode").prop("disabled", true);
@@ -1012,7 +1014,7 @@ if($Displayad_Clientform == "FALSE") {
                 });
             }
 
-            // Credit card information gets processed
+            /* Credit card information gets processed */
             $("#loading-div-background").css({ opacity: 1.0 });
 
             $('#displayad').submit(function(){
@@ -1051,7 +1053,7 @@ if($Displayad_Clientform == "FALSE") {
 
             if (!fieldmatches) return null;
 
-            // Extract the three lines
+            /* Extract the three lines */
             var cardData = {
                 track1: trackmatches[1],
                 track2: trackmatches[2],
@@ -1088,11 +1090,11 @@ if($Displayad_Clientform == "FALSE") {
             $("#track2").text(data.track2);
             $("#track3").text(data.track3);
 
-            // console.log(data.PAN);
-            // console.log(data.ED.substring(2, 4));
-            // console.log(data.ED.substring(0, 2));
+            /* console.log(data.PAN); */
+            /* console.log(data.ED.substring(2, 4)); */
+            /* console.log(data.ED.substring(0, 2)); */
 
-            // Swap around the name
+            /* Swap around the name */
             var fullname  = data.NM.split("/");
             var firstname = fullname[1].trim();
             var lastname = fullname[0].trim();
@@ -1101,12 +1103,12 @@ if($Displayad_Clientform == "FALSE") {
             $("[name='fullname']").val(formattedname);
             $("[name='creditcard']").val(data.PAN);
 
-            // Set Value of Element then run the selectpicker refresh
+            /* Set Value of Element then run the selectpicker refresh  */
             $("#expirationmonth").val(data.ED.substring(2, 4));
             $('.selectpicker').selectpicker('refresh');
 
-            // var expirationyear = data.ED.substring(0, 2);
-            // $("[name='expirationyear']").val(data.ED.substring(0, 2));
+            /* var expirationyear = data.ED.substring(0, 2);  */
+            /* $("[name='expirationyear']").val(data.ED.substring(0, 2));  */
             var year_prefix = "20";
             var year_suffix = data.ED.substring(0, 2);
             var cardyear = year_prefix.concat(year_suffix);
@@ -1123,13 +1125,6 @@ if($Displayad_Clientform == "FALSE") {
             alert(readErrorReason);
         }
 
-        // Initialize the plugin with default parser and callbacks.
-        //
-        // Set debug to true to watch the characters get captured and the state machine transitions
-        // in the javascript console. This requires a browser that supports the console.log function.
-        //
-        // Set firstLineOnly to true to invoke the parser after scanning the first line. This will speed up the
-        // time from the start of the scan to invoking your success callback.
         $.cardswipe({
             firstLineOnly: false,
             success: goodScan,

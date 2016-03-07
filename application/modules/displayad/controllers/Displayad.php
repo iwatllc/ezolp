@@ -191,7 +191,7 @@ class Displayad extends MX_Controller {
         $this -> form_validation -> set_rules('state', 'State', 'required|callback_check_default');
         $this -> form_validation -> set_rules('zip', 'Zip Code', 'required|min_length[5]|max_length[5]');
         $this -> form_validation -> set_rules('phone', 'Phone Number', 'required|min_length[14]|max_length[14]');
-        $this -> form_validation -> set_rules('email', 'Email', 'valid_email');
+        $this -> form_validation -> set_rules('email', 'Email', 'required|valid_email');
         $this -> form_validation -> set_rules('issues[]', 'Issues', 'required');
         $this -> form_validation -> set_rules('size[]', 'Size and Color', 'required');
 
