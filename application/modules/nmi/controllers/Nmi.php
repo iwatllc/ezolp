@@ -79,7 +79,7 @@ class Nmi extends MX_Controller
 		}
 		$query .= "type=sale";
 		
-		log_message('debug', "NMI Query -> " . print_r($query,TRUE));
+		//log_message('debug', "NMI Query -> " . print_r($query,TRUE));
 	    return $this->_doPost($query, $this->config->item('NMI_URL'));
   	}
 
@@ -139,7 +139,7 @@ class Nmi extends MX_Controller
             $query .= "address2=" . urlencode($data['streetaddress2']) . "&";
         }
 
-        log_message('debug', "NMI Query -> " . print_r($query,TRUE));
+        // log_message('debug', "NMI Query -> " . print_r($query,TRUE));
 
 		return $this->_doPost($query, $this->config->item('NMI_URL'));
 	}
@@ -154,7 +154,7 @@ class Nmi extends MX_Controller
         $query .= "subscription_id=" . $data;
 
 
-        log_message('debug', "NMI Query -> " . print_r($query,TRUE));
+        // log_message('debug', "NMI Query -> " . print_r($query,TRUE));
 
         return $this->_doPost($query, $this->config->item('NMI_URL'));
 

@@ -264,7 +264,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 														if(strcmp($result->status, 'Void') != 0 && strcmp($result->status, 'Refund') != 0 && strcmp($result->status, 'Declined') != 0 ) {
 															echo "<td>";
 															echo "<button data-paymentTransactionFileName='". $result->TransactionFileName ."' data-paymentResponseId='". $result->PaymentTransactionId ."' class='btn btn-link btn-changestatus'>Check Status</button><br>";
-                                                            if($result->paymentsource == 'DF'){
+                                                            if(($result->paymentsource == 'DF') || ($result->paymentsource == 'AF')) {
                                                                 echo "<button data-paymentTransactionFileName='". $result->TransactionFileName ."' data-paymentResponseId='". $result->PaymentTransactionId ."' class='btn btn-link btn-checkdonationamount'>Check Donation Amount</button><br>";
                                                             }
                                                             echo "</td>";

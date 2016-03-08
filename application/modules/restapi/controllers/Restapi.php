@@ -28,21 +28,17 @@ class Restapi extends REST_Controller
 
         $this->load->module('configsys');
 
-//        $firstname = $this->post('firstname');
-//        $middleinitial = $this->post('middleinitial');
-//        $lastname = $this->post('lastname');
-//        $email = $this->post('email');
-//        $notes = $this->post('notes');
-//        $cardtype = $this->post('cardtype');
-//        $cc_number = $this->post('cc-number');
-//        $cc_exp = $this->post('cc-exp');
-//        $cc_cvc = $this->post('cc-cvc');
-//        $numeric = $this->post('numeric');
-
         $submitted_data = array(
             'firstname' => $this->post('firstname'),
             'middleinitial' => $this->post('middleinitial'),
             'lastname' => $this->post('lastname'),
+            'address' => $this->post('address'),
+            'address2' => $this->post('address2'),
+            'city' => $this->post('city'),
+            'state' => $this->post('state'),
+            'zip' => $this->post('zip'),
+            'employer' => $this->post('employer'),
+            'occupation' => $this->post('occupation'),
             'email' => $this->post('email'),
             'notes' => $this->post('notes'),
             'cardtype' => $this->post('cardtype'),
@@ -82,7 +78,7 @@ class Restapi extends REST_Controller
 
                     $message = '<!DOCTYPE html><html><body>';
                     $message .= '<p>';
-                    $message .= 'Than you for your payment';
+                    $message .= 'Thank you for your payment';
                     $message .= '<br>';
                     $message .= 'Please keep this receipt for your records';
                     $message .= '<br>';
