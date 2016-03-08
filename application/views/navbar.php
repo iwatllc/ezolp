@@ -124,6 +124,18 @@
                     </ul>
                 </li>
 
+                <li class="has-sub<?php echo $pageName == 'displayad' ? ' active' : ''; ?>">
+                    <a>
+                        <b class="caret pull-right"></b>
+                        <i class="fa fa-gear"></i>
+                        <span>Manage Display Ad</span>
+                    </a>
+                    <ul class="sub-menu">
+                        <li<?php echo $this->uri->segment(3) == 'da_monthly_pricing' ? ' class="active"' : ''; ?>><a href="<?php echo base_url(); ?>da_monthlypricing">Manage Display Ad Monthly Pricing</a></li>
+                        <li<?php echo $this->uri->segment(3) == 'da_repeat_discount' ? ' class="active"' : ''; ?>><a href="<?php echo base_url(); ?>da_repeatdiscount">Manage Display Ad Repeat Advertising Discounts</a></li>
+                    </ul>
+                </li>
+
                 <!--
                 <li class="has-sub<?php echo $pageName == 'recurring' ? ' active' : ''; ?>">
                     <a href="<?php echo base_url(); ?>recurring">
