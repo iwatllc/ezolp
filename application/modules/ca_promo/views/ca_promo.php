@@ -344,7 +344,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     $('#promo-table').on('click', '.editpromo', function(e){
         e.preventDefault();
         var id = $(this).attr('id');
-        console.log(id);
         $('#overlay, #edit-popup'+id).css('display', 'block');
     });
 
@@ -373,15 +372,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         var months = $("#addmonths").val();
         var percentage = $("#addpercentage").val();
 
-//        console.log(
-//            'Code: ' + code + '\n' +
-//            'Description: ' + description + '\n' +
-//            'Begin Date: ' + begindate + '\n' +
-//            'End Date: ' + enddate + '\n' +
-//            'Months: ' + months + '\n' +
-//            'Percentage: ' + percentage
-//        );
-
         jQuery.ajax({
             type: "POST",
             url: "<?php echo base_url(); ?>" + "ca_promo/Ca_promo/ajax_add_promocode",
@@ -389,15 +379,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             data: {code:code, description:description, begindate:begindate, enddate:enddate, months:months, percentage:percentage},
             success: function(res) {
                 if (res) {
-
-//                    console.log(
-//                        'Code: ' + res.code + '\n' +
-//                        'Description: ' + res.description + '\n' +
-//                        'Begin Date: ' + res.begindate + '\n' +
-//                        'End Date: ' + res.enddate + '\n' +
-//                        'Months: ' + res.months + '\n' +
-//                        'Percentage: ' + res.percentage
-//                    );
 
                     // Replace button with original glyphicon
                     $('#addpromo-submit').removeAttr('disabled').empty().prepend('<i class="fa fa-plus"></i> Add Promo Code');
@@ -470,17 +451,78 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     $("#addpercentage").val('');
 
                     var newtr =
-                        '<td><input type="checkbox" name="promocodes[]" value="' + res.id + '"  /></td>' +
+                        '<td><input type="checkbox" name="promocodes[]" value="' + res.id + '"/>&nbsp;&nbsp;<button type="button" id="'+res.id+'" class="btn btn-success m-r-5 m-b-5 editpromo"><i class="fa fa-pencil"></i> Edit</button></td>' +
                         '<td>' + res.code + '</td>' +
                         '<td>' + res.description + '</td>' +
                         '<td>' + res.months + '</td>' +
-                        '<td>' + res.percentage + '%</td>' +
+                        '<td>&#36; ' + res.percentage + '</td>' +
                         '<td>' + res.begindate + '</td>' +
                         '<td>' + res.enddate + '</td>';
 
                     // Add row to table
                     row = $('<tr id="' + res.id + '" ></tr>');
                     row.append(newtr).prependTo('#promo-table');
+
+                    // Put all info just added in edit charge FORM
+                    var editchargeform =
+                        '<div id="edit-popup'+res.id+'">' +
+                        '<div class="form-group" id="editcodefield'+res.id+'">' +
+                        '<label class="col-md-2 control-label">Edit Code:</label>' +
+                        '<div class="col-md-3">' +
+                        '<input type="text" name="promocode" value="'+res.code+'" id="editcode'+res.id+'" class="form-control" placeholder="Promo Code Name" data-parsley-required="true"  />' +
+                        '<span class="form-control-feedback" id="editcode-err'+res.id+'"></span>' +
+                        '</div>' +
+                        '</div>' +
+                        '<br/><br/>' +
+                        '<div class="form-group" id="editdescriptionfield'+res.id+'">' +
+                        '<label class="col-md-2 control-label">Description:</label>' +
+                        '<div class="col-md-9">' +
+                        '<textarea name="description" cols="40" rows="3" id="editdescription'+res.id+'" class="form-control" type="text" placeholder="Promo Code Description" data-parsley-required="true" style="resize:horizontal;" >'+res.description+'</textarea>' +
+                        '<span class="form-control-feedback" id="editdescription-err'+res.id+'"></span>' +
+                        '</div>' +
+                        '</div>' +
+                        '<br/><br/><br/><br/>' +
+                        '<div class="form-group" id="editdatesfield'+res.id+'">' +
+                        '<label class="col-md-2 control-label">Dates Valid:</label>' +
+                        '<div class="col-md-7 input-group input-daterange">' +
+                        '<input type="text" name="begindate" value="'+res.begindate+'" id="editbegindate'+res.id+'" placeholder="'+res.begindate+'" class="form-control"  />' +
+                        '<span class="input-group-addon">to</span>' +
+                        '<input type="text" name="enddate" value="'+res.enddate+'" id="editenddate'+res.id+'" placeholder="'+res.enddate+'" class="form-control"  />' +
+                        '<span class="form-control-feedback" id="editdates-err'+res.id+'"></span>                                    ' +
+                        '</div>' +
+                        '</div>' +
+                        '<br/>' +
+                        '<div class="form-group" id="editmonthsfield'+res.id+'">' +
+                        '<label class="col-md-2 control-label">Months:</label>' +
+                        '<div class="col-md-2">' +
+                        '<select id="editmonths'+res.id+'" class="form-control">';
+                    for(var x = 1; x < 13; x++)
+                    {
+                        var selected = res.months;
+                        if (x == selected) { selected = 'selected'; } else { selected = ''; }
+                        editchargeform += '<option value="'+x+'"'+selected+'>'+x+'</option>';
+                    }
+                    editchargeform +=   '</select>' +
+                        '<span class="form-control-feedback" id="editmonths-err'+res.id+'"></span>' +
+                        '</div>' +
+                        '</div>' +
+                        '<br/>' +
+                        '<br/>' +
+                        '<div class="form-group" id="editpercentagefield'+res.id+'">' +
+                        '<label class="col-md-2 control-label">Percentage:</label>' +
+                        '<div class="col-md-2 input-group " style="padding-left:1em">' +
+                        '<input type="text" name="percentage" value="'+res.percentage+'" id="editpercentage'+res.id+'" class="form-control" onkeypress="return event.charCode >= 48 && event.charCode <= 57" maxlength="3" data-parsley-required="true"  />' +
+                        '<span class="input-group-addon">%</span><span class="form-control-feedback" id="editpercentage-err'+res.id+'"></span>' +
+                        '</div>' +
+                        '</div>' +
+                        '<div class="panel-body">' +
+                        '<button type="button" id="editpromo-submit" name="'+res.id+'" class="btn btn-info m-r-5 m-b-5 editpromo-submit"><i class="fa fa-edit"></i> Update Promo Code</button>' +
+                        '<button type="button" id="cancelpromo-btn" name="'+res.id+'" class="btn btn-warning m-r-5 m-b-5"><i class="fa fa-times"></i> Cancel</button>' +
+                        '</div>' +
+                        '</div>';
+
+                    // Replace the Edit Charge form
+                    $("div#edit-popup"+res.id).replaceWith(editchargeform);
 
                     // Highlight row that was just updated
                     setTimeout(function(){ $("tr#"+res.id).css('background-color','transparent').effect("highlight", {color:"#5C8116"}, 4000); })
@@ -557,15 +599,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         var months = $("#editmonths"+id).val();
         var percentage = $("#editpercentage"+id).val();
 
-        console.log(
-            'Code: ' + code + '\n' +
-            'Description: ' + description + '\n' +
-            'Begin Date: ' + begindate + '\n' +
-            'End Date: ' + enddate + '\n' +
-            'Months: ' + months + '\n' +
-            'Percentage: ' + percentage
-        );
-
         jQuery.ajax({
             type: "POST",
             url: "<?php echo base_url(); ?>" + "ca_promo/Ca_promo/ajax_edit_promocode",
@@ -573,24 +606,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             data: {id:id, code:code, description:description, begindate:begindate, enddate:enddate, months:months, percentage:percentage},
             success: function(res) {
                 if (res) {
-
-//                    console.log(
-//                        'Code: ' + res.code + '\n' +
-//                        'Description: ' + res.description + '\n' +
-//                        'Begin Date: ' + res.begindate + '\n' +
-//                        'End Date: ' + res.enddate + '\n' +
-//                        'Months: ' + res.months + '\n' +
-//                        'Percentage: ' + res.percentage
-//                    );
-
-//                    console.log(
-//                        'Code: ' + res.code_error + '\n' +
-//                        'Description: ' + res.description_error + '\n' +
-//                        'Begin Date: ' + res.begindate_error + '\n' +
-//                        'End Date: ' + res.enddate_error + '\n' +
-//                        'Months: ' + res.months_error + '\n' +
-//                        'Percentage: ' + res.percentage_error
-//                    );
 
                     // Replace button with original glyphicon
                     $('.editpromo-submit').removeAttr('disabled').empty().prepend('<i class="fa fa-plus"></i> Update Promo Code');
@@ -691,7 +706,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             '<div class="form-group" id="editdescriptionfield'+res.id+'">' +
                                 '<label class="col-md-2 control-label">Description:</label>' +
                                 '<div class="col-md-9">' +
-                                    '<textarea name="description" cols="40" rows="3" id="editdescription3" class="form-control" type="text" placeholder="Promo Code Description" data-parsley-required="true" style="resize:horizontal;" >'+res.description+'</textarea>' +
+                                    '<textarea name="description" cols="40" rows="3" id="editdescription'+res.id+'" class="form-control" type="text" placeholder="Promo Code Description" data-parsley-required="true" style="resize:horizontal;" >'+res.description+'</textarea>' +
                                     '<span class="form-control-feedback" id="editdescription-err'+res.id+'"></span>' +
                                 '</div>' +
                             '</div>' +
@@ -755,6 +770,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     $( document ).ready(function() {
         $( "#addbegindate" ).datepicker("setDate", new Date());
         $( "#addenddate" ).datepicker("setDate", '7');
+
+        $( '[id^=editbegindate]').datepicker();
+        $( '[id^=editenddate]' ).datepicker();
     });
 
 </script>
@@ -806,6 +824,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         z-index:1001;
         overflow: auto;
         font-size:16px;
+    }
+
+    td {
+        page-break-inside: avoid;
     }
 </style>
 

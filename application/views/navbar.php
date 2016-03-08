@@ -127,7 +127,7 @@
                 <li class="has-sub<?php echo $pageName == 'displayad' ? ' active' : ''; ?>">
                     <a>
                         <b class="caret pull-right"></b>
-                        <i class="fa fa-gear"></i>
+                        <i class="fa fa-file-photo-o"></i>
                         <span>Manage Display Ad</span>
                     </a>
                     <ul class="sub-menu">

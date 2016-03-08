@@ -84,7 +84,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <br/><br/><br/><br/>
                     <div class="form-group" id="adddatesfield">
                         <label class="col-md-2 control-label">Dates Valid:</label>
-                        <div class="col-md-7 input-group input-daterange"  style="padding-left:1em">
+                        <div class="col-md-7 input-group input-daterange">
                             <?php
                             $BegDate = array(
                                 'name'          =>  'begindate',
@@ -136,7 +136,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <br/>
                     <div class="form-group" id="addamountfield">
                         <label class="col-md-2 control-label">Amount:</label>
-                        <div class="col-md-2 input-group"  style="padding-left:1em">
+                        <div class="col-md-2 input-group " style="padding-left:1em">
                             <?php
                             $data = array(
                                 'name'          => 'amount',
@@ -144,13 +144,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 'value'         => set_value('addamount'),
                                 'class'         => 'form-control',
                                 'type'          => 'text',
-//                                'onkeypress'    => 'return event.charCode >= 48 && event.charCode <= 57',
-//                                'pattern'       => '^\d+\.\d{2}$',
-//                                'maxlength'     => '7',
-                                'data-parsley-required' => 'true',
+                                'data-parsley-required' => 'true'
                             );
-                            echo '<span class="input-group-addon">$</span>';
                             echo form_input($data);
+                            echo '<span class="input-group-addon">$</span>';
                             echo '<span class="form-control-feedback" id="addamount-err"></span>';
                             ?>
                         </div>
@@ -162,46 +159,43 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 </div>
                 <!---------------- ADD PROMO CODE ENDS ---------------------------->
 
-
-
                 <div class="panel-body">
 
                     <table class="table table-bordered table-striped" id="promo-table">
                         <thead>
                         <tr>
-                            <th width="5%"></th>
+                            <th width="15%"></th>
                             <th width="15%">Code</th>
-                            <th width="30%">Description</th>
+                            <th width="35%">Description</th>
                             <th width="5%">Months</th>
-                            <th width="5%">Amount</th>
-                            <th width="15%">Start Date</th>
-                            <th width="15%">End Date</th>
+                            <th width="10%">Amount</th>
+                            <th width="10%">Start Date</th>
+                            <th width="10%">End Date</th>
                         </tr>
                         </thead>
                         <tbody>
                         <?php foreach ($da_promos as $promo)
                         {
                             echo '<tr id ="'.$promo->id.'">';
-                            echo '<td>'.form_checkbox('promocodes[]', $promo->id).'</td>';
-//                            echo '<td><button type="button" id="'.$promo->id.'" class="btn btn-success m-r-5 m-b-5 editpromo"><i class="fa fa-pencil"></i> Edit</button></td>';
+                            echo '<td>'.form_checkbox('promocodes[]', $promo->id).'&nbsp;&nbsp;<button type="button" id="'.$promo->id.'" class="btn btn-success m-r-5 m-b-5 editpromo"><i class="fa fa-pencil"></i> Edit</button></td>';
                             echo '<td>'.$promo->code.'</td>';
                             echo '<td>'.$promo->description.'</td>';
                             echo '<td>'.$promo->months.'</td>';
-                            echo '<td>&#36; '.$promo->amount.'</td>';
+                            echo '<td>$ '.$promo->amount.'</td>';
                             echo '<td>'.date('m-d-Y', strtotime($promo -> startdate)).'</td>';
                             echo '<td>'.date('m-d-Y', strtotime($promo -> enddate)).'</td>';
                             echo '</tr>';
                             ?>
 
                             <!---------------- EDIT PROMO CODE BEGINS ---------------------------->
-                            <div id="edit-popup">
-                                <div class="form-group" id="editcodefield">
+                            <div id="edit-popup<?php echo $promo->id?>">
+                                <div class="form-group" id="editcodefield<?php echo $promo->id?>">
                                     <label class="col-md-2 control-label">Edit Code:</label>
                                     <div class="col-md-3">
                                         <?php
                                         $data = array(
                                             'name'          => 'promocode',
-                                            'id'            => 'addcode',
+                                            'id'            => 'editcode'.$promo->id,
                                             'value'         => set_value('promocode', $promo->code),
                                             'class'         => 'form-control',
                                             'type'          => 'text',
@@ -209,18 +203,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                             'data-parsley-required' => 'true',
                                         );
                                         echo form_input($data);
-                                        echo '<span class="form-control-feedback" id="addcode-err"></span>';
+                                        echo '<span class="form-control-feedback" id="editcode-err<?php echo $promo->id?>"></span>';
                                         ?>
                                     </div>
                                 </div>
                                 <br/><br/>
-                                <div class="form-group" id="editdescriptionfield">
+                                <div class="form-group" id="editdescriptionfield<?php echo $promo->id?>">
                                     <label class="col-md-2 control-label">Description:</label>
                                     <div class="col-md-9">
                                         <?php
                                         $data = array(
                                             'name'          => 'description',
-                                            'id'            => 'adddescription',
+                                            'id'            => 'editdescription'.$promo->id,
                                             'value'         => set_value('description', $promo->description),
                                             'class'         => 'form-control',
                                             'type'          => 'text',
@@ -230,18 +224,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                             'style'        => 'resize:horizontal;'
                                         );
                                         echo form_textarea($data);
-                                        echo '<span class="form-control-feedback" id="adddescription-err"></span>';
+                                        echo '<span class="form-control-feedback" id="editdescription-err<?php echo $promo->id?>"></span>';
                                         ?>
                                     </div>
                                 </div>
                                 <br/><br/><br/><br/>
-                                <div class="form-group" id="editdatesfield">
+                                <div class="form-group" id="editdatesfield<?php echo $promo->id?>">
                                     <label class="col-md-2 control-label">Dates Valid:</label>
                                     <div class="col-md-7 input-group input-daterange">
                                         <?php
                                         $BegDate = array(
                                             'name'          =>  'begindate',
-                                            'id'            =>  'addbegindate',
+                                            'id'            =>  'editbegindate'.$promo->id,
                                             'value'         =>  set_value('begindate', date("m/d/Y", strtotime($promo->startdate)) ),
                                             'placeholder'   =>  date("m/d/Y"),
                                             'class'         =>  'form-control'
@@ -253,63 +247,61 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                         <?php
                                         $EndDate = array(
                                             'name'          =>  'enddate',
-                                            'id'            =>  'addenddate',
+                                            'id'            =>  'editenddate'.$promo->id,
                                             'value'         =>  set_value('addenddate', date("m/d/Y", strtotime($promo->enddate)) ),
                                             'placeholder'   =>  date("m/d/Y", strtotime('+7 days')),
                                             'class'         =>  'form-control'
                                         );
 
                                         echo form_input($EndDate);
-                                        echo '<span class="form-control-feedback" id="adddates-err"></span>';
+                                        echo '<span class="form-control-feedback" id="editdates-err<?php echo $promo->id?>"></span>';
                                         ?>
                                     </div>
                                 </div>
                                 <br/>
-                                <div class="form-group" id="editmonthsfield">
+                                <div class="form-group" id="editmonthsfield<?php echo $promo->id?>">
                                     <label class="col-md-2 control-label">Months:</label>
                                     <div class="col-md-2">
-                                        <select id="addmonths" class="form-control">
-                                            <option value="1" selected>1</option>
-                                            <option value="2">2</option>
-                                            <option value="3">3</option>
-                                            <option value="4">4</option>
-                                            <option value="5">5</option>
-                                            <option value="6">6</option>
-                                            <option value="7">7</option>
-                                            <option value="8">8</option>
-                                            <option value="9">9</option>
-                                            <option value="10">10</option>
-                                            <option value="11">11</option>
-                                            <option value="12">12</option>
+                                        <select id="editmonths<?php echo $promo->id; ?>" class="form-control">
+                                            <option value="1" <?php if($promo->months == '1'){ echo 'selected'; } ?>>1</option>
+                                            <option value="2" <?php if($promo->months == '2'){ echo 'selected'; } ?>>2</option>
+                                            <option value="3" <?php if($promo->months == '3'){ echo 'selected'; } ?>>3</option>
+                                            <option value="4" <?php if($promo->months == '3'){ echo 'selected'; } ?>>4</option>
+                                            <option value="5" <?php if($promo->months == '3'){ echo 'selected'; } ?>>5</option>
+                                            <option value="6" <?php if($promo->months == '3'){ echo 'selected'; } ?>>6</option>
+                                            <option value="7" <?php if($promo->months == '3'){ echo 'selected'; } ?>>7</option>
+                                            <option value="8" <?php if($promo->months == '3'){ echo 'selected'; } ?>>8</option>
+                                            <option value="9" <?php if($promo->months == '3'){ echo 'selected'; } ?>>9</option>
+                                            <option value="10" <?php if($promo->months == '3'){ echo 'selected'; } ?>>10</option>
+                                            <option value="11" <?php if($promo->months == '3'){ echo 'selected'; } ?>>11</option>
+                                            <option value="12" <?php if($promo->months == '3'){ echo 'selected'; } ?>>12</option>
                                         </select>
-                                        <span class="form-control-feedback" id="addmonths-err"></span>
+                                        <span class="form-control-feedback" id="editmonths-err<?php echo $promo->id?>"></span>
                                     </div>
                                 </div>
                                 <br/>
                                 <br/>
-                                <div class="form-group" id="editamountfield">
+                                <div class="form-group" id="editamountfield<?php echo $promo->id?>">
                                     <label class="col-md-2 control-label">Amount:</label>
                                     <div class="col-md-2 input-group " style="padding-left:1em">
                                         <?php
                                         $data = array(
                                             'name'          => 'amount',
-                                            'id'            => 'addamount',
-                                            'value'         => set_value('addamount'),
+                                            'id'            => 'editamount'.$promo->id,
+                                            'value'         => set_value('editamount', $promo->amount),
                                             'class'         => 'form-control',
                                             'type'          => 'text',
-                                            'onkeypress'    => 'return event.charCode >= 48 && event.charCode <= 57',
-                                            'maxlength'     => '3',
-                                            'data-parsley-required' => 'true',
+                                            'data-parsley-required' => 'true'
                                         );
+                                        echo '<span class="input-group-addon">$</span>';
                                         echo form_input($data);
-                                        echo '<span class="input-group-addon">%</span>';
-                                        echo '<span class="form-control-feedback" id="addamount-err"></span>';
+                                        echo '<span class="form-control-feedback" id="editamount-err<?php echo $promo->id?>"></span>';
                                         ?>
                                     </div>
                                 </div>
                                 <div class="panel-body">
-                                    <button type="button" id="editpromo-submit" class="btn btn-info m-r-5 m-b-5"><i class="fa fa-edit"></i> Update Promo Code</button>
-                                    <button type="button" id="cancelpromo-btn" class="btn btn-warning m-r-5 m-b-5"><i class="fa fa-times"></i> Cancel</button>
+                                    <button type="button" id="editpromo-submit" name="<?php echo $promo->id ?>" class="btn btn-info m-r-5 m-b-5 editpromo-submit"><i class="fa fa-edit"></i> Update Promo Code</button>
+                                    <button type="button" id="cancelpromo-btn" name="<?php echo $promo->id ?>" class="btn btn-warning m-r-5 m-b-5"><i class="fa fa-times"></i> Cancel</button>
                                 </div>
                             </div>
                             <!---------------- EDIT PROMO CODE ENDS ---------------------------->
@@ -348,12 +340,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     $('#promo-table').on('click', '.editpromo', function(e){
         e.preventDefault();
         var id = $(this).attr('id');
-        $('#overlay, #edit-popup').css('display', 'block');
+        $('#overlay, #edit-popup'+id).css('display', 'block');
     });
 
     // On Overlay or Cancel Promo button click, hide Add Promo form
     $(document).on('click', '#overlay, #cancelpromo-btn', function() {
-        $('#overlay, #add-popup, #edit-popup').css('display', 'none', 'none');
+        var id = $(this).attr("name");
+        $('#overlay, #add-popup, [id^="edit-popup"]').css('display', 'none', 'none');
     });
 
     // Add a Promo Code
@@ -375,15 +368,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         var months = $("#addmonths").val();
         var amount = $("#addamount").val();
 
-//        console.log(
-//            'Code: ' + code + '\n' +
-//            'Description: ' + description + '\n' +
-//            'Begin Date: ' + begindate + '\n' +
-//            'End Date: ' + enddate + '\n' +
-//            'Months: ' + months + '\n' +
-//            'Amount: ' + amount
-//        );
-
         jQuery.ajax({
             type: "POST",
             url: "<?php echo base_url(); ?>" + "da_promo/Da_promo/ajax_add_promocode",
@@ -391,15 +375,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             data: {code:code, description:description, begindate:begindate, enddate:enddate, months:months, amount:amount},
             success: function(res) {
                 if (res) {
-
-//                    console.log(
-//                        'Code: ' + res.code + '\n' +
-//                        'Description: ' + res.description + '\n' +
-//                        'Begin Date: ' + res.begindate + '\n' +
-//                        'End Date: ' + res.enddate + '\n' +
-//                        'Months: ' + res.months + '\n' +
-//                        'Amount: ' + res.amount
-//                    );
 
                     // Replace button with original glyphicon
                     $('#addpromo-submit').removeAttr('disabled').empty().prepend('<i class="fa fa-plus"></i> Add Promo Code');
@@ -472,17 +447,78 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     $("#addamount").val('');
 
                     var newtr =
-                        '<td><input type="checkbox" name="promocodes[]" value="' + res.id + '"  /></td>' +
+                        '<td><input type="checkbox" name="promocodes[]" value="' + res.id + '"/>&nbsp;&nbsp;<button type="button" id="'+res.id+'" class="btn btn-success m-r-5 m-b-5 editpromo"><i class="fa fa-pencil"></i> Edit</button></td>' +
                         '<td>' + res.code + '</td>' +
                         '<td>' + res.description + '</td>' +
                         '<td>' + res.months + '</td>' +
-                        '<td>&#36; ' + res.amount + '</td>' +
+                        '<td>' + res.amount + '$</td>' +
                         '<td>' + res.begindate + '</td>' +
                         '<td>' + res.enddate + '</td>';
 
                     // Add row to table
                     row = $('<tr id="' + res.id + '" ></tr>');
                     row.append(newtr).prependTo('#promo-table');
+
+                    // Put all info just added in edit charge FORM
+                    var editchargeform =
+                        '<div id="edit-popup'+res.id+'">' +
+                        '<div class="form-group" id="editcodefield'+res.id+'">' +
+                        '<label class="col-md-2 control-label">Edit Code:</label>' +
+                        '<div class="col-md-3">' +
+                        '<input type="text" name="promocode" value="'+res.code+'" id="editcode'+res.id+'" class="form-control" placeholder="Promo Code Name" data-parsley-required="true"  />' +
+                        '<span class="form-control-feedback" id="editcode-err'+res.id+'"></span>' +
+                        '</div>' +
+                        '</div>' +
+                        '<br/><br/>' +
+                        '<div class="form-group" id="editdescriptionfield'+res.id+'">' +
+                        '<label class="col-md-2 control-label">Description:</label>' +
+                        '<div class="col-md-9">' +
+                        '<textarea name="description" cols="40" rows="3" id="editdescription'+res.id+'" class="form-control" type="text" placeholder="Promo Code Description" data-parsley-required="true" style="resize:horizontal;" >'+res.description+'</textarea>' +
+                        '<span class="form-control-feedback" id="editdescription-err'+res.id+'"></span>' +
+                        '</div>' +
+                        '</div>' +
+                        '<br/><br/><br/><br/>' +
+                        '<div class="form-group" id="editdatesfield'+res.id+'">' +
+                        '<label class="col-md-2 control-label">Dates Valid:</label>' +
+                        '<div class="col-md-7 input-group input-daterange">' +
+                        '<input type="text" name="begindate" value="'+res.begindate+'" id="editbegindate'+res.id+'" placeholder="'+res.begindate+'" class="form-control"  />' +
+                        '<span class="input-group-addon">to</span>' +
+                        '<input type="text" name="enddate" value="'+res.enddate+'" id="editenddate'+res.id+'" placeholder="'+res.enddate+'" class="form-control"  />' +
+                        '<span class="form-control-feedback" id="editdates-err'+res.id+'"></span>                                    ' +
+                        '</div>' +
+                        '</div>' +
+                        '<br/>' +
+                        '<div class="form-group" id="editmonthsfield'+res.id+'">' +
+                        '<label class="col-md-2 control-label">Months:</label>' +
+                        '<div class="col-md-2">' +
+                        '<select id="editmonths'+res.id+'" class="form-control">';
+                    for(var x = 1; x < 13; x++)
+                    {
+                        var selected = res.months;
+                        if (x == selected) { selected = 'selected'; } else { selected = ''; }
+                        editchargeform += '<option value="'+x+'"'+selected+'>'+x+'</option>';
+                    }
+                    editchargeform +=   '</select>' +
+                        '<span class="form-control-feedback" id="editmonths-err'+res.id+'"></span>' +
+                        '</div>' +
+                        '</div>' +
+                        '<br/>' +
+                        '<br/>' +
+                        '<div class="form-group" id="editamountfield'+res.id+'">' +
+                        '<label class="col-md-2 control-label">Amount:</label>' +
+                        '<div class="col-md-2 input-group " style="padding-left:1em">' +
+                        '<span class="input-group-addon">$</span><input type="text" name="amount" value="'+res.amount+'" id="editamount'+res.id+'" class="form-control" data-parsley-required="true"  />' +
+                        '<span class="form-control-feedback" id="editamount-err'+res.id+'"></span>' +
+                        '</div>' +
+                        '</div>' +
+                        '<div class="panel-body">' +
+                        '<button type="button" id="editpromo-submit" name="'+res.id+'" class="btn btn-info m-r-5 m-b-5 editpromo-submit"><i class="fa fa-edit"></i> Update Promo Code</button>' +
+                        '<button type="button" id="cancelpromo-btn" name="'+res.id+'" class="btn btn-warning m-r-5 m-b-5"><i class="fa fa-times"></i> Cancel</button>' +
+                        '</div>' +
+                        '</div>';
+
+                    // Replace the Edit Charge form
+                    $("div#edit-popup"+res.id).replaceWith(editchargeform);
 
                     // Highlight row that was just updated
                     setTimeout(function(){ $("tr#"+res.id).css('background-color','transparent').effect("highlight", {color:"#5C8116"}, 4000); })
@@ -540,16 +576,198 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         });
     });
 
-    $( document ).ready(function() {
-        //$("#myTable").tablesorter();
+    // Edit a Promo Code
+    $(document).on('click', '#editpromo-submit', function(e) {
+        e.preventDefault();
 
-        $( "#addbegindate" ).datepicker("setDate", new Date());
-        $( "#addenddate" ).datepicker("setDate", '7');
+        var baseUrl = window.location .protocol + "//" + window.location.host + "/" + window.location.pathname.split('/')[1];
+
+        // Replace button with animated loading gif
+        $(this).attr('disabled', true).empty().prepend('<img src="'+baseUrl+'/assets/img/loading-gif.gif" />&nbsp; Updating Promo Code');
+
+        var id = $(this).attr("name");
+
+        // Set variables that will be posted
+        var code = $("#editcode"+id).val();
+        var description = $("#editdescription"+id).val();
+        var begindate = $( "#editbegindate"+id).datepicker().val();
+        var enddate = $( "#editenddate"+id).datepicker().val();
+        var months = $("#editmonths"+id).val();
+        var amount = $("#editamount"+id).val();
+
+        jQuery.ajax({
+            type: "POST",
+            url: "<?php echo base_url(); ?>" + "da_promo/Da_promo/ajax_edit_promocode",
+            dataType: 'json',
+            data: {id:id, code:code, description:description, begindate:begindate, enddate:enddate, months:months, amount:amount},
+            success: function(res) {
+                if (res) {
+
+                    // Replace button with original glyphicon
+                    $('.editpromo-submit').removeAttr('disabled').empty().prepend('<i class="fa fa-plus"></i> Update Promo Code');
+
+                    // remove previous error messages
+                    $("#editcode-err"+res.id).empty();
+                    $("#editdescription-err"+res.id).empty();
+                    $("#editbegindate-err"+res.id).empty();
+                    $("#editenddate-err"+res.id).empty();
+                    $("#editmonths-err"+res.id).empty();
+                    $("#editamount-err"+res.id).empty();
+
+                    // check form validation first
+                    if (res.code_error)
+                    {
+//                        $('#addcode-err').append(res.code_error); // display error message under Charge Category field
+                        $('#editcodefield'+res.id).addClass('has-error'); // make field red
+                    } else
+                    {
+                        $('#editcodefield'+res.id).removeClass('has-error'); // remove red field
+                    }
+                    if (res.description_error)
+                    {
+//                        $('#adddescription-err').append(res.description_error);
+                        $('#editdescriptionfield'+res.id).addClass('has-error');
+                    } else
+                    {
+                        $('#editdescriptionfield'+res.id).removeClass('has-error');
+                    }
+                    if (res.begindate_error || res.enddate_error)
+                    {
+//                        $('#adddates-err').append(res.enddate_error);
+//                        $('#adddates-err').append(res.begindate_error);
+                        $('#editdatesfield'+res.id).addClass('has-error');
+                    } else
+                    {
+                        $('#editdatesfield'+res.id).removeClass('has-error');
+                    }
+                    if (res.months_error)
+                    {
+//                        $('#addmonths-err').append(res.months_error);
+                        $('#editmonthsfield'+res.id).addClass('has-error');
+                    } else
+                    {
+                        $('#editmonthsfield'+res.id).removeClass('has-error');
+                    }
+                    if (res.amount_error)
+                    {
+//                        $('#addamount-err').append(res.amount_error);
+                        $('#editamountfield'+res.id).addClass('has-error');
+                    } else
+                    {
+                        $('#editamountfield'+res.id).removeClass('has-error');
+                    }
+
+                    if (res.code_error || res.description_error || res.begindate_error || res.enddate_error || res.months_error || res.amount_error)
+                    {
+                        return; // do not run any more javascript, there are errors on form
+                    }
+
+                    // Hide Add Promo form
+                    $('#overlay, #edit-popup'+res.id).css('display', 'none');//
+
+                    // reset all values on form after submission
+                    $("#editcode"+res.id).val('');
+                    $("#editdescription"+res.id).val('');
+                    $("#editbegindate"+res.id).datepicker().val('');
+                    $("#editenddate"+res.id).datepicker().val('');
+                    $("#editmonths"+res.id).val('1');
+                    $("#editamount"+res.id).val('');
+
+                    // Update row in charge table
+                    var newtr = '<tr id="' + res.id + '">' +
+                        '<td>' +
+                        '<input type="checkbox" name="promocodes[]" value="'+res.id+'"  /> &nbsp;&nbsp;<button type="button" id="'+res.id+'" class="btn btn-success m-r-5 m-b-5 editpromo"><i class="fa fa-pencil"></i> Edit</button>' +
+                        '</td>' +
+                        '<td>'+res.code+'</td>' +
+                        '<td>'+res.description+'</td>' +
+                        '<td>'+res.months+'</td>' +
+                        '<td>&#36; '+res.amount+'</td>' +
+                        '<td>'+res.begindate+'</td>' +
+                        '<td>'+res.enddate+'</td>' +
+                        '</tr>';
+
+                    $("tr#"+res.id).replaceWith(newtr);
+
+                    // Put all info just added in edit charge FORM
+                    var editchargeform =
+                        '<div id="edit-popup'+res.id+'">' +
+                        '<div class="form-group" id="editcodefield'+res.id+'">' +
+                        '<label class="col-md-2 control-label">Edit Code:</label>' +
+                        '<div class="col-md-3">' +
+                        '<input type="text" name="promocode" value="'+res.code+'" id="editcode'+res.id+'" class="form-control" placeholder="Promo Code Name" data-parsley-required="true"  />' +
+                        '<span class="form-control-feedback" id="editcode-err'+res.id+'"></span>' +
+                        '</div>' +
+                        '</div>' +
+                        '<br/><br/>' +
+                        '<div class="form-group" id="editdescriptionfield'+res.id+'">' +
+                        '<label class="col-md-2 control-label">Description:</label>' +
+                        '<div class="col-md-9">' +
+                        '<textarea name="description" cols="40" rows="3" id="editdescription'+res.id+'" class="form-control" type="text" placeholder="Promo Code Description" data-parsley-required="true" style="resize:horizontal;" >'+res.description+'</textarea>' +
+                        '<span class="form-control-feedback" id="editdescription-err'+res.id+'"></span>' +
+                        '</div>' +
+                        '</div>' +
+                        '<br/><br/><br/><br/>' +
+                        '<div class="form-group" id="editdatesfield'+res.id+'">' +
+                        '<label class="col-md-2 control-label">Dates Valid:</label>' +
+                        '<div class="col-md-7 input-group input-daterange">' +
+                        '<input type="text" name="begindate" value="'+res.begindate+'" id="editbegindate'+res.id+'" placeholder="'+res.begindate+'" class="form-control"  />' +
+                        '<span class="input-group-addon">to</span>' +
+                        '<input type="text" name="enddate" value="'+res.enddate+'" id="editenddate'+res.id+'" placeholder="'+res.enddate+'" class="form-control"  />' +
+                        '<span class="form-control-feedback" id="editdates-err'+res.id+'"></span>                                    ' +
+                        '</div>' +
+                        '</div>' +
+                        '<br/>' +
+                        '<div class="form-group" id="editmonthsfield'+res.id+'">' +
+                        '<label class="col-md-2 control-label">Months:</label>' +
+                        '<div class="col-md-2">' +
+                        '<select id="editmonths'+res.id+'" class="form-control">';
+                            for(var x = 1; x < 13; x++)
+                            {
+                                var selected = res.months;
+                                if (x == selected) { selected = 'selected'; } else { selected = ''; }
+                                editchargeform += '<option value="'+x+'"'+selected+'>'+x+'</option>';
+                            }
+    editchargeform +=   '</select>' +
+                        '<span class="form-control-feedback" id="editmonths-err'+res.id+'"></span>' +
+                        '</div>' +
+                        '</div>' +
+                        '<br/>' +
+                        '<br/>' +
+                        '<div class="form-group" id="editamountfield'+res.id+'">' +
+                        '<label class="col-md-2 control-label">Amount:</label>' +
+                        '<div class="col-md-2 input-group " style="padding-left:1em">' +
+                        '<span class="input-group-addon">$</span><input type="text" name="amount" value="'+res.amount+'" id="editamount'+res.id+'" class="form-control" data-parsley-required="true"  />' +
+                        '<span class="form-control-feedback" id="editamount-err'+res.id+'"></span>' +
+                        '</div>' +
+                        '</div>' +
+                        '<div class="panel-body">' +
+                        '<button type="button" id="editpromo-submit" name="'+res.id+'" class="btn btn-info m-r-5 m-b-5 editpromo-submit"><i class="fa fa-edit"></i> Update Promo Code</button>' +
+                        '<button type="button" id="cancelpromo-btn" name="'+res.id+'" class="btn btn-warning m-r-5 m-b-5"><i class="fa fa-times"></i> Cancel</button>' +
+                        '</div>' +
+                        '</div>';
+
+                    // Replace the Edit Charge form
+                    $("div#edit-popup"+res.id).replaceWith(editchargeform);
+
+                    // Highlight row that was just updated
+                    setTimeout(function(){ $("tr#"+res.id).css('background-color','transparent').effect("highlight", {color:"#5C8116"}, 4000); });
+
+//                    $('#num_jobnotes').html('<span class="badge">' + res.num_jobnotes + '</span>'); // update total number
+                }
+            }
+        });
 
     });
 
-    $("form input[name='amount']").maskMoney();
+    $( document ).ready(function() {
+        $( "#addbegindate" ).datepicker("setDate", new Date());
+        $( "#addenddate" ).datepicker("setDate", '7');
 
+        $( '[id^=editbegindate]').datepicker();
+        $( '[id^=editenddate]' ).datepicker();
+    });
+
+    $("form input[name='amount']").maskMoney();
 
 </script>
 
@@ -584,7 +802,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         font-size:16px;
     }
 
-    #edit-popup{
+    [id^="edit-popup"] {
         color: #333;
         display: none;
         position: fixed;
@@ -600,6 +818,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         z-index:1001;
         overflow: auto;
         font-size:16px;
+    }
+
+    td {
+        page-break-inside: avoid;
     }
 </style>
 

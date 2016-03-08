@@ -40,6 +40,25 @@ class Da_promo_model extends CI_Model {
         return $id;
     }
 
+    function update_promo($id, $code, $description, $begindate, $enddate, $months, $amount, $modifieddate)
+    {
+        $data = array(
+            'code'          => $code,
+            'description'   => $description,
+            'startdate'     => $begindate,
+            'enddate'       => $enddate,
+            'amount'        => $amount,
+            'months'        => $months,
+            'modified'      => $modifieddate
+        );
+
+        $this -> db -> where('id', $id) -> update('da_promo', $data);
+
+//        $id = $this -> db -> insert_id(); // get row that was just inserted
+
+        return $id;
+    }
+
     function get_promo($id)
     {
         $row = $this -> db -> select('*') -> where('id', $id) -> get('da_promo') -> row();
