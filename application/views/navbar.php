@@ -153,6 +153,13 @@
                     </a>
                 </li>
 
+                <li class="has-sub<?php echo $pageName == 'export' ? ' active' : ''; ?>">
+                    <a href="<?php echo base_url(); ?>export">
+                        <i class="fa fa-file-text"></i>
+                        <span>Export Transactions</span>
+                    </a>
+                </li>
+
                 <li class="has-sub<?php echo $pageName == 'contributionreport' ? ' active' : ''; ?>">
                     <a href="<?php echo base_url(); ?>contributionreport">
                         <i class="fa fa-file-text"></i>

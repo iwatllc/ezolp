@@ -51,8 +51,15 @@ class Dashboard extends MX_Controller {
 
         $this->load->model('Dashboard_model', 'Dashboard');
 
-        $data['total_volume'] = round($this->Dashboard->get_total_amount_by_date($begin_date, $end_date), 2);
-        $data['total_customers'] = $this->Dashboard->get_total_transactions_by_date($begin_date, $end_date);
+        // Get the total amount of transaction minus any refunds for the time frame.
+        // Void will just be ignored.
+        $total_volume = round($this->Dashboard->get_total_amount_by_date($begin_date, $end_date), 2) - round($this->Dashboard->get_total_debit_amount_by_date($begin_date, $end_date), 2);
+        $data['total_volume'] = $total_volume;
+
+        // Get the total number of transactions minus any refunded transactions.
+        // Voids again will be ignored.
+        $total_transactions = $this->Dashboard->get_total_transactions_by_date($begin_date, $end_date) - $this->Dashboard->get_total_debit_transactions_by_date($begin_date, $end_date);;
+        $data['total_customers'] = $total_transactions;
 
         // Use these if you want the entire total transactions/volume (all time)
 //        $data['total_volume'] = round($this->Dashboard->get_total_volume(), 2); // round to nearest tenth cent
@@ -73,6 +80,9 @@ class Dashboard extends MX_Controller {
      */
     public function filter_date()
     {
+
+
+
         $data['begin_date'] = date( "Y-m-d", strtotime( $this->input->post('BegDate') ) );
         $data['end_date'] = date( "Y-m-d", strtotime( $this->input->post('EndDate') ) );
 

@@ -232,7 +232,28 @@ class Donation extends MX_Controller {
         $message .= 'Please keep this receipt for your records';
         $message .= '<br>';
         $message .= '<hr>';
-        $message .= $this->input->post('firstname'). ' ' . $this->input->post('lastname');
+        $message .= $this->post('firstname') . ' ' . $this->post('middleinitial') . ' ' . $this->post('lastname');
+        $message .= '<br>';
+        $message .= $this->post('address');
+        $message .= '<br>';
+        if (strlen(trim($this->post('address2'))) <> 0) {
+            $message .= $this->post('address2');
+            $message .= '<br>';
+        }
+        $message .= $this->post('city') . ', ' . $this->post('state') . ' ' . $this->post('zip');
+        $message .= '<br>';
+        $message .=  'Email: ' . $this->post('email');
+        $message .= '<br>';
+        $message .= '<br>';
+        $message .=  'Employer: ' . $this->post('employer');
+        $message .= '<br>';
+        $message .=  'Occupation: ' . $this->post('occupation');
+        $message .= '<br>';
+        if (strlen(trim($this->post('notes'))) <> 0) {
+            $message .= '<br>';
+            $message .= 'Notes: ' . $this->post('notes');
+            $message .= '<br>';
+        }
         $message .= '<br>';
         $message .= $this->input->post('cardtype'). ' Ending in ' . substr($this->input->post('creditcard'), -4);
         $message .= '<br>';

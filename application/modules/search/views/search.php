@@ -300,7 +300,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <!-- end scroll to top btn -->
 
 </div>    
-<!-- end page container -->
+    <!-- end page container -->
 
 </body>
 

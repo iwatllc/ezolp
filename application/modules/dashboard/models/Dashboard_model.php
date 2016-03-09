@@ -96,9 +96,10 @@ class Dashboard_model extends CI_Model {
     }
 
     /**
-     * Returns the total amount within a given date (day)
+     * Returns the total amount within a given date (day) that was approved
      *
      * SELECT SUM(TransactionAmount) FROM payment_response WHERE InsertDate BETWEEN '2015-05-16 00:00:00' AND '2015-05-16 23:59:59'
+     * WHERE TransactionStatusID = 1 (1 = Approved).
      */
     public function get_total_amount_by_date($begin_date, $end_date)
     {
@@ -118,6 +119,40 @@ class Dashboard_model extends CI_Model {
             $this->db->where('DATE(payment_response.InsertDate) <=', $end_date);
         }
 
+        $this->db->where('TransactionStatusID', '1');
+
+        $query = $this->db->get();
+
+        return $query->row()->TransactionAmount;
+    }
+
+
+    /**
+     * Returns the total amount within a given date (day) that was approved
+     *
+     * SELECT SUM(TransactionAmount) FROM payment_response WHERE InsertDate BETWEEN '2015-05-16 00:00:00' AND '2015-05-16 23:59:59'
+     * WHERE TransactionStatusID = 1 (1 = Approved).
+     */
+    public function get_total_debit_amount_by_date($begin_date, $end_date)
+    {
+        $this->db->select_sum('TransactionAmount');
+        $this->db->from('payment_response');
+
+        if ($begin_date != NULL && $end_date != NULL && $begin_date != "1969-12-31" && $end_date != "1969-12-31")
+        {
+            $this->db->where('DATE(payment_response.InsertDate) >=', $begin_date)->where('DATE(payment_response.InsertDate) <=', $end_date);
+
+        } else if ($begin_date != "1969-12-31")
+        {
+            $this->db->where('DATE(payment_response.InsertDate) >=', $begin_date);
+
+        } else if ($end_date != "1969-12-31")
+        {
+            $this->db->where('DATE(payment_response.InsertDate) <=', $end_date);
+        }
+
+        $this->db->where('TransactionStatusID', '3');
+
         $query = $this->db->get();
 
         return $query->row()->TransactionAmount;
@@ -126,91 +161,60 @@ class Dashboard_model extends CI_Model {
 
 
     /**
-     * Returns the number of unique names from tables.
-     *
-     * Pulls from guest_form, virtual_terminal and donation tables.
-     * It selects the names of all three tables (union query) and groups by
-     * First Name and Last Name
-     *
-     * guestform_submissions, virtualterminal_submissions
-     *
-     * SQL:
-     * SELECT DISTINCT Name FROM virtualterminal_submissions WHERE InsertDate BETWEEN '2015-05-16 00:00:00' AND '2015-05-16 23:59:59'
-     * UNION
-     * SELECT DISTINCT name FROM guestform_submissions WHERE InsertDate BETWEEN '2015-05-16 00:00:00' AND '2015-05-16 23:59:59'
-     *
-     * Note: Codeigniter does not support UNION, so I had to concatenate the two queries
-     *
+     * Get the number of approved transactions for a date range.
      */
     public function get_total_transactions_by_date($begin_date, $end_date)
     {
-        // TODO -- Rewrite this routine to pick up the forms from the form_list table and loop through them.
 
-        $this->db->distinct();
-        $this->db->select('id');
-        $this->db->from('virtualterminal_submissions');
+        $this->db->select('*');
+        $this->db->from('payment_response');
 
         if ($begin_date != NULL && $end_date != NULL && $begin_date != "1969-12-31" && $end_date != "1969-12-31")
         {
-            $this->db->where('DATE(virtualterminal_submissions.InsertDate) >=', $begin_date)->where('DATE(virtualterminal_submissions.InsertDate) <=', $end_date);
+            $this->db->where('DATE(payment_response.InsertDate) >=', $begin_date)->where('DATE(payment_response.InsertDate) <=', $end_date);
 
         } else if ($begin_date != "1969-12-31")
         {
-            $this->db->where('DATE(virtualterminal_submissions.InsertDate) >=', $begin_date);
+            $this->db->where('DATE(payment_response.InsertDate) >=', $begin_date);
 
         } else if ($end_date != "1969-12-31")
         {
-            $this->db->where('DATE(virtualterminal_submissions.InsertDate) <=', $end_date);
+            $this->db->where('DATE(payment_response.InsertDate) <=', $end_date);
         }
 
-        $this->db->get();
-        $query1 = $this->db->last_query();
+        $this->db->where('TransactionStatusID', '1');
 
-        $this->db->distinct();
-        $this->db->select('id');
-        $this->db->from('guestform_submissions');
+        $query = $this->db->get();
 
-        if ($begin_date != NULL && $end_date != NULL && $begin_date != "1969-12-31" && $end_date != "1969-12-31")
-        {
-            $this->db->where('DATE(guestform_submissions.InsertDate) >=', $begin_date)->where('DATE(guestform_submissions.InsertDate) <=', $end_date);
+        return  $query->num_rows();
 
-        } else if ($begin_date != "1969-12-31")
-        {
-            $this->db->where('DATE(guestform_submissions.InsertDate) >=', $begin_date);
+    }
 
-        } else if ($end_date != "1969-12-31")
-        {
-            $this->db->where('DATE(guestform_submissions.InsertDate) <=', $end_date);
+    /**
+     * Get the number of refunded transactions for a date range.
+     */
+    public function get_total_debit_transactions_by_date($begin_date, $end_date)
+    {
+
+        $this->db->select('*');
+        $this->db->from('payment_response');
+
+        if ($begin_date != NULL && $end_date != NULL && $begin_date != "1969-12-31" && $end_date != "1969-12-31") {
+            $this->db->where('DATE(payment_response.InsertDate) >=', $begin_date)->where('DATE(payment_response.InsertDate) <=', $end_date);
+
+        } else if ($begin_date != "1969-12-31") {
+            $this->db->where('DATE(payment_response.InsertDate) >=', $begin_date);
+
+        } else if ($end_date != "1969-12-31") {
+            $this->db->where('DATE(payment_response.InsertDate) <=', $end_date);
         }
 
-        $this->db->get();
-        $query2 = $this->db->last_query();
+        $this->db->where('TransactionStatusID', '3');
 
-        $query = $this->db->query($query1 . " UNION " . $query2);
-
-        $this->db->distinct();
-        $this->db->select('id');
-        $this->db->from('donationform_submissions');
-
-        if ($begin_date != NULL && $end_date != NULL && $begin_date != "1969-12-31" && $end_date != "1969-12-31")
-        {
-            $this->db->where('DATE(donationform_submissions.InsertDate) >=', $begin_date)->where('DATE(donationform_submissions.InsertDate) <=', $end_date);
-
-        } else if ($begin_date != "1969-12-31")
-        {
-            $this->db->where('DATE(donationform_submissions.InsertDate) >=', $begin_date);
-
-        } else if ($end_date != "1969-12-31")
-        {
-            $this->db->where('DATE(donationform_submissions.InsertDate) <=', $end_date);
-        }
-
-        $this->db->get();
-        $query3 = $this->db->last_query();
-
-        $query = $this->db->query($query1 . " UNION " . $query2 . " UNION " . $query3);
+        $query = $this->db->get();
 
         return $query->num_rows();
+
     }
 
 
