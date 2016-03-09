@@ -111,7 +111,61 @@ class Da_repeatdiscount extends MX_Controller {
         echo json_encode($data);
     }
 
-    public function ajax_del_discount()
+    function ajax_edit_discount()
+    {
+        $this -> load -> model('da_repeatdiscount_model', '', TRUE);
+
+        // run form validation
+        $this -> form_validation -> set_rules('issues', 'Number of Issues', 'required');
+        $this -> form_validation -> set_rules('percentage', 'Discount Percentage', 'required');
+
+        if ($this -> form_validation -> run() == FALSE)
+        {
+            $errors = array();
+            if ($this -> form_validation -> run('issues') == FALSE)
+                $errors['issues_error'] = form_error('issues');
+            if ($this -> form_validation -> run('percentage') == FALSE)
+                $errors['percentage_error'] = form_error('percentage');
+
+            echo json_encode($errors);
+
+            return; // if form validation fails, exit to ajax success message
+        }
+
+        $id         = $this -> input -> post('id');
+        $issues     = $this -> input -> post('issues');
+        $percentage = $this -> input -> post('percentage');
+
+        $this -> load -> helper('date');
+        $datestring = "%Y-%m-%d %H:%i:%s";
+        $time = time();
+        $modifieddate = mdate($datestring, $time);
+
+        // insert data to database, return the id of the row that was inserted
+        $id = $this -> da_repeatdiscount_model -> update_discount($id, $issues, $percentage, $modifieddate);
+
+        // query the table for the row that was just inserted
+        $row = $this -> da_repeatdiscount_model -> get_discount($id);
+
+        $dt = new DateTime($row -> created);
+        $createddate = $dt -> format('m-d-Y');
+        $dt = new DateTime($row -> modified);
+        $modifieddate = $dt -> format('m-d-Y');
+
+        $data = array(
+            'id'                => $row -> id,
+            'issues'              => $row -> numissues,
+            'percentage'           => $row -> percentagediscount,
+            'created'           => $createddate,
+            'modified'          => $modifieddate
+//            'num_pricings'      => $this-> da_repeatdiscount_model -> get_num_pricings()
+        );
+
+        // go back to ajax to print data
+        echo json_encode($data);
+    }
+
+    function ajax_del_discount()
     {
         $this -> load -> model('da_repeatdiscount_model', '', TRUE);
 

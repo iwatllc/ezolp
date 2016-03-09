@@ -126,8 +126,6 @@ if($Displayad_Clientform == "FALSE") {
                                 </table>
                             </div>
 
-                            <br/><br/><br/><br/><br/><br/>
-
                             <div class="table-responsive col-md-6">
                                 <table class="table table-hover">
                                     <caption><center><h3><u><font face="Modern,Arial">Repeat Advertising Discounts</font></u></h3></center></caption>
@@ -151,6 +149,8 @@ if($Displayad_Clientform == "FALSE") {
                                         echo "<b><font size='4' color='red'>" . "Save " . $row -> percentagediscount . "&#37;" . "</font></b>";
                                         echo "</td>";
                                         echo "<tr>";
+
+                                        $rad_array [$row->numissues] = $row -> percentagediscount;
                                     }
                                     ?>
                                     </tbody>
@@ -760,7 +760,6 @@ if($Displayad_Clientform == "FALSE") {
             </div>
         </div>
 
-
         <!-- begin scroll to top btn -->
         <a href="javascript:;" class="btn btn-icon btn-circle btn-success btn-scroll-to-top fade" data-click="scroll-top"><i class="fa fa-angle-up"></i></a>
         <!-- end scroll to top btn -->
@@ -776,6 +775,40 @@ if($Displayad_Clientform == "FALSE") {
     <script type="text/javascript">
 
         $(document).ready(function() {
+
+            <?php
+                foreach ($rad_array as $i => $number)
+                {
+                    $rad_array[$i] = number_format($number/100, 2, '.', null);
+                }
+
+                for ($i = 2; $i < 12; $i++)
+                {
+                    if (!array_key_exists($i, $rad_array))
+                    {
+                        // if the element behind it is not 0, set it as same as current
+                        if ($rad_array[$i-1] != 0.00)
+                        {
+                            $rad_array[$i] = $rad_array[$i-1];
+                        }else
+                        {
+                            $rad_array[$i] = number_format(0, 2, '.', null);
+                        }
+                    }
+                }
+
+                $rad_array[1] = 0.00;
+                $rad_array[1] = 0.00;
+            ?>
+
+            var js_array = <?php echo str_replace('"', '', json_encode($rad_array)); ?>;
+
+            console.log(js_array);
+
+            for (var key in js_array)
+            {
+                console.log(key + '-> ' + js_array[key]);
+            }
 
             /* Event handler when files are selected */
             $(document).on('change', '#files', function() {
@@ -877,29 +910,23 @@ if($Displayad_Clientform == "FALSE") {
                     var total = numChecked * price;
                 }
 
-                 console.log(
-                    'Price checked: '                       + price + '\n' +
-                    'Number of months checked: '            + numChecked + '\n' +
-                    'Amount off with promo code: '          + amount + '\n' +
-                    'Number of months with promo code: '    + numMonths + '\n' +
-                    'Grand Total: '                         + total
-                );
+//                console.log(
+//                    'Price checked: '                       + price + '\n' +
+//                    'Number of months checked: '            + numChecked + '\n' +
+//                    'Amount off with promo code: '          + amount + '\n' +
+//                    'Number of months with promo code: '    + numMonths + '\n' +
+//                    'Grand Total: '                         + total
+//                );
 
                 if (total && total > 0)
                 {
                     var dis;
-                    if (numChecked >= 3 && numChecked < 6)
+
+                    if (numChecked > 0)
                     {
-                        dis = (total * 0.1);
+                        dis = (total * js_array[numChecked]);
                         total = total - dis;
-                    } else if (numChecked >= 6 && numChecked < 12)
-                    {
-                        dis = (total * 0.19);
-                        total = total - dis;
-                    } else if (numChecked == 12)
-                    {
-                        dis = (total * 0.27);
-                        total = total - dis;
+                        console.log('Number of checked: ' + numChecked + '\nValue applied: ' + js_array[numChecked])
                     }
 
                     document.getElementById('grandtotal').value = total.toFixed(2);
@@ -908,6 +935,8 @@ if($Displayad_Clientform == "FALSE") {
                     total = 0;
                     document.getElementById('grandtotal').value = total.toFixed(2);
                 }
+
+//                console.log('New Total with discount: ' + total);
 
             }
 

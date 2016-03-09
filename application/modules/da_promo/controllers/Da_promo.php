@@ -172,7 +172,7 @@ class Da_promo extends MX_Controller {
         $begindate      = $this -> input -> post('begindate');
         $enddate        = $this -> input -> post('enddate');
         $months         = $this -> input -> post('months');
-        $amount     = $this -> input -> post('amount');
+        $amount         = $this -> input -> post('amount');
 
         $begindate = new DateTime($begindate);
         $begindate =  $begindate -> format('Y-m-d');

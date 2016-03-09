@@ -84,7 +84,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <br/><br/>
                     <div class="panel-body">
                         <button type="button" id="adddiscount-submit" class="btn btn-info m-r-5 m-b-5"><i class="fa fa-plus"></i> Add Repeat Discount</button>
-                        <button type="button" id="cancelpromo-btn" class="btn btn-warning m-r-5 m-b-5"><i class="fa fa-times"></i> Cancel</button>
+                        <button type="button" id="canceldiscount-btn" class="btn btn-warning m-r-5 m-b-5"><i class="fa fa-times"></i> Cancel</button>
                     </div>
                 </div>
                 <!---------------- ADD REPEAT DISCOUNT ENDS ---------------------------->
@@ -93,19 +93,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <table class="table table-bordered table-striped" id="discount-table">
                         <thead>
                         <tr>
-                            <th width="10%"></th>
-                            <th width="25%">Number of Issues</th>
+                            <th width="15%"></th>
+                            <th width="30%">Number of Issues</th>
                             <th width="25%">Discount</th>
-                            <th width="20%">Created</th>
-                            <th width="20%">Modified</th>
+                            <th width="15%">Created</th>
+                            <th width="15%">Modified</th>
                         </tr>
                         </thead>
                         <tbody>
                         <?php foreach ($da_discounts as $discount)
                         {
                             echo '<tr id ="'.$discount -> id.'">';
-                            echo '<td>'.form_checkbox('discounts[]', $discount -> id).'</td>';
-//                            echo '<td><button type="button" id="'.$promo -> id.'" class="btn btn-success m-r-5 m-b-5 editpromo"><i class="fa fa-pencil"></i> Edit</button></td>';
+                            echo '<td>'.form_checkbox('discounts[]', $discount -> id).'&nbsp;&nbsp;<button type="button" id="'.$discount->id.'" class="btn btn-success m-r-5 m-b-5 editdiscount"><i class="fa fa-pencil"></i> Edit</button></td>';
                             echo '<td>'.$discount -> numissues.' issues</td>';
                             echo '<td>'.$discount -> percentagediscount.' &#37;</td>';
                             echo '<td>'.date('m-d-Y', strtotime($discount -> created)).'</td>';
@@ -113,108 +112,38 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             echo '</tr>';
                             ?>
 
-                            <!---------------- EDIT PROMO CODE BEGINS ---------------------------->
-                            <div id="edit-popup">
-                                <div class="form-group" id="editcodefield">
-                                    <label class="col-md-2 control-label">Edit Code:</label>
-                                    <div class="col-md-3">
+                            <!---------------- EDIT REPEAT DISCOUNTS BEGINS ---------------------------->
+                            <div id="edit-popup<?php echo $discount->id; ?>">
+                                <br/>
+                                <div class="form-group" id="editissuesfield<?php echo $discount->id; ?>">
+                                    <label class="col-md-3 control-label">Number of Issues:</label>
+                                    <div class="col-md-2 input-group">
                                         <?php
                                         $data = array(
-                                            'name'          => 'promocode',
-                                            'id'            => 'addcode',
-                                            'value'         => set_value('promocode', $promo->code),
+                                            'name'          => 'issues',
+                                            'id'            => 'editissues'.$discount->id,
+                                            'value'         => set_value('editissues', $discount->numissues),
                                             'class'         => 'form-control',
                                             'type'          => 'text',
-                                            'placeholder'   => 'Discount Name',
-                                            'data-parsley-required' => 'true',
+                                            'onkeypress'    => 'return event.charCode >= 48 && event.charCode <= 57',
+                                            'maxlength'     => '2',
+                                            'data-parsley-required' => 'true'
                                         );
                                         echo form_input($data);
-                                        echo '<span class="form-control-feedback" id="addcode-err"></span>';
                                         ?>
+                                        <span class="input-group-addon">ISSUES</span>
+                                        <span class="form-control-feedback" id="editissues-err<?php echo $discount->id; ?>"></span>
                                     </div>
                                 </div>
                                 <br/><br/>
-                                <div class="form-group" id="editdescriptionfield">
-                                    <label class="col-md-2 control-label">Description:</label>
-                                    <div class="col-md-9">
+                                <div class="form-group" id="editpercentagefield<?php echo $discount->id; ?>">
+                                    <label class="col-md-3 control-label">Percentage Discount:</label>
+                                    <div class="col-md-2 input-group">
                                         <?php
                                         $data = array(
-                                            'name'          => 'description',
-                                            'id'            => 'adddescription',
-                                            'value'         => set_value('description', $promo->description),
-                                            'class'         => 'form-control',
-                                            'type'          => 'text',
-                                            'placeholder'   => 'Discount Description',
-                                            'data-parsley-required' => 'true',
-                                            'rows'          => '3',
-                                            'style'        => 'reissues:horizontal;'
-                                        );
-                                        echo form_textarea($data);
-                                        echo '<span class="form-control-feedback" id="adddescription-err"></span>';
-                                        ?>
-                                    </div>
-                                </div>
-                                <br/><br/><br/><br/>
-                                <div class="form-group" id="editdatesfield">
-                                    <label class="col-md-2 control-label">Dates Valid:</label>
-                                    <div class="col-md-7 input-group input-daterange">
-                                        <?php
-                                        $BegDate = array(
-                                            'name'          =>  'begindate',
-                                            'id'            =>  'addbegindate',
-                                            'value'         =>  set_value('begindate', date("m/d/Y", strtotime($promo->startdate)) ),
-                                            'placeholder'   =>  date("m/d/Y"),
-                                            'class'         =>  'form-control'
-                                        );
-
-                                        echo form_input($BegDate)
-                                        ?>
-                                        <span class="input-group-addon">to</span>
-                                        <?php
-                                        $EndDate = array(
-                                            'name'          =>  'enddate',
-                                            'id'            =>  'addenddate',
-                                            'value'         =>  set_value('addenddate', date("m/d/Y", strtotime($promo->enddate)) ),
-                                            'placeholder'   =>  date("m/d/Y", strtotime('+7 days')),
-                                            'class'         =>  'form-control'
-                                        );
-
-                                        echo form_input($EndDate);
-                                        echo '<span class="form-control-feedback" id="adddates-err"></span>';
-                                        ?>
-                                    </div>
-                                </div>
-                                <br/>
-                                <div class="form-group" id="editmonthsfield">
-                                    <label class="col-md-2 control-label">Months:</label>
-                                    <div class="col-md-2">
-                                        <select id="addmonths" class="form-control">
-                                            <option value="1" selected>1</option>
-                                            <option value="2">2</option>
-                                            <option value="3">3</option>
-                                            <option value="4">4</option>
-                                            <option value="5">5</option>
-                                            <option value="6">6</option>
-                                            <option value="7">7</option>
-                                            <option value="8">8</option>
-                                            <option value="9">9</option>
-                                            <option value="10">10</option>
-                                            <option value="11">11</option>
-                                            <option value="12">12</option>
-                                        </select>
-                                        <span class="form-control-feedback" id="addmonths-err"></span>
-                                    </div>
-                                </div>
-                                <br/>
-                                <br/>
-                                <div class="form-group" id="editamountfield">
-                                    <label class="col-md-2 control-label">Amount:</label>
-                                    <div class="col-md-2 input-group " style="padding-left:1em">
-                                        <?php
-                                        $data = array(
-                                            'name'          => 'amount',
-                                            'id'            => 'addamount',
-                                            'value'         => set_value('addamount'),
+                                            'name'          => 'percentage',
+                                            'id'            => 'editpercentage'.$discount->id,
+                                            'value'         => set_value('editpercentage', $discount->percentagediscount),
                                             'class'         => 'form-control',
                                             'type'          => 'text',
                                             'onkeypress'    => 'return event.charCode >= 48 && event.charCode <= 57',
@@ -222,17 +151,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                             'data-parsley-required' => 'true',
                                         );
                                         echo form_input($data);
-                                        echo '<span class="input-group-addon">%</span>';
-                                        echo '<span class="form-control-feedback" id="addamount-err"></span>';
                                         ?>
+                                        <span class="input-group-addon">%</span>
+                                        <span class="form-control-feedback" id="editpercentage-err<?php echo $discount->id; ?>"></span>
                                     </div>
                                 </div>
+                                <br/><br/>
                                 <div class="panel-body">
-                                    <button type="button" id="editpromo-submit" class="btn btn-info m-r-5 m-b-5"><i class="fa fa-edit"></i> Update Discount</button>
-                                    <button type="button" id="cancelpromo-btn" class="btn btn-warning m-r-5 m-b-5"><i class="fa fa-times"></i> Cancel</button>
+                                    <button type="button" id="editdiscount-submit" name="<?php echo $discount->id; ?>" class="btn btn-info m-r-5 m-b-5 editdiscount-submit"><i class="fa fa-edit"></i> Update Discount</button>
+                                    <button type="button" id="canceldiscount-btn" name="<?php echo $discount->id; ?>" class="btn btn-warning m-r-5 m-b-5"><i class="fa fa-times"></i> Cancel</button>
                                 </div>
                             </div>
-                            <!---------------- EDIT PROMO CODE ENDS ---------------------------->
+                            <!---------------- EDIT REPEAT DISCOUNTS ENDS ---------------------------->
 
                             <?php
                         }
@@ -265,15 +195,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     });
 
     // Open Edit Charge form
-    $('#discount-table').on('click', '.editpromo', function(e){
+    $('#discount-table').on('click', '.editdiscount', function(e){
         e.preventDefault();
         var id = $(this).attr('id');
-        $('#overlay, #edit-popup').css('display', 'block');
+        $('#overlay, #edit-popup'+id).css('display', 'block');
     });
 
-    // On Overlay or Cancel Promo button click, hide Add Discount form
-    $(document).on('click', '#overlay, #cancelpromo-btn', function() {
-        $('#overlay, #add-popup, #edit-popup').css('display', 'none', 'none');
+    // On Overlay or Cancel Promo button click, hide Add Promo form
+    $(document).on('click', '#overlay, #canceldiscount-btn', function() {
+        var id = $(this).attr("name");
+        $('#overlay, #add-popup, [id^="edit-popup"]').css('display', 'none', 'none');
     });
 
     // Add a Repeat Discount
@@ -289,11 +220,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         var issues = $("#addissues").val();
         var percentage = $("#addpercentage").val();
 
-        console.log(
-            'Issues: ' + issues + '\n' +
-            'Percentage: ' + percentage
-        );
-
         jQuery.ajax({
             type: "POST",
             url: "<?php echo base_url(); ?>" + "da_repeatdiscount/Da_repeatdiscount/ajax_add_discount",
@@ -301,11 +227,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             data: { issues:issues, percentage:percentage },
             success: function(res) {
                 if (res) {
-
-                    console.log(
-                        'Issues: ' + res.issues + '\n' +
-                        'Percentage: ' + res.percentage
-                    );
 
                     // Replace button with original glyphicon
                     $('#adddiscount-submit').removeAttr('disabled').empty().prepend('<i class="fa fa-plus"></i> Add Repeat Discount');
@@ -345,7 +266,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     $("#addpercentage").val('');
 
                     var newtr =
-                        '<td><input type="checkbox" name="discounts[]" value="' + res.id + '"  /></td>' +
+                        '<td><input type="checkbox" name="discounts[]" value="'+res.id+'" /> &nbsp;&nbsp;<button type="button" id="'+res.id+'" class="btn btn-success m-r-5 m-b-5 editdiscount"><i class="fa fa-pencil"></i> Edit</button></td>' +
                         '<td>' + res.issues + ' issues</td>' +
                         '<td>' + res.percentage + ' &#37;</td>' +
                         '<td>' + res.created + '</td>' +
@@ -354,6 +275,37 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     // Add row to table
                     row = $('<tr id="' + res.id + '" ></tr>');
                     row.append(newtr).prependTo('#discount-table');
+
+                    // Put all info just added in edit charge FORM
+                    var editchargeform =
+                        '<div id="edit-popup'+res.id+'">' +
+                            '<br/>' +
+                            '<div class="form-group" id="editissuesfield'+res.id+'">' +
+                                '<label class="col-md-3 control-label">Number of Issues:</label>' +
+                                '<div class="col-md-2 input-group">' +
+                                    '<input type="text" name="issues" value="'+res.issues+'" id="editissues'+res.id+'" class="form-control" onkeypress="return event.charCode >= 48 && event.charCode <= 57" maxlength="2" data-parsley-required="true"  />' +
+                                    '<span class="input-group-addon">ISSUES</span>' +
+                                    '<span class="form-control-feedback" id="editissues-err'+res.id+'"></span>' +
+                                '</div>' +
+                            '</div>' +
+                            '<br/><br/>' +
+                            '<div class="form-group" id="editpercentagefield'+res.id+'">' +
+                                '<label class="col-md-3 control-label">Percentage Discount:</label>' +
+                                '<div class="col-md-2 input-group">' +
+                                    '<input type="text" name="percentage" value="'+res.percentage+'" id="editpercentage'+res.id+'" class="form-control" onkeypress="return event.charCode >= 48 && event.charCode <= 57" maxlength="3" data-parsley-required="true"  />' +
+                                    '<span class="input-group-addon">%</span>' +
+                                    '<span class="form-control-feedback" id="editpercentage-err'+res.id+'"></span>' +
+                                '</div>' +
+                            '</div>' +
+                            '<br/><br/>' +
+                            '<div class="panel-body">' +
+                                '<button type="button" id="editdiscount-submit" name="'+res.id+'" class="btn btn-info m-r-5 m-b-5 editdiscount-submit"><i class="fa fa-edit"></i> Update Discount</button>' +
+                                '<button type="button" id="canceldiscount-btn" name="'+res.id+'" class="btn btn-warning m-r-5 m-b-5"><i class="fa fa-times"></i> Cancel</button>' +
+                            '</div>' +
+                        '</div>';
+
+                    // Replace the Edit Charge form
+                    $("div#edit-popup"+res.id).replaceWith(editchargeform);
 
                     // Highlight row that was just updated
                     setTimeout(function(){ $("tr#"+res.id).css('background-color','transparent').effect("highlight", {color:"#5C8116"}, 4000); });
@@ -364,6 +316,122 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         });
 
     });
+
+    // Edit a Repeat Discount
+    $(document).on('click', '#editdiscount-submit', function(e) {
+        e.preventDefault();
+
+        var baseUrl = window.location .protocol + "//" + window.location.host + "/" + window.location.pathname.split('/')[1];
+
+        // Replace button with animated loading gif
+        $(this).attr('disabled', true).empty().prepend('<img src="'+baseUrl+'/assets/img/loading-gif.gif" />&nbsp; Updating Repeat Discount');
+
+        var id = $(this).attr("name");
+
+        // Set variables that will be posted
+        var issues = $("#editissues"+id).val();
+        var percentage = $("#editpercentage"+id).val();
+
+        jQuery.ajax({
+            type: "POST",
+            url: "<?php echo base_url(); ?>" + "da_repeatdiscount/Da_repeatdiscount/ajax_edit_discount",
+            dataType: 'json',
+            data: { id:id, issues:issues, percentage:percentage },
+            success: function(res) {
+                if (res) {
+
+                    // Replace button with original glyphicon
+                    $('.editdiscount-submit').removeAttr('disabled').empty().prepend('<i class="fa fa-plus"></i> Update Repeat Discount');
+
+                    // remove previous error messages
+                    $("#editissues-err"+res.id).empty();
+                    $("#editpercentage-err"+res.id).empty();
+
+                    // check form validation first
+                    if (res.issues_error)
+                    {
+//                        $('#addcode-err').append(res.code_error); // display error message under Charge Category field
+                        $('#editissuesfield'+res.id).addClass('has-error'); // make field red
+                    } else
+                    {
+                        $('#editissuesfield'+res.id).removeClass('has-error'); // remove red field
+                    }
+                    if (res.percentage_error)
+                    {
+//                        $('#adddescription-err').append(res.description_error);
+                        $('#editpercentagefield'+res.id).addClass('has-error');
+                    } else
+                    {
+                        $('#editpercentagefield'+res.id).removeClass('has-error');
+                    }
+
+                    if (res.issues_error || res.issues_error)
+                    {
+                        return; // do not run any more javascript, there are errors on form
+                    }
+
+                    // Hide Add Promo form
+                    $('#overlay, #edit-popup'+res.id).css('display', 'none');//
+
+                    // reset all values on form after submission
+                    $("#editissues"+res.id).val('');
+                    $("#editpercentage"+res.id).val('');
+
+                    // Update row in charge table
+                    var newtr = '<tr id="' + res.id + '">' +
+                        '<td>' +
+                        '<input type="checkbox" name="discounts[]" value="'+res.id+'"  /> &nbsp;&nbsp;<button type="button" id="'+res.id+'" class="btn btn-success m-r-5 m-b-5 editdiscount"><i class="fa fa-pencil"></i> Edit</button>' +
+                        '</td>' +
+                        '<td>'+res.issues+' issues</td>' +
+                        '<td>'+res.percentage+' &#37;</td>' +
+                        '<td>'+res.created+'</td>' +
+                        '<td>'+res.modified+'</td>' +
+                        '</tr>';
+
+                    $("tr#"+res.id).replaceWith(newtr);
+                    // Put all info just added in edit charge FORM
+
+                    var editchargeform =
+                        '<div id="edit-popup'+res.id+'">' +
+                        '<br/>' +
+                        '<div class="form-group" id="editissuesfield'+res.id+'">' +
+                        '<label class="col-md-3 control-label">Number of Issues:</label>' +
+                        '<div class="col-md-2 input-group">' +
+                        '<input type="text" name="issues" value="'+res.issues+'" id="editissues'+res.id+'" class="form-control" onkeypress="return event.charCode >= 48 && event.charCode <= 57" maxlength="2" data-parsley-required="true"  />' +
+                        '<span class="input-group-addon">ISSUES</span>' +
+                        '<span class="form-control-feedback" id="editissues-err'+res.id+'"></span>' +
+                        '</div>' +
+                        '</div>' +
+                        '<br/><br/>' +
+                        '<div class="form-group" id="editpercentagefield'+res.id+'">' +
+                        '<label class="col-md-3 control-label">Percentage Discount:</label>' +
+                        '<div class="col-md-2 input-group">' +
+                        '<input type="text" name="percentage" value="'+res.percentage+'" id="editpercentage'+res.id+'" class="form-control" onkeypress="return event.charCode >= 48 && event.charCode <= 57" maxlength="3" data-parsley-required="true"  />' +
+                        '<span class="input-group-addon">%</span>' +
+                        '<span class="form-control-feedback" id="editpercentage-err'+res.id+'"></span>' +
+                        '</div>' +
+                        '</div>' +
+                        '<br/><br/>' +
+                        '<div class="panel-body">' +
+                        '<button type="button" id="editdiscount-submit" name="'+res.id+'" class="btn btn-info m-r-5 m-b-5 editdiscount-submit"><i class="fa fa-edit"></i> Update Discount</button>' +
+                        '<button type="button" id="canceldiscount-btn" name="'+res.id+'" class="btn btn-warning m-r-5 m-b-5"><i class="fa fa-times"></i> Cancel</button>' +
+                        '</div>' +
+                        '</div>';
+
+                    // Replace the Edit Charge form
+                    $("div#edit-popup"+res.id).replaceWith(editchargeform);
+
+
+                    // Highlight row that was just updated
+                    setTimeout(function(){ $("tr#"+res.id).css('background-color','transparent').effect("highlight", {color:"#5C8116"}, 4000); });
+
+//                    $('#num_jobnotes').html('<span class="badge">' + res.num_jobnotes + '</span>'); // update total number
+                }
+            }
+        });
+
+    });
+
 
     // Delete Discounts
     $(document).on('click','#deldiscount-btn', function(e){
@@ -455,7 +523,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         font-issues:16px;
     }
 
-    #edit-popup{
+    [id^="edit-popup"] {
         color: #333;
         display: none;
         position: fixed;
@@ -463,7 +531,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         left: 18%;
         width:70%;
         min-width:70%;
-        height: 70%;
+        height: 45%;
         padding: 1em;
         border: 5px solid #333;
         background-color: white;

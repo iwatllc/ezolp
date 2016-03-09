@@ -41,6 +41,21 @@ class Da_repeatdiscount_model extends CI_Model {
         return $id;
     }
 
+    function update_discount($id, $issues, $percentage, $modifieddate)
+    {
+        $data = array(
+            'numissues'             => $issues,
+            'percentagediscount'    => $percentage,
+            'modified'              => $modifieddate
+        );
+
+        $this -> db -> where('id', $id) -> update('displayad_discount', $data);
+
+//        $id = $this -> db -> insert_id(); // get row that was just inserted
+
+        return $id;
+    }
+
     function get_discount($id)
     {
         $row = $this -> db -> select('*') -> where('id', $id) -> get('displayad_discount') -> row();

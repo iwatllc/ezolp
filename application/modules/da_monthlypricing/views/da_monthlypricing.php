@@ -95,10 +95,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             ?>
                         </div>
                     </div>
-                    <br/>
+                    <br/><br/>
                     <div class="panel-body">
                         <button type="button" id="addpricing-submit" class="btn btn-info m-r-5 m-b-5"><i class="fa fa-plus"></i> Add Monthly Pricing</button>
-                        <button type="button" id="cancelpromo-btn" class="btn btn-warning m-r-5 m-b-5"><i class="fa fa-times"></i> Cancel</button>
+                        <button type="button" id="cancelpricing-btn" class="btn btn-warning m-r-5 m-b-5"><i class="fa fa-times"></i> Cancel</button>
                     </div>
                 </div>
                 <!---------------- ADD MONTHLY PRICING ENDS ---------------------------->
@@ -109,8 +109,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <table class="table table-bordered table-striped" id="pricing-table">
                         <thead>
                         <tr>
-                            <th width="5%"></th>
-                            <th width="35%">Page Size</th>
+                            <th width="15%"></th>
+                            <th width="25%">Page Size</th>
                             <th width="20%">B/W Price</th>
                             <th width="20%">Color Price</th>
                             <th width="10%">Created</th>
@@ -121,8 +121,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <?php foreach ($da_pricings as $price)
                         {
                             echo '<tr id ="'.$price -> id.'">';
-                            echo '<td>'.form_checkbox('pricings[]', $price -> id).'</td>';
-//                            echo '<td><button type="button" id="'.$promo -> id.'" class="btn btn-success m-r-5 m-b-5 editpromo"><i class="fa fa-pencil"></i> Edit</button></td>';
+                            echo '<td>'.form_checkbox('pricings[]', $price -> id).'&nbsp;&nbsp;<button type="button" id="'.$price -> id.'" class="btn btn-success m-r-5 m-b-5 editpricing"><i class="fa fa-pencil"></i> Edit</button></td>';
                             echo '<td>'.$price -> pagesize.'</td>';
                             echo '<td>&#36; '.$price -> bwprice.'</td>';
                             echo '<td>&#36; '.$price -> colorprice.'</td>';
@@ -131,126 +130,71 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             echo '</tr>';
                             ?>
 
-                            <!---------------- EDIT PROMO CODE BEGINS ---------------------------->
-                            <div id="edit-popup">
-                                <div class="form-group" id="editcodefield">
-                                    <label class="col-md-2 control-label">Edit Code:</label>
+                            <!---------------- EDIT MONTHLY PRICING BEGINS ---------------------------->
+                            <div id="edit-popup<?php echo $price->id; ?>">
+                                <div class="form-group" id="editsizefield<?php echo $price->id; ?>">
+                                    <label class="col-md-2 control-label">Page Size:</label>
                                     <div class="col-md-3">
                                         <?php
                                         $data = array(
-                                            'name'          => 'promocode',
-                                            'id'            => 'addcode',
-                                            'value'         => set_value('promocode', $promo->code),
+                                            'name'          => 'size',
+                                            'id'            => 'editsize'.$price->id,
+                                            'value'         => set_value('editsize', $price->pagesize),
                                             'class'         => 'form-control',
                                             'type'          => 'text',
-                                            'placeholder'   => 'Pricing Name',
+                                            'placeholder'   => 'Name of Size',
                                             'data-parsley-required' => 'true',
                                         );
                                         echo form_input($data);
-                                        echo '<span class="form-control-feedback" id="addcode-err"></span>';
                                         ?>
+                                        <span class="form-control-feedback" id="editsize-err<?php echo $price->id; ?>"></span>
+                                    </div>
+                                </div>
+                                <br/><br/><br/>
+                                <div class="form-group" id="editbwpricefield<?php echo $price->id; ?>">
+                                    <label class="col-md-2 control-label">B/W Price:</label>
+                                    <div class="col-md-3 input-group"  style="padding-left:1em">
+                                        <?php
+                                        $data = array(
+                                            'name'          => 'bwprice',
+                                            'id'            => 'editbwprice'.$price->id,
+                                            'value'         => set_value('editbwprice', $price->bwprice),
+                                            'class'         => 'form-control',
+                                            'type'          => 'text',
+                                            'data-parsley-required' => 'true',
+                                        );
+                                        echo '<span class="input-group-addon">$</span>';
+                                        echo form_input($data);
+                                        ?>
+                                        <span class="form-control-feedback" id="editbwprice-err<?php echo $price->id; ?>"></span>
+                                    </div>
+                                </div>
+                                <br/>
+                                <div class="form-group" id="editcolorpricefield<?php echo $price->id; ?>">
+                                    <label class="col-md-2 control-label">Color Price:</label>
+                                    <div class="col-md-3 input-group"  style="padding-left:1em">
+                                        <?php
+                                        $data = array(
+                                            'name'          => 'colorprice',
+                                            'id'            => 'editcolorprice'.$price->id,
+                                            'value'         => set_value('editcolorprice', $price->colorprice),
+                                            'class'         => 'form-control',
+                                            'type'          => 'text',
+                                            'data-parsley-required' => 'true',
+                                        );
+                                        echo '<span class="input-group-addon">$</span>';
+                                        echo form_input($data);
+                                        ?>
+                                        <span class="form-control-feedback" id="editcolorprice-err<?php echo $price->id; ?>"></span>
                                     </div>
                                 </div>
                                 <br/><br/>
-                                <div class="form-group" id="editdescriptionfield">
-                                    <label class="col-md-2 control-label">Description:</label>
-                                    <div class="col-md-9">
-                                        <?php
-                                        $data = array(
-                                            'name'          => 'description',
-                                            'id'            => 'adddescription',
-                                            'value'         => set_value('description', $promo->description),
-                                            'class'         => 'form-control',
-                                            'type'          => 'text',
-                                            'placeholder'   => 'Pricing Description',
-                                            'data-parsley-required' => 'true',
-                                            'rows'          => '3',
-                                            'style'        => 'resize:horizontal;'
-                                        );
-                                        echo form_textarea($data);
-                                        echo '<span class="form-control-feedback" id="adddescription-err"></span>';
-                                        ?>
-                                    </div>
-                                </div>
-                                <br/><br/><br/><br/>
-                                <div class="form-group" id="editdatesfield">
-                                    <label class="col-md-2 control-label">Dates Valid:</label>
-                                    <div class="col-md-7 input-group input-daterange">
-                                        <?php
-                                        $BegDate = array(
-                                            'name'          =>  'begindate',
-                                            'id'            =>  'addbegindate',
-                                            'value'         =>  set_value('begindate', date("m/d/Y", strtotime($promo->startdate)) ),
-                                            'placeholder'   =>  date("m/d/Y"),
-                                            'class'         =>  'form-control'
-                                        );
-
-                                        echo form_input($BegDate)
-                                        ?>
-                                        <span class="input-group-addon">to</span>
-                                        <?php
-                                        $EndDate = array(
-                                            'name'          =>  'enddate',
-                                            'id'            =>  'addenddate',
-                                            'value'         =>  set_value('addenddate', date("m/d/Y", strtotime($promo->enddate)) ),
-                                            'placeholder'   =>  date("m/d/Y", strtotime('+7 days')),
-                                            'class'         =>  'form-control'
-                                        );
-
-                                        echo form_input($EndDate);
-                                        echo '<span class="form-control-feedback" id="adddates-err"></span>';
-                                        ?>
-                                    </div>
-                                </div>
-                                <br/>
-                                <div class="form-group" id="editmonthsfield">
-                                    <label class="col-md-2 control-label">Months:</label>
-                                    <div class="col-md-2">
-                                        <select id="addmonths" class="form-control">
-                                            <option value="1" selected>1</option>
-                                            <option value="2">2</option>
-                                            <option value="3">3</option>
-                                            <option value="4">4</option>
-                                            <option value="5">5</option>
-                                            <option value="6">6</option>
-                                            <option value="7">7</option>
-                                            <option value="8">8</option>
-                                            <option value="9">9</option>
-                                            <option value="10">10</option>
-                                            <option value="11">11</option>
-                                            <option value="12">12</option>
-                                        </select>
-                                        <span class="form-control-feedback" id="addmonths-err"></span>
-                                    </div>
-                                </div>
-                                <br/>
-                                <br/>
-                                <div class="form-group" id="editamountfield">
-                                    <label class="col-md-2 control-label">Amount:</label>
-                                    <div class="col-md-2 input-group " style="padding-left:1em">
-                                        <?php
-                                        $data = array(
-                                            'name'          => 'amount',
-                                            'id'            => 'addamount',
-                                            'value'         => set_value('addamount'),
-                                            'class'         => 'form-control',
-                                            'type'          => 'text',
-                                            'onkeypress'    => 'return event.charCode >= 48 && event.charCode <= 57',
-                                            'maxlength'     => '3',
-                                            'data-parsley-required' => 'true',
-                                        );
-                                        echo form_input($data);
-                                        echo '<span class="input-group-addon">%</span>';
-                                        echo '<span class="form-control-feedback" id="addamount-err"></span>';
-                                        ?>
-                                    </div>
-                                </div>
                                 <div class="panel-body">
-                                    <button type="button" id="editpromo-submit" class="btn btn-info m-r-5 m-b-5"><i class="fa fa-edit"></i> Update Pricing</button>
-                                    <button type="button" id="cancelpromo-btn" class="btn btn-warning m-r-5 m-b-5"><i class="fa fa-times"></i> Cancel</button>
+                                    <button type="button" id="editpricing-submit" name="<?php echo $price->id; ?>" class="btn btn-info m-r-5 m-b-5 editpricing-submit"><i class="fa fa-edit"></i> Update Pricing</button>
+                                    <button type="button" id="cancelpricing-btn" name="<?php echo $price->id; ?>" class="btn btn-warning m-r-5 m-b-5"><i class="fa fa-times"></i> Cancel</button>
                                 </div>
                             </div>
-                            <!---------------- EDIT PROMO CODE ENDS ---------------------------->
+                            <!---------------- EDIT MONTHLY PRICING ENDS ---------------------------->
 
                             <?php
                         }
@@ -283,15 +227,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     });
 
     // Open Edit Charge form
-    $('#pricing-table').on('click', '.editpromo', function(e){
+    $('#pricing-table').on('click', '.editpricing', function(e){
         e.preventDefault();
         var id = $(this).attr('id');
-        $('#overlay, #edit-popup').css('display', 'block');
+        $('#overlay, #edit-popup'+id).css('display', 'block');
     });
 
-    // On Overlay or Cancel Promo button click, hide Add Pricing form
-    $(document).on('click', '#overlay, #cancelpromo-btn', function() {
-        $('#overlay, #add-popup, #edit-popup').css('display', 'none', 'none');
+    // On Overlay or Cancel Promo button click, hide Add Promo form
+    $(document).on('click', '#overlay, #cancelpricing-btn', function() {
+        var id = $(this).attr("name");
+        $('#overlay, #add-popup, [id^="edit-popup"]').css('display', 'none', 'none');
     });
 
     // Add a Monthly Pricing
@@ -308,12 +253,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         var bwprice = $("#addbwprice").val();
         var colorprice = $( "#addcolorprice" ).val();
 
-        console.log(
-            'Page Size: ' + size + '\n' +
-            'B/W Price: ' + bwprice + '\n' +
-            'Color Price: ' + colorprice + '\n'
-        );
-
         jQuery.ajax({
             type: "POST",
             url: "<?php echo base_url(); ?>" + "da_monthlypricing/Da_monthlypricing/ajax_add_pricing",
@@ -321,12 +260,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             data: { size:size, bwprice:bwprice, colorprice:colorprice },
             success: function(res) {
                 if (res) {
-
-                    console.log(
-                        'Page Size: ' + res.size + '\n' +
-                        'B/W Price: ' + res.bwprice + '\n' +
-                        'Color Price: ' + res.colorprice + '\n'
-                    );
 
                     // Replace button with original glyphicon
                     $('#addpricing-submit').removeAttr('disabled').empty().prepend('<i class="fa fa-plus"></i> Add Monthly Pricing');
@@ -376,7 +309,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     $("#addcolorprice").val('');
 
                     var newtr =
-                        '<td><input type="checkbox" name="pricings[]" value="' + res.id + '"  /></td>' +
+                        '<td><input type="checkbox" name="pricings[]" value="'+res.id+'" /> &nbsp;&nbsp;<button type="button" id="'+res.id+'" class="btn btn-success m-r-5 m-b-5 editpricing"><i class="fa fa-pencil"></i> Edit</button></td>' +
                         '<td>' + res.size + '</td>' +
                         '<td>&#36; ' + res.bwprice + '</td>' +
                         '<td>&#36; ' + res.colorprice + '</td>' +
@@ -387,10 +320,178 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     row = $('<tr id="' + res.id + '" ></tr>');
                     row.append(newtr).prependTo('#pricing-table');
 
+                    // Put all info just added in edit charge FORM
+                    var editchargeform =
+                        '<div id="edit-popup'+res.id+'">' +
+                            '<div class="form-group" id="editsizefield'+res.id+'">' +
+                                '<label class="col-md-2 control-label">Page Size:</label>' +
+                                '<div class="col-md-3">' +
+                                    '<input type="text" name="size" value="'+res.size+'" id="editsize'+res.id+'" class="form-control" placeholder="Name of Size" data-parsley-required="true"  />' +
+                                    '<span class="form-control-feedback" id="editsize-err'+res.id+'"></span>' +
+                                '</div>' +
+                            '</div>' +
+                            '<br/><br/><br/>' +
+                            '<div class="form-group" id="editbwpricefield'+res.id+'">' +
+                                '<label class="col-md-2 control-label">B/W Price:</label>' +
+                                '<div class="col-md-3 input-group"  style="padding-left:1em">' +
+                                    '<span class="input-group-addon">$</span><input type="text" name="bwprice" value="'+res.bwprice+'" id="editbwprice'+res.id+'" class="form-control" data-parsley-required="true"  />' +
+                                    '<span class="form-control-feedback" id="editbwprice-err'+res.id+'"></span>' +
+                                '</div>' +
+                            '</div>' +
+                            '<br/>' +
+                            '<div class="form-group" id="editcolorpricefield'+res.id+'">' +
+                                '<label class="col-md-2 control-label">Color Price:</label>' +
+                                '<div class="col-md-3 input-group"  style="padding-left:1em">' +
+                                    '<span class="input-group-addon">$</span><input type="text" name="colorprice" value="'+res.colorprice+'" id="editcolorprice'+res.id+'" class="form-control" data-parsley-required="true"  />' +
+                                    '<span class="form-control-feedback" id="editcolorprice-err'+res.id+'"></span>' +
+                                '</div>' +
+                            '</div>' +
+                            '<br/><br/>' +
+                            '<div class="panel-body">' +
+                                '<button type="button" id="editpricing-submit" name="'+res.id+'" class="btn btn-info m-r-5 m-b-5 editpricing-submit"><i class="fa fa-edit"></i> Update Pricing</button>' +
+                                '<button type="button" id="cancelpricing-btn" name="'+res.id+'" class="btn btn-warning m-r-5 m-b-5"><i class="fa fa-times"></i> Cancel</button>' +
+                            '</div>' +
+                        '</div>';
+
+                    // Replace the Edit Charge form
+                    $("div#edit-popup"+res.id).replaceWith(editchargeform);
+
                     // Highlight row that was just updated
                     setTimeout(function(){ $("tr#"+res.id).css('background-color','transparent').effect("highlight", {color:"#5C8116"}, 4000); })
 
 //                    $('#num_pricings').html('<span class="badge">' + res.num_pricings + '</span>'); // update total number
+                }
+            }
+        });
+
+    });
+
+    // Edit a Monthly Pricing
+    $(document).on('click', '#editpricing-submit', function(e) {
+        e.preventDefault();
+
+        var baseUrl = window.location .protocol + "//" + window.location.host + "/" + window.location.pathname.split('/')[1];
+
+        // Replace button with animated loading gif
+        $(this).attr('disabled', true).empty().prepend('<img src="'+baseUrl+'/assets/img/loading-gif.gif" />&nbsp; Updating Monthly Pricing');
+
+        var id = $(this).attr("name");
+
+        // Set variables that will be posted
+        var size = $("#editsize"+id).val();
+        var bwprice = $("#editbwprice"+id).val();
+        var colorprice = $("#editcolorprice"+id).val();
+
+        jQuery.ajax({
+            type: "POST",
+            url: "<?php echo base_url(); ?>" + "da_monthlypricing/Da_monthlypricing/ajax_edit_pricing",
+            dataType: 'json',
+            data: {id:id, size:size, bwprice:bwprice, colorprice:colorprice},
+            success: function(res) {
+                if (res) {
+
+                    // Replace button with original glyphicon
+                    $('.editpricing-submit').removeAttr('disabled').empty().prepend('<i class="fa fa-plus"></i> Update Monthly Pricing');
+
+                    // remove previous error messages
+                    $("#editsize-err"+res.id).empty();
+                    $("#editbwprice-err"+res.id).empty();
+                    $("#editcolorprice-err"+res.id).empty();
+
+                    // check form validation first
+                    if (res.size_error)
+                    {
+//                        $('#addcode-err').append(res.code_error); // display error message under Charge Category field
+                        $('#editsizefield'+res.id).addClass('has-error'); // make field red
+                    } else
+                    {
+                        $('#editsizefield'+res.id).removeClass('has-error'); // remove red field
+                    }
+                    if (res.bwprice_error)
+                    {
+//                        $('#adddescription-err').append(res.description_error);
+                        $('#editbwpricefield'+res.id).addClass('has-error');
+                    } else
+                    {
+                        $('#editbwpricefield'+res.id).removeClass('has-error');
+                    }
+                    if (res.colorprice_error)
+                    {
+//                        $('#addmonths-err').append(res.months_error);
+                        $('#editcolorpricefield'+res.id).addClass('has-error');
+                    } else
+                    {
+                        $('#editcolorpricefield'+res.id).removeClass('has-error');
+                    }
+
+                    if (res.size_error || res.bwprice_error || res.colorprice_error)
+                    {
+                        return; // do not run any more javascript, there are errors on form
+                    }
+
+                    // Hide Add Promo form
+                    $('#overlay, #edit-popup'+res.id).css('display', 'none');//
+
+                    // reset all values on form after submission
+                    $("#editsize"+res.id).val('');
+                    $("#editbwprice"+res.id).val('');
+                    $("#editcolorprice"+res.id).val('');
+
+                    // Update row in charge table
+                    var newtr = '<tr id="' + res.id + '">' +
+                        '<td>' +
+                        '<input type="checkbox" name="pricings[]" value="'+res.id+'"  /> &nbsp;&nbsp;<button type="button" id="'+res.id+'" class="btn btn-success m-r-5 m-b-5 editpricing"><i class="fa fa-pencil"></i> Edit</button>' +
+                        '</td>' +
+                        '<td>'+res.size+'</td>' +
+                        '<td>'+res.bwprice+'</td>' +
+                        '<td>'+res.colorprice+'</td>' +
+                        '<td>'+res.created+'</td>' +
+                        '<td>'+res.modified+'</td>' +
+                        '</tr>';
+
+                    $("tr#"+res.id).replaceWith(newtr);
+                    // Put all info just added in edit charge FORM
+
+                    var editchargeform =
+                        '<div id="edit-popup'+res.id+'">' +
+                        '<div class="form-group" id="editsizefield'+res.id+'">' +
+                        '<label class="col-md-2 control-label">Page Size:</label>' +
+                        '<div class="col-md-3">' +
+                        '<input type="text" name="size" value="'+res.size+'" id="editsize'+res.id+'" class="form-control" placeholder="Name of Size" data-parsley-required="true"  />' +
+                        '<span class="form-control-feedback" id="editsize-err'+res.id+'"></span>' +
+                        '</div>' +
+                        '</div>' +
+                        '<br/><br/><br/>' +
+                        '<div class="form-group" id="editbwpricefield'+res.id+'">' +
+                        '<label class="col-md-2 control-label">B/W Price:</label>' +
+                        '<div class="col-md-3 input-group"  style="padding-left:1em">' +
+                        '<span class="input-group-addon">$</span><input type="text" name="bwprice" value="'+res.bwprice+'" id="editbwprice'+res.id+'" class="form-control" data-parsley-required="true"  />' +
+                        '<span class="form-control-feedback" id="editbwprice-err'+res.id+'"></span>' +
+                        '</div>' +
+                        '</div>' +
+                        '<br/>' +
+                        '<div class="form-group" id="editcolorpricefield'+res.id+'">' +
+                        '<label class="col-md-2 control-label">Color Price:</label>' +
+                        '<div class="col-md-3 input-group"  style="padding-left:1em">' +
+                        '<span class="input-group-addon">$</span><input type="text" name="colorprice" value="'+res.colorprice+'" id="editcolorprice'+res.id+'" class="form-control" data-parsley-required="true"  />' +
+                        '<span class="form-control-feedback" id="editcolorprice-err'+res.id+'"></span>' +
+                        '</div>' +
+                        '</div>' +
+                        '<br/><br/>' +
+                        '<div class="panel-body">' +
+                        '<button type="button" id="editpricing-submit" name="'+res.id+'" class="btn btn-info m-r-5 m-b-5 editpricing-submit"><i class="fa fa-edit"></i> Update Pricing</button>' +
+                        '<button type="button" id="cancelpricing-btn" name="'+res.id+'" class="btn btn-warning m-r-5 m-b-5"><i class="fa fa-times"></i> Cancel</button>' +
+                        '</div>' +
+                        '</div>';
+
+                    // Replace the Edit Charge form
+                    $("div#edit-popup"+res.id).replaceWith(editchargeform);
+
+
+                    // Highlight row that was just updated
+                    setTimeout(function(){ $("tr#"+res.id).css('background-color','transparent').effect("highlight", {color:"#5C8116"}, 4000); });
+
+//                    $('#num_jobnotes').html('<span class="badge">' + res.num_jobnotes + '</span>'); // update total number
                 }
             }
         });
@@ -477,7 +578,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         left: 18%;
         width:70%;
         min-width:70%;
-        height: 50%;
+        height: 55%;
         padding: 1em;
         border: 5px solid #333;
         background-color: white;
@@ -487,7 +588,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         font-size:16px;
     }
 
-    #edit-popup{
+    [id^="edit-popup"] {
         color: #333;
         display: none;
         position: fixed;
@@ -495,7 +596,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         left: 18%;
         width:70%;
         min-width:70%;
-        height: 70%;
+        height: 55%;
         padding: 1em;
         border: 5px solid #333;
         background-color: white;

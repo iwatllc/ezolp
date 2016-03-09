@@ -42,6 +42,22 @@ class Da_monthlypricing_model extends CI_Model {
         return $id;
     }
 
+    function update_pricing($id, $size, $bwprice, $colorprice, $modifieddate)
+    {
+        $data = array(
+            'pagesize'          => $size,
+            'bwprice'       => $bwprice,
+            'colorprice'    => $colorprice,
+            'modified'      => $modifieddate
+        );
+
+        $this -> db -> where('id', $id) -> update('displayad_pricing', $data);
+
+//        $id = $this -> db -> insert_id(); // get row that was just inserted
+
+        return $id;
+    }
+
     function get_pricing($id)
     {
         $row = $this -> db -> select('*') -> where('id', $id) -> get('displayad_pricing') -> row();

@@ -114,7 +114,66 @@ class Da_monthlypricing extends MX_Controller {
 
         // go back to ajax to print data
         echo json_encode($data);
+    }    
+    
+    function ajax_edit_pricing()
+{
+    $this -> load -> model('da_monthlypricing_model', '', TRUE);
+
+    // run form validation
+    $this -> form_validation -> set_rules('size', 'Page Size', 'required');
+    $this -> form_validation -> set_rules('bwprice', 'B/W Price', 'required');
+    $this -> form_validation -> set_rules('colorprice', 'Color Price', 'required');
+
+    if ($this -> form_validation -> run() == FALSE)
+    {
+        $errors = array();
+        if ($this -> form_validation -> run('size') == FALSE)
+            $errors['size_error'] = form_error('size');
+        if ($this -> form_validation -> run('bwprice') == FALSE)
+            $errors['bwprice_error'] = form_error('bwprice');
+        if ($this -> form_validation -> run('colorprice') == FALSE)
+            $errors['colorprice_error'] = form_error('colorprice');
+
+        echo json_encode($errors);
+
+        return; // if form validation fails, exit to ajax success message
     }
+
+    $id         = $this -> input -> post('id');
+    $size       = $this -> input -> post('size');
+    $bwprice    = $this -> input -> post('bwprice');
+    $colorprice = $this -> input -> post('colorprice');
+
+    $this -> load -> helper('date');
+    $datestring = "%Y-%m-%d %H:%i:%s";
+    $time = time();
+    $modifieddate = mdate($datestring, $time);
+
+    // insert data to database, return the id of the row that was inserted
+    $id = $this -> da_monthlypricing_model -> update_pricing($id, $size, $bwprice, $colorprice, $modifieddate);
+
+    // query the table for the row that was just inserted
+    $row = $this -> da_monthlypricing_model -> get_pricing($id);
+
+    $dt = new DateTime($row -> created);
+    $createddate = $dt -> format('m-d-Y');
+    $dt = new DateTime($row -> modified);
+    $modifieddate = $dt -> format('m-d-Y');
+    
+    $data = array(
+        'id'                => $row -> id,
+        'size'              => $row -> size,
+        'bwprice'           => $row -> bwprice,
+        'colorprice'        => $row -> colorprice,
+        'created'           => $createddate,
+        'modified'          => $modifieddate
+//            'num_pricings'      => $this-> da_monthlypricing_model -> get_num_pricings()
+    );
+
+    // go back to ajax to print data
+    echo json_encode($data);
+}
 
     public function ajax_del_pricing()
     {
