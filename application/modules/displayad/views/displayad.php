@@ -157,6 +157,7 @@ if($Displayad_Clientform == "FALSE") {
                                 </table>
                             </div>
 
+                            &nbsp;
                             <br/><br/><br/><br/><br/><br/>
 
                             <legend>Billing Information</legend>
@@ -782,6 +783,8 @@ if($Displayad_Clientform == "FALSE") {
                     $rad_array[$i] = number_format($number/100, 2, '.', null);
                 }
 
+                $rad_array[0] = 0.00;
+                $rad_array[1] = 0.00;
                 for ($i = 2; $i < 12; $i++)
                 {
                     if (!array_key_exists($i, $rad_array))
@@ -797,8 +800,7 @@ if($Displayad_Clientform == "FALSE") {
                     }
                 }
 
-                $rad_array[1] = 0.00;
-                $rad_array[1] = 0.00;
+
             ?>
 
             var js_array = <?php echo str_replace('"', '', json_encode($rad_array)); ?>;
