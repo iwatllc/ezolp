@@ -75,8 +75,6 @@ class Ca_search extends MX_Controller
 
         $data['results'] = $this -> ca_search_model -> get_search_results($search_array);
 
-        $data['num_results']    = $this -> ca_search_model -> get_num_results($data['results']);
-
         $data['search_array'] = $search_array;
 
         $data['promo_codes'] = $this -> ca_search_model -> get_promocode_dropdown_list();

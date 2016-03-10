@@ -56,7 +56,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     $data = array(
                                         'name' => 'contactinfo',
                                         'value'=> set_value('contactinfo'),
-                                        'placeholder' => 'First, Last, City, State, Zip',
+                                        'placeholder' => 'First/Last Name, City, Street, State, Zip, Email',
                                         'class' => 'form-control'
                                     );
                                     echo form_input($data);
@@ -170,8 +170,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             if ($results -> num_rows() > 0)
                             { ?>
                             <tr>
-                                <th width="25%">Contact Info</th>
-                                <th width="20%">Ad Text</th>
+                                <th width="30%">Contact</th>
+                                <th width="25%">Ad Text</th>
                                 <th width="10%">Promo Code</th>
                                 <th width="20%">Issues</th>
                                 <th width="10%">Submitted</th>
@@ -240,6 +240,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 </div>
 <!-- end page container -->
+
+<br/><br/><br/><br/><br/><br/><br/>
 
 </body>
 
