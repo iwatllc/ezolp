@@ -105,11 +105,18 @@
                     </a>
                 </li>
 
-                <li class="has-sub<?php echo $pageName == 'search' ? ' active' : ''; ?>">
-                    <a href="<?php echo base_url(); ?>search">
+                <li class="has-sub <?php if($pageName == 'search' || $pageName == 'ca_search' || $pageName == 'da_search'){ echo 'active'; } else { echo ''; } ?>">
+                    <a>
+                        <b class="caret pull-right"></b>
                         <i class="fa fa-search"></i>
                         <span>Search</span>
                     </a>
+                    <ul class="sub-menu">
+
+                        <li<?php echo $this->uri->segment(1) == 'search' ? ' class="active"' : ''; ?>>      <a href="<?php echo base_url(); ?>search">Search Transactions</a></li>
+                        <li<?php echo $this->uri->segment(1) == 'ca_search' ? ' class="active"' : ''; ?>>   <a href="<?php echo base_url(); ?>ca_search">Search Classified Ads</a></li>
+                        <li<?php echo $this->uri->segment(1) == 'da_search' ? ' class="active"' : ''; ?>>   <a href="<?php echo base_url(); ?>da_search">Search Display Ads</a></li>
+                    </ul>
                 </li>
 
                 <li class="has-sub<?php echo $pageName == 'promocodes' ? ' active' : ''; ?>">

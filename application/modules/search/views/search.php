@@ -39,7 +39,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <h4 class="panel-title">SEARCH TRANSACTIONS</h4>
                         </div>
                         <div class="panel-body">
-                            <div class="col-md-9">
+                            <div class="col-md-12">
                                     <div class="form-inline">
                                         <table style="width:100%; border-collapse: separate; border-spacing:1em;">
                                             
