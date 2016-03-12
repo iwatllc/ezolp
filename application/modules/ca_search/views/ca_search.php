@@ -22,12 +22,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 <head>
     <title><?php echo $title; ?></title>
-<!--    <link rel="stylesheet" type="text/css" href="http://cdn.rawgit.com/davidstutz/bootstrap-multiselect/master/dist/css/bootstrap-multiselect.css">-->
-<!--    <script src="http://cdn.rawgit.com/davidstutz/bootstrap-multiselect/master/dist/js/bootstrap-multiselect.js"></script>-->
-<!---->
-<!--    <script src="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.3/js/bootstrap.min.js"></script>-->
-<!--    <link rel="stylesheet" type="text/css" href="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.3/css/bootstrap.min.css">-->
-<!--    <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>-->
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>assets/css/toggle-switch.css">
 
 </head>
 
@@ -41,6 +36,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <?php $attributes = array('class' => 'form-horizontal form-bordered', 'id' => 'searchform'); ?>
             <?php echo form_open('ca_search/execute_search', array('id' => 'myForm')); ?>
 
+
+
             <!-- begin panel -->
             <div class="panel panel-inverse">
                 <div class="panel-heading">
@@ -49,74 +46,85 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 </div>
                 <div class="panel-body">
                     <form class="form-horizontal">
-                        <div class="form-group">
-                            <div class="col-md-4">
-                                <label class="control-label">Contact Info</label>
-                                <?php
-                                    $data = array(
-                                        'name' => 'contactinfo',
-                                        'value'=> set_value('contactinfo'),
-                                        'placeholder' => 'First/Last Name, City, Street, State, Zip, Email',
-                                        'class' => 'form-control'
-                                    );
-                                    echo form_input($data);
-                                ?>
-                            </div>
-                            <div class="col-md-4">
-                                <label class="control-label">Ad Text</label>
-                                <?php
-                                    $data = array(
-                                        'name' => 'adtext',
-                                        'value'=> set_value('adtext'),
-                                        'placeholder' => 'Ad Text',
-                                        'class' => 'form-control'
-                                    );
-                                    echo form_input($data);
-                                ?>
-                            </div>
-                            <div class="col-md-4">
-                                <label class="control-label">Promo Code Used</label>
-                                <?php
-                                $data = array(
-                                    'class' => 'form-control'
-                                );
-                                echo form_dropdown('promocode', $promo_codes, set_value('promocode', ''), $data);
-                                ?>
-                            </div>
-                        </div>
-                        <br/><br/><br/><br/>
-                        <div class="form-group">
-                            <div class="col-md-6">
-                                <label class="control-label">Submission Begin/End Date</label>
-                                <div class="col-md-12 input-group input-daterange">
-                                    <?php
-                                    $BegDate = array(
-                                        'name'          =>  'begindate',
-                                        'id'            =>  'begindate',
-                                        'value'         =>  set_value('begindate'),
-                                        'placeholder'   =>  date("m/d/Y"),
-                                        'class'         =>  'form-control'
-                                    );
+                        <div class="form-group row">
+                            <div class="col-md-8">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                            <label class="control-label">Contact Info</label>
+                                            <?php
+                                            $data = array(
+                                                'name' => 'contactinfo',
+                                                'value'=> set_value('contactinfo'),
+                                                'placeholder' => 'Name, Address, Email',
+                                                'class' => 'form-control'
+                                            );
+                                            echo form_input($data);
+                                            ?>
+                                    </div>
+                                    <div class="col-md-4">
+                                            <label class="control-label">Ad Text</label>
+                                            <?php
+                                            $data = array(
+                                                'name' => 'adtext',
+                                                'value'=> set_value('adtext'),
+                                                'placeholder' => 'Ad Text',
+                                                'class' => 'form-control'
+                                            );
+                                            echo form_input($data);
+                                            ?>
+                                    </div>
+                                    <div class="col-md-4">
+                                            <label class="control-label">Promo Code Used</label>
+                                            <?php
+                                            $data = array(
+                                                'class' => 'form-control'
+                                            );
+                                            echo form_dropdown('promocode', $promo_codes, set_value('promocode', ''), $data);
+                                            ?>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <br/><br/>
+                                            <label class="control-label">Submission Begin/End Date</label>
+                                            <div class="col-md-12 input-group input-daterange">
+                                                <?php
+                                                $BegDate = array(
+                                                    'name'          =>  'begindate',
+                                                    'id'            =>  'begindate',
+                                                    'value'         =>  set_value('begindate'),
+                                                    'placeholder'   =>  date("m/d/Y"),
+                                                    'class'         =>  'form-control'
+                                                );
 
-                                    echo form_input($BegDate)
-                                    ?>
-                                    <span class="input-group-addon">to</span>
-                                    <?php
-                                    $EndDate = array(
-                                        'name'          =>  'enddate',
-                                        'id'            =>  'enddate',
-                                        'value'         =>  set_value('enddate'),
-                                        'placeholder'   =>  date("m/d/Y", strtotime('+7 days')),
-                                        'class'         =>  'form-control'
-                                    );
+                                                echo form_input($BegDate)
+                                                ?>
+                                                <span class="input-group-addon">to</span>
+                                                <?php
+                                                $EndDate = array(
+                                                    'name'          =>  'enddate',
+                                                    'id'            =>  'enddate',
+                                                    'value'         =>  set_value('enddate'),
+                                                    'placeholder'   =>  date("m/d/Y", strtotime('+7 days')),
+                                                    'class'         =>  'form-control'
+                                                );
 
-                                    echo form_input($EndDate);
-                                    ?>
+                                                echo form_input($EndDate);
+                                                ?>
+                                            </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <br/><br/><br/><br/>
+                                        <input type="button" onclick="document.getElementById('myForm').reset();;" class="btn btn-sm btn-default" value="Reset" />
+                                            <button type="submit" class="btn btn-sm btn-success">Submit</button>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-md-6">
-                                <label class="control-label">Issues</label>
-                                <?php
+                            <div class="col-md-4">
+                                    <label class="control-label">Issues</label>
+                                    <?php
                                     $data = array(
                                         'January'   => 'January',
                                         'February'  => 'February',
@@ -133,18 +141,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     );
                                     $options = array(
                                         'class' => 'form-control',
-                                        'style' => 'height:10%'
+                                        'style' => 'height: 35%;'
                                     );
                                     echo form_multiselect('issues[]', $data, $this->input->post('issues'), $options);
-                                ?>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <div class="col-md-9">
-                                <br/>
-                                <input type="button" onclick="document.getElementById('myForm').reset();;" class="btn btn-sm btn-default" value="Reset" />
-                                <button type="submit" class="btn btn-sm btn-success">Submit</button>
+                                    ?>
                             </div>
                         </div>
                     </form>
@@ -171,31 +171,29 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             { ?>
                             <tr>
                                 <th width="30%">Contact</th>
-                                <th width="25%">Ad Text</th>
-                                <th width="10%">Promo Code</th>
-                                <th width="20%">Issues</th>
+                                <th width="20%">Ad Text</th>
+                                <th width="20%">Approved Text</th>
+                                <th width="5%">Promo Code</th>
+                                <th width="10%">Issues</th>
                                 <th width="10%">Submitted</th>
-                                <th width="5%">Actions</th>
+                                <th width="5%">Status</th>
                             </tr>
                             </thead>
                             <tbody>
                             <?php
                             foreach ($results -> result() as $result)
                             {
-                                echo "<tr>";
+                                echo '<tr id="'.$result->id.'" >';
                                 echo "<td>";
-                                echo $result->firstname.' '.$result->lastname.'<br/>'.$result->streetaddress.'<br/>'.$result->city.', '.$result->state.'<br/>'.$result->zip;
+                                    echo '<span>';
+                                        echo $result->firstname.' '.$result->lastname.'<br/>'.$result->streetaddress.'<br/>'.$result->city.', '.$result->state.'<br/>'.$result->zip;
+                                    echo '</span>';
                                 echo "</td>";
                                 echo "<td>";
-                                if (strlen($result->adtext) > 1000)
-                                {
-                                    // only show the first 20 characters of the text
-                                    echo substr($result->adtext, 0, 1000);
-                                    echo '<a class="view-text" href="#"><span class="glyphicon glyphicon-plus-sign"></span> view </a>';
-                                } else
-                                {
-                                    echo $result->adtext;
-                                }
+                                echo $result->adtext;
+                                echo "</td>";
+                                echo "<td>";
+                                echo $result->approvedtext;
                                 echo "</td>";
                                 echo "<td>";
                                 echo $result->promocode;
@@ -206,7 +204,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 echo "<td>";
                                 echo date_conversion_nowording($result->created);
                                 echo "</td>";
-                                echo "<td>&nbsp;</td>";
+                                echo "<td>";
+                                    echo '<div class="switch">';
+                                        if ($result->approved == '0')
+                                        {
+                                            echo '<input num="'.$result->id.'" id="cmn-toggle-'.$result->id.'" class="cmn-toggle cmn-toggle-yes-no" type="checkbox" />';
+                                        } else if ($result->approved == '1')
+                                        {
+                                            echo '<input num="'.$result->id.'" id="cmn-toggle-'.$result->id.'" class="cmn-toggle cmn-toggle-yes-no" type="checkbox" checked/>';
+                                        }
+                                        echo '<label for="cmn-toggle-'.$result->id.'" data-on="APPROVED" data-off="NOT APP"></label>';
+                                    echo '</div>';
+                                echo "</td>";
                                 echo "<tr>";
                             }
                             ?>
@@ -248,26 +257,60 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <?php $this->load->view('footer'); ?>
 <script type="text/javascript">
 
+        // Approved/disapprove a submission
+        $(document).on('click', '.cmn-toggle-yes-no', function(e){
+
+            var id = $(this).attr('num');
+            var status;
+            if ($(this).is(':checked'))
+            {
+                status = "Approved";
+            }
+            if (!$(this).is(':checked'))
+            {
+                status = "Not Approved";
+            }
+
+            console.log('ID: ' + id + '\n' + 'Status: ' + status);
+
+            // Highlight row that was just updated
+//            $("tr#"+id).css('background-color','yellow')
+
+            jQuery.ajax({
+                type: "POST",
+                url: "<?php echo base_url(); ?>" + "ca_search/Ca_search/ajax_approve_submission",
+                dataType: 'json',
+                data: {id:id, status:status},
+                success: function(res) {
+                    if (res) {
+
+                        console.log('AJAX returned these\n' + 'ID: ' + res.id + '\n' + 'Status: ' + res.status);
+
+                        // Highlight row that was just updated
+                        if(res.status == 1)
+                        {
+                            setTimeout(function(){ $("tr#"+res.id).css('background-color','transparent').effect("highlight", {color:"#8ce196"}, 3000); })
+                        }
+                        if (res.status == 0)
+                        {
+                            setTimeout(function(){ $("tr#"+res.id).css('background-color','transparent').effect("highlight", {color:"#ff1919"}, 3000); })
+                        }
+                    }
+                }
+            });
+        });
+
+
+    $( document ).ready(function() {
+        $( "#datepicker" ).datepicker({defaultDate: null});
+        $( "#datepicker2" ).datepicker({defaultDate: null});
+    });
+
+
     function resetForm($form) {
         $form.find('input:text, input:password, input:file, select, textarea').val('');
         $form.find('input:radio, input:checkbox').removeAttr('checked').removeAttr('selected');
     }
-
-    $( document ).ready(function() {
-
-        $( "#datepicker" ).datepicker({defaultDate: null});
-        $( "#datepicker2" ).datepicker({defaultDate: null});
-
-        $('.view-text').click( function(event) {
-            event.preventDefault();
-
-            $(this).next().slideToggle( "fast", function() {
-                $(this).is(':visible') ? $(this).prev().html('<span class="glyphicon glyphicon-plus-sign"></span> view ') : $(this).prev().html('<span class="glyphicon glyphicon-minus-sign"></span> close ');
-            });
-            $(this).next().next().slideToggle( "fast", function() {});
-        });
-
-    });
 
 </script>
 

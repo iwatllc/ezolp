@@ -64,10 +64,11 @@ class Classifiedad extends MX_Controller {
                 'cardtype'      => $this -> input -> post('cardtype'),
                 'cclast4'       => substr($this -> input -> post('creditcard'), -4),
                 'amount'        => str_replace( ',', '', $this -> input -> post('grandtotal') ),
+                'approvedtext'  => $this -> input -> post('adtext'),
                 'created'       => date('Y-n-j H:i:s')
             );
 
-            // Get insertd record id to use as transaction id.
+            // Get inserted record id to use as transaction id.
             $transaction_id = $this -> Classifiedad_model -> add_classifiedad_submission($submitted_data);
 
             // Add transaction id to submitted data and pass to payment method.

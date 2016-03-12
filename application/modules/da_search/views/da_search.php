@@ -41,78 +41,91 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <?php $attributes = array('class' => 'form-horizontal form-bordered', 'id' => 'searchform'); ?>
             <?php echo form_open('da_search/execute_search', array('id' => 'myForm')); ?>
 
+
             <!-- begin panel -->
             <div class="panel panel-inverse">
                 <div class="panel-heading">
+                    <div class="panel-heading-btn"></div>
                     <h4 class="panel-title">Search Display Ads</h4>
                 </div>
                 <div class="panel-body">
                     <form class="form-horizontal">
-                        <div class="form-group">
-                            <div class="col-md-4">
-                                <label class="control-label">Contact Info</label>
-                                <?php
-                                    $data = array(
-                                        'name' => 'contactinfo',
-                                        'value'=> set_value('contactinfo'),
-                                        'placeholder' => 'First/Last Name, City, Street, State, Zip, Email',
-                                        'class' => 'form-control'
-                                    );
-                                    echo form_input($data);
-                                ?>
-                            </div>
-                            <div class="col-md-4">
-                                <label class="control-label">Page Size</label>
-                                <?php
-                                $data = array(
-                                    'class' => 'form-control'
-                                );
-                                echo form_dropdown('pricing', $pricings, set_value('pricing', ''), $data);
-                                ?>
-                            </div>
-                            <div class="col-md-4">
-                                <label class="control-label">Promo Code Used</label>
-                                <?php
-                                $data = array(
-                                    'class' => 'form-control'
-                                );
-                                echo form_dropdown('promocode', $promo_codes, set_value('promocode', ''), $data);
-                                ?>
-                            </div>
-                        </div>
-                        <br/><br/><br/><br/>
-                        <div class="form-group">
-                            <div class="col-md-6">
-                                <label class="control-label">Submission Begin/End Date</label>
-                                <div class="col-md-12 input-group input-daterange">
-                                    <?php
-                                    $BegDate = array(
-                                        'name'          =>  'begindate',
-                                        'id'            =>  'begindate',
-                                        'value'         =>  set_value('begindate'),
-                                        'placeholder'   =>  date("m/d/Y"),
-                                        'class'         =>  'form-control'
-                                    );
+                        <div class="form-group row">
+                            <div class="col-md-8">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                            <label class="control-label">Contact Info</label>
+                                            <?php
+                                            $data = array(
+                                                'name' => 'contactinfo',
+                                                'value'=> set_value('contactinfo'),
+                                                'placeholder' => 'Name, Address, Email',
+                                                'class' => 'form-control'
+                                            );
+                                            echo form_input($data);
+                                            ?>
+                                    </div>
+                                    <div class="col-md-4">
+                                            <label class="control-label">Page Size</label>
+                                            <?php
+                                            $data = array(
+                                                'class' => 'form-control'
+                                            );
+                                            echo form_dropdown('pricing', $pricings, set_value('pricing', ''), $data);
+                                            ?>
+                                    </div>
+                                    <div class="col-md-4">
+                                            <label class="control-label">Promo Code Used</label>
+                                            <?php
+                                            $data = array(
+                                                'class' => 'form-control'
+                                            );
+                                            echo form_dropdown('promocode', $promo_codes, set_value('promocode', ''), $data);
+                                            ?>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <br/><br/>
+                                        <label class="control-label">Submission Begin/End Date</label>
+                                            <div class="col-md-12 input-group input-daterange">
+                                                <?php
+                                                $BegDate = array(
+                                                    'name'          =>  'begindate',
+                                                    'id'            =>  'begindate',
+                                                    'value'         =>  set_value('begindate'),
+                                                    'placeholder'   =>  date("m/d/Y"),
+                                                    'class'         =>  'form-control'
+                                                );
 
-                                    echo form_input($BegDate)
-                                    ?>
-                                    <span class="input-group-addon">to</span>
-                                    <?php
-                                    $EndDate = array(
-                                        'name'          =>  'enddate',
-                                        'id'            =>  'enddate',
-                                        'value'         =>  set_value('enddate'),
-                                        'placeholder'   =>  date("m/d/Y", strtotime('+7 days')),
-                                        'class'         =>  'form-control'
-                                    );
+                                                echo form_input($BegDate)
+                                                ?>
+                                                <span class="input-group-addon">to</span>
+                                                <?php
+                                                $EndDate = array(
+                                                    'name'          =>  'enddate',
+                                                    'id'            =>  'enddate',
+                                                    'value'         =>  set_value('enddate'),
+                                                    'placeholder'   =>  date("m/d/Y", strtotime('+7 days')),
+                                                    'class'         =>  'form-control'
+                                                );
 
-                                    echo form_input($EndDate);
-                                    ?>
+                                                echo form_input($EndDate);
+                                                ?>
+                                            </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <br/><br/><br/>
+                                        <input type="button" onclick="document.getElementById('myForm').reset();;" class="btn btn-sm btn-default" value="Reset" />
+                                            <button type="submit" class="btn btn-sm btn-success">Submit</button>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-md-6">
-                                <label class="control-label">Issues</label>
-                                <?php
+                            <div class="col-md-4">
+                                    <label class="control-label">Issues</label>
+                                    <?php
                                     $data = array(
                                         'January'   => 'January',
                                         'February'  => 'February',
@@ -129,24 +142,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     );
                                     $options = array(
                                         'class' => 'form-control',
-                                        'style' => 'height:10%'
+                                        'style' => 'height: 35%;'
                                     );
                                     echo form_multiselect('issues[]', $data, $this->input->post('issues'), $options);
-                                ?>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <div class="col-md-9">
-                                <br/>
-                                <input type="button" onclick="document.getElementById('myForm').reset();;" class="btn btn-sm btn-default" value="Reset" />
-                                <button type="submit" class="btn btn-sm btn-success">Submit</button>
+                                    ?>
                             </div>
                         </div>
                     </form>
                 </div>
             </div>
             <!-- end panel -->
+
 
             <?php
             if ( isset($results) )

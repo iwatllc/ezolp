@@ -116,4 +116,43 @@ class Ca_search_model extends CI_Model
 
     }
 
+    public function disapprove_submission($id, $statusid)
+    {
+//        $this -> db -> set('approved', $statusid);
+//        $this -> db -> set('approvedby', 0);
+//        $this -> db -> set('approveddate', 'NULL');
+//        $this -> db -> where('id', $id);
+//
+//        $this -> db -> update('classifiedad_submissions');
+
+        $data = array(
+            'approved' => $statusid,
+            'approvedby' => 0,
+            'approveddate' => 'NULL'
+        );
+
+        $this -> db -> where('id', $id);
+        $this -> db -> update('classifiedad_submissions', $data);
+
+    }
+
+    public function approve_submission($id, $statusid, $approvedby, $approveddate)
+    {
+        $data = array(
+            'approved' => $statusid,
+            'approvedby' => $approvedby,
+            'approveddate' => $approveddate
+        );
+
+        $this -> db -> where('id', $id);
+        $this -> db -> update('classifiedad_submissions', $data);
+
+    }
+
+    public function get_submission($id)
+    {
+        $row = $this -> db -> select('*') -> where('id', $id) -> get('classifiedad_submissions') -> row();
+
+        return $row;
+    }
 }
