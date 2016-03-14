@@ -1,7 +1,5 @@
 <?php
 
-use Report_model;
-
 class Contributionreport_model extends Report_model {
     
     public function __construct()
