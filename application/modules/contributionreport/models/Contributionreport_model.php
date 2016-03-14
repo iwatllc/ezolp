@@ -43,42 +43,65 @@ class Contributionreport_model extends Report_model {
     }
 
 
-    public function get_matching_list($filters) {
-
+    public function get_matching_list($input) {
         $this->db->query('SET SQL_BIG_SELECTS=1');
+
         $this->db->select('donationform_submissions.*, contributors.* ');
         $this->db->from('donationform_submissions');
-        $this->db->join('contributors', 'donationform_submissions.lastname = contributors.lastname AND donationform_submissions.firstname = contributors.firstname AND donationform_submissions.city = contributors.city');
+
+        // Construct rules for join
+        $joinConditions[] = '1=1';
+        if(!empty($input['matchFirstName'])) {
+            $joinConditions[] = "`donationform_submissions`.`firstname` LIKE `contributors`.`firstname`";
+        }
+        if(!empty($input['matchLastName'])) {
+            $joinConditions[] = "`donationform_submissions`.`lastname` LIKE `contributors`.`lastname`";
+        }
+        if(!empty($input['matchCity'])) {
+            $joinConditions[] = "`donationform_submissions`.`city` LIKE `contributors`.`city`";
+        }
+        if(!empty($input['matchState'])) {
+            $joinConditions[] = "`donationform_submissions`.`state` LIKE `contributors`.`state`";
+        }
+        if(!empty($input['matchOccupation'])) {
+            $joinConditions[] = "`donationform_submissions`.`occupation` LIKE `contributors`.`occupation`";
+        }
+        if(!empty($input['matchEmployer'])) {
+            $joinConditions[] = "`donationform_submissions`.`employer` LIKE `contributors`.`employer`";
+        }
+
+        // Add join to query
+        $this->db->join('`contributors`', implode(' AND ', $joinConditions), '', false);
         
         // Append where conditions when needed
-        if(!empty($filters['startDate'])) {
-            $startDate = DateTime::createFromFormat('m/d/Y', $filters['startDate'])->format("Y-m-d");
+        if(!empty($input['startDate'])) {
+            $startDate = DateTime::createFromFormat('m/d/Y', $input['startDate'])->format("Y-m-d");
             $this->db->where('contributors.transaction_date >=', $startDate);
         }
-        if(!empty($filters['endDate'])) {
-            $endDate = DateTime::createFromFormat('m/d/Y', $filters['endDate'])->format("Y-m-d");
+        if(!empty($input['endDate'])) {
+            $endDate = DateTime::createFromFormat('m/d/Y', $input['endDate'])->format("Y-m-d");
             $this->db->where('contributors.transaction_date <=', $endDate);
         }
-        if(!empty($filters['zip'])) {
-            $this->db->where('donationform_submissions.zip', $filters['zip']);
+        if(!empty($input['zip'])) {
+            $this->db->where('donationform_submissions.zip', $input['zip']);
         }
-        if(!empty($filters['firstName'])) {
-            $this->db->like('donationform_submissions.firstname', $filters['firstName']);
+        if(!empty($input['firstName'])) {
+            $this->db->like('donationform_submissions.firstname', $input['firstName']);
         }
-        if(!empty($filters['lastName'])) {
-            $this->db->like('donationform_submissions.lastname', $filters['lastName']);
+        if(!empty($input['lastName'])) {
+            $this->db->like('donationform_submissions.lastname', $input['lastName']);
         }
-        if(!empty($filters['city'])) {
-            $this->db->like('donationform_submissions.city', $filters['city']);
+        if(!empty($input['city'])) {
+            $this->db->like('donationform_submissions.city', $input['city']);
         }
-        if(!empty($filters['state'])) {
-            $this->db->like('donationform_submissions.state', $filters['state']);
+        if(!empty($input['state'])) {
+            $this->db->like('donationform_submissions.state', $input['state']);
         }
-        if(!empty($filters['occupation'])) {
-            $this->db->like('donationform_submissions.occupation', $filters['occupation']);
+        if(!empty($input['occupation'])) {
+            $this->db->like('donationform_submissions.occupation', $input['occupation']);
         }
-        if(!empty($filters['employer'])) {
-            $this->db->like('donationform_submissions.employer', $filters['employer']);
+        if(!empty($input['employer'])) {
+            $this->db->like('donationform_submissions.employer', $input['employer']);
         }
 
         $query = $this->db->get();
