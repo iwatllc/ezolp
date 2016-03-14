@@ -46,17 +46,7 @@ class Contributionreport extends MX_Controller {
     public function submit() {
         $this->lib_gearman->gearman_client();
 
-        $input = array(
-            'startDate' => $this->input->post('startDate'),
-            'endDate' => $this->input->post('endDate'),
-            'firstName' => $this->input->post('firstName'),
-            'lastName' => $this->input->post('lastName'),
-            'city' => $this->input->post('city'),
-            'state' => $this->input->post('state'),
-            'zip' => $this->input->post('zip'),
-            'employer' => $this->input->post('employer'),
-            'occupation' => $this->input->post('occupation'),
-            );
+        $input = $this->input->post(NULL, TRUE);
         
         $id = $this->Contributionreport->create_new_report($input);
         $this->lib_gearman->do_job_background('processContributionReport', serialize([

@@ -38,7 +38,35 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         </div>
                         <div class="panel-body">
                             <?php echo form_open('contributionreport/submit'); ?>
-
+                                <div class="col-md-12 form-group">
+                                    <label>Match Fields</label>
+                                    <div class="col-md-12 form-group">
+                                        <label class="checkbox-inline">
+                                            <input type="checkbox" name="matchFirstName" value="1" checked="checked">
+                                            First Name
+                                        </label>
+                                        <label class="checkbox-inline">
+                                            <input type="checkbox" name="matchLastName" value="1" checked="checked">
+                                            Last Name
+                                        </label>
+                                        <label class="checkbox-inline">
+                                            <input type="checkbox" name="matchCity" value="1" checked="checked">
+                                            City
+                                        </label>
+                                        <label class="checkbox-inline">
+                                            <input type="checkbox" name="matchState" value="1" checked="checked">
+                                            State
+                                        </label>
+                                        <label class="checkbox-inline">
+                                            <input type="checkbox" name="matchEmployer" value="1" checked="checked">
+                                            Employer
+                                        </label>
+                                        <label class="checkbox-inline">
+                                            <input type="checkbox" name="matchOccupation" value="1" checked="checked">
+                                            Occupation
+                                        </label>
+                                    </div>
+                                </div>
                                 <div class="col-md-6 col-lg-4 form-group">
                                     <label>Date Range Filter</label>
                                     <div class="col-xs-12 input-group input-daterange">
