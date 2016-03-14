@@ -42,11 +42,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <label>Match Fields</label>
                                     <div class="col-md-12 form-group">
                                         <label class="checkbox-inline">
-                                            <input type="checkbox" name="matchFirstName" value="1" checked="checked">
+                                            <input type="checkbox" name="matchFirstName" value="1" checked="checked" disabled="disabled">
                                             First Name
                                         </label>
                                         <label class="checkbox-inline">
-                                            <input type="checkbox" name="matchLastName" value="1" checked="checked">
+                                            <input type="checkbox" name="matchLastName" value="1" checked="checked" disabled="disabled">
                                             Last Name
                                         </label>
                                         <label class="checkbox-inline">
