@@ -218,6 +218,8 @@ class Displayad extends MX_Controller {
         $message .= 'Please keep this receipt for your records';
         $message .= '<br>';
         $message .= '<hr>';
+        $message .= 'Display AD';
+        $message .= '<br>';
         $message .= $this -> input -> post('firstname'). ' ' . $this -> input -> post('lastname');
         $message .= '<br>';
         $message .= $this -> input -> post('cardtype'). ' Ending in ' . substr($this -> input -> post('creditcard'), -4);
