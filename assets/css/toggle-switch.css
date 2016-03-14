@@ -31,7 +31,7 @@ input.cmn-toggle-round + label:after {
 }
 input.cmn-toggle-round + label:before {
     right: 1px;
-    background-color: #f1f1f1;
+    background-color: #ff1919;
     border-radius: 60px;
     transition: background 0.4s;
 }
@@ -106,7 +106,7 @@ input.cmn-toggle-yes-no + label:after {
     right: 0;
     color: #fff;
     font-family: "Roboto Slab", serif;
-    font-size: 20px;
+    font-size: 15px;
     text-align: center;
     line-height: 60px;
 }

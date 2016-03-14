@@ -47,6 +47,7 @@ class Ca_search extends MX_Controller
         $search_array['issues']      = $this -> input -> post('issues[]');
         $search_array['begindate']      = date( "Y-m-d", strtotime( $this -> input -> post('begindate') ) );
         $search_array['enddate']        = date( "Y-m-d", strtotime( $this -> input -> post('enddate') ) );
+        $search_array['approval']      = $this -> input -> post('approval');
 
         if ($search_array['begindate'] == '1969-12-31')
         {
@@ -108,9 +109,35 @@ class Ca_search extends MX_Controller
         // query the table for the row that was just inserted
         $row = $this -> ca_search_model -> get_submission($id);
 
+        $approveddate = date_conversion_nowording($row -> approveddate);
+        $username = $this -> dx_auth -> get_username();
+
         $data = array(
             'id'                => $row -> id,
-            'status'            => $row -> approved
+            'status'            => $row -> approved,
+            'approvedby'        => $username,
+            'approveddate'      => $approveddate
+        );
+
+        // go back to ajax to print data
+        echo json_encode($data);
+    }
+
+    public function ajax_change_approved_text()
+    {
+        $this -> load -> model('ca_search_model');
+
+        $id     = $this -> input -> post('id');
+        $text   = $this -> input -> post('text');
+
+        $this -> ca_search_model -> change_approved_ad_text($id, $text);
+
+        // query the table for the row that was just inserted
+        $row = $this -> ca_search_model -> get_submission($id);
+
+        $data = array(
+            'id'    => $row -> id,
+            'text'  => $row -> approvedtext
         );
 
         // go back to ajax to print data
