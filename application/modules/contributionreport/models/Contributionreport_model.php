@@ -50,13 +50,8 @@ class Contributionreport_model extends Report_model {
         $this->db->from('donationform_submissions');
 
         // Construct rules for join
-        $joinConditions[] = '1=1';
-        if(!empty($input['matchFirstName'])) {
-            $joinConditions[] = "`donationform_submissions`.`firstname` LIKE `contributors`.`firstname`";
-        }
-        if(!empty($input['matchLastName'])) {
-            $joinConditions[] = "`donationform_submissions`.`lastname` LIKE `contributors`.`lastname`";
-        }
+        $joinConditions[] = "`donationform_submissions`.`firstname` LIKE `contributors`.`firstname`";
+        $joinConditions[] = "`donationform_submissions`.`lastname` LIKE `contributors`.`lastname`";
         if(!empty($input['matchCity'])) {
             $joinConditions[] = "`donationform_submissions`.`city` LIKE `contributors`.`city`";
         }
