@@ -21,7 +21,25 @@ class Prospect_model extends Report_model {
         $this->db->query('SET SQL_BIG_SELECTS=1');
         $this->db->select('contributors.*, prospect.* ');
         $this->db->from('contributors');
-        $this->db->join('prospect', 'contributors.lastname = prospect.lastname AND contributors.firstname = prospect.firstname');
+        
+        // Construct rules for join
+        $joinConditions[] = "`prospect`.`firstname` LIKE `contributors`.`firstname`";
+        $joinConditions[] = "`prospect`.`lastname` LIKE `contributors`.`lastname`";
+        // if(!empty($input['matchCity'])) {
+        //     $joinConditions[] = "`prospect`.`city` LIKE `contributors`.`city`";
+        // }
+        // if(!empty($input['matchState'])) {
+        //     $joinConditions[] = "`prospect`.`state` LIKE `contributors`.`state`";
+        // }
+        // if(!empty($input['matchOccupation'])) {
+        //     $joinConditions[] = "`prospect`.`occupation` LIKE `contributors`.`occupation`";
+        // }
+        // if(!empty($input['matchEmployer'])) {
+        //     $joinConditions[] = "`prospect`.`employer` LIKE `contributors`.`employer`";
+        // }
+
+        // Add join to query
+        $this->db->join('`prospect`', implode(' AND ', $joinConditions), '', false);
 
         // Append where conditions when needed
         if(!empty($filters['startDate'])) {
@@ -55,8 +73,6 @@ class Prospect_model extends Report_model {
         }
 
         $query = $this->db->get();
-
-        print_r($this->db->last_query());
 
         return $query;
 
