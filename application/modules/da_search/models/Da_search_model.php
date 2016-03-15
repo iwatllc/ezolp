@@ -58,11 +58,7 @@ class Da_search_model extends CI_Model
         // only search if search_array has something in it
         if (!empty($search_array))
         {
-            $this -> db -> select('displayad_submissions.*,
-                                    users.username AS username, da_imageupload.*,
-                                     GROUP_CONCAT(da_imageupload.filename SEPARATOR ", ") AS filenames,
-                                      GROUP_CONCAT(da_imageupload_approved.filename SEPARATOR ", ") AS approvedfilenames,
-                                       displayad_submissions.id AS da_id');
+            $this -> db -> select('displayad_submissions.*, users.username AS username, GROUP_CONCAT(da_imageupload_approved.filename SEPARATOR ", ") 	AS approvedfilenames');
 
             $this -> db -> from('displayad_submissions');
 
@@ -137,13 +133,13 @@ class Da_search_model extends CI_Model
                 $this -> db -> where('displayad_submissions.approved', '0');
             }
 
-            $this -> db -> order_by('displayad_submissions.created', 'DESC');
-
-            $this -> db -> join('da_imageupload', 'displayad_submissions.id = da_imageupload.da_submissionid', 'left');
-
-            $this -> db -> join('da_imageupload_approved', 'displayad_submissions.id = da_imageupload_approved.da_submissionid', 'left');
+            $this -> db -> join('da_imageupload_approved', 'displayad_submissions.id = da_imageupload_approved.da_submissionid', 'inner');
 
             $this -> db -> join('users', 'displayad_submissions.approvedby = users.id', 'left');
+
+            $this -> db -> group_by('displayad_submissions.id');
+
+            $this -> db -> order_by('displayad_submissions.created', 'DESC');
 
             // uncomment this to get the db query
 //            echo $this->db->get_compiled_select();

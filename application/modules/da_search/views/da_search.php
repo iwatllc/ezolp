@@ -208,7 +208,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <?php
                             foreach ($results -> result() as $result)
                             {
-                                echo '<tr id="'.$result->da_id.'" >';
+                                echo '<tr id="'.$result->id.'" >';
                                     echo "<td>";
                                         echo $result->firstname.' '.$result->lastname.'<br/>'.$result->streetaddress.'<br/>'.$result->city.', '.$result->state.'<br/>'.$result->zip;
                                     echo "</td>";
@@ -225,7 +225,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                         echo date_conversion_nowording($result->created);
                                     echo "</td>";
                                     echo "<td>";
-                                        $images = array_unique(explode(", ", $result->filenames));
+                                        $images = explode(",", $result->images);
                                         if (count($images) > 1) // if there are multiple images, display them side by side
                                         {
                                             foreach($images as $image)
@@ -258,23 +258,25 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                             }
                                         }
 
+                                        echo '<br/>';
+
                                         $attributes = array('class' => 'dropzone', 'id' => 'my-dropzone', 'style' => 'height:50%');
                                         echo form_open_multipart('da_search/do_upload', $attributes);
-                                        echo form_hidden('da_submissionid', $result->da_id);
+                                        echo form_hidden('da_submissionid', $result->id);
                                         echo form_close();
 
                                     echo "</td>";
                                     echo '<td>';
                                         if ($result->approved == '0')
                                         {
-                                            echo '<input num="'.$result->da_id.'" id="cmn-toggle-'.$result->da_id.'" class="cmn-toggle cmn-toggle-yes-no" type="checkbox" />';
+                                            echo '<input num="'.$result->id.'" id="cmn-toggle-'.$result->id.'" class="cmn-toggle cmn-toggle-yes-no" type="checkbox" />';
                                         } else if ($result->approved == '1')
                                         {
-                                            echo '<input num="'.$result->da_id.'" id="cmn-toggle-'.$result->da_id.'" class="cmn-toggle cmn-toggle-yes-no" type="checkbox" checked/>';
+                                            echo '<input num="'.$result->id.'" id="cmn-toggle-'.$result->id.'" class="cmn-toggle cmn-toggle-yes-no" type="checkbox" checked/>';
                                         }
-                                        echo '<label for="cmn-toggle-'.$result->da_id.'" data-on="APPROVED" data-off="NOT APPROVED"></label>';
+                                        echo '<label for="cmn-toggle-'.$result->id.'" data-on="APPROVED" data-off="NOT APPROVED"></label>';
 
-                                        echo '<div id="approvedby-'.$result->da_id.'">';
+                                        echo '<div id="approvedby-'.$result->id.'">';
                                         if ($result->approved == '1')
                                         {
                                             echo '<u>Approved By</u><br/>' . $result->username;
