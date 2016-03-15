@@ -457,7 +457,7 @@ if($Displayad_Clientform == "FALSE") {
                                         <div class="col-md-7">
                                             <div class="panel-body">
                                                 <blockquote class="f-s-14">
-                                                    <p>Select the files you wish to upload.<br>You may choose a single file or multiple files.<br>Accepted image formats: JPG, PNG, GIF, BMP, SVG</p>
+                                                    <p>Select the files you wish to upload.<br>You may choose a single file or multiple files.<br>Accepted image formats: PDF, JPG, PNG, GIF, BMP, SVG</p>
                                                 </blockquote>
                                                 <form id="fileupload" action="assets/global/plugins/jquery-file-upload/server/php/" method="POST" enctype="multipart/form-data">
                                                     <div class="row fileupload-buttonbar">

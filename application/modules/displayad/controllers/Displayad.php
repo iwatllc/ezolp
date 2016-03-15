@@ -60,7 +60,7 @@ class Displayad extends MX_Controller {
                     $_FILES['userfile']['error']    = $value['error'][$s];
                     $_FILES['userfile']['size']     = $value['size'][$s];
 
-
+                    // Upload files to /image/uploads/ directory
                     if ($this -> upload -> do_upload())
                     {
                         $data = $this -> upload -> data();
@@ -68,17 +68,35 @@ class Displayad extends MX_Controller {
 
                         // Make query to database to upload the file
                         $file_id = $this -> Displayad_model -> upload_file_imageuploads($da_submissionid, $data);
-                        $approved_file_id = $this -> Displayad_model -> upload_file_imageuploads_approved($da_submissionid, $data);
-                    }
-                    else
+                    } else
                     {
                         $error = $this -> upload -> display_errors();
 
                         // Need to set an error for 'userfile[]' here
                         $this -> form_validation -> set_rules('userfile[]', 'File(s)', 'callback_file_check');
                         $this -> index(); // load screen and display errors
+                        return;
                     }
 
+                    // Load upload library and configure the upload settings
+                    $this->load->library('upload', $this -> image_upload_settings());
+
+                    // Upload files to /image/approved_uploads/approved_uploads
+                    if ($this -> upload -> do_upload())
+                    {
+                        $data = $this -> upload -> data();
+
+                        // Make query to database to upload the file
+                        $approved_file_id = $this -> Displayad_model -> upload_file_imageuploads_approved($da_submissionid, $data);
+                    } else
+                    {
+                        $error = $this -> upload -> display_errors();
+
+                        // Need to set an error for 'userfile[]' here
+                        $this -> form_validation -> set_rules('userfile[]', 'File(s)', 'callback_file_check');
+                        $this -> index(); // load screen and display errors
+                        return;
+                    }
                 }
             }
 
@@ -290,7 +308,18 @@ class Displayad extends MX_Controller {
     private function image_upload_settings()
     {
         $config['upload_path'] = './image/uploads';
-        $config['allowed_types'] = 'gif|jpg|png|svg|ico|bmp';
+        $config['allowed_types'] = 'gif|jpg|png|svg|ico|bmp|pdf';
+        $config['max_size']    = '';
+        $config['max_width']  = '';
+        $config['max_height']  = '';
+
+        return $config;
+    }
+
+    private function image_upload_settings_approved()
+    {
+        $config['upload_path'] = './image/approved_uploads';
+        $config['allowed_types'] = 'gif|jpg|png|svg|ico|bmp|pdf';
         $config['max_size']    = '';
         $config['max_width']  = '';
         $config['max_height']  = '';
