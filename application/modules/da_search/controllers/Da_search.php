@@ -49,6 +49,8 @@ class Da_search extends MX_Controller
         $search_array['issues']         = $this -> input -> post('issues[]');
         $search_array['begindate']      = date( "Y-m-d", strtotime( $this -> input -> post('begindate') ) );
         $search_array['enddate']        = date( "Y-m-d", strtotime( $this -> input -> post('enddate') ) );
+        $search_array['approval']       = $this -> input -> post('approval');
+
 
         if ($search_array['begindate'] == '1969-12-31')
         {
@@ -94,4 +96,86 @@ class Da_search extends MX_Controller
 
         $this -> load -> view('da_search', $data);
     }
+
+    public function ajax_approve_submission()
+    {
+        $this -> load -> model('da_search_model');
+
+        $id     = $this -> input -> post('id');
+        $status = $this -> input -> post('status');
+
+        if ($status === 'Not Approved')
+        {
+            $statusid = 0;
+
+            $this -> da_search_model -> disapprove_submission($id, $statusid);
+
+        } else if ($status == 'Approved')
+        {
+            $this -> load -> helper('date');
+            $datestring = "%Y-%m-%d %H:%i:%s";
+            $time = time();
+            $approvaldate = mdate($datestring, $time);
+
+            $statusid = 1;
+
+            $approvedby = $this -> dx_auth -> get_user_id();
+
+            $this -> da_search_model -> approve_submission($id, $statusid, $approvedby, $approvaldate);
+        }
+
+        // query the table for the row that was just inserted
+        $row = $this -> da_search_model -> get_submission($id);
+
+        $approveddate = date_conversion_nowording($row -> approveddate);
+        $username = $this -> dx_auth -> get_username();
+
+        $data = array(
+            'id'                => $row -> id,
+            'status'            => $row -> approved,
+            'approvedby'        => $username,
+            'approveddate'      => $approveddate
+        );
+
+        // go back to ajax to print data
+        echo json_encode($data);
+    }
+
+    public function do_upload()
+    {
+        $this -> load -> model('da_search_model');
+
+        // Load upload library and configure the upload settings
+        $this -> load -> library('upload', $this -> image_upload_settings());
+
+        $da_submissionid = $this -> input -> post('da_submissionid');
+
+        if ($this -> upload -> do_upload('file'))
+        {
+            echo 'Files were uploaded successfully.';
+
+            $uploaded = $this -> upload -> data(); // get files metadata in an array
+
+            // Make db query to upload the file's metadata
+            $this -> da_search_model -> upload_approved_image($da_submissionid, $uploaded);
+
+        } else
+        {
+            echo 'ERROR: Files were not uploaded.';
+        }
+
+    }
+
+    private function image_upload_settings()
+    {
+        $config['upload_path'] = './image/approved_uploads';
+        $config['allowed_types'] = 'gif|jpg|png|svg|ico|bmp';
+        $config['max_size']    = '';
+        $config['max_width']  = '';
+        $config['max_height']  = '';
+        $config['multi']        = 'all';
+
+        return $config;
+    }
+
 }

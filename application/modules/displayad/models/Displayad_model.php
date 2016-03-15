@@ -49,7 +49,7 @@ class Displayad_model extends CI_Model {
         return $this -> db -> get();
     }
 
-    public function upload_file($displayad_id, $data)
+    public function upload_file_imageuploads($displayad_id, $data)
     {
         $data = array(
             'da_submissionid' => $displayad_id,
@@ -64,6 +64,25 @@ class Displayad_model extends CI_Model {
         );
 
         $this -> db -> insert('da_imageupload', $data);
+
+        return $this -> db -> insert_id();
+    }
+
+    public function upload_file_imageuploads_approved($displayad_id, $data)
+    {
+        $data = array(
+            'da_submissionid' => $displayad_id,
+            'filename'        => $data['file_name'],
+            'filepath'        => $data['file_path'],
+            'filetype'        => $data['file_type'],
+            'filesize'        => $data['file_size'],
+            'fileext'         => $data['file_ext'],
+            'imagewidth'      => $data['image_width'],
+            'imageheight'     => $data['image_height'],
+            'uploaddate'      => date('Y-n-j H:i:s')
+        );
+
+        $this -> db -> insert('da_imageupload_approved', $data);
 
         return $this -> db -> insert_id();
     }

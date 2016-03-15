@@ -241,7 +241,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                             }
                                         echo '</div>';
                                     echo "</td>";
-                                echo "<tr>";
+                                echo "</tr>";
                             }
                             ?>
                             </tbody>

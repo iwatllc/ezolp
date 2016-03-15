@@ -10,6 +10,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     th, td {
         padding: 5px;
     }
+    .autoResizeImage {
+        max-width: 100%;
+        height: auto;
+        width: 100%;
+    }
 </style>
 
 <!DOCTYPE html>
@@ -22,12 +27,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 <head>
     <title><?php echo $title; ?></title>
-<!--    <link rel="stylesheet" type="text/css" href="http://cdn.rawgit.com/davidstutz/bootstrap-multiselect/master/dist/css/bootstrap-multiselect.css">-->
-<!--    <script src="http://cdn.rawgit.com/davidstutz/bootstrap-multiselect/master/dist/js/bootstrap-multiselect.js"></script>-->
-<!---->
-<!--    <script src="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.3/js/bootstrap.min.js"></script>-->
-<!--    <link rel="stylesheet" type="text/css" href="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.3/css/bootstrap.min.css">-->
-<!--    <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>-->
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>assets/css/toggle-switch.css">
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>assets/css/switch.css">
+    <script src="<?php echo base_url(); ?>assets/js/dropzone.js"></script>
+    <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/dropzone.css">
 
 </head>
 
@@ -85,40 +88,59 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-md-12">
+                                    <div class="col-md-8">
                                         <br/><br/>
                                         <label class="control-label">Submission Begin/End Date</label>
-                                            <div class="col-md-12 input-group input-daterange">
-                                                <?php
-                                                $BegDate = array(
-                                                    'name'          =>  'begindate',
-                                                    'id'            =>  'begindate',
-                                                    'value'         =>  set_value('begindate'),
-                                                    'placeholder'   =>  date("m/d/Y"),
-                                                    'class'         =>  'form-control'
-                                                );
+                                        <div class="col-md-12 input-group input-daterange">
+                                            <?php
+                                            $BegDate = array(
+                                                'name'          =>  'begindate',
+                                                'id'            =>  'begindate',
+                                                'value'         =>  set_value('begindate'),
+                                                'placeholder'   =>  date("m/d/Y"),
+                                                'class'         =>  'form-control'
+                                            );
 
-                                                echo form_input($BegDate)
-                                                ?>
-                                                <span class="input-group-addon">to</span>
-                                                <?php
-                                                $EndDate = array(
-                                                    'name'          =>  'enddate',
-                                                    'id'            =>  'enddate',
-                                                    'value'         =>  set_value('enddate'),
-                                                    'placeholder'   =>  date("m/d/Y", strtotime('+7 days')),
-                                                    'class'         =>  'form-control'
-                                                );
+                                            echo form_input($BegDate)
+                                            ?>
+                                            <span class="input-group-addon">to</span>
+                                            <?php
+                                            $EndDate = array(
+                                                'name'          =>  'enddate',
+                                                'id'            =>  'enddate',
+                                                'value'         =>  set_value('enddate'),
+                                                'placeholder'   =>  date("m/d/Y", strtotime('+7 days')),
+                                                'class'         =>  'form-control'
+                                            );
 
-                                                echo form_input($EndDate);
-                                                ?>
-                                            </div>
+                                            echo form_input($EndDate);
+                                            ?>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <br/><br/>
+                                        <label class="control-label">Approval Status</label>
+                                        <label class="switch">
+                                            <?php
+                                            $data = array(
+                                                'name'        => 'approval',
+                                                'value'       => set_value('approval', 'approved'),
+//                                                    'checked'     => set_checkbox('approval'),
+                                                'class'       => 'switch-input'
+                                            );
+
+                                            echo form_checkbox($data, set_value('approval', 'approved'), set_checkbox('approval', 'approved'));
+
+                                            ?>
+                                            <span class="switch-label" data-on="Approved" data-off="Not Apprvd"></span>
+                                            <span class="switch-handle"></span>
+                                        </label>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-12">
                                         <br/><br/><br/>
-                                        <input type="button" onclick="document.getElementById('myForm').reset();;" class="btn btn-sm btn-default" value="Reset" />
+                                        <input type="button" onclick="$(':input').clearForm();" class="btn btn-sm btn-default" value="Reset" />
                                             <button type="submit" class="btn btn-sm btn-success">Submit</button>
                                     </div>
                                 </div>
@@ -164,43 +186,102 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <div class="panel-body">
 
                     <div class="table-responsive">
-                        <table id="myTable" class="table table-bordered tablesorter">
+                        <table id="myTable" class="table table-bordered tablesorter" style="table-layout:fixed;">
                             <thead>
                             <?php
                             if ( isset($results) )
                             {
-                            if ($results -> num_rows() > 0)
+                            if ($results -> num_rows() > 0 && $results->result() != 'NULL')
                             { ?>
                             <tr>
-                                <th width="30%">Contact</th>
-                                <th width="20%">Page Size</th>
-                                <th width="15%">Promo Code</th>
-                                <th width="20%">Issues</th>
+                                <th width="15%">Contact</th>
+                                <th width="10%">Promo Code</th>
+                                <th width="10%">Page Size</th>
+                                <th width="10%">Issues</th>
                                 <th width="10%">Submitted</th>
-                                <th width="5%">Actions</th>
+                                <th width="15%">Image(s)</th>
+                                <th width="15%">Approved Image(s)</th>
+                                <th width="15%">Status</th>
                             </tr>
                             </thead>
-                            <tbody>
+                            <tbody style="font-size:80%;">
                             <?php
                             foreach ($results -> result() as $result)
                             {
-                                echo "<tr>";
-                                echo "<td>";
-                                echo $result->firstname.' '.$result->lastname.'<br/>'.$result->streetaddress.'<br/>'.$result->city.', '.$result->state.'<br/>'.$result->zip;
-                                echo "</td>";
-                                echo "<td>";
-                                echo $result->option;
-                                echo "</td>";
-                                echo "<td>";
-                                echo $result->promocode;
-                                echo "</td>";
-                                echo "<td>";
-                                echo $result->issues;
-                                echo "</td>";
-                                echo "<td>";
-                                echo date_conversion_nowording($result->created);
-                                echo "</td>";
-                                echo "<td>&nbsp;</td>";
+                                echo '<tr id="'.$result->da_id.'" >';
+                                    echo "<td>";
+                                        echo $result->firstname.' '.$result->lastname.'<br/>'.$result->streetaddress.'<br/>'.$result->city.', '.$result->state.'<br/>'.$result->zip;
+                                    echo "</td>";
+                                    echo "<td>";
+                                        echo $result->promocode;
+                                    echo "</td>";
+                                    echo "<td>";
+                                        echo $result->option;
+                                    echo "</td>";
+                                    echo "<td>";
+                                        echo $result->issues;
+                                    echo "</td>";
+                                    echo "<td>";
+                                        echo date_conversion_nowording($result->created);
+                                    echo "</td>";
+                                    echo "<td>";
+                                        $images = array_unique(explode(", ", $result->filenames));
+                                        if (count($images) > 1) // if there are multiple images, display them side by side
+                                        {
+                                            foreach($images as $image)
+                                            {
+                                                echo '<img class="autoResizeImage" src="'.base_url('/image/uploads/'.$image).'" style="width:50%;height:100%;">';
+                                            }
+                                        } else // single image, it will take up entire column width
+                                        {
+                                            foreach($images as $image)
+                                            {
+                                                echo '<img class="autoResizeImage" src="'.base_url('/image/uploads/'.$image).'" style="width:100%;height:100%;">';
+                                            }
+                                        }
+
+                                    echo "</td>";
+                                    echo "<td>";
+
+                                        $images = array_unique(explode(", ", $result->approvedfilenames));
+                                        if (count($images) > 1) // if there are multiple images, display them side by side
+                                        {
+                                            foreach($images as $image)
+                                            {
+                                                echo '<img class="autoResizeImage" src="'.base_url('/image/approved_uploads/'.$image).'" style="width:50%;height:100%;">';
+                                            }
+                                        } else // single image, it will take up entire column width
+                                        {
+                                            foreach($images as $image)
+                                            {
+                                                echo '<img class="autoResizeImage" src="'.base_url('/image/approved_uploads/'.$image).'" style="width:100%;height:100%;">';
+                                            }
+                                        }
+
+                                        $attributes = array('class' => 'dropzone', 'id' => 'my-dropzone', 'style' => 'height:50%');
+                                        echo form_open_multipart('da_search/do_upload', $attributes);
+                                        echo form_hidden('da_submissionid', $result->da_id);
+                                        echo form_close();
+
+                                    echo "</td>";
+                                    echo '<td>';
+                                        if ($result->approved == '0')
+                                        {
+                                            echo '<input num="'.$result->da_id.'" id="cmn-toggle-'.$result->da_id.'" class="cmn-toggle cmn-toggle-yes-no" type="checkbox" />';
+                                        } else if ($result->approved == '1')
+                                        {
+                                            echo '<input num="'.$result->da_id.'" id="cmn-toggle-'.$result->da_id.'" class="cmn-toggle cmn-toggle-yes-no" type="checkbox" checked/>';
+                                        }
+                                        echo '<label for="cmn-toggle-'.$result->da_id.'" data-on="APPROVED" data-off="NOT APPROVED"></label>';
+
+                                        echo '<div id="approvedby-'.$result->da_id.'">';
+                                        if ($result->approved == '1')
+                                        {
+                                            echo '<u>Approved By</u><br/>' . $result->username;
+                                            echo '<br/><u>Approved Date</u><br/> '.date_conversion_nowording($result->approveddate);
+                                        }
+                                        echo '</div>';
+                                    echo '</td>';
                                 echo "<tr>";
                             }
                             ?>
@@ -242,26 +323,75 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <?php $this->load->view('footer'); ?>
 <script type="text/javascript">
 
-    function resetForm($form) {
-        $form.find('input:text, input:password, input:file, select, textarea').val('');
-        $form.find('input:radio, input:checkbox').removeAttr('checked').removeAttr('selected');
-    }
+    // Approved/disapprove a submission
+    $(document).on('click', '.cmn-toggle-yes-no', function(e){
+
+        var id = $(this).attr('num');
+        var status;
+
+        if ($(this).is(':checked'))
+        {
+            status = "Approved";
+        }
+        if (!$(this).is(':checked'))
+        {
+            status = "Not Approved";
+        }
+
+        console.log('ID: ' + id + '\n' + 'Status: ' + status);
+
+        jQuery.ajax({
+            type: "POST",
+            url: "<?php echo base_url(); ?>" + "da_search/Da_search/ajax_approve_submission",
+            dataType: 'json',
+            data: {id:id, status:status},
+            success: function(res) {
+                if (res) {
+
+                    console.log('AJAX returned these\n' + 'ID: ' + res.id + '\n' + 'Status: ' + res.status);
+
+                    // Highlight row that was just updated
+                    if(res.status == 1)
+                    {
+                        setTimeout(function(){ $("tr#"+res.id).css('background-color','transparent').effect("highlight", {color:"#8ce196"}, 3000); })
+
+                        // Add the user who approved and current date
+                        $("div#approvedby-"+res.id).empty();
+                        $("div#approvedby-"+res.id).html('<u>Approved By</u><br/>' + res.approvedby + '<br/><u>Approved Date</u><br/>' + res.approveddate);
+
+                    }
+                    if (res.status == 0)
+                    {
+                        // Remove approved by and approved date
+                        $("div#approvedby-"+res.id).empty();
+
+                        setTimeout(function(){ $("tr#"+res.id).css('background-color','transparent').effect("highlight", {color:"#ff1919"}, 3000); })
+                    }
+                }
+            }
+        });
+    });
 
     $( document ).ready(function() {
 
         $( "#datepicker" ).datepicker({defaultDate: null});
         $( "#datepicker2" ).datepicker({defaultDate: null});
 
-        $('.view-text').click( function(event) {
-            event.preventDefault();
-
-            $(this).next().slideToggle( "fast", function() {
-                $(this).is(':visible') ? $(this).prev().html('<span class="glyphicon glyphicon-plus-sign"></span> view ') : $(this).prev().html('<span class="glyphicon glyphicon-minus-sign"></span> close ');
-            });
-            $(this).next().next().slideToggle( "fast", function() {});
-        });
-
     });
+
+    $.fn.clearForm = function() {
+        return this.each(function() {
+            var type = this.type, tag = this.tagName.toLowerCase();
+            if (tag == 'form')
+                return $(':input',this).clearForm();
+            if (type == 'text' || type == 'password' || tag == 'textarea')
+                this.value = '';
+            else if (type == 'checkbox' || type == 'radio')
+                this.checked = false;
+            else if (tag == 'select')
+                this.selectedIndex = -1;
+        });
+    };
 
 </script>
 

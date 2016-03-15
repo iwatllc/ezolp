@@ -58,7 +58,12 @@ class Da_search_model extends CI_Model
         // only search if search_array has something in it
         if (!empty($search_array))
         {
-            $this -> db -> select('*');
+            $this -> db -> select('displayad_submissions.*,
+                                    users.username AS username, da_imageupload.*,
+                                     GROUP_CONCAT(da_imageupload.filename SEPARATOR ", ") AS filenames,
+                                      GROUP_CONCAT(da_imageupload_approved.filename SEPARATOR ", ") AS approvedfilenames,
+                                       displayad_submissions.id AS da_id');
+
             $this -> db -> from('displayad_submissions');
 
             if ($search_array['contactinfo'] != NULL)
@@ -71,58 +76,74 @@ class Da_search_model extends CI_Model
                     foreach($pieces as $piece)
                     {
                         $this -> db -> where(
-                            '(firstname LIKE'           . $this->db->escape($piece)
-                            .' OR lastname LIKE'        . $this->db->escape($piece)
-                            .' OR streetaddress LIKE'   . $this->db->escape('%'.$piece.'%')
-                            .' OR city LIKE'            . $this->db->escape($piece)
-                            .' OR state LIKE'           . $this->db->escape($piece)
-                            .' OR zip LIKE'             . $this->db->escape($piece)
-                            .' OR email LIKE'           . $this->db->escape('%'.$piece.'%') . ')'
+                            '(displayad_submissions.firstname LIKE'           . $this->db->escape($piece)
+                            .' OR displayad_submissions.lastname LIKE'        . $this->db->escape($piece)
+                            .' OR displayad_submissions.streetaddress LIKE'   . $this->db->escape('%'.$piece.'%')
+                            .' OR displayad_submissions.city LIKE'            . $this->db->escape($piece)
+                            .' OR displayad_submissions.state LIKE'           . $this->db->escape($piece)
+                            .' OR displayad_submissions.zip LIKE'             . $this->db->escape($piece)
+                            .' OR displayad_submissions.email LIKE'           . $this->db->escape('%'.$piece.'%') . ')'
                         );
                     }
                 } else
                 {
-                    $this -> db -> where('firstname', $search_array['contactinfo']);
-                    $this -> db -> or_where('lastname', $search_array['contactinfo']);
-                    $this -> db -> or_where('streetaddress LIKE '.$this->db->escape('%'.$search_array['contactinfo'].'%'));
-                    $this -> db -> or_where('city', $search_array['contactinfo']);
-                    $this -> db -> or_where('state', $search_array['contactinfo']);
-                    $this -> db -> or_where('zip', $search_array['contactinfo']);
-                    $this -> db -> or_where('email LIKE '.$this->db->escape('%'.$search_array['contactinfo'].'%'));
+                    $this -> db -> where(
+                        '(displayad_submissions.firstname LIKE'              . $this->db->escape($search_array['contactinfo'])
+                        .' OR displayad_submissions.lastname LIKE'           . $this->db->escape($search_array['contactinfo'])
+                        .' OR displayad_submissions.streetaddress LIKE'      . $this->db->escape('%'.$search_array['contactinfo'].'%')
+                        .' OR displayad_submissions.city LIKE'               . $this->db->escape($search_array['contactinfo'])
+                        .' OR displayad_submissions.state LIKE'              . $this->db->escape($search_array['contactinfo'])
+                        .' OR displayad_submissions.zip LIKE'                . $this->db->escape($search_array['contactinfo'])
+                        .' OR displayad_submissions.email LIKE'              . $this->db->escape('%'.$search_array['contactinfo'].'%') . ')'
+                    );
                 }
 
             }
 
             if ($search_array['pricing'] != NULL)
             {
-                $this -> db -> where('option LIKE '.$this->db->escape('%'.$search_array['pricing'].'%'));
+                $this -> db -> where('displayad_submissions.option LIKE '.$this->db->escape('%'.$search_array['pricing'].'%'));
             }
 
             if ($search_array['promocode'] != NULL)
             {
-                $this -> db -> where('promocode', $search_array['promocode']);
+                $this -> db -> where('displayad_submissions.promocode', $search_array['promocode']);
             }
 
             if ($search_array['issues'] != NULL)
             {
                 foreach ($search_array['issues'] as $issue)
                 {
-                    $this -> db -> where('issues LIKE '.$this->db->escape('%'.$issue.'%'));
+                    $this -> db -> where('displayad_submissions.issues LIKE '.$this->db->escape('%'.$issue.'%'));
                 }
             }
 
             if ($search_array['begindate'] != NULL && $search_array['enddate'] != NULL)
             {
-                $this -> db -> where('DATE(created) >=', $search_array['begindate']) -> where('DATE(created) <=', $search_array['enddate']);
+                $this -> db -> where('DATE(displayad_submissions.created) >=', $search_array['begindate']) -> where('DATE(displayad_submissions.created) <=', $search_array['enddate']);
             } else if ($search_array['begindate'] != NULL)
             {
-                $this -> db -> where('DATE(created) >=', $search_array['begindate']);
+                $this -> db -> where('DATE(displayad_submissions.created) >=', $search_array['begindate']);
             } else if ($search_array['enddate'] != NULL)
             {
-                $this -> db -> where('DATE(created) <=', $search_array['enddate']);
+                $this -> db -> where('DATE(displayad_submissions.created) <=', $search_array['enddate']);
             }
 
-            $this -> db -> order_by('created', 'DESC');
+            if ($search_array['approval'] == 'approved')
+            {
+                $this -> db -> where('displayad_submissions.approved', '1');
+            } else
+            {
+                $this -> db -> where('displayad_submissions.approved', '0');
+            }
+
+            $this -> db -> order_by('displayad_submissions.created', 'DESC');
+
+            $this -> db -> join('da_imageupload', 'displayad_submissions.id = da_imageupload.da_submissionid', 'left');
+
+            $this -> db -> join('da_imageupload_approved', 'displayad_submissions.id = da_imageupload_approved.da_submissionid', 'left');
+
+            $this -> db -> join('users', 'displayad_submissions.approvedby = users.id', 'left');
 
             // uncomment this to get the db query
 //            echo $this->db->get_compiled_select();
@@ -134,6 +155,63 @@ class Da_search_model extends CI_Model
             return NULL; // search array is empty
         }
 
+    }
+
+    public function disapprove_submission($id, $statusid)
+    {
+        $data = array(
+            'approved' => $statusid,
+            'approvedby' => 0,
+            'approveddate' => 'NULL'
+        );
+
+        $this -> db -> where('id', $id);
+        $this -> db -> update('displayad_submissions', $data);
+
+    }
+
+    public function approve_submission($id, $statusid, $approvedby, $approveddate)
+    {
+        $data = array(
+            'approved' => $statusid,
+            'approvedby' => $approvedby,
+            'approveddate' => $approveddate
+        );
+
+        $this -> db -> where('id', $id);
+        $this -> db -> update('displayad_submissions', $data);
+
+    }
+
+    public function get_submission($id)
+    {
+        $row = $this -> db -> select('displayad_submissions.*')
+            -> where('id', $id)
+//            -> join('users', 'displayad_submissions.approvedby = users.id', 'left')
+            -> get('displayad_submissions')
+            -> row();
+
+        return $row;
+    }
+
+    public function upload_approved_image($displayad_id, $data)
+    {
+        $data = array(
+            'da_submissionid' => $displayad_id,
+            'filename'        => $data['file_name'],
+            'filepath'        => $data['file_path'],
+            'filetype'        => $data['file_type'],
+            'filesize'        => $data['file_size'],
+            'fileext'         => $data['file_ext'],
+            'imagewidth'      => $data['image_width'],
+            'imageheight'     => $data['image_height'],
+            'uploaddate'      => date('Y-n-j H:i:s')
+        );
+
+
+        $this -> db -> insert('da_imageupload_approved', $data);
+
+//        return $this -> db -> insert_id();
     }
 
 }

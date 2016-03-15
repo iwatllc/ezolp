@@ -67,7 +67,8 @@ class Displayad extends MX_Controller {
                         $name_array[] = $data['file_name'];
 
                         // Make query to database to upload the file
-                        $file_id = $this -> Displayad_model -> upload_file($da_submissionid, $data);
+                        $file_id = $this -> Displayad_model -> upload_file_imageuploads($da_submissionid, $data);
+                        $approved_file_id = $this -> Displayad_model -> upload_file_imageuploads_approved($da_submissionid, $data);
                     }
                     else
                     {
