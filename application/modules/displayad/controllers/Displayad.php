@@ -60,6 +60,9 @@ class Displayad extends MX_Controller {
                     $_FILES['userfile']['error']    = $value['error'][$s];
                     $_FILES['userfile']['size']     = $value['size'][$s];
 
+                    // Re-initialize upload configuration settings for approved images (different file path)
+                    $this -> upload -> initialize($this -> image_upload_settings());
+
                     // Upload files to /image/uploads/ directory
                     if ($this -> upload -> do_upload())
                     {
@@ -78,8 +81,8 @@ class Displayad extends MX_Controller {
                         return;
                     }
 
-                    // Load upload library and configure the upload settings
-                    $this->load->library('upload', $this -> image_upload_settings());
+                    // Re-initialize upload configuration settings for approved images (different file path)
+                    $this -> upload -> initialize($this -> image_upload_settings_approved());
 
                     // Upload files to /image/approved_uploads/approved_uploads
                     if ($this -> upload -> do_upload())
@@ -91,6 +94,8 @@ class Displayad extends MX_Controller {
                     } else
                     {
                         $error = $this -> upload -> display_errors();
+
+                        echo print_r($error);
 
                         // Need to set an error for 'userfile[]' here
                         $this -> form_validation -> set_rules('userfile[]', 'File(s)', 'callback_file_check');
@@ -308,7 +313,7 @@ class Displayad extends MX_Controller {
     private function image_upload_settings()
     {
         $config['upload_path'] = './image/uploads';
-        $config['allowed_types'] = 'gif|jpg|png|svg|ico|bmp|pdf';
+        $config['allowed_types'] = '*';
         $config['max_size']    = '';
         $config['max_width']  = '';
         $config['max_height']  = '';
@@ -319,7 +324,7 @@ class Displayad extends MX_Controller {
     private function image_upload_settings_approved()
     {
         $config['upload_path'] = './image/approved_uploads';
-        $config['allowed_types'] = 'gif|jpg|png|svg|ico|bmp|pdf';
+        $config['allowed_types'] = '*';
         $config['max_size']    = '';
         $config['max_width']  = '';
         $config['max_height']  = '';
