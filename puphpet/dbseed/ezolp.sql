@@ -674,10 +674,13 @@ INSERT INTO `permissions` (`id`, `role_id`, `data`) VALUES
 
 CREATE TABLE `prospect` (
   `id` int(11) NOT NULL,
-  `firstname` varchar(255) DEFAULT NULL,
-  `lastname` varchar(255) DEFAULT NULL,
-  `email` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=14145 DEFAULT CHARSET=utf8;
+  `firstname` text,
+  `lastname` text,
+  `email` text,
+  `city` text,
+  `state` text,
+  `zip` int(11)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `prospect`

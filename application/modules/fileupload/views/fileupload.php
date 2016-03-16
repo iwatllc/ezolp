@@ -65,7 +65,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
                                 <br /><br />
 
-                                <input type="submit" value="upload" />
+                                <input class="btn btn-primary" type="submit" value="upload" />
 
                                 </form>
 
