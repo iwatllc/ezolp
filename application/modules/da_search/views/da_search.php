@@ -10,10 +10,55 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     th, td {
         padding: 5px;
     }
-    .autoResizeImage {
-        max-width: 100%;
-        height: auto;
-        width: 100%;
+    /*.autoResizeImage {*/
+        /*max-width: 100%;*/
+        /*height: auto;*/
+        /*width: 100%;*/
+    /*}*/
+    /*img {*/
+        /*max-width:64px;*/
+        /*max-height:64px;*/
+        /*width:auto;*/
+        /*height:auto;*/
+    /*}*/
+    .dropbtn {
+        background-color: black;
+        color: white;
+        padding: 1px;
+        font-size: 16px;
+        border: none;
+        cursor: pointer;
+    }
+
+    .dropdown {
+        position: relative;
+        display: inline-block;
+    }
+
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #f9f9f9;
+        min-width: 160px;
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        z-index: 1;
+    }
+
+    .dropdown-content a {
+        color: black;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+    }
+
+    .dropdown-content a:hover {background-color: #f1f1f1}
+
+    .dropdown:hover .dropdown-content {
+        display: block;
+    }
+
+    .dropdown:hover .dropbtn {
+        background-color: #3e8e41;
     }
 </style>
 
@@ -225,37 +270,69 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                         echo date_conversion_nowording($result->created);
                                     echo "</td>";
                                     echo "<td>";
-                                        $images = explode(",", $result->images);
-                                        if (count($images) > 1) // if there are multiple images, display them side by side
-                                        {
+                                            $images = explode(",", $result->images);
                                             foreach($images as $image)
                                             {
-                                                echo '<img class="autoResizeImage" src="'.base_url('/image/uploads/'.$image).'" style="width:50%;height:100%;">';
+
+                                                $info = pathinfo($image);
+                                                // Check image extension if PDF
+                                                if ($info["extension"] == "pdf")
+                                                {
+                                                    echo '<embed src="'.base_url('/image/uploads/'.$image).'" width="100%" height="100%">';
+                                                } else
+                                                {
+                                                    ?>
+                                                    <div class="dropdown">
+                                                        <button class="dropbtn">
+                                                            <a href="<?php echo base_url('/image/uploads/' . $image) ?>" target="_blank">
+                                                                <img class="autoResizeImage" src="<?php echo base_url('/image/approved_uploads/' . $image) ?>" width="100%" height="100%">
+                                                            </a>
+                                                        </button>
+                                                        <div class="dropdown-content">
+                                                            <a href="<?php echo base_url('/image/uploads/' . $image) ?>" target="_blank">View</a>
+                                                            <a href="<?php echo base_url('/image/uploads/' . $image) ?>" download="<?php echo $image ?>">Download</a>
+                                                        </div>
+                                                    </div>
+                                                    <?php
+                                                }
+
+                                                echo '<hr/>';
                                             }
-                                        } else // single image, it will take up entire column width
-                                        {
-                                            foreach($images as $image)
-                                            {
-                                                echo '<img class="autoResizeImage" src="'.base_url('/image/uploads/'.$image).'" style="width:100%;height:100%;">';
-                                            }
-                                        }
 
                                     echo "</td>";
                                     echo "<td>";
 
                                         $images = array_unique(explode(", ", $result->approvedfilenames));
-                                        if (count($images) > 1) // if there are multiple images, display them side by side
+
+                                        foreach($images as $image)
                                         {
-                                            foreach($images as $image)
+                                            echo '<div id="'.$image.'">';
+
+                                            $info = pathinfo($image);
+                                            // Check image extension if PDF
+                                            if ($info["extension"] == "pdf")
                                             {
-                                                echo '<img class="autoResizeImage" src="'.base_url('/image/approved_uploads/'.$image).'" style="width:50%;height:100%;">';
-                                            }
-                                        } else // single image, it will take up entire column width
-                                        {
-                                            foreach($images as $image)
+                                                echo '<embed src="'.base_url('/image/approved_uploads/'.$image).'" width="100%" height="100%">';
+                                            } else
                                             {
-                                                echo '<img class="autoResizeImage" src="'.base_url('/image/approved_uploads/'.$image).'" style="width:100%;height:100%;">';
+                                                ?>
+                                                <div class="dropdown">
+                                                    <button class="dropbtn">
+                                                        <a href="<?php echo base_url('/image/approved_uploads/' . $image) ?>" target="_blank">
+                                                            <img class="autoResizeImage" src="<?php echo base_url('/image/approved_uploads/' . $image) ?>" width="100%" height="100%">
+                                                        </a>
+                                                    </button>
+                                                    <div class="dropdown-content">
+                                                        <a href="<?php echo base_url('/image/approved_uploads/' . $image) ?>" target="_blank">View</a>
+                                                        <a href="<?php echo base_url('/image/approved_uploads/' . $image) ?>" download="<?php echo $image ?>">Download</a>
+                                                        <a id="delete-image" name="<?php echo $image ?>" style="cursor:pointer;">Delete</a>
+                                                    </div>
+                                                </div>
+                                                <?php
                                             }
+                                            echo '<hr/>';
+
+                                            echo '</div>';
                                         }
 
                                         echo '<br/>';
@@ -394,6 +471,35 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 this.selectedIndex = -1;
         });
     };
+
+    // Delete Promo Codes
+    $(document).on('click','#delete-image', function(e){
+        e.preventDefault();
+
+        var imgname =  $(this).attr("name");
+        console.log('Name of Image to be deleted: ' + imgname);
+
+        jQuery.ajax({
+            type: "POST",
+            url: "<?php echo base_url(); ?>" + "da_search/Da_search/ajax_del_approved_image",
+            dataType: 'json',
+            data: {imgname:imgname},
+            success: function(res) {
+                if (res) {
+
+                    console.log('File has been deleted: ' + res.dir);
+
+                    // Remove image and dropdown
+                    var filename = res.filename;
+                    filename = filename.replace(/\./g,'\\.');
+                    $('div#'+filename).remove();
+                }
+            },
+            error: function(XMLHttpRequest, textStatus, errorThrown) {
+                alert("Status: " + textStatus); alert("Error: " + errorThrown);
+            }
+        });
+    });
 
 </script>
 

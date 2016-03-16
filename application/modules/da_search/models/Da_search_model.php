@@ -58,7 +58,7 @@ class Da_search_model extends CI_Model
         // only search if search_array has something in it
         if (!empty($search_array))
         {
-            $this -> db -> select('displayad_submissions.*, users.username AS username, GROUP_CONCAT(da_imageupload_approved.filename SEPARATOR ", ") 	AS approvedfilenames');
+            $this -> db -> select('displayad_submissions.*, users.username AS username, GROUP_CONCAT(da_imageupload_approved.filename SEPARATOR ", ") 	AS approvedfilenames, da_imageupload_approved.id AS imageapproved_id');
 
             $this -> db -> from('displayad_submissions');
 
@@ -210,4 +210,14 @@ class Da_search_model extends CI_Model
 //        return $this -> db -> insert_id();
     }
 
+    public function del_approved_image($filename)
+    {
+        $this -> db -> where('filename', $filename);
+        $this -> db -> delete('da_imageupload_approved');
+
+        if ($this -> db -> affected_rows() > 0)
+            return $filename;
+        else
+            return false;
+    }
 }

@@ -178,4 +178,29 @@ class Da_search extends MX_Controller
         return $config;
     }
 
+    public function ajax_del_approved_image()
+    {
+        $this -> load -> model('da_search_model', '', TRUE);
+
+        $imgname = $this -> input -> post('imgname');
+
+        // Delete metadata from database table
+        $filename = $this -> da_search_model -> del_approved_image($imgname);
+
+        // Delete file from directory
+        $base_dir = realpath(FCPATH);
+        $uploads_dir = '\image\approved_uploads';
+        $file_path = $base_dir . $uploads_dir . "\\" . $imgname;
+
+        unlink($file_path);
+
+        $data = array(
+            'filename'   => $filename,
+            'dir'       => $file_path
+        );
+
+        // go back to ajax to print data
+        echo json_encode($data);
+    }
+
 }
