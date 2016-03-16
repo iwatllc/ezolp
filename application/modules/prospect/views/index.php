@@ -49,7 +49,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                             <input type="checkbox" name="matchLastName" value="1" checked="checked" disabled="disabled">
                                             Last Name
                                         </label>
-                                        <label class="checkbox-inline">
+<!--                                         <label class="checkbox-inline">
                                             <input type="checkbox" name="matchCity" value="1" checked="checked">
                                             City
                                         </label>
@@ -64,7 +64,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                         <label class="checkbox-inline">
                                             <input type="checkbox" name="matchOccupation" value="1" checked="checked">
                                             Occupation
-                                        </label>
+                                        </label> -->
                                     </div>
                                 </div>
                                 <div class="col-md-6 col-lg-4 form-group">
@@ -261,7 +261,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                                             echo $row->creation_date;
                                                         echo "</td>";
                                                         echo "<td>";
-                                                            echo '<a class="btn" href="'.base_url().'/prospect/view/'.$row->id.'"><i class="fa fa-eye fa-lg"></i> <span>View</span></a> <a class="btn" href="'.base_url().'/prospect/delete/'.$row->id.'"><i class="fa fa-trash fa-lg"></i> <span>Delete</span></a>';
+                                                            echo '<a class="btn" href="'.base_url().'/prospect/view/'.$row->id.'"><i class="fa fa-eye fa-lg"></i> <span>View</span></a>';
+                                                            echo '<a class="btn" href="'.base_url().'/prospect/download/'.$row->id.'"><i class="fa fa-download fa-lg"></i> <span>Download</span></a>';
+                                                            echo '<a class="btn" href="'.base_url().'/prospect/delete/'.$row->id.'"><i class="fa fa-trash fa-lg"></i> <span>Delete</span></a>';
                                                         echo "</td>";
                                                     echo "<tr>";
                                                 } ?>

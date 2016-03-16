@@ -261,7 +261,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                                             echo $row->creation_date;
                                                         echo "</td>";
                                                         echo "<td>";
-                                                            echo '<a class="btn" href="'.base_url().'/contributionreport/view/'.$row->id.'"><i class="fa fa-eye fa-lg"></i> <span>View</span></a><a class="btn" href="'.base_url().'/contributionreport/delete/'.$row->id.'"><i class="fa fa-trash fa-lg"></i> <span>Delete</span></a>';
+                                                            echo '<a class="btn" href="'.base_url().'/contributionreport/view/'.$row->id.'"><i class="fa fa-eye fa-lg"></i> <span>View</span></a>';
+                                                            echo '<a class="btn" href="'.base_url().'/contributionreport/download/'.$row->id.'"><i class="fa fa-download fa-lg"></i> <span>Download</span></a>';
+                                                            echo '<a class="btn" href="'.base_url().'/contributionreport/delete/'.$row->id.'"><i class="fa fa-trash fa-lg"></i> <span>Delete</span></a>';
                                                         echo "</td>";
                                                     echo "<tr>";
                                                 } ?>
