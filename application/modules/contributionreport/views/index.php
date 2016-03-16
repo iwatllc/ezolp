@@ -58,6 +58,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                             State
                                         </label>
                                         <label class="checkbox-inline">
+                                            <input type="checkbox" name="matchZip" value="1" checked="checked">
+                                            Zip
+                                        </label>
+                                        <label class="checkbox-inline">
                                             <input type="checkbox" name="matchEmployer" value="1" checked="checked">
                                             Employer
                                         </label>

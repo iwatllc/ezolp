@@ -25,18 +25,15 @@ class Prospect_model extends Report_model {
         // Construct rules for join
         $joinConditions[] = "`prospect`.`firstname` LIKE `contributors`.`firstname`";
         $joinConditions[] = "`prospect`.`lastname` LIKE `contributors`.`lastname`";
-        // if(!empty($input['matchCity'])) {
-        //     $joinConditions[] = "`prospect`.`city` LIKE `contributors`.`city`";
-        // }
-        // if(!empty($input['matchState'])) {
-        //     $joinConditions[] = "`prospect`.`state` LIKE `contributors`.`state`";
-        // }
-        // if(!empty($input['matchOccupation'])) {
-        //     $joinConditions[] = "`prospect`.`occupation` LIKE `contributors`.`occupation`";
-        // }
-        // if(!empty($input['matchEmployer'])) {
-        //     $joinConditions[] = "`prospect`.`employer` LIKE `contributors`.`employer`";
-        // }
+        if(!empty($input['matchCity'])) {
+            $joinConditions[] = "`prospect`.`city` LIKE `contributors`.`city`";
+        }
+        if(!empty($input['matchState'])) {
+            $joinConditions[] = "`prospect`.`state` LIKE `contributors`.`state`";
+        }
+        if(!empty($input['matchZip'])) {
+            $joinConditions[] = "`prospect`.`zip` LIKE `contributors`.`zip_code`";
+        }
 
         // Add join to query
         $this->db->join('`prospect`', implode(' AND ', $joinConditions), '', false);
