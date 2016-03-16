@@ -24,7 +24,7 @@ class Fileupload_model extends CI_Model {
             . $table .
             "` FIELDS TERMINATED BY ','
              LINES TERMINATED BY '" . $fileeolcharacters . "'
-             (firstname,lastname,email,address,city,state,zip)
+             (firstname,lastname,email,city,state,zip)
               ";
         if ( ! $this->db->simple_query($query_name))
         {
