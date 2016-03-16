@@ -98,6 +98,50 @@ class Contributionreport extends MX_Controller {
         $this->load->view('contributionreport/view', $data);
     }
 
+    public function download() {
+        $data['page_data'] = $this->view_vars;
+
+        // Grab report id from URI
+        $report_id = $this->uri->segment(3);
+
+        if(!$report_id) {
+            // TODO: better error handling (display error)
+            redirect('/contributionreport');
+        }
+
+        // Attempt to retreive report
+        $report = $this->Contributionreport->get_report($report_id);
+        $data['results'] = $report;
+
+        if($report->status_code < Contributionreport_model::STATUS_COMPLETED) {
+            $this->output->set_header('refresh:5; url='.current_url());
+            $this->load->view('contributionreport/processing', $data);
+        }
+
+        if(empty($report)) {
+            // TODO: better error handling (display error)
+            redirect('/contributionreport');
+        }
+
+        header('Content-Disposition: attachment; filename="contributionreport'.$report_id.'.csv";');
+        $result = array();
+        $f = fopen('php://output', 'w');
+        $keysOutput = false;
+        foreach ($report->results->data as $line)
+        {
+            $lineArray = get_object_vars($line);
+
+            if (empty($keysOutput))
+            {
+                $keysOutput = array_keys($lineArray);
+                fputcsv($f, $keysOutput);
+                $keysOutput = array_flip($keysOutput);
+            }
+
+            fputcsv($f, array_merge($keysOutput, $lineArray));
+        }
+    }
+
     function contribution_report_worker($job) {
         $data = unserialize($job->workload());
 
