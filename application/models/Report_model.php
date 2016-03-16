@@ -27,6 +27,14 @@ class Report_model extends CI_Model {
     }
 
     /*
+     * Deletes a report
+     */
+    public function delete_report($id) {
+        $this->db->where('id', $id);
+        $this->db->delete($this->tableName); 
+    }
+
+    /*
      * Sets a report's status to STATUS_IN_PROGRESS
      */
     public function set_report_in_progress($id) {

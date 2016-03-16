@@ -80,6 +80,13 @@ class Prospect extends MX_Controller {
         $this->load->view('prospect/create', $data);
     }
 
+    public function delete() {
+        // TODO: Provide feedback via a flash message
+        $this->Prospect->delete_report($this->uri->segment(3));
+        $data['page_data'] = $this->view_vars;
+        redirect('/prospect');
+    }
+
     public function view() {
         $data['page_data'] = $this->view_vars;
 

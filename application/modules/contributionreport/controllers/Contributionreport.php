@@ -63,6 +63,13 @@ class Contributionreport extends MX_Controller {
         $this->load->view('contributionreport/create', $data);
     }
 
+    public function delete() {
+        // TODO: Provide feedback via a flash message
+        $this->Contributionreport->delete_report($this->uri->segment(3));
+        $data['page_data'] = $this->view_vars;
+        redirect('/contributionreport');
+    }
+
     public function view() {
         $data['page_data'] = $this->view_vars;
 
