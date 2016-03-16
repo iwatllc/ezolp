@@ -49,7 +49,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                             <input type="checkbox" name="matchLastName" value="1" checked="checked" disabled="disabled">
                                             Last Name
                                         </label>
-<!--                                         <label class="checkbox-inline">
+                                        <label class="checkbox-inline">
                                             <input type="checkbox" name="matchCity" value="1" checked="checked">
                                             City
                                         </label>
@@ -58,13 +58,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                             State
                                         </label>
                                         <label class="checkbox-inline">
-                                            <input type="checkbox" name="matchEmployer" value="1" checked="checked">
-                                            Employer
+                                            <input type="checkbox" name="matchZip" value="1" checked="checked">
+                                            Zip
                                         </label>
-                                        <label class="checkbox-inline">
-                                            <input type="checkbox" name="matchOccupation" value="1" checked="checked">
-                                            Occupation
-                                        </label> -->
                                     </div>
                                 </div>
                                 <div class="col-md-6 col-lg-4 form-group">

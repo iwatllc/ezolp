@@ -58,6 +58,9 @@ class Contributionreport_model extends Report_model {
         if(!empty($input['matchState'])) {
             $joinConditions[] = "`donationform_submissions`.`state` LIKE `contributors`.`state`";
         }
+        if(!empty($input['matchZip'])) {
+            $joinConditions[] = "`donationform_submissions`.`zip` LIKE `contributors`.`zip_code`";
+        }
         if(!empty($input['matchOccupation'])) {
             $joinConditions[] = "`donationform_submissions`.`occupation` LIKE `contributors`.`occupation`";
         }
