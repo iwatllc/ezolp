@@ -22,7 +22,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         /*height:auto;*/
     /*}*/
     .dropbtn {
-        background-color: black;
+        background-color: white;
         color: white;
         padding: 1px;
         font-size: 16px;
@@ -285,7 +285,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                                     <div class="dropdown">
                                                         <button class="dropbtn">
                                                             <a href="<?php echo base_url('/image/uploads/' . $image) ?>" target="_blank">
-                                                                <img class="autoResizeImage" src="<?php echo base_url('/image/approved_uploads/' . $image) ?>" width="100%" height="100%">
+                                                                <img class="autoResizeImage" src="<?php echo base_url('/image/approved_uploads/' . $image) ?>" style="max-width: 100px;max-height: 100px;" >
                                                             </a>
                                                         </button>
                                                         <div class="dropdown-content">
@@ -319,7 +319,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                                 <div class="dropdown">
                                                     <button class="dropbtn">
                                                         <a href="<?php echo base_url('/image/approved_uploads/' . $image) ?>" target="_blank">
-                                                            <img class="autoResizeImage" src="<?php echo base_url('/image/approved_uploads/' . $image) ?>" width="100%" height="100%">
+                                                            <img class="autoResizeImage" src="<?php echo base_url('/image/approved_uploads/' . $image) ?>" style="max-width: 100px;max-height: 100px;" >
                                                         </a>
                                                     </button>
                                                     <div class="dropdown-content">
