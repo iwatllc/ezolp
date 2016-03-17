@@ -455,7 +455,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         '<td>' + res.code + '</td>' +
                         '<td>' + res.description + '</td>' +
                         '<td>' + res.months + '</td>' +
-                        '<td>&#36; ' + res.percentage + '</td>' +
+                        '<td>' + res.percentage + '&#37;</td>' +
                         '<td>' + res.begindate + '</td>' +
                         '<td>' + res.enddate + '</td>';
 

@@ -389,6 +389,7 @@ if($Displayad_Clientform == "FALSE") {
                             {
                                 $month_array[$i] = date('F', strtotime('first day of +'.($i+1).' month'));
                             }
+                            print_r($month_array);
                             ?>
 
                             <legend>I would like my ad to be listed in the following issue(s):</legend>
@@ -461,22 +462,23 @@ if($Displayad_Clientform == "FALSE") {
                                                 </blockquote>
                                                 <form id="fileupload" action="assets/global/plugins/jquery-file-upload/server/php/" method="POST" enctype="multipart/form-data">
                                                     <div class="row fileupload-buttonbar">
-                                                        <div class="col-md-10">
+                                                        <div class="col-md-11">
                                                             <label class="btn btn-primary m-r-5 m-b-5">
                                                                 <input type="file" name="userfile[]" id="files" multiple />
 <!--                                                                <i class="fa fa-plus"></i> Add Files...--><span style="padding-left:5em"></span>
                                                             </label>
 
-                                                            <button type="reset" id="clear-uploads-btn" class="btn btn-danger m-r-5 m-b-5" style="display:none">
-                                                                <i class="fa fa-ban"></i>
-                                                                <span>Remove All</span>
-                                                            </button>
 
                                                             <span id="numFiles">
                                                                 <span  class="alert alert-warning fade in m-b-10">
                                                                     No files chosen
                                                                 </span>
                                                             </span>
+
+                                                            <button type="reset" id="clear-uploads-btn" class="btn btn-danger m-r-5 m-b-5" style="display:none">
+                                                                <i class="fa fa-ban"></i>
+                                                                <span>Remove All</span>
+                                                            </button>
 
                                                         </div>
                                                     </div>
@@ -777,6 +779,14 @@ if($Displayad_Clientform == "FALSE") {
 
         $(document).ready(function() {
 
+            /*  On page load, check if promo code exists (in case form validation fails) */
+            if ($('#promocode').val() != '')
+            {
+                $(function() {
+                    $('#promocode-btn').click();
+                });
+            }
+
             <?php
                 foreach ($rad_array as $i => $number)
                 {
@@ -852,12 +862,6 @@ if($Displayad_Clientform == "FALSE") {
                 $("#image-preview tr").remove();
                 $('#clear-uploads-btn').hide();
             });
-
-            /*  On page load, check if promo code exists (in case form validation fails) */
-            if ($('#promocode').val() != '')
-            {
-                $('#promocode-btn').click();
-            }
 
             function bytesToSize(bytes) {
                 var sizes = ['Bytes', 'KB', 'MB'];

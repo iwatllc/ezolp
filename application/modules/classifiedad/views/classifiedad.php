@@ -679,13 +679,18 @@ if($Classifiedad_Clientform == "FALSE") {
 <script type="text/javascript">
 
     $(document).ready(function() {
+
+
+
         var lines_per_char = "<?php echo $lines_per_char ?>";
         var price_per_line = "<?php echo $price_per_line ?>";
 
         // On page load, check if promo code exists (in case form validation fails)
         if ($('#promocode').val() != '')
         {
-            $('#promocode-btn').click();
+            $(function() {
+                $('#promocode-btn').click();
+            });
         }
 
         // Allow enter key to be pressed for promo code
@@ -754,16 +759,6 @@ if($Classifiedad_Clientform == "FALSE") {
                 var total = numChecked * (numLines * pricePerLine);
             }
 
-            console.log(
-//                'Lines per character: '             + lines_per_char + '\n' +
-//                'Price per line: '                  + price_per_line + '\n' +
-                'Number of lines in Text Area: '    + numLines + '\n' +
-                'Number of months checked: '        + numChecked + '\n' +
-                'Percentage off  for promo code: '  + percentage + '\n' +
-                'Number of months for promo code: ' + numMonths + '\n' +
-                'Grand Total: '                     + total
-            );
-
             if(total)
             {
                 document.getElementById('grandtotal').value = total.toFixed(2);
@@ -773,7 +768,6 @@ if($Classifiedad_Clientform == "FALSE") {
                 document.getElementById('grandtotal').value = total.toFixed(2);
             }
 
-//                $('#numlines').text(lines); // set total lines span
             document.getElementById('totallines').value = numLines; // set hidden input
         }
 
@@ -825,7 +819,6 @@ if($Classifiedad_Clientform == "FALSE") {
             $('#promocode-btn').attr('disabled', true).empty().prepend('<img src="<?php echo base_url() ?>assets/img/loading-gif.gif" />&nbsp; Validating...');
 
             $("#promo-result").empty();
-//            $("#promo-result").html('<img src="<?php //echo base_url() ?>//assets/img/ajax-loader.gif" />  Validating...');
 
             jQuery.ajax({
                 type: "POST",
