@@ -48,6 +48,7 @@ class Ca_search extends MX_Controller
         $search_array['begindate']      = date( "Y-m-d", strtotime( $this -> input -> post('begindate') ) );
         $search_array['enddate']        = date( "Y-m-d", strtotime( $this -> input -> post('enddate') ) );
         $search_array['approval']      = $this -> input -> post('approval');
+        $search_array['status']         = $this -> input -> post('status');
 
         if ($search_array['begindate'] == '1969-12-31')
         {
@@ -143,4 +144,54 @@ class Ca_search extends MX_Controller
         // go back to ajax to print data
         echo json_encode($data);
     }
+
+    public function ajax_cancel_ad()
+    {
+        $this -> load -> model('ca_search_model');
+
+        $id = $this -> input -> post('id');
+
+        $datestring = "%Y-%m-%d %H:%i:%s";
+        $time = time();
+        $date = mdate($datestring, $time);
+
+        $cancelledby = $this -> dx_auth -> get_user_id();
+
+        $this -> ca_search_model -> cancel_ad_submission($id, $cancelledby, $date);
+
+        // query the table for the row that was just inserted
+        $row = $this -> ca_search_model -> get_submission($id);
+
+        $date = date_conversion_nowording($row -> cancelled);
+        $username = $this -> dx_auth -> get_username();
+
+        $data = array(
+            'id'            => $row -> id,
+            'approvedby'    => $username,
+            'date'          => $date
+        );
+
+        // go back to ajax to print data
+        echo json_encode($data);
+    }
+
+    public function ajax_renew_ad()
+    {
+        $this -> load -> model('ca_search_model');
+
+        $id = $this -> input -> post('id');
+
+        $this -> ca_search_model -> renew_ad_submission($id);
+
+        // query the table for the row that was just inserted
+        $row = $this -> ca_search_model -> get_submission($id);
+
+        $data = array(
+            'id' => $row -> id
+        );
+
+        // go back to ajax to print data
+        echo json_encode($data);
+    }
+
 }

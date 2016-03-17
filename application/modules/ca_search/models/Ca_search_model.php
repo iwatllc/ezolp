@@ -38,7 +38,7 @@ class Ca_search_model extends CI_Model
         // only search if search_array has something in it
         if (!empty($search_array))
         {
-            $this -> db -> select('classifiedad_submissions.* , users.username AS username');
+            $this -> db -> select('classifiedad_submissions.* , au.username AS username, cu.username AS usercancelled');
             $this -> db -> from('classifiedad_submissions');
 
             if ($search_array['contactinfo'] != NULL)
@@ -112,10 +112,19 @@ class Ca_search_model extends CI_Model
                 $this -> db -> where('classifiedad_submissions.approved', '0');
             }
 
+            if ($search_array['status'] == 'cancelled')
+            {
+                $this -> db -> where('classifiedad_submissions.cancelled IS NOT NULL', NULL, FALSE);
+            } else
+            {
+                $this -> db -> where('classifiedad_submissions.cancelled IS NULL', NULL, FALSE);
+            }
+
             $this -> db -> order_by('classifiedad_submissions.created', 'DESC');
 
-            $this -> db -> join('users', 'classifiedad_submissions.approvedby = users.id', 'left');
+            $this -> db -> join('users AS au', 'classifiedad_submissions.approvedby = au.id', 'left');
 
+            $this -> db -> join('users AS cu', 'classifiedad_submissions.cancelledby = cu.id', 'left');
             // uncomment this to get the db query
 //            echo $this->db->get_compiled_select();
 
@@ -169,6 +178,28 @@ class Ca_search_model extends CI_Model
     {
         $data = array(
             'approvedtext' => $text
+        );
+
+        $this -> db -> where('id', $id);
+        $this -> db -> update('classifiedad_submissions', $data);
+    }
+
+    public function cancel_ad_submission($id, $cancelledby, $date)
+    {
+        $data = array(
+            'cancelledby' => $cancelledby,
+            'cancelled' => $date
+        );
+
+        $this -> db -> where('id', $id);
+        $this -> db -> update('classifiedad_submissions', $data);
+    }
+
+    public function renew_ad_submission($id)
+    {
+        $data = array(
+            'cancelledby' => 0,
+            'cancelled' => 'NULL'
         );
 
         $this -> db -> where('id', $id);

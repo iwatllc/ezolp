@@ -10,7 +10,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Da_search extends MX_Controller
 {
-
     public function __construct()
     {
         if (!$this->dx_auth->is_logged_in())
@@ -50,7 +49,7 @@ class Da_search extends MX_Controller
         $search_array['begindate']      = date( "Y-m-d", strtotime( $this -> input -> post('begindate') ) );
         $search_array['enddate']        = date( "Y-m-d", strtotime( $this -> input -> post('enddate') ) );
         $search_array['approval']       = $this -> input -> post('approval');
-
+        $search_array['status']         = $this -> input -> post('status');
 
         if ($search_array['begindate'] == '1969-12-31')
         {
@@ -61,19 +60,6 @@ class Da_search extends MX_Controller
             $search_array['enddate'] = NULL;
         }
 
-//        echo '<br/><br/><br/>';
-//        echo '<div style="padding-left:20em">';
-//            echo '<br/>Contact Info: '  . $this -> input -> post('contactinfo');
-//            echo '<br/> Ad Text: '      . $this -> input -> post('adtext');
-//            echo '<br/>Issues: ';
-//            print_r($search_array['issues']);
-//            echo '<br/>Begin Date: '    . date( "Y-m-d", strtotime( $this -> input -> post('begindate') ) );
-//            echo '<br/>End Date: '      . date( "Y-m-d", strtotime( $this -> input -> post('enddate') ) );
-//
-//        echo '<br/><br/>Final Search Array: '; print_r($search_array);
-//        echo '</div>';
-
-
         $this -> load -> model('da_search_model');
 
         $data['results'] = $this -> da_search_model -> get_search_results($search_array);
@@ -82,7 +68,6 @@ class Da_search extends MX_Controller
 
         $data['promo_codes'] = $this -> da_search_model -> get_promocode_dropdown_list();
         $data['pricings'] = $this -> da_search_model -> get_pricing_list();
-
 
         $view_vars = array(
             'title' => $this->config->item('Company_Title'),
@@ -189,14 +174,69 @@ class Da_search extends MX_Controller
 
         // Delete file from directory
         $base_dir = realpath(FCPATH);
-        $uploads_dir = '\image\approved_uploads';
-        $file_path = $base_dir . $uploads_dir . "\\" . $imgname;
+
+        // This directory works for my local system
+//        $uploads_dir = '\image\approved_uploads';
+//        $file_path = $base_dir . $uploads_dir . "\\" . $imgname;
+
+        // This directory works for the live site on the server
+        $uploads_dir = '/image/approved_uploads';
+        $file_path = $base_dir . $uploads_dir . "/" . $imgname;
 
         unlink($file_path);
 
         $data = array(
             'filename'   => $filename,
-            'dir'       => $file_path
+//            'dir'       => $file_path
+        );
+
+        // go back to ajax to print data
+        echo json_encode($data);
+    }
+
+    public function ajax_cancel_ad()
+    {
+        $this -> load -> model('da_search_model');
+
+        $id = $this -> input -> post('id');
+
+        $datestring = "%Y-%m-%d %H:%i:%s";
+        $time = time();
+        $date = mdate($datestring, $time);
+
+        $cancelledby = $this -> dx_auth -> get_user_id();
+
+        $this -> da_search_model -> cancel_ad_submission($id, $cancelledby, $date);
+
+        // query the table for the row that was just inserted
+        $row = $this -> da_search_model -> get_submission($id);
+
+        $date = date_conversion_nowording($row -> cancelled);
+        $username = $this -> dx_auth -> get_username();
+
+        $data = array(
+            'id'            => $row -> id,
+            'approvedby'    => $username,
+            'date'          => $date
+        );
+
+        // go back to ajax to print data
+        echo json_encode($data);
+    }
+
+    public function ajax_renew_ad()
+    {
+        $this -> load -> model('da_search_model');
+
+        $id = $this -> input -> post('id');
+
+        $this -> da_search_model -> renew_ad_submission($id);
+
+        // query the table for the row that was just inserted
+        $row = $this -> da_search_model -> get_submission($id);
+
+        $data = array(
+            'id' => $row -> id
         );
 
         // go back to ajax to print data

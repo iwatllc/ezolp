@@ -162,7 +162,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                             ?>
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-2">
                                         <br/><br/>
                                         <label class="control-label">Approval Status</label>
                                         <label class="switch">
@@ -170,14 +170,27 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                             $data = array(
                                                 'name'        => 'approval',
                                                 'value'       => set_value('approval', 'approved'),
-//                                                    'checked'     => set_checkbox('approval'),
                                                 'class'       => 'switch-input'
                                             );
-
                                             echo form_checkbox($data, set_value('approval', 'approved'), set_checkbox('approval', 'approved'));
-
                                             ?>
                                             <span class="switch-label" data-on="Approved" data-off="Not Apprvd"></span>
+                                            <span class="switch-handle"></span>
+                                        </label>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <br/><br/>
+                                        <label class="control-label">Cancelled?</label>
+                                        <label class="switch">
+                                            <?php
+                                            $data = array(
+                                                'name'        => 'status',
+                                                'value'       => set_value('status', 'cancelled'),
+                                                'class'       => 'switch-input'
+                                            );
+                                            echo form_checkbox($data, set_value('status', 'cancelled'), set_checkbox('status', 'cancelled'));
+                                            ?>
+                                            <span class="switch-label" data-on="Cancelled" data-off="Open"></span>
                                             <span class="switch-handle"></span>
                                         </label>
                                     </div>
@@ -278,14 +291,26 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                                 // Check image extension if PDF
                                                 if ($info["extension"] == "pdf")
                                                 {
-                                                    echo '<embed src="'.base_url('/image/uploads/'.$image).'" width="100%" height="100%">';
+                                                    ?>
+                                                    <div class="dropdown">
+                                                        <button class="dropbtn">
+                                                            <a href="<?php echo base_url('/image/uploads/' . $image) ?>" target="_blank">
+                                                                <embed width="100%" height="100%" name="plugin" src="<?php echo base_url('/image/uploads/'.$image) ?>" type="application/pdf">
+                                                            </a>
+                                                        </button>
+                                                        <div class="dropdown-content">
+                                                            <a href="<?php echo base_url('/image/uploads/' . $image) ?>" target="_blank">View</a>
+                                                            <a href="<?php echo base_url('/image/uploads/' . $image) ?>" download="<?php echo $image ?>">Download</a>
+                                                        </div>
+                                                    </div>
+                                                    <?php
                                                 } else
                                                 {
                                                     ?>
                                                     <div class="dropdown">
                                                         <button class="dropbtn">
                                                             <a href="<?php echo base_url('/image/uploads/' . $image) ?>" target="_blank">
-                                                                <img class="autoResizeImage" src="<?php echo base_url('/image/approved_uploads/' . $image) ?>" style="max-width: 100px;max-height: 100px;" >
+                                                                <img class="autoResizeImage" src="<?php echo base_url('/image/uploads/' . $image) ?>" style="max-width: 100px;max-height: 100px;" >
                                                             </a>
                                                         </button>
                                                         <div class="dropdown-content">
@@ -309,10 +334,23 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                             echo '<div id="'.$image.'">';
 
                                             $info = pathinfo($image);
-                                            // Check image extension if PDF
+                                            // Check image extension if PDF so that we can display it as embeded image
                                             if ($info["extension"] == "pdf")
                                             {
-                                                echo '<embed src="'.base_url('/image/approved_uploads/'.$image).'" width="100%" height="100%">';
+                                                ?>
+                                                <div class="dropdown">
+                                                    <button class="dropbtn">
+                                                        <a href="<?php echo base_url('/image/approved_uploads/' . $image) ?>" target="_blank">
+                                                            <embed width="100%" height="100%" name="plugin" src="<?php echo base_url('/image/approved_uploads/'.$image) ?>" type="application/pdf">
+                                                        </a>
+                                                    </button>
+                                                    <div class="dropdown-content">
+                                                        <a href="<?php echo base_url('/image/approved_uploads/' . $image) ?>" target="_blank">View</a>
+                                                        <a href="<?php echo base_url('/image/approved_uploads/' . $image) ?>" download="<?php echo $image ?>">Download</a>
+                                                        <a id="delete-image" name="<?php echo $image ?>" style="cursor:pointer;">Delete</a>
+                                                    </div>
+                                                </div>
+                                                <?php
                                             } else
                                             {
                                                 ?>
@@ -359,6 +397,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                             echo '<u>Approved By</u><br/>' . $result->username;
                                             echo '<br/><u>Approved Date</u><br/> '.date_conversion_nowording($result->approveddate);
                                         }
+                                        echo '</div>';
+
+                                        echo '<br/>';
+                                        echo '<hr/>';
+                                        echo '<div id="cancel-status-'.$result->id.'">';
+                                            if (!$result->cancelled)
+                                            {
+                                                echo '<button type="button" id ="cancelad-btn" adid="'.$result->id.'" class="btn btn-danger m-r-5 m-b-5"><i class="fa fa-times-circle"></i> Cancel Ad</button>';
+                                            } else
+                                            {
+                                                echo '<div class="alert alert-danger fade in m-b-15"><center><strong><u>Cancelled</u></strong></center> This ad has been cancelled by <strong>'.$result->usercancelled.'</strong> on <strong>'.date_conversion_nowording($result->cancelled).'</strong><br/><br/><center><button type="button" class="label label-inverse" id="renewad-btn" raid="' . $result->id .'">Renew Ad</button></center></div>';
+                                            }
                                         echo '</div>';
                                     echo '</td>';
                                 echo "<tr>";
@@ -472,12 +522,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         });
     };
 
-    // Delete Promo Codes
+    // Delete an Image
     $(document).on('click','#delete-image', function(e){
         e.preventDefault();
 
         var imgname =  $(this).attr("name");
-        console.log('Name of Image to be deleted: ' + imgname);
 
         jQuery.ajax({
             type: "POST",
@@ -486,8 +535,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             data: {imgname:imgname},
             success: function(res) {
                 if (res) {
-
-                    console.log('File has been deleted: ' + res.dir);
 
                     // Remove image and dropdown
                     var filename = res.filename;
@@ -501,7 +548,58 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         });
     });
 
-</script>
+    // Cancel an ad submission
+    $(document).on('click','#cancelad-btn', function(e){
+        e.preventDefault();
 
+        var id =  $(this).attr("adid");
+
+        jQuery.ajax({
+            type: "POST",
+            url: "<?php echo base_url(); ?>" + "da_search/Da_search/ajax_cancel_ad",
+            dataType: 'json',
+            data: { id:id },
+            success: function(res) {
+                if (res) {
+
+                    // Replace button with message
+                    var cancelAlert = '<div class="alert alert-danger fade in m-b-15"><center><strong><u>Cancelled</u></strong></center> This ad has been cancelled by <strong>' + res.username + '</strong> on <strong>' + res.date + '</strong><br/><br/><center><button type="button" class="label label-inverse" id="renewad-btn" raid="' + res.id + '">Renew Ad</button></center></div>';
+
+                    $("#cancel-status-"+res.id).html(cancelAlert);
+                }
+            },
+            error: function(XMLHttpRequest, textStatus, errorThrown) {
+                alert("Status: " + textStatus); alert("Error: " + errorThrown);
+            }
+        });
+    });
+
+    // Renew an ad submission
+    $(document).on('click','#renewad-btn', function(e){
+        e.preventDefault();
+
+        var id =  $(this).attr("raid");
+
+        jQuery.ajax({
+            type: "POST",
+            url: "<?php echo base_url(); ?>" + "da_search/Da_search/ajax_renew_ad",
+            dataType: 'json',
+            data: { id:id },
+            success: function(res) {
+                if (res) {
+
+                    // Replace button with message
+                    var cancelAlert = '<button type="button" id ="cancelad-btn" adid="' + res.id + '" class="btn btn-danger m-r-5 m-b-5"><i class="fa fa-times-circle"></i> Cancel Ad</button>';
+
+                    $("#cancel-status-"+res.id).html(cancelAlert);
+                }
+            },
+            error: function(XMLHttpRequest, textStatus, errorThrown) {
+                alert("Status: " + textStatus); alert("Error: " + errorThrown);
+            }
+        });
+    });
+
+</script>
 
 </html>

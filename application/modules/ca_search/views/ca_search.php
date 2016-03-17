@@ -112,7 +112,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                             ?>
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-2">
                                         <br/><br/>
                                         <label class="control-label">Approval Status</label>
                                         <label class="switch">
@@ -128,6 +128,22 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
                                             ?>
                                             <span class="switch-label" data-on="Approved" data-off="Not Apprvd"></span>
+                                            <span class="switch-handle"></span>
+                                        </label>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <br/><br/>
+                                        <label class="control-label">Cancelled?</label>
+                                        <label class="switch">
+                                            <?php
+                                            $data = array(
+                                                'name'        => 'status',
+                                                'value'       => set_value('status', 'cancelled'),
+                                                'class'       => 'switch-input'
+                                            );
+                                            echo form_checkbox($data, set_value('status', 'cancelled'), set_checkbox('status', 'cancelled')); // TODO: May need to change this to keep the status of checkbox
+                                            ?>
+                                            <span class="switch-label" data-on="Cancelled" data-off="Open"></span>
                                             <span class="switch-handle"></span>
                                         </label>
                                     </div>
@@ -239,6 +255,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                                 echo '<u>Approved By</u><br/>' . $result->username;
                                                 echo '<br/><u>Approved Date</u><br/> '.date_conversion_nowording($result->approveddate);
                                             }
+                                        echo '</div>';
+
+                                        echo '<hr/>';
+                                        echo '<div id="cancel-status-'.$result->id.'">';
+                                        if (!$result->cancelled)
+                                        {
+                                            echo '<button type="button" id ="cancelad-btn" adid="'.$result->id.'" class="btn btn-danger m-r-5 m-b-5"><i class="fa fa-times-circle"></i> Cancel Ad</button>';
+                                        } else
+                                        {
+                                            echo '<div class="alert alert-danger fade in m-b-15"><center><strong><u>Cancelled</u></strong></center> This ad has been cancelled by <strong>'.$result->usercancelled.'</strong> on <strong>'.date_conversion_nowording($result->cancelled).'</strong><br/><br/><center><button type="button" class="label label-inverse" id="renewad-btn" raid="' . $result->id .'">Renew Ad</button></center></div>';
+                                        }
                                         echo '</div>';
                                     echo "</td>";
                                 echo "</tr>";
@@ -378,6 +405,57 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     };
 
 
+    // Cancel an ad submission
+    $(document).on('click','#cancelad-btn', function(e){
+        e.preventDefault();
+
+        var id =  $(this).attr("adid");
+
+        jQuery.ajax({
+            type: "POST",
+            url: "<?php echo base_url(); ?>" + "ca_search/Ca_search/ajax_cancel_ad",
+            dataType: 'json',
+            data: { id:id },
+            success: function(res) {
+                if (res) {
+
+                    // Replace button with message
+                    var cancelAlert = '<div class="alert alert-danger fade in m-b-15"><center><strong><u>Cancelled</u></strong></center> This ad has been cancelled by <strong>' + res.username + '</strong> on <strong>' + res.date + '</strong><br/><br/><center><button type="button" class="label label-inverse" id="renewad-btn" raid="' + res.id + '">Renew Ad</button></center></div>';
+
+                    $("#cancel-status-"+res.id).html(cancelAlert);
+                }
+            },
+            error: function(XMLHttpRequest, textStatus, errorThrown) {
+                alert("Status: " + textStatus); alert("Error: " + errorThrown);
+            }
+        });
+    });
+
+    // Renew an ad submission
+    $(document).on('click','#renewad-btn', function(e){
+        e.preventDefault();
+
+        var id =  $(this).attr("raid");
+
+        jQuery.ajax({
+            type: "POST",
+            url: "<?php echo base_url(); ?>" + "da_search/Da_search/ajax_renew_ad",
+            dataType: 'json',
+            data: { id:id },
+            success: function(res) {
+                if (res) {
+
+                    // Replace button with message
+                    var cancelAlert = '<button type="button" id ="cancelad-btn" adid="' + res.id + '" class="btn btn-danger m-r-5 m-b-5"><i class="fa fa-times-circle"></i> Cancel Ad</button>';
+
+                    $("#cancel-status-"+res.id).html(cancelAlert);
+                }
+            },
+            error: function(XMLHttpRequest, textStatus, errorThrown) {
+                alert("Status: " + textStatus); alert("Error: " + errorThrown);
+            }
+        });
+    });
 
 </script>
 

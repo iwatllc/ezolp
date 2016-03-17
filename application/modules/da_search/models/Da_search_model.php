@@ -58,7 +58,7 @@ class Da_search_model extends CI_Model
         // only search if search_array has something in it
         if (!empty($search_array))
         {
-            $this -> db -> select('displayad_submissions.*, users.username AS username, GROUP_CONCAT(da_imageupload_approved.filename SEPARATOR ", ") 	AS approvedfilenames, da_imageupload_approved.id AS imageapproved_id');
+            $this -> db -> select('displayad_submissions.*, au.username AS username, cu.username AS usercancelled, GROUP_CONCAT(da_imageupload_approved.filename SEPARATOR ", ") 	AS approvedfilenames, da_imageupload_approved.id AS imageapproved_id');
 
             $this -> db -> from('displayad_submissions');
 
@@ -133,16 +133,26 @@ class Da_search_model extends CI_Model
                 $this -> db -> where('displayad_submissions.approved', '0');
             }
 
+            if ($search_array['status'] == 'cancelled')
+            {
+                $this -> db -> where('displayad_submissions.cancelled IS NOT NULL', NULL, FALSE);
+            } else
+            {
+                $this -> db -> where('displayad_submissions.cancelled IS NULL', NULL, FALSE);
+            }
+
             $this -> db -> join('da_imageupload_approved', 'displayad_submissions.id = da_imageupload_approved.da_submissionid', 'inner');
 
-            $this -> db -> join('users', 'displayad_submissions.approvedby = users.id', 'left');
+            $this -> db -> join('users AS au', 'displayad_submissions.approvedby = au.id', 'left');
+
+            $this -> db -> join('users AS cu', 'displayad_submissions.cancelledby = cu.id', 'left');
 
             $this -> db -> group_by('displayad_submissions.id');
 
             $this -> db -> order_by('displayad_submissions.created', 'DESC');
 
             // uncomment this to get the db query
-//            echo $this->db->get_compiled_select();
+//            echo $this -> db -> get_compiled_select();
 
             return $this -> db -> get();
 
@@ -176,7 +186,6 @@ class Da_search_model extends CI_Model
 
         $this -> db -> where('id', $id);
         $this -> db -> update('displayad_submissions', $data);
-
     }
 
     public function get_submission($id)
@@ -219,5 +228,27 @@ class Da_search_model extends CI_Model
             return $filename;
         else
             return false;
+    }
+
+    public function cancel_ad_submission($id, $cancelledby, $date)
+    {
+        $data = array(
+            'cancelledby' => $cancelledby,
+            'cancelled' => $date
+        );
+
+        $this -> db -> where('id', $id);
+        $this -> db -> update('displayad_submissions', $data);
+    }
+
+    public function renew_ad_submission($id)
+    {
+        $data = array(
+            'cancelledby' => 0,
+            'cancelled' => 'NULL'
+        );
+
+        $this -> db -> where('id', $id);
+        $this -> db -> update('displayad_submissions', $data);
     }
 }
