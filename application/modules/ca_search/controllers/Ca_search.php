@@ -167,7 +167,7 @@ class Ca_search extends MX_Controller
 
         $data = array(
             'id'            => $row -> id,
-            'approvedby'    => $username,
+            'username'    => $username,
             'date'          => $date
         );
 

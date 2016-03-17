@@ -439,7 +439,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
         jQuery.ajax({
             type: "POST",
-            url: "<?php echo base_url(); ?>" + "da_search/Da_search/ajax_renew_ad",
+            url: "<?php echo base_url(); ?>" + "ca_search/Ca_search/ajax_renew_ad",
             dataType: 'json',
             data: { id:id },
             success: function(res) {
