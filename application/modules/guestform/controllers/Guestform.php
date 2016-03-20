@@ -181,6 +181,9 @@ class Guestform extends MX_Controller {
      * Returns the body for an email receipt
      */
     private function get_email_body() {
+    
+        $Guestform_Notes_Required = $this->configsys->get_config_value('Guestform_Notes_Required');
+        
         $message = '<!DOCTYPE html><html><body>';
         $message .= '<p>';
         $message .= 'Thank you for your payment';
@@ -189,6 +192,10 @@ class Guestform extends MX_Controller {
         $message .= '<br>';
         $message .= '<hr>';
         $message .= $this->input->post('firstname'). ' ' . $this->input->post('lastname');
+        if ($Guestform_Notes_Required == 'TRUE') {
+            $message .= '<br>';
+            $message .= $this->input->post('notes');
+        }
         $message .= '<br>';
         $message .= $this->input->post('cardtype'). ' Ending in ' . substr($this->input->post('creditcard'), -4);
         $message .= '<br>';

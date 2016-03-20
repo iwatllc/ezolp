@@ -220,7 +220,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 echo '<tr id="'.$result->id.'" >';
                                     echo "<td>";
                                         echo '<span>';
-                                            echo $result->firstname.' '.$result->lastname.'<br/>'.$result->streetaddress.'<br/>'.$result->city.', '.$result->state.'<br/>'.$result->zip;
+                                            echo $result->firstname.' '.$result->lastname.'<br/>'.$result->streetaddress.'<br/>'.$result->city.', '.$result->state.'<br/>'.$result->zip.'<br/>'.$result->email;
                                         echo '</span>';
                                     echo "</td>";
                                     echo "<td>";

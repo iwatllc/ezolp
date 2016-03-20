@@ -127,18 +127,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     
                 <div class="panel panel-inverse" >
                     <div class="panel-heading">
-                        <h4 class="panel-title">TOTALS</h4>
+                        <h4 class="panel-title">SEARCH TOTALS</h4>
                     </div>
                         <div class="panel-body">
                             <div class="table-responsive">
-                                <table border="1" width="50%" style="text-align: center;">
+                                <table border="1" width="50%" style="text-align: center;" class="table table-bordered tablesorter">
                               <?php if (isset($results))
                                     { 
                                         if ($results->num_rows() > 0)
                                         { ?>
-                                            <thead align="center">
+                                            <thead>
                                                 <tr>
-                                                    <th>&nbsp;</th>
+                                                    <th>Payment Source</th>
                                                     <th>Number of Transactions</th>
                                                     <th>Amount</th>
                                                 </tr>
@@ -146,15 +146,39 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                                 <?php
                                                 echo "<tr>";
                                                     echo "<td>";
-                                                        echo "Totals";
+                                                        echo "<strong>All Transactions</strong>";
                                                     echo "</td>";
                                                     echo "<td>";
                                                         echo $num_results;
                                                     echo "</td>";
-                                                    echo "<td>";
+                                                    echo "<td align='right'>";
                                                         echo sprintf('$%01.2f', $total_amount);
                                                     echo "</td>";
-                                                echo "<tr>";
+                                                echo "</tr>";
+
+                                                echo '<tr>';
+                                                    echo "<td>";
+                                                    echo "<strong>Classified Ad</strong>";
+                                                    echo "</td>";
+                                                    echo "<td>";
+                                                    echo $totals_ca -> num_ca;
+                                                    echo "</td>";
+                                                    echo "<td align='right'>";
+                                                    echo sprintf('$%01.2f', $totals_ca -> amount_ca);
+                                                    echo "</td>";
+                                                echo '</tr>';
+
+                                                echo '<tr>';
+                                                    echo "<td>";
+                                                    echo "<strong>Display Ad</strong>";
+                                                    echo "</td>";
+                                                    echo "<td>";
+                                                    echo $totals_da -> num_da;
+                                                    echo "</td>";
+                                                    echo "<td align='right'>";
+                                                    echo sprintf('$%01.2f', $totals_da -> amount_da);
+                                                    echo "</td>";
+                                                echo '</tr>';
                                                 ?>
                                 </table>
                                  <?php }
@@ -173,27 +197,25 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <div class="panel-body">
                             
                                     <div class="table-responsive">
-                                        <table id="myTable" class="table table-bordered tablesorter">
+                                        <table id="myTable" class="table table-bordered tablesorter" style="font-size:8pt; table-layout:fixed;">
                                             <thead>
-                                                <?php 
+                                                <?php
                                                 if (isset($results))
                                                 {
                                                     if ($results->num_rows() > 0)
                                                     { ?>
                                                         <tr>
-                                                            <th>Batch Number</th>
-                                                            <th>Date</th>
-                                                            <th>Payer</th>
-                                                            <th>Email</th>
-                                                            <th>Notes</th>
-                                                            <th>Amount</th>
-                                                            <th>Auth Code</th>
-                                                            <th>Status</th>
-                                                            <th>Type</th>
-                                                            <th>CVV2 Result</th>
-                                                            <th>CC Last 4</th>
-                                                            <th>Card Type</th>
-                                                            <th>Actions</th>
+                                                            <th width="10%">Batch Number</th>
+                                                            <th width="8%">Date</th>
+                                                            <th width="18%">Payer/Email</th>
+                                                            <th width="7%">Amount</th>
+                                                            <th width="9%">Auth Code</th>
+                                                            <th width="8%">Status</th>
+                                                            <th width="7%">Type</th>
+                                                            <th width="10%">CVV2 Result</th>
+                                                            <th width="8%">CC Last 4</th>
+                                                            <th width="8%">Card Type</th>
+                                                            <th width="7%">Actions</th>
                                                         </tr>
                                             </thead>
                                             <tbody>
@@ -205,16 +227,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                                             echo strlen($result->SerialNumber) == 0 ? $result->TransactionFileName : $result->SerialNumber;
                                                         echo "</td>";
                                                         echo "<td>";
-                                                            echo date_conversion_nowording($result->InsertDate);
+                                                            echo date_conversion_nowording_with_break($result->InsertDate);
                                                         echo "</td>";
                                                         echo "<td>";
-                                                            echo $result->firstname. ' ' . $result->middleinitial . ' ' . $result->lastname;
-                                                        echo "</td>";
-                                                        echo "<td>";
-                                                            echo $result->email;
-                                                        echo "</td>";
-                                                        echo "<td>";
-                                                            echo $result->notes;
+                                                            echo $result->firstname. ' ' . $result->lastname . '<br/>' . $result->email;
                                                         echo "</td>";
                                                         echo "<td align='right'>";
                                                             echo sprintf('$%01.2f', $result->TransactionAmount);
@@ -238,7 +254,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                                         echo "<td>";
                                                             echo $result->cclast4;
                                                         echo "</td>";
-                                                        echo "<td>";
+                                                        echo "<td align='center'>";
                                                             switch ($result->cardtype) {
                                                                 case 'visa':
                                                                     echo '<i class="fa fa-2x fa-cc-visa"></i>';

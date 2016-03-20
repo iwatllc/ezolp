@@ -313,10 +313,21 @@ if($Classifiedad_Clientform == "FALSE") {
                                 </div>
 
                             <?php
+                            if (date('d') < 25)
+                            {
+                                // The date is less than the 25th. Use the next month as first month.
                                 for ($i = 0; $i < 12; $i++)
                                 {
                                     $month_array[$i] = date('F', strtotime('first day of +'.($i+1).' month'));
                                 }
+                            } else
+                            {
+                                // The day of the month is greater than the 25th.  Use the month after next month as the first month.
+                                for ($i = 0; $i < 12; $i++)
+                                {
+                                    $month_array[$i] = date('F', strtotime('first day of +'.($i+2).' month'));
+                                }
+                            }
                             ?>
 
                             <legend>I would like my ad to be listed in the following issue(s):</legend>
@@ -675,13 +686,12 @@ if($Classifiedad_Clientform == "FALSE") {
 
 
 <script src="<?php echo base_url(); ?>/assets/plugins/jquery-payment/lib/jquery.payment.min.js"></script>
+<script src="<?php echo base_url(); ?>assets/js/googleanalytics.js"></script>
+
 
 <script type="text/javascript">
 
     $(document).ready(function() {
-
-
-
         var lines_per_char = "<?php echo $lines_per_char ?>";
         var price_per_line = "<?php echo $price_per_line ?>";
 

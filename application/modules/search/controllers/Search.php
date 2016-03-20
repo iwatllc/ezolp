@@ -67,6 +67,15 @@ class Search extends MX_Controller {
         
         $this -> load -> model('Search_model', 'Search');
 
+        if ($search_array['BegDate'] == '1969-12-31')
+        {
+            $search_array['BeginDate'] = NULL;
+        }
+        if ($search_array['EndDate'] == '1969-12-31')
+        {
+            $search_array['EndDate'] = NULL;
+        }
+
         $data['results'] = $this->Search -> get_search_results($search_array);
 
         $data['num_results'] = $this -> Search -> get_num_results($data['results']);
@@ -74,6 +83,10 @@ class Search extends MX_Controller {
         $data['total_amount'] = floor($total_amount * 100) / 100; // round down nearest 2 decimal places
         
         $data['search_array'] = $search_array;
+
+        // Get total number of transactions and amounts from Display Ads and Classified Ads
+        $data['totals_ca'] = $this -> Search -> get_classifiedad_totals();
+        $data['totals_da'] = $this -> Search -> get_displayad_totals();
 
         $view_vars = array(
             'title' => $this->config->item('Company_Title'),

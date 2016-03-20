@@ -55,6 +55,21 @@ function date_conversion_nowording($date)
 
 }
 
+function date_conversion_nowording_with_break($date)
+{
+	// first check the date and make sure it is a date.
+	if ($date == NULL or strlen($date) == 0 or $date == '0000-00-00 00:00:00' or $date == '0000-00-00'){
+		return "";
+	} else {
+		$adate = date_create($date);
+
+		$thedate = $adate -> format('m/d/Y');
+		$thetime = $adate -> format('h:i a');
+
+		return $thedate . '<br/>' . $thetime;
+	}
+}
+
 function date_conversion($date)
 {
 	// first check the date and make sure it is a date.
