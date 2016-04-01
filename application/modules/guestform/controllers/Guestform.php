@@ -46,6 +46,17 @@ class Guestform extends MX_Controller {
 
         // Call helper function to setup form validation
         $this->setup_form_validation();
+        
+        // Determine if it is recurreing and what type of recurring it is.
+        $recurring = $this->input->post('recurring');
+        if ($recurring == "One-Time"){
+            log_message('debug', 'One-Time Gift');
+        }elseif($recurring == "Recurring"){
+            log_message('debug', 'Recurring Gift');
+        }elseif($recurring == "Pledge"){
+            log_message('debug', 'Pledge');
+        }
+        
 
         if ($this->form_validation->run() == false) {
             $this->index();
@@ -64,7 +75,14 @@ class Guestform extends MX_Controller {
                 'notes' => $this->input->post('notes'),
                 'cardtype' => $this->input->post('cardtype'),
                 'cclast4' => substr($this->input->post('creditcard'), -4),
-                'amount' => str_replace( ',', '', $this->input->post('paymentamount') ),
+                'amount' => str_replace( ',', '', ( $this->input->post('paymentamount') === 'other' ? $this->input->post('otheramount') : $this->input->post('paymentamount')) ),
+                'recurring' => $this->input->post('recurring'),
+
+
+
+
+
+
                 'InsertDate' => date('Y-n-j H:i:s'),
             );
 
@@ -150,37 +168,73 @@ class Guestform extends MX_Controller {
     private function setup_form_validation() {
         log_message('debug', 'Setting up GuestForm form validation...');
 
+        $this->form_validation->set_rules('cardtype', 'Card Type','trim');
+        $this->form_validation->set_rules('paymentamount', 'Payment Amount', 'required');
+        $this->form_validation->set_rules('otheramount', 'Other Amount', 'trim|callback_check_otheramount');
+        $this->form_validation->set_rules('recurring', 'Recurring', 'required');
+        $recurring = $this->input->post('recurring');
+        if ($recurring == "One-Time"){
+            log_message('debug', 'One-Time Gift');
+            // Don't Need to Validate anything.
+        }elseif($recurring == "Recurring"){
+            log_message('debug', 'Recurring Gift');
+            $this->form_validation->set_rules('frequency', 'Recurring Frequency','required');
+            $this->form_validation->set_rules('recurring-start-date', 'Recurring Start Date','required');
+            $this->form_validation->set_rules('recurring-end-date', 'Recurring End Date','required');
+        }elseif($recurring == "Pledge"){
+            log_message('debug', 'Pledge');
+            $this->form_validation->set_rules('installments', 'Installments','required');
+            $this->form_validation->set_rules('amount_installments', 'Amount of Installments','required');
+            $this->form_validation->set_rules('pledge_frequency', 'Pledge Frequency','required');
+            $this->form_validation->set_rules('pledge-start-date', 'Pledge Start Date','required');
+            $this->form_validation->set_rules('pledge-end-date', 'Pledge End Date','required');
+        }
+        $this->form_validation->set_rules('designations', 'Designations','required');
+
         $this->form_validation->set_rules('firstname', 'First Name', 'required|max_length[100]');
         $this->form_validation->set_rules('middleinitial', 'Middle Initial', 'max_length[1]');
         $this->form_validation->set_rules('lastname', 'Last Name', 'required|max_length[100]');
         $this->form_validation->set_rules('streetaddress', 'Street Address', 'required|max_length[100]');
+        $this->form_validation->set_rules('streetaddress2', 'Street Addresse', 'trim');
         $this->form_validation->set_rules('city', 'City', 'required|max_length[100]');
         $this->form_validation->set_rules('state', 'State', 'required|callback_check_default');
         $this->form_validation->set_rules('zip', 'Zip Code', 'required|min_length[5]|max_length[5]');
+        $this->form_validation->set_rules('phone', 'Phone', 'trim');
         $this->form_validation->set_rules('email', 'Email', 'valid_email');
+        
         $this->form_validation->set_rules('creditcard', 'Credit Card', 'required|callback_check_creditcard');
         $this->form_validation->set_rules('expirationmonth', 'Expiration Month', 'required|callback_check_default');
         $this->form_validation->set_rules('expirationyear', 'Expiration Year', 'required');
         $this->form_validation->set_rules('cvv2', 'CVV2 Code', 'required|min_length[3]|max_length[4]');
-        $this->form_validation->set_rules('paymentamount', 'Payment Amount', 'required');
 
-        // Handle notes field requirement
-        $Guestform_Notes_Required = $this->configsys->get_config_value('Guestform_Notes_Required');
-        if ($Guestform_Notes_Required == 'TRUE'){
-            $this->form_validation->set_rules('notes', 'Notes', 'required');
+        // Tribute Information
+        $this->form_validation->set_rules('mailtribute', 'Mail Tribute', 'trim');
+        $this->form_validation->set_rules('mailtribute', 'Mail Tribute', 'trim');
+
+        // Check to see if the mailtribute option was set and then if it was
+        // setup the form validation for the fields.
+        $mailtribute = $this->input->post('mailtribute');
+        if ($mailtribute == 'mailtribute') {
+            $this->form_validation->set_rules('tributeelastname', 'Last Name', 'required|max_length[100]');
+            $this->form_validation->set_rules('tributetolastname', 'Last Name', 'required|max_length[100]');
+            $this->form_validation->set_rules('tributetostreetaddress', 'Street Address', 'required|max_length[100]');
+            $this->form_validation->set_rules('tributetocity', 'City', 'required|max_length[100]');
+            $this->form_validation->set_rules('tributetostate', 'State', 'required|callback_check_default');
+            $this->form_validation->set_rules('tributetozip', 'Zip Code', 'required|min_length[5]|max_length[5]');
         }
 
-        // Handle notes field requirement
-        $Guestform_Email_Required = $this->configsys->get_config_value('Guestform_Email_Required');
-        if ($Guestform_Email_Required == 'TRUE'){
-            $this->form_validation->set_rules('email', 'Email', 'required');
-        }
+
+
+
     }
 
     /*
      * Returns the body for an email receipt
      */
     private function get_email_body() {
+
+        $Guestform_Notes_Required = $this->configsys->get_config_value('Guestform_Notes_Required');
+
         $message = '<!DOCTYPE html><html><body>';
         $message .= '<p>';
         $message .= 'Thank you for your payment';
@@ -189,6 +243,10 @@ class Guestform extends MX_Controller {
         $message .= '<br>';
         $message .= '<hr>';
         $message .= $this->input->post('firstname'). ' ' . $this->input->post('lastname');
+        if ($Guestform_Notes_Required == 'TRUE') {
+            $message .= '<br>';
+            $message .= $this->input->post('notes');
+        }
         $message .= '<br>';
         $message .= $this->input->post('cardtype'). ' Ending in ' . substr($this->input->post('creditcard'), -4);
         $message .= '<br>';
@@ -225,6 +283,33 @@ class Guestform extends MX_Controller {
         }
 
         return $result;
+    }
+
+    function check_otheramount($post_string)
+    {
+        $paymentamount = $this->input->post('paymentamount');
+
+        log_message('debug', 'Payment amount = '.$paymentamount);
+
+        if(strcasecmp($paymentamount, 'other') == 0) {
+            if(strlen($post_string) == 0) {
+                log_message('debug', 'check_otheramount FAILED length check = '.$post_string);
+                $this->form_validation->set_message('check_otheramount', 'Enter a donation amount');
+                return FALSE;
+            }
+            // Relax this condition since we are formatting the number with decimals places.
+            /*else if(is_numeric($post_string) == FALSE) {
+                log_message('debug', 'check_otheramount FAILED is_numeric check = '.$post_string);
+                $this->form_validation->set_message('check_otheramount', 'Amount must be numeric');
+                return FALSE;
+            }*/
+            else if($post_string <= 0) {
+                log_message('debug', 'check_otheramount FAILED > 0 check = '.$post_string);
+                $this->form_validation->set_message('check_otheramount', 'Amount must greater than 0');
+                return FALSE;
+            }
+        }
+        return TRUE;
     }
 
 }
