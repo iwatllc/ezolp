@@ -144,7 +144,7 @@ class Recurring extends MX_Controller {
     private function _NMI_post_recurring($data){
 
         $this->load->module('nmi');
-        $result_data = $this->nmi->doCancelRecurring($data);
+        $result_data = $this->nmi->doRecurring($data);
 
         return array(
             'AuthCode' => $result_data['authcode'],

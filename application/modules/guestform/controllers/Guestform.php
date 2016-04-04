@@ -49,20 +49,44 @@ class Guestform extends MX_Controller {
         
         // Determine if it is recurreing and what type of recurring it is.
         $recurring = $this->input->post('recurring');
+        $frequency = '';
+        $start_date = '';
+        $end_date = '';
+        $installments = '0';
+        $amount_installments = '';
         if ($recurring == "One-Time"){
             log_message('debug', 'One-Time Gift');
         }elseif($recurring == "Recurring"){
             log_message('debug', 'Recurring Gift');
+            $frequency = $this->input->post('frequency');
+            $start_date = $this->input->post('recurring-start-date');
+            $end_date = $this->input->post('recurring-end-date');
+            $installments = $this->numberofinstallments($frequency, $start_date, $end_date);
         }elseif($recurring == "Pledge"){
             log_message('debug', 'Pledge');
+            $installments = $this->input->post('installments');
+            $amount_installments = $this->input->post('amount_installments');
+            $frequency = $this->input->post('pledge_frequency');
+            $start_date = $this->input->post('pledge-start-date');
+            $end_date = $this->input->post('pledge-end-date');
         }
-        
+
+        // Payment Amount submitted
+        $amount = str_replace( ',', '', ( $this->input->post('paymentamount') === 'other' ? $this->input->post('otheramount') : $this->input->post('paymentamount')) );
 
         if ($this->form_validation->run() == false) {
             $this->index();
         } else {
             // Construct array of submitted data
             $submitted_data = array(
+                'amount' => $amount,
+                'recurring' => $this->input->post('recurring'),
+                'frequency' => $frequency,
+                'start_date' => date('Y-n-j', strtotime($start_date)),
+                'end_date' => date('Y-n-j', strtotime($end_date)),
+                'installments' => $installments,
+                'amount_installments' => $amount_installments,
+                'designation' => $this->input->post('designations'),
                 'firstname' => $this->input->post('firstname'),
                 'middleinitial' => $this->input->post('middleinitial'),
                 'lastname' => $this->input->post('lastname'),
@@ -71,47 +95,94 @@ class Guestform extends MX_Controller {
                 'city' => $this->input->post('city'),
                 'state' => $this->input->post('state'),
                 'zip' => $this->input->post('zip'),
+                'phone' => $this->input->post('phone'),
                 'email' => $this->input->post('email'),
-                'notes' => $this->input->post('notes'),
                 'cardtype' => $this->input->post('cardtype'),
                 'cclast4' => substr($this->input->post('creditcard'), -4),
-                'amount' => str_replace( ',', '', ( $this->input->post('paymentamount') === 'other' ? $this->input->post('otheramount') : $this->input->post('paymentamount')) ),
-                'recurring' => $this->input->post('recurring'),
-
-
-
-
-
-
+                'tributetype' => $this->input->post('tributetype'),
+                'tributeefirstname' => $this->input->post('tributeefirstname'),
+                'mailtribute' => $this->input->post('mailtribute'),
+                'tributeelastname' => $this->input->post('tributeelastname'),
+                'tributetofirstname' => $this->input->post('tributetofirstname'),
+                'tributetolastname' => $this->input->post('tributetolastname'),
+                'tributetoaddress' => $this->input->post('tributetostreetaddress'),
+                'tributetoaddress2' => $this->input->post('tributetostreetaddress2'),
+                'tributetocity' => $this->input->post('tributetocity'),
+                'tributetostate' => $this->input->post('tributetostate'),
+                'tributetozip' => $this->input->post('tributetozip'),
+                'tributetophone' => $this->input->post('tributetophone'),
+                'tributetoemail' => $this->input->post('tributetoemail'),
                 'InsertDate' => date('Y-n-j H:i:s'),
             );
 
             // Get insertd record id to use as transaction id.
             $transaction_id = $this->Guestform->save($submitted_data);
 
-            // Add transaction id to submitted data and pass to payment method.
-            $submitted_data['transaction_id'] = $transaction_id;
-            $submitted_data['creditcard'] = $this->input->post('creditcard');
-            $submitted_data['expirationmonth'] = $this->input->post('expirationmonth');
-            $submitted_data['expirationyear'] = $this->input->post('expirationyear');
-            $submitted_data['cvv2'] = $this->input->post('cvv2');
-            $submitted_data['PaymentSource'] = 'GF';
 
-            // Process Credit Card            
-            $result_data = $this->payment->process_payment($submitted_data);
-
-            // Was the credit card processed successfully?
-            if($result_data['IsApproved'] == '1') {
-                // Trigger Events
-                Events::trigger('guestform_payment_approved', $this->get_view_data($submitted_data, $result_data), 'string');
-
+            if ($recurring == "Pledge"){
                 // Handle Guestform Receipt
                 if(strcasecmp($this->configsys->get_config_value('Guestform_Sendreceipt'), 'false')) {
                     // Send Receipt
-                    $this->email_sys->send_email($submitted_data['email'], 
-                        $this->configsys->get_config_value('Guesform_Email_Subject', "Payment Receipt"), 
+                    $this->email_sys->send_email($submitted_data['email'],
+                        $this->configsys->get_config_value('Guesform_Email_Subject', "Payment Receipt"),
                         $this->get_email_body());
                 }
+
+                $result_data = array(
+                    'IsApproved' => '1',
+                    'ResponseHTML' => 'NONE',
+                    'ReturnCode' => 'NONE',
+                    'OrderNumber' => 'N/A For Pledge',
+                    'UpdateDate' => date('Y-n-j H:i:s'),
+                );
+            } else {
+                // Add transaction id to submitted data and pass to payment method.
+                $submitted_data['transaction_id'] = $transaction_id;
+                $submitted_data['creditcard'] = $this->input->post('creditcard');
+                $submitted_data['expirationmonth'] = $this->input->post('expirationmonth');
+                $submitted_data['expirationyear'] = $this->input->post('expirationyear');
+                $submitted_data['cvv2'] = $this->input->post('cvv2');
+                $submitted_data['PaymentSource'] = 'GF';
+
+                // Process Credit Card
+                $result_data = $this->payment->process_payment($submitted_data);
+
+                // Was the credit card processed successfully?
+                if($result_data['IsApproved'] == '1') {
+                    // Handle Guestform Receipt
+                    if(strcasecmp($this->configsys->get_config_value('Guestform_Sendreceipt'), 'false')) {
+                        // Send Receipt
+                        $this->email_sys->send_email($submitted_data['email'],
+                            $this->configsys->get_config_value('Guesform_Email_Subject', "Payment Receipt"),
+                            $this->get_email_body());
+                    }
+                }
+
+                // Handle Recurring Dontation
+                if($recurring == "Recurring") {
+                    $recurring_data['recurring'] ='add_subscription';
+                    $recurring_data['plan_payments'] = $installments;
+                    $recurring_data['plan_amount'] = $amount;
+                    $recurring_data['month_frequency'] = '1';
+                    $recurring_data['day_of_month'] = $frequency;
+                    $recurring_data['creditcard'] = $this->input->post('creditcard');
+                    $recurring_data['expirationmonth'] = $this->input->post('expirationmonth');
+                    $recurring_data['expirationyear'] = $this->input->post('expirationyear');
+                    $recurring_data['cardtype'] = $this->input->post('cardtype');
+                    $recurring_data['first_name'] = $this->input->post('firstname');
+                    $recurring_data['last_name'] = $this->input->post('lastname');
+                    $recurring_data['address1'] = $this->input->post('streetaddress');
+                    $recurring_data['city'] = $this->input->post('city');
+                    $recurring_data['state'] = $this->input->post('state');
+                    $recurring_data['zip'] = $this->input->post('zip');
+                    $recurring_data['email'] = $this->input->post('email');
+
+                    $this->load->module('recurring');
+                    $result_data_recurring = $this->recurring->addrecurring($recurring_data);
+
+                    $data['result_data_recurring'] = $result_data_recurring;
+                }
+
             }
 
             // Load the guestform result view
@@ -208,7 +279,8 @@ class Guestform extends MX_Controller {
         $this->form_validation->set_rules('cvv2', 'CVV2 Code', 'required|min_length[3]|max_length[4]');
 
         // Tribute Information
-        $this->form_validation->set_rules('mailtribute', 'Mail Tribute', 'trim');
+        $this->form_validation->set_rules('tributetype', 'Tribute Type', 'trim');
+        $this->form_validation->set_rules('tributeefirstname', 'Tribute First Name', 'trim');
         $this->form_validation->set_rules('mailtribute', 'Mail Tribute', 'trim');
 
         // Check to see if the mailtribute option was set and then if it was
@@ -216,11 +288,15 @@ class Guestform extends MX_Controller {
         $mailtribute = $this->input->post('mailtribute');
         if ($mailtribute == 'mailtribute') {
             $this->form_validation->set_rules('tributeelastname', 'Last Name', 'required|max_length[100]');
+            $this->form_validation->set_rules('tributetofirstname', 'Tribute First Name', 'trim');
             $this->form_validation->set_rules('tributetolastname', 'Last Name', 'required|max_length[100]');
             $this->form_validation->set_rules('tributetostreetaddress', 'Street Address', 'required|max_length[100]');
+            $this->form_validation->set_rules('tributetostreetaddress2', 'Street Address2', 'trim');
             $this->form_validation->set_rules('tributetocity', 'City', 'required|max_length[100]');
             $this->form_validation->set_rules('tributetostate', 'State', 'required|callback_check_default');
             $this->form_validation->set_rules('tributetozip', 'Zip Code', 'required|min_length[5]|max_length[5]');
+            $this->form_validation->set_rules('tributetophone', 'Phone', 'trim');
+            $this->form_validation->set_rules('tributetoemail', 'Email', 'trim');
         }
 
 
@@ -234,10 +310,12 @@ class Guestform extends MX_Controller {
     private function get_email_body() {
 
         $Guestform_Notes_Required = $this->configsys->get_config_value('Guestform_Notes_Required');
+        $amount = ( $this->input->post('paymentamount') === 'other' ? $this->input->post('otheramount') : $this->input->post('paymentamount') );
+
 
         $message = '<!DOCTYPE html><html><body>';
         $message .= '<p>';
-        $message .= 'Thank you for your payment';
+        $message .= 'Thank you for your donation';
         $message .= '<br>';
         $message .= 'Please keep this receipt for your records';
         $message .= '<br>';
@@ -250,16 +328,44 @@ class Guestform extends MX_Controller {
         $message .= '<br>';
         $message .= $this->input->post('cardtype'). ' Ending in ' . substr($this->input->post('creditcard'), -4);
         $message .= '<br>';
-        $message .= 'Amount Paid: ' . str_replace( ',', '', $this->input->post('paymentamount') );
+        $message .= 'Amount Paid: ' . str_replace( ',', '', $amount );
         $message .= '<br>';
         $message .= 'Date: ' . date('Y-n-j H:i:s') ;
         $message .= '<hr>';
+        $message .= '<br>';
+        $message .= 'Tribute Information';
+        $message .= ''.$this->input->post('tributetype');
+        $message .= '<br>';
+        $message .= 'First Name: '.$this->input->post('tributeefirstname');
+        $message .= '<br>';
+        $message .= 'Last Name: '.$this->input->post('tributeelastname');
+        $message .= '<br>';
+        $message .= 'Mail Tribute To';
+        $message .= '<br>';
+        $message .= 'First Name: '.$this->input->post('tributetofirstname');
+        $message .= '<br>';
+        $message .= 'Last Name: '.$this->input->post('tributetolastname');
+        $message .= '<br>';
+        $message .= 'Address: '.$this->input->post('tributetostreetaddress');
+        $message .= '<br>';
+        $message .= 'Address 2: '.$this->input->post('tributetostreetaddress2');
+        $message .= '<br>';
+        $message .= 'City: '.$this->input->post('tributetocity');
+        $message .= '<br>';
+        $message .= 'State: '.$this->input->post('tributetostate');
+        $message .= '<br>';
+        $message .= 'Zip: '.$this->input->post('tributetozip');
+        $message .= '<br>';
+        $message .= 'Phone: '.$this->input->post('tributetophone');
+        $message .= '<br>';
+        $message .= 'Email: '.$this->input->post('tributetoemail');
         $message .= '<br>';
         $message .= '</p>';
         $message .= '</body></html>';
 
         return $message;
     }
+
 
     function check_default($post_string)
     {
@@ -311,5 +417,30 @@ class Guestform extends MX_Controller {
         }
         return TRUE;
     }
+
+    // Calculate the number of payments that will be done between two dates.
+    function numberofinstallments($paymentday, $start, $end)
+    {
+
+        $start = new DateTime($start);
+        $end = new DateTime($end);
+
+        $count = 0;
+        $interval = new \DateInterval('P1D');
+        $period = new \DatePeriod($start, $interval, $end);
+
+        if (strlen($paymentday) == 1){
+            $paymentday = '0'.$paymentday;
+        }
+
+        foreach($period as $day){
+            if($day->format('d') === $paymentday){
+                $count ++;
+            }
+        }
+        return $count;
+
+    }
+
 
 }

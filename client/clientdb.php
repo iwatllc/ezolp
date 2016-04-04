@@ -8,11 +8,16 @@ $query_builder = TRUE;
 
 $db['default'] = array(
     'dsn'	=> '',
+    // Locally hosted on my machine
+    //'hostname' => '127.0.0.1:8889',
+    // Vagrant
     'hostname' => 'localhost',
-    'username' => 'ezolp',
+    'username' => 'bhf',
     // 'username' => 'root',
-    'password' => '45RaaMUvZawF9CLP',
-    'database' => 'ezolp',
+    // Locally hosted on my machine
+    // 'password' => 'ezolp',
+    'password' => 'bhf',
+    'database' => 'bhf',
     'dbdriver' => 'mysqli',
     'dbprefix' => '',
     'pconnect' => FALSE,

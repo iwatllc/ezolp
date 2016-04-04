@@ -300,8 +300,6 @@ class Dashboard_model extends CI_Model {
         $result_array = array();
 
         // Find the difference between begin and end date
-//        $begin_date = new DateTime("2010-09-05");
-//        $end_date = new DateTime("2010-10-05");
         $begin_date = new DateTime($begin_date);
         $end_date = new DateTime($end_date);
 
@@ -314,6 +312,8 @@ class Dashboard_model extends CI_Model {
             $this->db->select_sum('TransactionAmount');
             $this->db->from('payment_response');
             $this->db->where('DATE(payment_response.InsertDate) >=', $days_array[$i] . ' 00:00:00')->where('DATE(payment_response.InsertDate) <=', $days_array[$i] . ' 23:59:59');
+            $this->db->where('TransactionStatusID', '1');
+            // $sql = $this->db->get_compiled_select();
             $query = $this->db->get();
             $result_array[$i] = $query->row()->TransactionAmount;
         }
