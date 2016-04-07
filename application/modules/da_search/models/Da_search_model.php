@@ -141,7 +141,7 @@ class Da_search_model extends CI_Model
                 $this -> db -> where('displayad_submissions.cancelled IS NULL', NULL, FALSE);
             }
 
-            $this -> db -> join('da_imageupload_approved', 'displayad_submissions.id = da_imageupload_approved.da_submissionid', 'inner');
+            $this -> db -> join('da_imageupload_approved', 'displayad_submissions.id = da_imageupload_approved.da_submissionid', 'left');
 
             $this -> db -> join('users AS au', 'displayad_submissions.approvedby = au.id', 'left');
 

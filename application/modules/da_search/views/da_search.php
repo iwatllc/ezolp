@@ -327,50 +327,51 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     echo "</td>";
                                     echo "<td>";
 
-                                        $images = array_unique(explode(", ", $result->approvedfilenames));
-
-                                        foreach($images as $image)
+                                        if($result-> approvedfilenames != '')
                                         {
-                                            echo '<div id="'.$image.'">';
+                                            $approvedimages = array_unique(explode(", ", $result->approvedfilenames));
+                                            foreach($approvedimages as $image)
+                                            {
+                                                echo '<div id="'.$image.'">';
+                                                $info = pathinfo($image);
+                                                // Check image extension if PDF so that we can display it as embeded image
+                                                if ($info["extension"] == "pdf")
+                                                {
+                                                    ?>
+                                                    <div class="dropdown">
+                                                        <button class="dropbtn">
+                                                            <a href="<?php echo base_url('/image/approved_uploads/' . $image) ?>" target="_blank">
+                                                                <embed width="100%" height="100%" name="plugin" src="<?php echo base_url('/image/approved_uploads/'.$image) ?>" type="application/pdf">
+                                                            </a>
+                                                        </button>
+                                                        <div class="dropdown-content">
+                                                            <a href="<?php echo base_url('/image/approved_uploads/' . $image) ?>" target="_blank">View</a>
+                                                            <a href="<?php echo base_url('/image/approved_uploads/' . $image) ?>" download="<?php echo $image ?>">Download</a>
+                                                            <a id="delete-image" name="<?php echo $image ?>" style="cursor:pointer;">Delete</a>
+                                                        </div>
+                                                    </div>
+                                                    <?php
+                                                } else
+                                                {
+                                                    ?>
+                                                    <div class="dropdown">
+                                                        <button class="dropbtn">
+                                                            <a href="<?php echo base_url('/image/approved_uploads/' . $image) ?>" target="_blank">
+                                                                <img class="autoResizeImage" src="<?php echo base_url('/image/approved_uploads/' . $image) ?>" style="max-width: 100px;max-height: 100px;" >
+                                                            </a>
+                                                        </button>
+                                                        <div class="dropdown-content">
+                                                            <a href="<?php echo base_url('/image/approved_uploads/' . $image) ?>" target="_blank">View</a>
+                                                            <a href="<?php echo base_url('/image/approved_uploads/' . $image) ?>" download="<?php echo $image ?>">Download</a>
+                                                            <a id="delete-image" name="<?php echo $image ?>" style="cursor:pointer;">Delete</a>
+                                                        </div>
+                                                    </div>
+                                                    <?php
+                                                }
+                                                echo '<hr/>';
 
-                                            $info = pathinfo($image);
-                                            // Check image extension if PDF so that we can display it as embeded image
-                                            if ($info["extension"] == "pdf")
-                                            {
-                                                ?>
-                                                <div class="dropdown">
-                                                    <button class="dropbtn">
-                                                        <a href="<?php echo base_url('/image/approved_uploads/' . $image) ?>" target="_blank">
-                                                            <embed width="100%" height="100%" name="plugin" src="<?php echo base_url('/image/approved_uploads/'.$image) ?>" type="application/pdf">
-                                                        </a>
-                                                    </button>
-                                                    <div class="dropdown-content">
-                                                        <a href="<?php echo base_url('/image/approved_uploads/' . $image) ?>" target="_blank">View</a>
-                                                        <a href="<?php echo base_url('/image/approved_uploads/' . $image) ?>" download="<?php echo $image ?>">Download</a>
-                                                        <a id="delete-image" name="<?php echo $image ?>" style="cursor:pointer;">Delete</a>
-                                                    </div>
-                                                </div>
-                                                <?php
-                                            } else
-                                            {
-                                                ?>
-                                                <div class="dropdown">
-                                                    <button class="dropbtn">
-                                                        <a href="<?php echo base_url('/image/approved_uploads/' . $image) ?>" target="_blank">
-                                                            <img class="autoResizeImage" src="<?php echo base_url('/image/approved_uploads/' . $image) ?>" style="max-width: 100px;max-height: 100px;" >
-                                                        </a>
-                                                    </button>
-                                                    <div class="dropdown-content">
-                                                        <a href="<?php echo base_url('/image/approved_uploads/' . $image) ?>" target="_blank">View</a>
-                                                        <a href="<?php echo base_url('/image/approved_uploads/' . $image) ?>" download="<?php echo $image ?>">Download</a>
-                                                        <a id="delete-image" name="<?php echo $image ?>" style="cursor:pointer;">Delete</a>
-                                                    </div>
-                                                </div>
-                                                <?php
+                                                echo '</div>';
                                             }
-                                            echo '<hr/>';
-
-                                            echo '</div>';
                                         }
 
                                         echo '<br/>';
@@ -537,9 +538,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 if (res) {
 
                     // Remove image and dropdown
-                    var filename = res.filename;
-                    filename = filename.replace(/\./g,'\\.');
-                    $('div#'+filename).remove();
+//                    var filename = res.filename;
+//                    filename = filename.replace(/\.[^/.]+$/, "");
+                    location.reload();
+//                    filename = filename.replace(/\./g,'\\.');
+//                    $('#'+filename).remove();
                 }
             },
             error: function(XMLHttpRequest, textStatus, errorThrown) {
