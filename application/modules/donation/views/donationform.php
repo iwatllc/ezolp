@@ -160,11 +160,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                                 <div class="col-md-9">
                                                     <?php
                                                     $data = array(
-                                                        'name'          => 'recurring[]',
+                                                        'name'          => 'recurring',
                                                         'id'            => 'recurring',
                                                         'value'         => 'recurring',
                                                         'class'         => 'form-control max-250',
-                                                        'checked'       => set_checkbox('recurring[]')
+                                                        'checked'       => set_checkbox('recurring')
                                                     );
                                                     echo form_checkbox($data);
                                                     ?>

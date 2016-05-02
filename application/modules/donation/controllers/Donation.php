@@ -104,7 +104,7 @@ class Donation extends MX_Controller {
                 }
 
                 // Handle Recurring Dontation
-                if($this->input->post('recurring')[0] == 'recurring') {
+                if($isrecurring == 'recurring') {
                     $recurring_data['recurring'] ='add_subscription';
                     $recurring_data['plan_payments'] = '0';
                     $recurring_data['plan_amount'] = $this->get_payment_amount();
