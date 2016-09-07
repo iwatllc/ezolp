@@ -455,6 +455,8 @@ if($Virtualterminal_Clientform == "FALSE") {
         var formattedname = firstname.concat(" ", lastname).trim();
 
         $("[name='fullname']").val(formattedname);
+        $("[name='firstname']").val(firstname);
+        $("[name='lastname']").val(lastname);
         $("[name='creditcard']").val(data.PAN);
 
         // Set Value of Element then run the selectpicker refresh
