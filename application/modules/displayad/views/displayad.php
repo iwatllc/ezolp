@@ -701,7 +701,7 @@ if($Displayad_Clientform == "FALSE") {
                             <div class="form-group">
                                 <label class="col-md-3 control-label">Submit</label>
                                 <div class="col-md-9">
-                                    <button type="submit" name="submit" class="btn btn-sm btn-success">Submit Button</button>
+                                    <button type="submit" name="submit" class="btn btn-sm btn-success">Submit</button>
                                 </div>
                             </div>
                             <br/>

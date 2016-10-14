@@ -50,7 +50,10 @@ class Displayad extends MX_Controller {
 
             $name_array = array();
             $count = count($_FILES['userfile']['size']);
-            foreach($_FILES as $key => $value)
+
+            if ($_FILES['userfile']['name'][0] != '') // check to make sure there are files uploaded
+            {
+                foreach($_FILES as $key => $value)
             {
                 for($s = 0; $s <= $count - 1; $s++)
                 {
@@ -103,6 +106,7 @@ class Displayad extends MX_Controller {
                         return;
                     }
                 }
+            }
             }
 
             $names = implode(',', $name_array); // get all the names of the files into a comma separated string
@@ -220,10 +224,10 @@ class Displayad extends MX_Controller {
         $this -> form_validation -> set_rules('size[]', 'Size and Color', 'required');
 
         // set form validation for file upload
-        if ($_FILES['userfile']['name'][0] == '')
-        {
-            $this -> form_validation -> set_rules('userfile[]', 'File(s)', 'required');
-        }
+//        if ($_FILES['userfile']['name'][0] == '')
+//        {
+//            $this -> form_validation -> set_rules('userfile[]', 'File(s)', 'required');
+//        }
 
         $this -> form_validation -> set_rules('grandtotal', 'Total', 'required');
 
