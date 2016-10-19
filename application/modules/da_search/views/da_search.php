@@ -283,10 +283,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                         echo date_conversion_nowording($result->created);
                                     echo "</td>";
                                     echo "<td>";
+
+                                        if ($result -> images != '')
+                                        {
                                             $images = explode(",", $result->images);
                                             foreach($images as $image)
                                             {
-
                                                 $info = pathinfo($image);
                                                 // Check image extension if PDF
                                                 if ($info["extension"] == "pdf")
@@ -323,6 +325,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
                                                 echo '<hr/>';
                                             }
+                                        } else
+                                        {
+                                            echo 'No images';
+                                        }
 
                                     echo "</td>";
                                     echo "<td>";
@@ -517,7 +523,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             if (type == 'text' || type == 'password' || tag == 'textarea')
                 this.value = '';
             else if (type == 'checkbox' || type == 'radio')
-                this.checked = false;
+                $(':input', this).value == false;
             else if (tag == 'select')
                 this.selectedIndex = -1;
         });
