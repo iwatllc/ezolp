@@ -46,7 +46,15 @@
 
 <!-- ================== BEGIN BASE JS ================== -->
 <script src="<?php echo base_url(); ?>assets/plugins/pace/pace.min.js"></script>
+<script type="text/javascript" src="<?php echo base_url()?>assets/plugins/ckeditor/ckeditor.js"></script>
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <!-- ================== END BASE JS ================== -->
+
+<style type="text/css">
+    li:hover {
+        cursor: pointer;
+    }
+</style>
 
 <!-- begin #page-container -->
 <div id="page-container" class="fade page-sidebar-fixed page-header-fixed">
@@ -140,6 +148,7 @@
                     <ul class="sub-menu">
                         <li<?php echo $this->uri->segment(3) == 'da_monthly_pricing' ? ' class="active"' : ''; ?>><a href="<?php echo base_url(); ?>da_monthlypricing">Manage Display Ad Monthly Pricing</a></li>
                         <li<?php echo $this->uri->segment(3) == 'da_repeat_discount' ? ' class="active"' : ''; ?>><a href="<?php echo base_url(); ?>da_repeatdiscount">Manage Display Ad Repeat Advertising Discounts</a></li>
+                        <li><a class="editheader">Change Display Ad Header Text</a></li>
                     </ul>
                 </li>
 
@@ -280,3 +289,58 @@
     </div>
     <div class="sidebar-bg"></div>
     <!-- end #sidebar -->
+
+        <!-- Modal for Header/Footer -->
+    <div id="headerModal" class="modal fade" role="dialog">
+      <div class="modal-dialog modal-lg">
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Modal Header</h4>
+          </div>
+          <div class="modal-body">
+              <form>
+                <textarea name="customerheader" id="customerheader" rows="10" cols="180"></textarea>
+              </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-info header-submit">Update</button>
+            <button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+<script type="text/javascript">
+
+    var baseUrl = window.location .protocol + "//" + window.location.host + "/" + window.location.pathname.split('/')[1];
+    
+    CKEDITOR.replace('customerheader');
+
+    // Load Header modal
+    $(document).on('click', '.editheader', function(e){
+
+        $(".modal-title").html("Update <strong>Display Ad</strong> Header Text");
+
+        var pathToController = "/configsys/configsys/ajax_get_displayad_header_text";
+
+        $.post(baseUrl + pathToController, { }, function(response){
+            CKEDITOR.instances['customerheader'].setData(response);
+        });
+
+        $('#headerModal').modal("show");
+    });
+
+    // Update Header
+    $(document).on('click', '.header-submit', function(e){
+        $(this).attr('disabled', true).empty().prepend('<i class="fa fa-spinner fa-spin"></i> Update');
+        var headertext = CKEDITOR.instances['customerheader'].getData();
+        var pathToController = "/configsys/configsys/ajax_update_displayad_header";
+        $.post(baseUrl + pathToController, { headertext:headertext }, function(){
+            $(".header-submit").removeAttr('disabled').empty().prepend('Update');
+            $('#headerModal').modal("hide");
+        });
+    });
+
+</script>

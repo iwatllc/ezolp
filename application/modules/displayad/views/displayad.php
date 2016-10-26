@@ -88,11 +88,7 @@ if($Displayad_Clientform == "FALSE") {
                         </div>
                         <div class="panel-body">
                             <legend>
-                                <h1><font color="#b8860b">Place your Display Ad in <u>THE CONNECTOR</u></font></h1>
-                                <br/>
-                                <h3><b>Your ad will be distributed to a broad range of readers across Franklin County in both <span style="color:purple">Print</span> <i>and</i> <span style="color:purple">Online</span>.</b></h3>
-                                <br/>
-                                <h4>Whether you have an ad ready to upload or need to start from scratch, the professionals in our print shop are ready to help.<br/><br/>Call <a href="tel:7172649293,215">717-264-9293 ext.215</a> or email <a href="mailto:jlahr@osinc.org">jlahr@osinc.org</a>.</h4>
+                                <?php echo $Displayad_Header; ?>
                             </legend>
 
                             <div class="table-responsive col-md-6">

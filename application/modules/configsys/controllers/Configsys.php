@@ -35,5 +35,23 @@ class Configsys extends MX_Controller {
         }
     }
 
+    public function ajax_get_displayad_header_text()
+    {
+        $this -> load -> model('configsys_model', '', TRUE);
 
+        $headertext = $this -> configsys_model -> get_value('Displayad_Header');
+
+        echo $headertext;
+    }
+
+    public function ajax_update_displayad_header()
+    {
+        $this -> load -> model('configsys_model', '', TRUE);
+
+        $headertext = $this -> input -> post('headertext');
+
+        $headertext = $this -> configsys_model -> set_value('Displayad_Header', $headertext);
+
+        echo $headertext;
+    }
 }

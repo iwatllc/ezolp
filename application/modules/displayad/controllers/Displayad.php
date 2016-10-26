@@ -190,6 +190,7 @@ class Displayad extends MX_Controller {
         $data['Displayad_Email_Required'] = $this->configsys->get_config_value('Displayad_Email_Required');
         $data['Displayad_Signature'] = $this->configsys->get_config_value('Displayad_Signature');
         $data['Displayad_Logo'] = $this->configsys->get_config_value('Displayad_Logo');
+        $data['Displayad_Header'] = $this->configsys->get_config_value('Displayad_Header');
 
         $view_vars = array(
             'title' => $this->configsys->get_config_value('Client_Title'),
