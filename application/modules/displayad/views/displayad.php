@@ -14,6 +14,8 @@ if($Displayad_Clientform == "FALSE") {
     <html lang="en">
     <!--<![endif]-->
 
+    <link rel="icon" href="<?php echo base_url() . 'assets/img/ezolp.png' ?>">
+
     <?php $this->load->view('header'); ?>
 
     <style>

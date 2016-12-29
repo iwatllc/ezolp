@@ -56,6 +56,8 @@
     }
 </style>
 
+<link rel="icon" href="<?php echo base_url() . 'assets/img/ezolp.png' ?>">
+
 <!-- begin #page-container -->
 <div id="page-container" class="fade page-sidebar-fixed page-header-fixed">
     <!-- begin #page-loader -->
