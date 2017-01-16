@@ -154,6 +154,17 @@
                     </ul>
                 </li>
 
+                <li class="has-sub<?php echo $pageName == 'classifiedad' ? ' active' : ''; ?>">
+                    <a>
+                        <b class="caret pull-right"></b>
+                        <i class="fa fa-file-text-o"></i>
+                        <span>Manage Classified Ad</span>
+                    </a>
+                    <ul class="sub-menu">
+                        <li<?php echo $this->uri->segment(3) == 'ca_monthly_pricing' ? ' class="active"' : ''; ?>><a href="<?php echo base_url(); ?>ca_monthlypricing">Manage Classified Ad Monthly Pricing</a></li>
+                    </ul>
+                </li>
+
                 <!--
                 <li class="has-sub<?php echo $pageName == 'recurring' ? ' active' : ''; ?>">
                     <a href="<?php echo base_url(); ?>recurring">

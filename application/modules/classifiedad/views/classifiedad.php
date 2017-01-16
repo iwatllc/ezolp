@@ -84,11 +84,46 @@ if($Classifiedad_Clientform == "FALSE") {
                             <h4 class="panel-title">* = Required Field</h4>
                         </div>
                         <div class="panel-body">
-                            <legend>
                                 <h1><font color="#b8860b">Place your Classified Ad in <u>THE CONNECTOR</u></font></h1>
-                                <br/>
-                                <b>Pricing:</b> $<?php echo $price_per_line; ?>  per line per month.
-                            </legend>
+                                <!--<b>Pricing:</b> $<?php echo $price_per_line; ?>  per line per month.-->
+
+                            <br/>
+                            <legend>Pricing</legend>
+                            <div class="table-responsive col-md-12">
+                                <table class="table table-hover">
+                                    <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th><font size="4">Price</font></th>
+                                        <th><font size="4">Max Character Size</font></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                        foreach($monthly_pricing->result() as $row)
+                                        {
+                                            echo "<tr>";
+                                            echo "<td>";
+                                            echo "<font size='4' color='black'>" . $row -> name . "</font>";
+                                            echo "</td>";
+                                            echo "<td>";
+                                            if ($row -> fixed == 0)
+                                                echo "<font size='4'>" . "&#36; " .  sprintf('%01.2f', $row->fee) . " per line</font>";
+                                            else
+                                                echo "<font size='4'>" . "&#36; " . sprintf('%01.2f', $row->fee) . "</font>";
+                                            echo "</td>";
+                                            echo "<td>";
+                                            if ($row -> fixed == 0 || $row -> maxcharsize == 0)
+                                                echo "<font size='4'>-</font>";
+                                            else
+                                                echo "<font size='4'>" . $row -> maxcharsize . "</font>";
+                                            echo "</td>";
+                                            echo "<tr>";
+                                        }
+                                        ?>
+                                    </tbody>
+                                </table>
+                            </div>
 
                             <legend>Billing Information</legend>
                                 <div class="form-group <?php echo(!empty(form_error('firstname')) ? 'has-error has-feedback' : ''); ?>">
@@ -332,7 +367,7 @@ if($Classifiedad_Clientform == "FALSE") {
                             }
                             ?>
 
-                            <legend>I would like my ad to be listed in the following issue(s):</legend>
+                        <legend>I would like my ad to be listed in the following issue(s):</legend>
                         <div id="allIssues">
                             <div class="form-group <?php echo(!empty(form_error('issues[]')) ? 'has-error has-feedback' : ''); ?>">
                                 <div class="col-md-8 control-label">
@@ -369,6 +404,32 @@ if($Classifiedad_Clientform == "FALSE") {
                                 </div>
                                 <?php echo(!empty(form_error('issues[]')) ? '<span class="fa fa-times form-control-feedback"></span>' : ''); ?>
                                 <?php echo form_error('issues[]'); ?>
+                            </div>
+
+                            <legend>Pricing options:</legend>
+                            <div id="allIssues">
+                                <div class="form-group <?php echo(!empty(form_error('size[]')) ? 'has-error has-feedback' : ''); ?>">
+                                    <div class="col-md-8 control-label">
+                                        <table align="center">
+                                            <?php
+                                                foreach($monthly_pricing->result() as $price)
+                                                {
+                                                    if ($price -> fixed == 0)
+                                                        $perline = " per line";
+                                                    else
+                                                        $perline = "";
+                                                    echo '<tr align="left">';
+                                                        echo '<td>';
+                                                            echo '<input type="radio" name="size[]" data-price="'.$price->fee.','.$price->fixed.','.$price->maxcharsize.'"' . '" value="'.$price->name . ' ($' . sprintf('%01.2f', $price->fee) . $perline . ')"' . set_radio('size[]', $price->name.' ('.$price->fee. $perline . ')') . '>&nbsp;&nbsp;&nbsp;<label class="control-label">' . $price->name . ' ($' . sprintf('%01.2f', $price->fee) . $perline . ')</label>';
+                                                        echo '</td>';
+                                                    echo '</tr>';
+                                                }
+                                            ?>
+                                        </table>
+                                    </div>
+                                    <?php echo(!empty(form_error('size[]')) ? '<span class="fa fa-times form-control-feedback"></span>' : ''); ?>
+                                    <?php echo form_error('size[]'); ?>
+                                </div>
                             </div>
                         </div>
 
@@ -723,6 +784,39 @@ if($Classifiedad_Clientform == "FALSE") {
 //            e = e || window.event; // IE doesn't pass event to callback
 //            var target = e.target || e.srcElement; // IE == srcElement, good browsers: target
 
+            // Get radio button value
+            var radio = $("input[name='size[]']:checked").data('price');
+
+            var arr = radio.split(",");
+            var price = arr[0];
+            var fixed = arr[1];
+            var limit = arr[2];
+
+            if (price == 0.00)
+            {
+                return;
+            }
+            else if (fixed == 1)
+            {
+                var numChecked = parseFloat($('input[name="issues[]"]:checked').length);
+                price = numChecked * price;
+
+                // Populate the Total with the fixed amount
+                document.getElementById('grandtotal').value = parseFloat(price).toFixed(2);
+
+                // Make sure the character length is not exceeded
+                var numChars = document.getElementById('adtexter').value.length;
+
+                if (numChars > limit)
+                {
+                    var str = document.getElementById('adtexter').value;
+                    str = str.substring(0, limit);
+                    document.getElementById('adtexter').value = str;
+                }
+
+                return;
+            }
+
             // Static database variables
             var numChars = document.getElementById('adtexter').value.length;
             var pricePerLine = parseFloat(price_per_line);
@@ -1002,13 +1096,13 @@ if($Classifiedad_Clientform == "FALSE") {
 
 
         $("[name='cvv2']").focus();
-    }
+    };
 
     var badScan = function () {
         $("#status").text("Failed!");
         $(".line").text("");
         alert(readErrorReason);
-    }
+    };
 
     // Initialize the plugin with default parser and callbacks.
     //

@@ -31,5 +31,13 @@ class Classifiedad_model extends CI_Model {
             return '';
         }
     }
+    
+    public function get_monthlypricing_listing()
+    {
+        $this -> db -> select('*') -> from('classifiedad_pricing') -> order_by('classifiedad_pricing.fee', 'ASC');
+
+        return $this -> db -> get();
+
+    }
 
 }

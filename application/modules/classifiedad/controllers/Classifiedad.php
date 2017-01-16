@@ -61,6 +61,7 @@ class Classifiedad extends MX_Controller {
                 'adtext'        => $this -> input -> post('adtext'),
                 'totallines'    => $this -> input -> post('totallines'),
                 'promocode'     => $this -> input -> post('promocode'),
+                'option'        => $this -> input -> post ('size')[0],
                 'cardtype'      => $this -> input -> post('cardtype'),
                 'cclast4'       => substr($this -> input -> post('creditcard'), -4),
                 'amount'        => str_replace( ',', '', $this -> input -> post('grandtotal') ),
@@ -140,6 +141,8 @@ class Classifiedad extends MX_Controller {
         $data['page_data'] = $view_vars;
         $data['result_data'] = $result_data;
         $data['submitted_data'] = $submitted_data;
+
+        $data['monthly_pricing'] = $this -> Classifiedad_model -> get_monthlypricing_listing();
 
         // Retrieve the amount of lines that constitutes for a character
         $data['lines_per_char'] = $this -> configsys_model -> get_value('Classifiedad_charperline');
