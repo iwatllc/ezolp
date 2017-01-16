@@ -205,11 +205,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             { ?>
                             <tr>
                                 <th width="15%">Contact</th>
-                                <th width="10%">Promo Code</th>
-                                <th width="10%">Issues</th>
-                                <th width="10%">Submitted</th>
-                                <th width="20%">Ad Text</th>
-                                <th width="20%">Approved Text</th>
+                                <th width="8%">Promo Code</th>
+                                <th width="8%">Option</th>
+                                <th width="8%">Issues</th>
+                                <th width="8%">Submitted</th>
+                                <th width="19%">Ad Text</th>
+                                <th width="19%">Approved Text</th>
                                 <th width="15%">Status</th>
                             </tr>
                             </thead>
@@ -225,6 +226,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     echo "</td>";
                                     echo "<td>";
                                         echo $result->promocode;
+                                    echo "</td>";
+                                    echo "<td>";
+                                        echo $result->option;
                                     echo "</td>";
                                     echo "<td>";
                                         echo $result->issues;

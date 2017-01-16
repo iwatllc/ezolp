@@ -124,6 +124,7 @@ class Displayad extends MX_Controller {
                 'phone'         => $this -> input -> post('phone'),
                 'email'         => $this -> input -> post('email'),
                 'issues'        => implode(', ', $this -> input -> post('issues')), // comma separate months
+                'coupons'       => $this -> input -> post('coupons'),
                 'promocode'     => $this -> input -> post('promocode'),
                 'option'        => $option,
                 'images'        => $names,

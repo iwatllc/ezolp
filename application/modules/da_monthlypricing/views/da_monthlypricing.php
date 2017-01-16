@@ -253,6 +253,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         var bwprice = $("#addbwprice").val();
         var colorprice = $( "#addcolorprice" ).val();
 
+        bwprice = parseFloat(bwprice.replace(/,/g, ''));
+        colorprice = parseFloat(colorprice.replace(/,/g, ''));
+
+        if(isNaN(bwprice))
+            bwprice = 0.00;
+
+        if(isNaN(colorprice))
+            colorprice = 0.00;
+
         jQuery.ajax({
             type: "POST",
             url: "<?php echo base_url(); ?>" + "da_monthlypricing/Da_monthlypricing/ajax_add_pricing",
@@ -381,6 +390,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         var size = $("#editsize"+id).val();
         var bwprice = $("#editbwprice"+id).val();
         var colorprice = $("#editcolorprice"+id).val();
+
+        bwprice = parseFloat(bwprice.replace(/,/g, ''));
+        colorprice = parseFloat(colorprice.replace(/,/g, ''));
+
+        if(isNaN(bwprice))
+            bwprice = 0.00;
+
+        if(isNaN(colorprice))
+            colorprice = 0.00;
 
         jQuery.ajax({
             type: "POST",

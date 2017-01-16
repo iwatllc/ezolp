@@ -163,7 +163,7 @@ class Da_monthlypricing extends MX_Controller {
     
     $data = array(
         'id'                => $row -> id,
-        'size'              => $row -> size,
+        'size'              => $row -> pagesize,
         'bwprice'           => $row -> bwprice,
         'colorprice'        => $row -> colorprice,
         'created'           => $createddate,

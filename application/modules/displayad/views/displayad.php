@@ -112,10 +112,16 @@ if($Displayad_Clientform == "FALSE") {
                                             echo "<font size='4' color='black'>" . $row -> pagesize . "</font>";
                                             echo "</td>";
                                             echo "<td>";
-                                            echo "<font size='4'>" . "&#36; " . $row -> bwprice . "</font>";
+                                            if ($row -> bwprice > 0)
+                                                echo "<font size='4'>" . "&#36; " . $row -> bwprice . "</font>";
+                                            else
+                                                echo "<font size='4'>-</font>";
                                             echo "</td>";
                                             echo "<td>";
-                                            echo "<font size='4'>" . "&#36; " . $row -> colorprice . "</font>";
+                                            if ($row -> colorprice > 0)
+                                                echo "<font size='4'>" . "&#36; " . $row -> colorprice . "</font>";
+                                            else
+                                                echo "<font size='4'>-</font>";
                                             echo "</td>";
                                             echo "<tr>";
                                         }
@@ -441,15 +447,27 @@ if($Displayad_Clientform == "FALSE") {
                                                     {
                                                         echo '<tr align="left">';
                                                             echo '<td>';
-                                                                echo '<input type="radio" name="size[]" price="'.$price->bwprice.'" value="'.$price->pagesize.' - B/W ('.$price->bwprice.')'.'"' . set_radio('size[]', $price->pagesize.' - B/W ('.$price->bwprice.')') . '>&nbsp;&nbsp;&nbsp;<label class="control-label">' . $price->pagesize . ' - B/W (' . $price->bwprice . ')</label>';
+                                                                if ($price -> bwprice > 0)
+                                                                    echo '<input type="radio" name="size[]" price="'.$price->bwprice.'" value="'.$price->pagesize.' - B/W ('.$price->bwprice.')'.'"' . set_radio('size[]', $price->pagesize.' - B/W ('.$price->bwprice.')') . '>&nbsp;&nbsp;&nbsp;<label class="control-label">' . $price->pagesize . ' - B/W (' . $price->bwprice . ')</label>';
                                                             echo '</td>';
-                                                        echo '<td><span style="padding-left:5em"></span></td>';
-                                                        echo '<td>';
-                                                                echo '<input type="radio" name="size[]" price="'.$price->colorprice.'" value="'.$price->pagesize.' - Color ('.$price->colorprice.')'.'"' . set_radio('size[]', $price->pagesize.' - Color ('.$price->colorprice.')') . '>&nbsp;&nbsp;&nbsp;<label class="control-label">' . $price->pagesize . ' - Color (' . $price->colorprice . ')</label>';
+                                                            echo '<td><span style="padding-left:5em"></span></td>';
+                                                            echo '<td>';
+                                                                if ($price -> colorprice > 0)
+                                                                    echo '<input type="radio" name="size[]" price="'.$price->colorprice.'" value="'.$price->pagesize.' - Color ('.$price->colorprice.')'.'"' . set_radio('size[]', $price->pagesize.' - Color ('.$price->colorprice.')') . '>&nbsp;&nbsp;&nbsp;<label class="control-label">' . $price->pagesize . ' - Color (' . $price->colorprice . ')</label>';
                                                             echo '</td>';
                                                         echo '</tr>';
                                                     }
                                                 ?>
+                                                <tr>
+                                                    <td colspan="2">
+                                                        <br/>
+                                                        <?php
+                                                            echo '<input type="checkbox" name="coupons" value="1"' . set_radio('coupons') . '>';
+                                                        ?>
+                                                        &nbsp;&nbsp;&nbsp;
+                                                        <label class="control-label"><strong>Add Two Coupons to the Connector App for $15.00</strong></label>
+                                                    </td>
+                                                </tr>
                                             </table>
                                         </div>
                                         <?php echo(!empty(form_error('size[]')) ? '<span class="fa fa-times form-control-feedback"></span>' : ''); ?>
@@ -825,13 +843,6 @@ if($Displayad_Clientform == "FALSE") {
 
             var js_array = <?php echo str_replace('"', '', json_encode($rad_array)); ?>;
 
-            console.log(js_array);
-
-            for (var key in js_array)
-            {
-                console.log(key + '-> ' + js_array[key]);
-            }
-
             /* Event handler when files are selected */
             $(document).on('change', '#files', function() {
                 var inp = document.getElementById('files');
@@ -942,13 +953,18 @@ if($Displayad_Clientform == "FALSE") {
                     {
                         dis = (total * js_array[numChecked]);
                         total = total - dis;
-                        console.log('Number of checked: ' + numChecked + '\nValue applied: ' + js_array[numChecked])
+//                        console.log('Number of checked: ' + numChecked + '\nValue applied: ' + js_array[numChecked])
                     }
+
+                    if ( $('input[name="coupons"]').is(':checked') )
+                        total = total + 15;
 
                     document.getElementById('grandtotal').value = total.toFixed(2);
                 } else
                 {
                     total = 0;
+                    if ( $('input[name="coupons"]').is(':checked') )
+                        total = total + 15;
                     document.getElementById('grandtotal').value = total.toFixed(2);
                 }
 
@@ -957,7 +973,7 @@ if($Displayad_Clientform == "FALSE") {
             }
 
             /* Update the total price when a checkbox or radio button changes */
-            $("#allIssues").change(function() {
+            $("#allIssues, [name='coupons']").change(function() {
                 updateTotal();
             });
 

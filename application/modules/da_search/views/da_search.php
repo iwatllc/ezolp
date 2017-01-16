@@ -253,10 +253,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             { ?>
                             <tr>
                                 <th width="15%">Contact</th>
-                                <th width="10%">Promo Code</th>
-                                <th width="10%">Page Size</th>
-                                <th width="10%">Issues</th>
-                                <th width="10%">Submitted</th>
+                                <th width="8%">Promo Code</th>
+                                <th width="8%">Page Size</th>
+                                <th width="8%">Issues</th>
+                                <th width="8%">Connector Coupons</th>
+                                <th width="8%">Submitted</th>
                                 <th width="15%">Image(s)</th>
                                 <th width="15%">Approved Image(s)</th>
                                 <th width="15%">Status</th>
@@ -278,6 +279,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     echo "</td>";
                                     echo "<td>";
                                         echo $result->issues;
+                                    echo "</td>";
+                                    echo "<td>";
+                                        if ($result -> coupons == 1)
+                                            echo "Yes";
+                                        else
+                                            echo "No";
                                     echo "</td>";
                                     echo "<td>";
                                         echo date_conversion_nowording($result->created);
