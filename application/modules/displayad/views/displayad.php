@@ -440,7 +440,7 @@ if($Displayad_Clientform == "FALSE") {
                                 <legend>Size and color options:</legend>
                                 <div id="allIssues">
                                     <div class="form-group <?php echo(!empty(form_error('size[]')) ? 'has-error has-feedback' : ''); ?>">
-                                        <div class="col-md-8 control-label">
+                                        <div class="col-md-10 control-label">
                                             <table align="center">
                                                 <?php
                                                     foreach($monthly_pricing->result() as $price)
