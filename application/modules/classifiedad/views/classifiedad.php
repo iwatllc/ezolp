@@ -418,9 +418,15 @@ if($Classifiedad_Clientform == "FALSE") {
                                                         $perline = " per line";
                                                     else
                                                         $perline = "";
+
+                                                    if ($price -> maxcharsize != 0)
+                                                        $maxchars = ' <span style="color:red">' . $price -> maxcharsize . " character limit</span>";
+                                                    else
+                                                        $maxchars = "";
+
                                                     echo '<tr align="left">';
                                                         echo '<td>';
-                                                            echo '<input type="radio" name="size[]" data-price="'.$price->fee.','.$price->fixed.','.$price->maxcharsize.'"' . '" value="'.$price->name . ' ($' . sprintf('%01.2f', $price->fee) . $perline . ')"' . set_radio('size[]', $price->name.' ('.$price->fee. $perline . ')') . '>&nbsp;&nbsp;&nbsp;<label class="control-label">' . $price->name . ' ($' . sprintf('%01.2f', $price->fee) . $perline . ')</label>';
+                                                            echo '<input type="radio" name="size[]" data-price="'.$price->fee.','.$price->fixed.','.$price->maxcharsize.'"' . '" value="'.$price->name . ' ($' . sprintf('%01.2f', $price->fee) . $perline . ')"' . set_radio('size[]', $price->name.' ('.$price->fee. $perline . ')') . '>&nbsp;&nbsp;&nbsp;<label class="control-label">' . $price->name . ' ($' . sprintf('%01.2f', $price->fee) . $perline . ')'. $maxchars .'</label>';
                                                         echo '</td>';
                                                     echo '</tr>';
                                                 }
@@ -665,7 +671,7 @@ if($Classifiedad_Clientform == "FALSE") {
                             <div class="form-group">
                                 <label class="col-md-3 control-label">Submit</label>
                                 <div class="col-md-9">
-                                    <button type="submit" class="btn btn-sm btn-success">Submit Button</button>
+                                    <button type="submit" class="btn btn-sm btn-success">Submit</button>
                                 </div>
                             </div>
                             <br/>
@@ -792,8 +798,10 @@ if($Classifiedad_Clientform == "FALSE") {
             var fixed = arr[1];
             var limit = arr[2];
 
-            if (price == 0.00)
+            if (price == 0) // free, just put $0.00 in TOTAL AMOUNT
             {
+                var tot = 0;
+                document.getElementById('grandtotal').value = tot.toFixed(2);
                 return;
             }
             else if (fixed == 1)
@@ -1058,7 +1066,7 @@ if($Classifiedad_Clientform == "FALSE") {
             readErrorReason = "Can not read Expiration Date. Please try again.";
         }
 
-        console.log(cardData);
+//        console.log(cardData);
 
         return cardData;
     };
