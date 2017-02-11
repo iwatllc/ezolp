@@ -113,13 +113,13 @@ if($Displayad_Clientform == "FALSE") {
                                             echo "</td>";
                                             echo "<td>";
                                             if ($row -> bwprice > 0)
-                                                echo "<font size='4'>" . "&#36; " . $row -> bwprice . "</font>";
+                                                echo "<font size='4'>" . "&#36;" . $row -> bwprice . "</font>";
                                             else
                                                 echo "<font size='4'>-</font>";
                                             echo "</td>";
                                             echo "<td>";
                                             if ($row -> colorprice > 0)
-                                                echo "<font size='4'>" . "&#36; " . $row -> colorprice . "</font>";
+                                                echo "<font size='4'>" . "&#36;" . $row -> colorprice . "</font>";
                                             else
                                                 echo "<font size='4'>-</font>";
                                             echo "</td>";
